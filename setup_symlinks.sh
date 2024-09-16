@@ -1,15 +1,20 @@
 #!/bin/bash
-# Create symbolic links for shared files and directories between simulator_2024 and ws_2024
+#Create symbolic links for shared files between simulator_2024 and ws_2024
 
+
+# links to assign
 SHARED_DIR_SIM=../shared_code
 SHARED_DIR_WS_SMART=../../../shared_code
 SHARED_DIR_WS_CONTROL=../../../../shared_code
 
+# Sim pc files
 SIMULATOR_DIR=simulator_2024
+
+# Pi files
 WS_SMART_DIR=ws_2024/src/smart
 WS_CONTROL_DIR=ws_2024/src/control/src
 
-# List of shared files for the smart directory
+#----------------------------Symbolic links for src/smart---------------------------------#
 SMART_FILES=(
     "automobile_data_interface.py"
     "automobile_data_pi.py"
@@ -33,36 +38,37 @@ SMART_FILES=(
     "stopline.py"
 )
 
-# Create symbolic links for files in the smart directory
 for file in "${SMART_FILES[@]}"; do
     ln -sf $SHARED_DIR_SIM/$file $SIMULATOR_DIR/$file
     ln -sf $SHARED_DIR_WS_SMART/$file $WS_SMART_DIR/$file
 done
 
-# List of specific files for the control/src directory
+
+
+#----------------------------Symbolic links for src/control---------------------------------#
 CONTROL_FILES=(
     "automobile_data_interface.py"
     "automobile_data_pi.py"
     "automobile_ekf.py"
     "helper_functions.py"
 )
-
-# Create symbolic links for only the specific control/src files
 for file in "${CONTROL_FILES[@]}"; do
     ln -sf $SHARED_DIR_WS_CONTROL/$file $WS_CONTROL_DIR/$file
 done
 
-# Handle full directories (data and models)
+
+#----------------------------Symbolic links for directories---------------------------------#
+
 DATA_DIR_SIM="$SIMULATOR_DIR/data"
 DATA_DIR_SMART="$WS_SMART_DIR/data"
 MODELS_DIR_SIM="$SIMULATOR_DIR/models"
 MODELS_DIR_SMART="$WS_SMART_DIR/models"
 
-
-# Create symbolic links for data and models directories
 ln -sf $SHARED_DIR_SIM/data $DATA_DIR_SIM
 ln -sf $SHARED_DIR_WS_SMART/data $DATA_DIR_SMART
 ln -sf $SHARED_DIR_SIM/models $MODELS_DIR_SIM
 ln -sf $SHARED_DIR_WS_SMART/models $MODELS_DIR_SMART
+
+
 
 echo "Symbolic links created"
