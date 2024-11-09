@@ -12,13 +12,13 @@ catkin_make
 
 CATKIN_SHELL=bash
 
-#Add this path
-export GAZEBO_MODEL_PATH="/root/catkin_ws/src/bfmc_2025/simulator_2024/src/models_pkg:$GAZEBO_MODEL_PATH"
-export ROS_PACKAGE_PATH="/root/catkin_ws/src/bfmc_2025/simulator_2024/src:$ROS_PACKAGE_PATH"
-
 # source setup.sh from same directory as this file
 _CATKIN_SETUP_DIR=$(builtin cd "`dirname "${BASH_SOURCE[0]}"`" > /dev/null && pwd)
 . "$_CATKIN_SETUP_DIR/setup.sh"
+
+#Add this path
+export GAZEBO_MODEL_PATH="/root/catkin_ws/src/bfmc_2025/simulator_2024/src/models_pkg:$GAZEBO_MODEL_PATH"
+export ROS_PACKAGE_PATH="/root/catkin_ws/src/bfmc_2025/simulator_2024/src:$ROS_PACKAGE_PATH"
 ```
 
 3. Source the setup file and launch the gazebo simulator
