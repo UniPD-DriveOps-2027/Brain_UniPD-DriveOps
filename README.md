@@ -5,7 +5,7 @@
 catkin_make --pkg utils
 catkin_make
 ```
-2. Then, change the "simulator/devel/setup.bash" file to tell ROS where the project is located in your drive. The path should look like this if ran inside the docker container:
+2. Then, change the "simulator_2024/devel/setup.bash" file to tell ROS where the project is located in your drive. The path should look like this if ran inside the docker container:
 
 ```bash
 #!/usr/bin/env bash
