@@ -1,4 +1,4 @@
-###Setup
+# Setup
 
 1. First, to build the simulator, run in the "cd bfmc_2025/simulator2024" directory:
 ```bash
