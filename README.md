@@ -20,7 +20,7 @@ _CATKIN_SETUP_DIR=$(builtin cd "`dirname "${BASH_SOURCE[0]}"`" > /dev/null && pw
 #Add this path
 export GAZEBO_MODEL_PATH="/root/catkin_ws/src/bfmc_2025/simulator_2024/src/models_pkg:$GAZEBO_MODEL_PATH"
 export ROS_PACKAGE_PATH="/root/catkin_ws/src/bfmc_2025/simulator_2024/src:$ROS_PACKAGE_PATH"
-```
+```*
 
 3. Source the setup file and launch the gazebo simulator
 ```bash
@@ -34,3 +34,12 @@ cd ../ws_2024/src/smart && python3 main_brain --sim
 ```
 
 If the gui is not enabled, open a new terminal session, source devel/setup.bash and run gzclient
+
+If you make changes to the files and for some reason you want to discard part the changes and roll back to the github version use
+```bash
+git checkout -- . #all changes
+git checkout -- README.md #just README.md
+
+#then just pull
+git pull origin main
+```
