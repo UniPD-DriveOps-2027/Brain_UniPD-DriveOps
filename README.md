@@ -20,7 +20,7 @@ _CATKIN_SETUP_DIR=$(builtin cd "`dirname "${BASH_SOURCE[0]}"`" > /dev/null && pw
 #Add this path
 export GAZEBO_MODEL_PATH="/root/catkin_ws/src/simulator_2024/src/models_pkg:$GAZEBO_MODEL_PATH"
 export ROS_PACKAGE_PATH="/root/catkin_ws/src/simulator_2024/src:$ROS_PACKAGE_PATH"
-```*
+```
 
 3. Source the setup file and launch the gazebo simulator
 ```bash
