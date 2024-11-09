@@ -4,8 +4,7 @@ catkin_make --pkg utils
 
 catkin_make
 
-2. Then, change the "simulator/devel/setup.bash" file to tell ROS where the project is located in your drive
-Should look like this:
+2. Then, change the "simulator/devel/setup.bash" file to tell ROS where the project is located in your drive. The path should look like this if ran inside the docker container:
 
 ```bash
 #!/usr/bin/env bash
@@ -13,8 +12,9 @@ Should look like this:
 
 CATKIN_SHELL=bash
 
-export GAZEBO_MODEL_PATH="/home/eugen/Desktop/BFMC2025/bfmc_2025/simulator_2024/src/models_pkg:$GAZEBO_MODEL_PATH"
-export ROS_PACKAGE_PATH="/home/eugen/Desktop/BFMC2025/bfmc_2025/simulator_2024/src:$ROS_PACKAGE_PATH"
+#Add this path
+export GAZEBO_MODEL_PATH="/root/catkin_ws/src/bfmc_2025/simulator_2024/src/models_pkg:$GAZEBO_MODEL_PATH"
+export ROS_PACKAGE_PATH="/root/catkin_ws/src/bfmc_2025/simulator_2024/src:$ROS_PACKAGE_PATH"
 
 # source setup.sh from same directory as this file
 _CATKIN_SETUP_DIR=$(builtin cd "`dirname "${BASH_SOURCE[0]}"`" > /dev/null && pwd)
