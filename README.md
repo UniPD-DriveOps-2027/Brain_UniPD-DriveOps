@@ -1,9 +1,10 @@
+###Setup
+
 1. First, to build the simulator, run in the "cd bfmc_2025/simulator2024" directory:
-
+```bash
 catkin_make --pkg utils
-
 catkin_make
-
+```
 2. Then, change the "simulator/devel/setup.bash" file to tell ROS where the project is located in your drive. The path should look like this if ran inside the docker container:
 
 ```bash
