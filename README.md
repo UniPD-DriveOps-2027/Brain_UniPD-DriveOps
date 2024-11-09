@@ -7,7 +7,7 @@ catkin_make
 2. Then, change the "simulator/devel/setup.bash" file to tell ROS where the project is located in your drive
 Should look like this:
 
-
+```bash
 #!/usr/bin/env bash
 # generated from catkin/cmake/templates/setup.bash.in
 
@@ -19,16 +19,17 @@ export ROS_PACKAGE_PATH="/home/eugen/Desktop/BFMC2025/bfmc_2025/simulator_2024/s
 # source setup.sh from same directory as this file
 _CATKIN_SETUP_DIR=$(builtin cd "`dirname "${BASH_SOURCE[0]}"`" > /dev/null && pwd)
 . "$_CATKIN_SETUP_DIR/setup.sh"
-
+```
 
 3. Source the setup file and launch the gazebo simulator
-
+```bash
 source simulator_2024/devel/setup.bash
 roslaunch sim_pkg map_2024.launch  
-
+```
 4. Finally, in another terminal launch the main_brain.py:
 
+```bash
 cd ../ws_2024/src/smart && python3 main_brain --sim
-
+```
 
 If the gui is not enabled, open a new terminal session, source devel/setup.bash and run gzclient
