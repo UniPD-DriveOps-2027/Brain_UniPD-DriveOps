@@ -1,6 +1,11 @@
 # Setup
 
-1. First, to build the simulator, run in the "cd simulator2024" directory:
+0. First thing, pull this repo
+```bash
+git clone https://github.com/euhenn/bfmc_2025.git
+cd bfmc_2025/simulator2024
+```
+1. Build the simulator, run in the "simulator2024" directory:
 ```bash
 catkin_make --pkg utils
 catkin_make
