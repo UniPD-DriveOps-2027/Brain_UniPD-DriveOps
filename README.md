@@ -3,7 +3,7 @@
 0. First thing, pull this repo
 ```bash
 git clone https://github.com/euhenn/bfmc_2025.git
-cd bfmc_2025/simulator2024
+cd bfmc_2025/simulator_2024
 ```
 1. Build the simulator, run in the "simulator2024" directory:
 ```bash
