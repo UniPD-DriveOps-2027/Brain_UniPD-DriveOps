@@ -1,0 +1,10 @@
+THESE ARE THE STEPS TO SET A CONTROLLER ON THE RPI. 
+IN A RPI TERMINAL DO THE FOLLOWING:
+
+bluetoothctl
+scan on
+trust 44:16:22:7A:C1:B6 (this is Matheus' XBOX Controller)
+pair 44:16:22:7A:C1:B6
+connect 44:16:22:7A:C1:B6
+default-agent
+quit
