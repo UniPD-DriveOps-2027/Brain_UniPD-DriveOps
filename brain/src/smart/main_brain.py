@@ -3,7 +3,7 @@ import names_and_constants as nac
 import os
 import signal
 import cv2 as cv
-import rospy
+import rospy                # type: ignore #suppress warning
 import numpy as np
 from time import sleep, time
 from unix_socket_camera import UnixSocketCamera
