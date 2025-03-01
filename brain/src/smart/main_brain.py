@@ -6,6 +6,7 @@ import cv2 as cv
 import rospy
 import numpy as np
 from time import sleep, time
+from unix_socket_camera import UnixSocketCamera
 
 import json
 with open('data/events_config.json', 'r') as file:
@@ -101,11 +102,13 @@ x_orig = 0.0
 y_orig = 0.0
 
 # load camera with opencv
-if not nac.SIMULATOR_FLAG:  # <++>
-    cap = cv.VideoCapture(0)
-    cap.set(cv.CAP_PROP_FRAME_WIDTH, 320)
-    cap.set(cv.CAP_PROP_FRAME_HEIGHT, 240)
-    cap.set(cv.CAP_PROP_FPS, 30)
+#if not nac.SIMULATOR_FLAG:  # <++>
+#    cap = cv.VideoCapture(0)
+#    cap.set(cv.CAP_PROP_FRAME_WIDTH, 320)
+#    cap.set(cv.CAP_PROP_FRAME_HEIGHT, 240)
+#    cap.set(cv.CAP_PROP_FPS, 30)
+if not nac.SIMULATOR_FLAG:
+    cap = UnixSocketCamera(socket_addr="/tmp/bfmc_socket.sock", frame_size=(320, 240))
 
 
 # stop the car with ctrl+c
@@ -194,7 +197,7 @@ if __name__ == '__main__':
             if not nac.SIMULATOR_FLAG:
                 ret, frame = cap.read()
                 if not ret:
-                    print("No image from camera")
+                    print("No image from Unix socket camera")
                     frame = np.zeros((240, 320, 3), np.uint8)
                     continue
                 if nac.RC_MODE:
