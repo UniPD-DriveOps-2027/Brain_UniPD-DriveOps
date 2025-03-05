@@ -168,8 +168,6 @@ class Event:
         self.point = point
         self.yaw_stopline = yaw_stopline  # yaw of the stop line at the event
         # <++>
-        # if self.yaw_stopline is None:
-        #     self.yaw_stopline = 0.0
         # sequence of points after the event,
         # only for intersections or roundabouts
         self.path_ahead = path_ahead
