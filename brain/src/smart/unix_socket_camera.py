@@ -42,7 +42,7 @@ class UnixSocketCamera:
         try:
             # Ensure we have enough data for a full frame
             while len(self.data) < self.msg_size:
-                packet = self.conn.recv(4096)
+                packet = self.conn.recv(10000)#4096  8192
                 if not packet:
                     raise ConnectionError("Client disconnected.")
                 self.data += packet
@@ -69,13 +69,16 @@ class UnixSocketCamera:
             print("Socket closed.")
 
 if __name__ == "__main__":
-    cap = UnixSocketCamera(socket_addr="/tmp/bfmc_socket.sock", frame_size=(320, 240))
+    cap = UnixSocketCamera(socket_addr="/tmp/bfmc_socket.sock", frame_size=(1152, 648)) #320, 240 or 1152, 648 or 4608, 2592
     
     try:
         while True:
             success, frame = cap.read()
             if success:
                 cv2.imshow("Unix Socket Camera", frame)
+                #crop_img = frame[100:, 80:240]
+                #cv2.imshow("Street", crop_img)
+                #cv2.imshow("Signs", frame[:, 200:])
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     break
             else:

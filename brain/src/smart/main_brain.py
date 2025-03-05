@@ -189,7 +189,7 @@ if __name__ == '__main__':
 
             loop_start_time = time()
             # clear the screen
-            print("\033c")
+            #print("\033c")
             
             # <++++++++++++++++++++>
             hf.show_car(track, car, nac.SHOW_IMGS)
