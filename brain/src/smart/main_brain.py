@@ -41,7 +41,7 @@ nac.EVENT_SETTINGS = events_config['events'].get(args.event, {})
 
 
 if not nac.SIMULATOR_FLAG:  # PI
-    from automobile_data_pi import AutomobileDataPi    
+    from automobile_data_pi import AutomobileDataPi
 else: 
     from automobile_data_simulator import AutomobileDataSimulator
     
@@ -65,8 +65,7 @@ print('Main brain starting...')
 track = cv.imread('data/2024_VerySmall.png')
 
 # PARAMETERS
-TARGET_FPS = 30.0
-sample_time = 0.01  # [s]
+TARGET_FPS = 30.0 # target fps of the main loop
 
 if not nac.SPEED_CHALLENGE:
     DESIRED_SPEED = 0.35  # [m/s]
@@ -81,7 +80,6 @@ else:
     BL_SP_SPEED = 0.8
     BL_CURVE_SPEED = 0.35
 
-path_step_length = 0.01  # [m]
 # CONTROLLER
 k1 = 0.0  # 0.0 gain error parallel to direction (speed)
 k2 = 0.0  # 0.0 perpenddicular error gain
@@ -97,7 +95,6 @@ dist_point_ahead = 0.35  # distance of the point ahead in m
 # ff_curvature = 1.0  # feedforward gain #BFMC_2023
 ff_curvature = 1.0  # feedforward gain
 
-SEXY_FLAG = True
 x_orig = 0.0
 y_orig = 0.0
 
@@ -131,23 +128,22 @@ if __name__ == '__main__':
         # os.system('rosservice call /gazebo/reset_simulation')
         os.system('rosservice call gazebo/unpause_physics')
         car = AutomobileDataSimulator(trig_cam=True,
-                                      trig_gps=True,
-                                      trig_bno=True,
+                                      trig_gps=True, 
+                                      trig_bno=True, # TODO remove this
                                       trig_enc=True,
                                       trig_control=True,
-                                      trig_estimation=False,
+                                      trig_estimation=False, # TODO remove this
                                       trig_sonar=True)  # <++>
     else:
         car = AutomobileDataPi(trig_cam=False,
                                trig_gps=True,
-                               trig_bno=True,
+                               trig_bno=True, # TODO remove this
                                trig_enc=True,
                                trig_control=True,
-                               trig_estimation=True,
+                               trig_estimation=True, # TODO remove this
                                trig_sonar=True,
-                               trig_ESP32=True)
+                               trig_ESP32=True) # TODO remove this
     sleep(1.5)
-    car.encoder_distance = 0.0
 
     signal.signal(signal.SIGINT, handler)
 
@@ -171,7 +167,7 @@ if __name__ == '__main__':
     detect = Detection()
 
     if nac.RC_MODE:
-        rc_brain = RC_Brain(car=car, controller=controller, detection=detect, max_speed=DESIRED_SPEED)
+        brain = RC_Brain(car=car, controller=controller, detection=detect, max_speed=DESIRED_SPEED)
     else:
         brain = Brain(car=car, controller=controller, controller_sp=controller_sp,
                         controller_ag=controller_ag,
@@ -200,15 +196,9 @@ if __name__ == '__main__':
                     print("No image from Unix socket camera")
                     frame = np.zeros((240, 320, 3), np.uint8)
                     continue
-                if nac.RC_MODE:
-                    rc_brain.car.frame = frame
-                else:
-                    brain.car.frame = frame
+                brain.car.frame = frame
                 
-            if nac.RC_MODE:
-                rc_brain.run()
-            else:
-                brain.run()
+            brain.run()
 
             # DEBUG INFO
             # print(f'Lane detection time = {detect.avg_lane_detection_time:.1f} [ms]')
@@ -216,10 +206,6 @@ if __name__ == '__main__':
             # print(f'FPS = {fps_avg:.1f}, loop_cnt = {fps_cnt}, capped at {TARGET_FPS}')
             # print('VALIDATION: ', brain.start_node_validated)
             # print('PATH: ', brain.path_planner.route_graph.nodes)
-            # if SEXY_FLAG:
-            #     x_orig = car.x_est
-            #     y_orig = car.y_est
-            #     SEXY_FLAG = False
             # print(f'POSITION: X_EST = {car.x_est}, Y_EST = {car.y_est}')
             # print(f'POSITION: X_DIST = {car.x_est - x_orig}, Y_DIST = {car.y_est - y_orig}')
             # if np.abs(x_orig - car.x_est) > 0.32 or np.abs(y_orig - car.y_est) > 0.32:

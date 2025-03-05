@@ -385,10 +385,7 @@ class Brain:
         self.env = env
 
         self.car.drive(speed=0.0, angle=0.0)
-        self.laremilputas = None
 
-        # navigation instruction is a list of tuples:
-        self.navigation_instructions = []
         # events are an ordered list of tuples: (type , distance from start, x y position)
         self.events = []
         if checkpoints is not None:
@@ -453,7 +450,6 @@ class Brain:
             # crosswalk navigation  
             nac.CROSSWALK_NAVIGATION:    State(nac.CROSSWALK_NAVIGATION, self.crosswalk_navigation),
             nac.CLASSIFYING_OBSTACLE:    State(nac.CLASSIFYING_OBSTACLE, self.classifying_obstacle),
-            nac.BRAINLESS:               State(nac.BRAINLESS, self.brainless),
         }
 
         # INITIALIZE ROUTINES
@@ -581,7 +577,7 @@ class Brain:
         print('Augmenting path...')
         events = self.path_planner.augment_path(draw=SHOW_IMGS)
         print('Path augmented')
-        # add the events to the list of events, increasing it
+        # add the events to the list of events, increasing 
         self.events = self.create_sequence_of_events(events)
         self.event_idx = 1
         self.next_event = self.events[0]
@@ -593,9 +589,7 @@ class Brain:
         # draw the path
         self.path_planner.draw_path()
         print('Starting...')
-        if self.next_event.name == nac.PARKING_EVENT:
-            print('Skipping parking if its the first event')
-            self.go_to_next_event()
+
         self.conditions[nac.REROUTING] = False
         # reset the signs seen
         self.sign_seen = np.zeros_like(self.sign_seen)
@@ -710,37 +704,6 @@ class Brain:
             self.car.drive_speed(0.0)
             sleep(SLEEP_AFTER_STOPPING)
             self.switch_to_state(nac.PARKING)
-
-    # # Event: Highway exit <++>
-    # def lane_following_to_highway_exit(self):
-    #     if self.curr_state.just_switched:
-    #         self.curr_state.var1 = self.car.encoder_distance   
-    #         self.curr_state.just_switched = False
-    #
-    #     if self.conditions[nac.TRUST_GPS]:
-    #         diff = self.next_event.dist - self.car_dist_on_path
-    #         if diff > 0.1:
-    #             print(f'Driving toward highway exit: exiting in {diff:.2f} [m]')
-    #         elif diff > -0.05:
-    #             print('Arrived at highway exit, switching to going straight for exiting')
-    #             self.switch_to_state(nac.GOING_STRAIGHT)
-    #         else:
-    #             self.error('ERROR: LANE FOLLOWING: Missed Highway exit')
-    # 
-    #     else:
-    #         diff = self.car.encoder_distance - self.curr_state.var1    
-    #         print("##########################################")
-    #         print("diff = ", diff)
-    #         print("##########################################")
-    #         if diff < 2.0:
-    #             print(f'Driving toward highway exit: dist so far {diff:.2f} [m]')
-    #         elif diff < 3.4:
-    #             self.activate_routines([])
-    #             print(f'Driving toward highway exit: dist so far {diff:.2f} [m]')
-    #             self.car.drive_angle(angle=0.0)
-    #         else:
-    #             print('Arrived at highway exit, switching to going straight for exiting')
-    #             self.switch_to_state(nac.END_STATE)
 
     # Event: End
     def lane_following_to_end(self):
@@ -1672,26 +1635,6 @@ class Brain:
             #    self.switch_to_state(nac.AVOIDING_ROADBLOCK)
             else:
                 self.error('ERROR: OBSTACLE CLASSIFICATION: Unknown obstacle')
-
-    def brainless(self):
-        self.activate_routines([])
-        if self.laremilputas is None:
-            self.laremilputas = self.car.encoder_distance            
-            self.curr_state.just_switched = False
-
-        print(self.car.encoder_distance - self.laremilputas)         
-        if self.car.encoder_distance - self.laremilputas < 0.5:
-            e2, e3, point_ahead = self.detect.detect_lane(self.car.frame, SHOW_IMGS)
-            _, output_angle = self.controller.get_control(e2, e3, 0, self.desired_speed)
-            self.car.drive(speed=0.5, angle=np.rad2deg(output_angle))
-        elif self.car.encoder_distance - self.laremilputas < BRAINLESS_MAXD:
-            e3, _ = self.detect.detect_lane_ahead(self.car.frame, show_ROI=SHOW_IMGS)
-            output_speed, output_angle = self.controller_ag.get_control(e3)
-            self.car.drive(speed=output_speed, angle=np.rad2deg(output_angle))
-        else:
-            self.switch_to_state(nac.LANE_FOLLOWING)
-            self.go_to_next_event()
-            self.go_to_next_event()
 
     # =============== ROUTINES =============== #
     def follow_lane(self):
