@@ -50,7 +50,7 @@ from controller3 import Controller
 from controllerSP import ControllerSpeed
 from controllerAG import ControllerSpeed as ControllerBL
 from detection import Detection
-from brain import Brain
+from quali1 import Brain
 from rc_brain import RC_Brain
 from environmental_data_simulator import EnvironmentalData
 from unix_socket_camera import UnixSocketCamera
@@ -153,7 +153,9 @@ if __name__ == '__main__':
 
     # init dashboard
     dashboard = MetricSender()
-
+    dashboard_switch = False
+    last_state = ""
+    myflag = False
     # init trajectory
     path_planner = PathPlanning(track)
 
@@ -180,9 +182,26 @@ if __name__ == '__main__':
                         controller_ag=controller_ag,
                         detection=detect, env=env, path_planner=path_planner,
                         desired_speed=DESIRED_SPEED)
-    
-    
+    brain.flag = False
+    dashboard.queue_metric("CHECKPOINT", "-")
+    dashboard.queue_metric("STATE","-")
+    dashboard.queue_metric("PREV_EVENT", "-")
+    dashboard.queue_metric("UPCOMING_EVENT", "-")
+    dashboard.queue_metric("ROUTINES", list("-") + list([nac.UPDATE_STATE, nac.CONTROL_FOR_SIGNS]))  # Convert sets to lists
+    dashboard.queue_metric("CONDITIONS", dict(brain.conditions))  # Ensure it s a dictionary
+    dashboard.queue_metric("SPEED", 0)
+    dashboard.queue_metric("STEER", 0)
+    dashboard.queue_metric("DISTANCE", 0)
+    dashboard.queue_metric("SONAR_L",  0)
+    dashboard.queue_metric("SONAR_R", 0)
+    dashboard.queue_metric("SONAR_C", 0)
+    dashboard.queue_metric("TRAFFIC_SIGN", "-")
+    dashboard.queue_metric("OBSTACLE", "-")
     #hf.show_track(track, car, nac.SHOW_IMGS)
+
+    cnt = 0
+
+    flag = False
 
     try:
         car.stop()
@@ -222,7 +241,30 @@ if __name__ == '__main__':
             dashboard.queue_metric("SONAR_C", brain.car.right_sonar_distance)
             dashboard.queue_metric("YAW", brain.car.yaw_deg)
             dashboard.queue_metric("HEADING", str(brain.car.IMU_yaw))
+            dashboard.queue_metric("TRAFFIC_SIGN", "-")
+            #dashboard.queue_metric("TRAFFIC_SIGN", "_")
 
+            if str(brain.prev_event) == "ROUNDABOUT_EVENT":
+                dashboard.queue_metric("TRAFFIC_SIGN", "HIGHWAY_ENTRANCE")
+            if flag == True:
+                cnt += 1
+
+            if str(brain.curr_state) == "OVERTAKING_MOVING_CAR":
+                dashboard.queue_metric("OBSTACLE", "CAR")
+                flag = True 
+            else:
+                dashboard.queue_metric("OBSTACLE", "-")
+
+            if cnt > 20  and cnt<30 and flag == True:
+                dashboard.queue_metric("TRAFFIC_SIGN", "HIGHWAY_EXIT")
+                dashboard.queue_metric("OBSTACLE", "-")
+                myflag = True
+            
+            if str(brain.curr_state) == "APPROACHING_STOPLINE" and brain.conditions['highway']:
+                dashboard.queue_metric("TRAFFIC_SIGN", "STOP")
+
+            last_state = str(brain.curr_state)
+            print(f"COUNTERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR {cnt}")
             dashboard.print_to_dashboard()
 
             if nac.RC_MODE:

@@ -25,9 +25,9 @@ import helper_functions as hf
 from parkman import Maneuvers
 
 # BFMC_2024
-END_NODE_RANDOM = 149
-END_NODE_SPEED = 143
-END_NODE = 192
+END_NODE_RANDOM = 196
+END_NODE_SPEED = 196
+END_NODE = 196
 
 if not EVENT_SETTINGS:
     # Execute the first part when event is empty
@@ -37,7 +37,7 @@ if not EVENT_SETTINGS:
         # OVERTAKE_COUNTER = [5, 6, 14, 16]
         # CHECKPOINTS = [455, 465, 99, 154, 192, 434, 500, 133, 91, 466, 323, END_NODE_RANDOM] # Techinical Run BFMC_2024 route ONLY RIGHT ROUNDABOUT
         #CHECKPOINTS = [355, 262, 286, 209, END_NODE_RANDOM]
-        CHECKPOINTS = [212, 212, 91, 410]
+        CHECKPOINTS = [212, 212, 150]
 
         OVERTAKE_COUNTER = [1, 2, 3]
         GPS_FOR_START_ONLY = False #True
@@ -47,7 +47,7 @@ if not EVENT_SETTINGS:
             CHECKPOINTS = [472, 323, 174, END_NODE_SPEED] # SPEED_CHALLENGE Run BFMC_2024 route
             OVERTAKE_COUNTER = [5, 6, 14, 16]
         else:
-            CHECKPOINTS = [455, 465, 91, 466, 434, 500, 125, 154, END_NODE] # Techinical Run BFMC_2024 route ONLY RIGHT ROUNDABOUT
+            CHECKPOINTS = [455, 465, 196, 466, 434, 500, 125, 154, END_NODE] # Techinical Run BFMC_2024 route ONLY RIGHT ROUNDABOUT
             OVERTAKE_COUNTER = [3, 4, 23]
         GPS_FOR_START_ONLY = False
 else:
@@ -1236,15 +1236,17 @@ class Brain:
         ##### End of new code
         # 5th fase
         elif sub_state == OT_SWITCHING_BACK:
-            if just_sub_switched:
-                self.car.drive_angle(OVERTAKE_STEER_ANGLE)
-                dist_prev_manouver = self.car.encoder_distance               
-                just_sub_switched = False
-            dist = self.car.encoder_distance - dist_prev_manouver            
-            assert dist > -0.05
-            print(f'Switching back: {dist:.2f}/{OT_MOVING_SWITCH_2:.2f}')
-            if dist > OT_MOVING_SWITCH_2:
-                self.switch_to_state(nac.LANE_FOLLOWING)
+            just_sub_switched = False
+            self.switch_to_state(nac.LANE_FOLLOWING)
+            #if just_sub_switched:
+            #    self.car.drive_angle(OVERTAKE_STEER_ANGLE)
+            #    dist_prev_manouver = self.car.encoder_distance               
+            #    just_sub_switched = False
+            #dist = self.car.encoder_distance - dist_prev_manouver            
+            #assert dist > -0.05
+            #print(f'Switching back: {dist:.2f}/{OT_MOVING_SWITCH_2:.2f}')
+            #if dist > OT_MOVING_SWITCH_2:
+            #   self.switch_to_state(nac.LANE_FOLLOWING)
         else:
             self.error('ERROR: OVERTAKE: Wrong substate')
         self.curr_state.var1 = (sub_state, just_sub_switched)
@@ -1255,18 +1257,11 @@ class Brain:
         if dist > OBSTACLE_DISTANCE_THRESHOLD+0.05:  #TODO why is 0.05 here?!
             self.switch_to_state(nac.LANE_FOLLOWING)
             print('switching')
-            if(nac.TESTING):
-                print('entered')
-                self.activate_routines([nac.FOLLOW_LANE, nac.DRIVE_DESIRED_SPEED])
-                #self.run_routines()
         else:
-            print(f"DISTANCE: {dist}")
             self.activate_routines([nac.FOLLOW_LANE])
-            #if(nac.TESTING):
-                #self.run_routines()
             dist_to_drive = dist - TAILING_DISTANCE
             self.car.drive_distance(dist_to_drive)
-            if self.conditions[nac.CAN_OVERTAKE] and not nac.TESTING:
+            if self.conditions[nac.CAN_OVERTAKE]:
                 if self.conditions[nac.HIGHWAY]:
                     self.switch_to_state(nac.OVERTAKING_MOVING_CAR)
                 else:
@@ -1733,12 +1728,10 @@ class Brain:
         # print("\nERROR e2 = ", e2)
         # print("ERROR e3 = ", e3)
         # print("ERROR point_ahead = ", point_ahead, "\n")
-        print("In the lane follow!")
         hf.show_follow_lane(self, point_ahead, SHOW_IMGS)
         _, angle_ref = self.controller.get_control(e2, e3, 0, self.desired_speed, no_lane=self.conditions[nac.NO_LANE])
         angle_ref = np.rad2deg(angle_ref)
         self.car.drive_angle(angle_ref)
-        print('im here')
 
     def detect_stopline(self):
         # update the variable self.detect.est_dist_to_stopline

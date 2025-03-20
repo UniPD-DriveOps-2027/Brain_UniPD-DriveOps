@@ -9,7 +9,7 @@ import numpy as np
 
 SONAR_THRESHOLD = 5
 
-SONAR_DEQUE_LENGTH = 5
+SONAR_DEQUE_LENGTH = 10
 
 IMU_DEQUE_LENGTH = 10
 
@@ -95,6 +95,9 @@ class AutomobileDataPi(Automobile_Data):
         self.center_sonar_distance = data.data if data.data > 0 else self.center_sonar_distance
         self.center_sonar_distance_buffer.append(self.center_sonar_distance)
         self.filtered_center_sonar_distance = np.median(self.center_sonar_distance_buffer)
+        print("-----------------------------------------")
+        print(f"BUFFER: {self.center_sonar_distance_buffer}")
+        print("-----------------------------------------")
         self.sonar_distance = self.center_sonar_distance
         self.filtered_sonar_distance = self.filtered_center_sonar_distance
 
@@ -208,6 +211,7 @@ class AutomobileDataPi(Automobile_Data):
         :param speed: speed of the car [m/s], defaults to 0.0
         """
         speed = Automobile_Data.normalizeSpeed(speed)   # normalize speed
+        self.speed = speed #eugen, addded for the dashboard TODO change the name to be appropiate for dashboard application
         self.pub_speed.publish(speed)
 
     def drive_angle(self, angle=0.0) -> None:

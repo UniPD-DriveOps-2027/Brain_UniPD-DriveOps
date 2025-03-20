@@ -32,12 +32,12 @@ END_NODE = 192
 if not EVENT_SETTINGS:
     # Execute the first part when event is empty
     if RANDOM_START:
-        STARTING_COORDS = [19.49, 11.84] #[0.00, 0.00]    # We need to read from GPS - BFMC2024
+        STARTING_COORDS = [8.4, 0.74] #[0.00, 0.00]    # We need to read from GPS - BFMC2024
         # CHECKPOINTS = [472, 91, 466, 323, 149, 125, 154, 192, 434, END_NODE_RANDOM] # Techinical Run BFMC_2024 route ONLY RIGHT ROUNDABOUT
         # OVERTAKE_COUNTER = [5, 6, 14, 16]
         # CHECKPOINTS = [455, 465, 99, 154, 192, 434, 500, 133, 91, 466, 323, END_NODE_RANDOM] # Techinical Run BFMC_2024 route ONLY RIGHT ROUNDABOUT
         #CHECKPOINTS = [355, 262, 286, 209, END_NODE_RANDOM]
-        CHECKPOINTS = [212, 212, 91, 410]
+        CHECKPOINTS = [450, 420, 304]
 
         OVERTAKE_COUNTER = [1, 2, 3]
         GPS_FOR_START_ONLY = False #True
@@ -387,6 +387,8 @@ class Brain:
         self.detect = detection
         self.path_planner = path_planner
         self.env = env
+        self.flag = False
+        self.signtype = 0
 
         self.car.drive(speed=0.0, angle=0.0)
         self.laremilputas = None
@@ -885,6 +887,7 @@ class Brain:
         # alternative, if we don't have a median, we just use the
         # (possibly inaccurate) network estimaiton
         else:
+            #self.signtype = "STOP"
             print('WARNING: APPROACHING_STOPLINE: stop distance may be imprecise')
             if dist < STOPLINE_STOP_DISTANCE:
                 print('Stopped at stop line. Using network distance: ', self.detect.est_dist_to_stopline)
@@ -1111,13 +1114,14 @@ class Brain:
         print(f'debug extratime: {EXTRA_TIME}')
         # no routines
         self.activate_routines([])
-        if STOP_WAIT_TIME > 0.0:
+        if STOP_WAIT_TIME > 0.0 and not self.flag:
             if self.curr_state.just_switched:
                 self.activate_routines([])
                 self.car.drive_speed(0.0)
                 self.curr_state.just_switched = False
             if (time() - self.curr_state.start_time) > STOP_WAIT_TIME + EXTRA_TIME:
                 self.switch_to_state(nac.INTERSECTION_NAVIGATION)
+                self.signtype +=1
         else:
             self.switch_to_state(nac.INTERSECTION_NAVIGATION)
 
@@ -1236,15 +1240,17 @@ class Brain:
         ##### End of new code
         # 5th fase
         elif sub_state == OT_SWITCHING_BACK:
-            if just_sub_switched:
-                self.car.drive_angle(OVERTAKE_STEER_ANGLE)
-                dist_prev_manouver = self.car.encoder_distance               
-                just_sub_switched = False
-            dist = self.car.encoder_distance - dist_prev_manouver            
-            assert dist > -0.05
-            print(f'Switching back: {dist:.2f}/{OT_MOVING_SWITCH_2:.2f}')
-            if dist > OT_MOVING_SWITCH_2:
-                self.switch_to_state(nac.LANE_FOLLOWING)
+            just_sub_switched = False
+            self.switch_to_state(nac.LANE_FOLLOWING)
+            #if just_sub_switched:
+            #    self.car.drive_angle(OVERTAKE_STEER_ANGLE)
+            #    dist_prev_manouver = self.car.encoder_distance               
+            #    just_sub_switched = False
+            #dist = self.car.encoder_distance - dist_prev_manouver            
+            #assert dist > -0.05
+            #print(f'Switching back: {dist:.2f}/{OT_MOVING_SWITCH_2:.2f}')
+            #if dist > OT_MOVING_SWITCH_2:
+            #   self.switch_to_state(nac.LANE_FOLLOWING)
         else:
             self.error('ERROR: OVERTAKE: Wrong substate')
         self.curr_state.var1 = (sub_state, just_sub_switched)
@@ -1255,18 +1261,11 @@ class Brain:
         if dist > OBSTACLE_DISTANCE_THRESHOLD+0.05:  #TODO why is 0.05 here?!
             self.switch_to_state(nac.LANE_FOLLOWING)
             print('switching')
-            if(nac.TESTING):
-                print('entered')
-                self.activate_routines([nac.FOLLOW_LANE, nac.DRIVE_DESIRED_SPEED])
-                #self.run_routines()
         else:
-            print(f"DISTANCE: {dist}")
             self.activate_routines([nac.FOLLOW_LANE])
-            #if(nac.TESTING):
-                #self.run_routines()
             dist_to_drive = dist - TAILING_DISTANCE
             self.car.drive_distance(dist_to_drive)
-            if self.conditions[nac.CAN_OVERTAKE] and not nac.TESTING:
+            if self.conditions[nac.CAN_OVERTAKE]:
                 if self.conditions[nac.HIGHWAY]:
                     self.switch_to_state(nac.OVERTAKING_MOVING_CAR)
                 else:
@@ -1733,7 +1732,6 @@ class Brain:
         # print("\nERROR e2 = ", e2)
         # print("ERROR e3 = ", e3)
         # print("ERROR point_ahead = ", point_ahead, "\n")
-        print("In the lane follow!")
         hf.show_follow_lane(self, point_ahead, SHOW_IMGS)
         _, angle_ref = self.controller.get_control(e2, e3, 0, self.desired_speed, no_lane=self.conditions[nac.NO_LANE])
         angle_ref = np.rad2deg(angle_ref)

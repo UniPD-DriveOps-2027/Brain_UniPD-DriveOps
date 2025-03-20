@@ -49,6 +49,10 @@ CROSSWALK_NAVIGATION = 'crosswalk_navigation'
 CLASSIFYING_OBSTACLE = 'classifying_obstacle'
 BRAINLESS = 'brainless'
 
+
+# TESTING SINGLE FUNCTIONS 
+TESTING = False
+
 # ======================== ROUTINES ==========================
 FOLLOW_LANE = 'follow_lane'
 DETECT_STOPLINE = 'detect_stopline'

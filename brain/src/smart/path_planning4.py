@@ -355,6 +355,7 @@ class PathPlanning():
             t = self.path_event_types[i]
             if t.startswith('intersection') or t.startswith('roundabout'):
                 assert len(self.path) > 0
+                #print(f"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA exit_points={exit_points_idx[local_idx]} local_idx={local_idx} lenght_path={len(self.path)}")
                 end_idx = min(exit_points_idx[local_idx]+10, len(self.path))
                 path_ahead = self.path[self.path_event_points_idx[i]:end_idx]
                 local_idx += 1
