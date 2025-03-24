@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
  
   <launch>
+  
+  <env name="ROS_MASTER_URI" value="http://localhost:11311" />
+  <env name="ROS_HOSTNAME" value="localhost" />
+  
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <arg name="world_name"   value="$(find sim_pkg)/worlds/world_2024.world"/>
     <arg name="paused"       value="false"/>    
     <arg name="use_sim_time" value="true"/>
-    <arg name="debug"        value="true"/>
+    <arg name="debug"        value="false"/>
     <arg name="gui"          value="true"/>
+    <arg name="verbose"      value="false"/>
   </include>
  
   <node pkg="sim_pkg" type="delay.sh" args="5 sim_pkg car.launch"                 name="car"                  output="screen"/>
-
+  <node pkg="sim_pkg" type="delay.sh" args="5 sim_pkg tunnel.launch"              name="tunnel"               output="screen"/>
+  <node pkg="sim_pkg" type="delay.sh" args="5 sim_pkg separator.launch"           name="separator"            output="screen"/>
 
   
   <?ignore
