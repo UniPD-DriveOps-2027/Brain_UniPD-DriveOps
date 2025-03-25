@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<launch>
+  <node
+    name  = "separator_1"
+    pkg   = "gazebo_ros"
+    type  = "spawn_model"
+    args  = "-file $(find models_pkg)/separator/model.sdf -sdf -model separator_1 -x 15.6 -y 11.6 -z 0.045 -R 0 -P 0 -Y 1.5708"
+    output="screen"/>
+  
+  <node
+    name  = "separator_2"
+    pkg   = "gazebo_ros"
+    type  = "spawn_model"
+    args  = "-file $(find models_pkg)/separator/model.sdf -sdf -model separator_2 -x 15.46 -y 11.6 -z 0.045 -R 0 -P 0 -Y 1.5708"
+    output="screen"/>
+  
+  <node
+    name  = "separator_3"
+    pkg   = "gazebo_ros"
+    type  = "spawn_model"
+    args  = "-file $(find models_pkg)/separator/model.sdf -sdf -model separator_3 -x 15.32 -y 11.6 -z 0.045 -R 0 -P 0 -Y 1.5708"
+    output="screen"/>
+
+ </launch>

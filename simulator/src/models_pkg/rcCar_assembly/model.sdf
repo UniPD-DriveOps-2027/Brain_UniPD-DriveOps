@@ -83,7 +83,16 @@
       <uri>model://sonar3</uri>
       <pose>0 0.08 0.01 0.0 0.0 1.5708 </pose>
       <name>sonar3</name>
+    </include>
+
+    <!-- INCLUDING THE LIDAR -->
+
+    <include>
+      <uri>model://lidar</uri>
+      <pose>0.11 0 0.065 0 0 0</pose>
+      <name>lidar</name>
     </include>	  
+  
 
     <!-- LIST OF JOINTS -->
     <joint name='joint_leftrear_rim' type='revolute'>
@@ -377,7 +386,7 @@
       </physics>
     </joint>
     
-    <!-- fixed joint for the ultrasonic sensor 2 -->
+    <!-- fixed joint for the ultrasonic sensor 3 -->
     <joint name='joint_sonar3' type='fixed'>
       <parent>chassis::link</parent>
       <child>sonar3::link_sonar3</child>
@@ -394,6 +403,14 @@
           </suspension>
         </ode>
       </physics>
+    </joint>
+
+    <!-- Fixed joint for LiDAR -->
+
+    <joint name='joint_lidar' type='fixed'>
+      <parent>chassis::link</parent>
+      <child>lidar::link_lidar</child>
+      <pose frame=''>0 0 0 0 -0 0</pose>
     </joint>
 
 

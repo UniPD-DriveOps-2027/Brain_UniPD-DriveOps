@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<launch>
+  <node
+    name  = "tunnel"
+    pkg   = "gazebo_ros"
+    type  = "spawn_model"
+    args  = "-file $(find models_pkg)/tunnel/model.sdf -sdf -model tunnel -x 2.475953 -y 10.902488 -z 0.0 -R 0 -P 0 -Y 0.465442"/>  
+ </launch>
