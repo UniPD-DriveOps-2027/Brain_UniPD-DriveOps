@@ -86,13 +86,13 @@
     </include>
 
     <!-- INCLUDING THE LIDAR -->
-    
+
     <include>
       <uri>model://lidar</uri>
-      <pose>0.13 0 0.075 0 0 0</pose>
+      <pose>0.11 0 0.065 0 0 0</pose>
       <name>lidar</name>
     </include>	  
-    
+  
 
     <!-- LIST OF JOINTS -->
     <joint name='joint_leftrear_rim' type='revolute'>
@@ -406,13 +406,12 @@
     </joint>
 
     <!-- Fixed joint for LiDAR -->
-    
+
     <joint name='joint_lidar' type='fixed'>
       <parent>chassis::link</parent>
       <child>lidar::link_lidar</child>
       <pose frame=''>0 0 0 0 -0 0</pose>
     </joint>
-    
 
 
     <!-- Plugin  -->

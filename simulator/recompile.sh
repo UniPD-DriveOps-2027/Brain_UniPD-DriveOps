@@ -2,6 +2,8 @@
 # Remove the devel and build directories
 rm -rf devel build
 
+catkin_make --pkg utils
+
 catkin_make
 
 curr_wd=$(pwd) #get the current working directory

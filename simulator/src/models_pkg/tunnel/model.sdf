@@ -42,7 +42,7 @@
           <specular>0.01 0.01 0.01 1</specular>
           <emissive>0 0 0 1</emissive>
         </material>
-        <transparency>0</transparency>
+        <transparency>0.5</transparency>
         <cast_shadows>1</cast_shadows>
       </visual>
       <!--collision name='collision'>
