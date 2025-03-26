@@ -101,7 +101,7 @@
       </collision>
       <sensor type="ray" name="sonar">
         <pose>0.001 0 0 0 0 0</pose>
-        <visualize>false</visualize>
+        <visualize>true</visualize>
         <update_rate>20</update_rate>
         <ray>
           <scan>
