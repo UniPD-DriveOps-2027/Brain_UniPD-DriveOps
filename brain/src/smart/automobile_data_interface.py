@@ -72,6 +72,7 @@ class Automobile_Data():
                  trig_gps=False,
                  trig_estimation=False,
                  trig_ESP32=False,
+                 trig_lidar=False
                  ) -> None:
         """Manage flow of data with the car
 

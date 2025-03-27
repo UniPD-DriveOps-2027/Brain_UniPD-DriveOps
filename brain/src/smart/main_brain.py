@@ -26,7 +26,6 @@ parser.add_argument('--event', type=str, required=False, help='Specify the event
 args = parser.parse_args()
 # If we don't call, these will be False
 nac.RANDOM_START = args.random
-nac.SPEED_CHALLENGE = args.speed
 nac.RC_MODE = args.rc
 nac.SIMULATOR_FLAG = args.sim
 nac.SHOW_IMGS = args.show
@@ -136,7 +135,8 @@ if __name__ == '__main__':
                                       trig_enc=True,
                                       trig_control=True,
                                       trig_estimation=False,
-                                      trig_sonar=True)  # <++>
+                                      trig_sonar=True,
+                                      trig_lidar=True)  # <++>
     else:
         car = AutomobileDataPi(trig_cam=False,
                                trig_gps=True,
@@ -145,7 +145,8 @@ if __name__ == '__main__':
                                trig_control=True,
                                trig_estimation=True,
                                trig_sonar=True,
-                               trig_ESP32=True)
+                               trig_ESP32=True,
+                               trig_lidar=True)
     sleep(1.5)
     car.encoder_distance = 0.0
 

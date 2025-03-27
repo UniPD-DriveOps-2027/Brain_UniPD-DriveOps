@@ -931,7 +931,7 @@ class Brain:
             # local path in the stop line frame
             local_path_slf_rot = self.next_event.path_ahead
 
-            if self.conditions[nac.TRUST_GPS] and not ALWAYS_USE_VISION_FOR_STOPLINES:
+            if self.conditions[nac.TRUST_GPS] and not ALWAYS_USE_VISION_FOR_STOPLINES: # we dont use gps, why is this needed
                 USE_PRECISE_LOCATION_AND_YAW = False
                 point_car_est = np.array([self.car.x_est, self.car.y_est])
                 if USE_PRECISE_LOCATION_AND_YAW:
@@ -1236,15 +1236,17 @@ class Brain:
         ##### End of new code
         # 5th fase
         elif sub_state == OT_SWITCHING_BACK:
-            if just_sub_switched:
-                self.car.drive_angle(OVERTAKE_STEER_ANGLE)
-                dist_prev_manouver = self.car.encoder_distance               
-                just_sub_switched = False
-            dist = self.car.encoder_distance - dist_prev_manouver            
-            assert dist > -0.05
-            print(f'Switching back: {dist:.2f}/{OT_MOVING_SWITCH_2:.2f}')
-            if dist > OT_MOVING_SWITCH_2:
-                self.switch_to_state(nac.LANE_FOLLOWING)
+            just_sub_switched = False
+            self.switch_to_state(nac.LANE_FOLLOWING)
+            #if just_sub_switched:
+            #    self.car.drive_angle(OVERTAKE_STEER_ANGLE)
+            #    dist_prev_manouver = self.car.encoder_distance               
+            #    just_sub_switched = False
+            #dist = self.car.encoder_distance - dist_prev_manouver            
+            #assert dist > -0.05
+            #print(f'Switching back: {dist:.2f}/{OT_MOVING_SWITCH_2:.2f}')
+            #if dist > OT_MOVING_SWITCH_2:
+            #   self.switch_to_state(nac.LANE_FOLLOWING)
         else:
             self.error('ERROR: OVERTAKE: Wrong substate')
         self.curr_state.var1 = (sub_state, just_sub_switched)
