@@ -86,7 +86,8 @@ if __name__ == '__main__':
                                trig_control=True,
                                trig_estimation=True, # TODO remove this
                                trig_sonar=True,
-                               trig_ESP32=True) # TODO remove this
+                               trig_ESP32=True,
+                               trig_lidar=True) # TODO remove this
     sleep(1.5)
 
     signal.signal(signal.SIGINT, handler)

@@ -12,7 +12,6 @@
 
 # This is handled with the argparse in main_brain
 RANDOM_START = None
-SPEED_CHALLENGE = None
 RC_MODE = None
 SIMULATOR_FLAG = None
 SHOW_IMGS = None
@@ -28,7 +27,6 @@ EVENT_SETTINGS = None  # Variable to store the event settings
 # ========================= STATES ==========================
 START_STATE = 'start_state'
 END_STATE = 'end_state'
-DOING_NOTHING = 'doing_nothing'
 LANE_FOLLOWING = 'lane_following'
 APPROACHING_STOPLINE = 'approaching_stopline'
 INTERSECTION_NAVIGATION = 'intersection_navigation'
@@ -43,12 +41,10 @@ WAITING_AT_STOPLINE = 'waiting_at_stopline'
 OVERTAKING_STATIC_CAR = 'overtaking_static_car'
 OVERTAKING_MOVING_CAR = 'overtaking_moving_car'
 TAILING_CAR = 'tailing_car'
-AVOIDING_ROADBLOCK = 'avoiding_roadblock'
 PARKING = 'parking'
 CROSSWALK_NAVIGATION = 'crosswalk_navigation'
 CLASSIFYING_OBSTACLE = 'classifying_obstacle'
 BRAINLESS = 'brainless'
-
 
 # TESTING SINGLE FUNCTIONS 
 TESTING = False
@@ -60,6 +56,7 @@ SLOW_DOWN = 'slow_down'
 ACCELERATE = 'accelerate'
 CONTROL_FOR_SIGNS = 'control_for_signs'
 CONTROL_FOR_OBSTACLES = 'control_for_obstacles'
+CONTROL_FOR_PEDESTRIAN = 'control_for_pedestrian'
 UPDATE_STATE = 'update_state'
 DRIVE_DESIRED_SPEED = 'drive_desired_speed'
 
@@ -74,6 +71,7 @@ PARKING_EVENT = 'parking_event'
 END_EVENT = 'end_event'
 HIGHWAY_EXIT_EVENT = 'highway_exit_event'
 HIGHWAY_ENTRANCE_EVENT = 'highway_entrance_event'
+TUNNEL_EVENT = 'tunnel_event' # new
 
 EVENT_TYPES = [INTERSECTION_STOP_EVENT,             #0
                INTERSECTION_TRAFFIC_LIGHT_EVENT,    #1
@@ -83,7 +81,8 @@ EVENT_TYPES = [INTERSECTION_STOP_EVENT,             #0
                CROSSWALK_EVENT,                     #5
                PARKING_EVENT,                       #6
                HIGHWAY_EXIT_EVENT,                  #7
-               HIGHWAY_ENTRANCE_EVENT]              #8
+               HIGHWAY_ENTRANCE_EVENT,              #8
+               TUNNEL_EVENT]                        #9 - 2025
 
 
 # ======================== ACHIEVEMENTS ========================
@@ -94,11 +93,11 @@ NO_LANE_ACHIEVED = 'no_lane_achieved'
 # ======================== CONDITIONS ==========================
 CAN_OVERTAKE = 'can_overtake'
 HIGHWAY = 'highway'
-TRUST_GPS = 'trust_gps'
+TRUST_GPS = 'trust_gps' # don't need it 
 CAR_ON_PATH = 'car_on_path'
 REROUTING = 'rerouting'
-BUMPY_ROAD = 'bumpy_road'
 NO_LANE = 'no_lane'
+TUNNEL = 'tunnel'
 
 
 ###############################################################################
@@ -142,7 +141,6 @@ STATIC_CAR_PARKING = 'static_car_parking'
 PEDESTRIAN_ON_CROSSWALK = 'pedestrian_on_crosswalk'
 PEDESTRIAN_ON_ROAD = 'pedestrian_on_road'
 ROADBLOCK = 'roadblock'
-BUMPY_ROAD = 'bumpy_road'
 
 # sempahores
 MASTER = 'master'

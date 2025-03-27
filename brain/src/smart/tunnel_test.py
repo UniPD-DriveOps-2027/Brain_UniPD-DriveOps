@@ -120,8 +120,8 @@ if __name__ == '__main__':
         fps_avg = 0.0
         fps_cnt = 0
         nac.TESTING = True
+        brain.conditions[nac.TUNNEL] = True
         brain.curr_state.just_switched = True
-        brain.next_event.name == nac.PARKING_EVENT
         while not rospy.is_shutdown():
 
             loop_start_time = time()
@@ -137,15 +137,9 @@ if __name__ == '__main__':
                 frame = np.zeros((240, 320, 3), np.uint8)
                 continue
             brain.car.frame = frame
-                
-            brain.parking()
+            brain.conditions[nac.TUNNEL] = True
+            brain.tunnel_speed_curve()
 
-            hf.show_camera(car, nac.SHOW_IMGS)
-
-            if nac.SHOW_IMGS:
-                if cv.waitKey(1) == 27:
-                    cv.destroyAllWindows()
-                    break
 
             loop_time = time() - loop_start_time
             fps_avg = (fps_avg * fps_cnt + 1.0 / loop_time) / (fps_cnt + 1)
