@@ -393,7 +393,7 @@ class Brain:
         self.conditions = CONDITIONS
         self.achievements = ACHIEVEMENTS
 
-        # INITIALIZE STATES
+        # INITIALIZE 
 
         self.states = {
             nac.START_STATE:             State(nac.START_STATE, self.start_state),
@@ -1541,7 +1541,71 @@ class Brain:
 
     def control_for_pedestrian(self):
         # check for pedestrian
-        print("CHECKING FOR PEDESTRIAN")
+
+        flag_seen_pedestrian = False
+        flag_pedestrian_in_the_way = False
+
+        frame = self.car.frame
+
+        # Resize the frame to match the preview resolution (faster display)
+        frame_resized = self.car.frame.copy()
+
+        # Convert the frame to HSV color space
+        hsv = cv.cvtColor(frame_resized, cv.COLOR_RGB2HSV)
+
+        # Define the range of pink in HSV (Hue range for pink: 140-170)
+        lower_pink = np.array([120, 60, 60])  # Lower bound for pink
+        upper_pink = np.array([170, 255, 255])  # Upper bound for pink
+
+        # Create a mask for pink regions
+        mask = cv.inRange(hsv, lower_pink, upper_pink)
+
+        # Find contours in the mask
+        contours, _ = cv.findContours(mask, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
+
+        if contours:
+            # Find the largest contour, assuming the pink object is the largest object
+            largest_contour = max(contours, key=cv.contourArea)
+
+            # Get the moments to find the centroid
+            moments = cv.moments(largest_contour)
+            if moments["m00"] != 0:
+                cx = int(moments["m10"] / moments["m00"])
+                cy = int(moments["m01"] / moments["m00"])
+
+                # Draw a red dot at the centroid (Red is BGR: (0, 0, 255))
+                cv.circle(frame_resized, (cx, cy), 10, (0, 0, 255), -1)  # Red in BGR
+                
+                # Define the rectangle centered in the image
+                frame_height, frame_width = frame_resized.shape[:2]
+                rect_width = 200  # Width of the rectangle
+                rect_height = 200  # Height of the rectangle
+
+                # Define the top-left and bottom-right corners of the rectangle
+                rect_x1 = (frame_width - rect_width) // 2
+                rect_y1 = (frame_height - rect_height) // 2
+                rect_x2 = rect_x1 + rect_width
+                rect_y2 = rect_y1 + rect_height
+
+                # Draw the rectangle (Green in BGR: (0, 255, 0))
+                cv.rectangle(frame_resized, (rect_x1, rect_y1), (rect_x2, rect_y2), (0, 255, 0), 2)
+
+                # Check if the centroid is inside the rectangle
+                if rect_x1 <= cx <= rect_x2 and rect_y1 <= cy <= rect_y2:
+                    flag_pedestrian_in_the_way = True
+
+                flag_seen_pedestrian = True
+
+        print(f"Pedestrian :{flag_pedestrian_in_the_way}")
+
+        #if flag_seen_pedestrian: 
+            # start checking the lidar when we get close to the crosswalk
+
+        # Display the resulting frame (now resized for faster performance)
+        cv.imshow("Camera", frame_resized)
+        cv.waitKey(1)
+
+
 
     def drive_desired_speed(self):
         if np.abs(self.car.filtered_encoder_velocity - self.desired_speed) > 0.1:
