@@ -6,6 +6,6 @@
           name  = "automobile"
     	    pkg   = "gazebo_ros"
     	    type  = "spawn_model"
-	    args  = "-file $(find models_pkg)/rcCar_assembly/model.sdf -model automobile -sdf -x 5.63 -y 8.83 -z 0.032939 -Y 1.54"/>
+	    args  = "-file $(find models_pkg)/rcCar_assembly/model.sdf -model automobile -sdf -x 13.016035 -y 2.013972 -z 0.032939 -Y 0.016164"/>
  
   </launch>
