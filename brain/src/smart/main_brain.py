@@ -46,7 +46,7 @@ else:
     from automobile_data_simulator import AutomobileDataSimulator
     
 import helper_functions as hf
-from path_planning4 import PathPlanning
+from path_planning4_mod import PathPlanning
 from controller3 import Controller
 from controllerSP import ControllerSpeed
 from controllerAG import ControllerSpeed as ControllerBL
