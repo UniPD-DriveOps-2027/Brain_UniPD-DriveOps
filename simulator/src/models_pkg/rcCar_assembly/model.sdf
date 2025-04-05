@@ -446,7 +446,7 @@
 
     <plugin name='bno055' filename='libbno055_plugin.so'> </plugin>
     <plugin name='gps' filename='libgps_plugin.so'> </plugin>
-
+    <plugin name='pose' filename='libpose_plugin.so'> </plugin>
 
   </model>
 </sdf>

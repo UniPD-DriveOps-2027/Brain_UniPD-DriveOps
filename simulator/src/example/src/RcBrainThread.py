@@ -1,20 +1,15 @@
 # Copyright (c) 2019, Bosch Engineering Center Cluj and BFMC organizers
 # All rights reserved.
-
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
-
 # 1. Redistributions of source code must retain the above copyright notice, this
 #    list of conditions and the following disclaimer.
-
 # 2. Redistributions in binary form must reproduce the above copyright notice,
 #    this list of conditions and the following disclaimer in the documentation
 #    and/or other materials provided with the distribution.
-
 # 3. Neither the name of the copyright holder nor the names of its
 #    contributors may be used to endorse or promote products derived from
 #    this software without specific prior written permission.
-
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 # AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 # IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -25,13 +20,10 @@
 # CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE
-import os
-import copy
-
+import os, copy
 class RcBrainConfigParams:
     def __init__(self,maxSteerAngle,maxSpeed,steerAngleStep,speedStep, kpStep, kiStep, kdStep):
         """ The aim of the class is to group the configuration parameters for the rcBrain. 
-        
         Parameters
         ----------
         maxSteerAngle : float
@@ -50,14 +42,11 @@ class RcBrainConfigParams:
         self.kpStep = kpStep
         self.kiStep = kiStep
         self.kdStep = kdStep
-
 class RcBrainThread:
-    
     # ===================================== INIT =========================================
     def __init__(self):
         """It's an example to process the keyboard events and convert them to commands for the robot.
         """
-
         self.speed = 0.0
         self.steerAngle = 0.0
         self.pida = False
@@ -65,33 +54,26 @@ class RcBrainThread:
         self.pids_ki = 0.810000
         self.pids_kd = 0.000222
         self.pids_tf = 0.040000
-
         #----------------- CONSTANT VALUES --------------------
         #this values do not change
-        self.parameterIncrement =   10.0
-        self.limit_configParam = RcBrainConfigParams(27.0, 250.0, 3.0, 10.0, 0.001, 0.001, 0.000001)
-
+        self.parameterIncrement =   0.1
+        self.limit_configParam = RcBrainConfigParams(21.0, 150.0, 10.0, 8.0, 0.001, 0.001, 0.000001)
         self.startSpeed         =   10.0
         self.startSteerAngle    =   15.0
-
         #----------------- DEFAULT VALUES ----------------------
         #when the RC is reset, this are the default values
-        self.default_configParam = RcBrainConfigParams(25.0,120.0,1.5,10.0, 0.001, 0.001, 0.000001)
-        
+        self.default_configParam = RcBrainConfigParams(20.5,150.0,1.5,5.0, 0.001, 0.001, 0.000001)
         #----------------- PARAMETERS -------------------------
         #this parameter can be modified via key events. 
         self.configParam = copy.deepcopy(self.default_configParam)  
-
         #----------------- DIRECTION SIGNALS STATES -----------
         self.currentState =[False,False,False,False,False, False, False, False]   #UP, DOWN , LEFT, RIGHT, BRAKE, PIDActive, PIDSvalues
-
     # ===================================== DISPLAY INFO =================================
     def displayInfo(self):
         """Display all parameters on the screen. 
         """
         # clear stdout for a smoother display
         os.system('cls' if os.name=='nt' else 'clear')
-
         ("=========== REMOTE CONTROL ============")
         print(
             "speed:          "  + str(self.speed) +                     '[W/S]' +
@@ -110,7 +92,6 @@ class RcBrainThread:
     # ===================================== STATE DICT ===================================
     def _stateDict(self):
         """It generates a dictionary with the robot current states. 
-        
         Returns
         -------
         dict
@@ -149,13 +130,10 @@ class RcBrainThread:
             self.currentState[7] = False
         else:
             return None
-            
         return data
-        
     # ========================= CALLBACK =================================================
     def getMessage(self,data):
         """ Generate the message based on the current pressed or released key and the current state. 
-        
         Parameters
         ----------
         data : string
@@ -165,17 +143,13 @@ class RcBrainThread:
         string
             The encoded command.
         """
-
         self._updateMotionState(data)
-
         self._updateSpeed()
         self._updateSteerAngle()
         self._updatePID(data)
         self._updateParameters(data)
         self.displayInfo()
-        
         return self._stateDict()        
-
     # ===================================== UPDATE SPEED =================================
 
     # If we keep the two buttons pressed the each states are active and the reached value remains constant.
@@ -188,7 +162,6 @@ class RcBrainThread:
             self.currentState[1] = False
             self.speed = 0
             return
-
         #forward
         if self.currentState[0]:
             if self.speed == 0:
@@ -211,7 +184,6 @@ class RcBrainThread:
                     self.speed = - self.configParam.maxSpeed
                 else:
                     self.speed -= self.configParam.speedStep
-
     # ===================================== UPDATE STEER ANGLE ===========================
     def _updateSteerAngle(self):
         """Update the steering angle based on the current state and the keyboard event.
@@ -236,11 +208,9 @@ class RcBrainThread:
                     self.steerAngle += self.configParam.steerAngleStep
         elif not self.currentState[2] and not self.currentState[3]:
                 self.steerAngle = 0
-
     # ===================================== UPDATE PARAMS ================================
     def _updateParameters(self, currentKey):
         """Update the parameter of the control mechanism (limits and steps).
-        
         Parameters
         ----------
         currentKey : string
@@ -280,10 +250,8 @@ class RcBrainThread:
             if 0.1 < self.configParam.steerAngleStep:
                 self.configParam.steerAngleStep -= self.parameterIncrement
 
-
     def _updatePID(self, currentKey):
         """Update the parameter of the PID values.
-        
         Parameters
         ----------
         currentKey : string
@@ -293,7 +261,6 @@ class RcBrainThread:
         if currentKey == 'p.p':
             self.pida = not self.pida
             self.currentState[5] = True
-
         #--------------- KP PID ------------------------------
         elif currentKey == 'p.z':
             self.pids_kp += self.configParam.kpStep
@@ -301,7 +268,6 @@ class RcBrainThread:
         elif currentKey == 'p.x':
             self.pids_kp -= self.configParam.kpStep
             self.currentState[6] = True
-
         #--------------- KI PID ------------------------------
         elif currentKey == 'p.v':
             self.pids_ki += self.configParam.kiStep
@@ -309,7 +275,6 @@ class RcBrainThread:
         elif currentKey == 'p.b':
             self.pids_ki -= self.configParam.kiStep
             self.currentState[6] = True
-
         #--------------- KD PID ------------------------------
         elif currentKey == 'p.n':
             self.pids_kd += self.configParam.kdStep
@@ -317,11 +282,9 @@ class RcBrainThread:
         elif currentKey == 'p.m':
             self.pids_kd -= self.configParam.kdStep
             self.currentState[6] = True
-
     # ===================================== UPDATE MOTION STATE ==========================
     def _updateMotionState(self, currentKey):
         """ Update the motion state based on the current state and the pressed or released key. 
-        
         Parameters
         ----------
         currentKey : string 
