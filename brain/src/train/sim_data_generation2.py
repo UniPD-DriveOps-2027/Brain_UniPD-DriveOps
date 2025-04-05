@@ -37,7 +37,9 @@ print(f'spath shape: {spath.shape}')
 #decimate path
 path = spath[::12]
 
-map = cv.imread('Simulator/src/models_pkg/track/materials/textures/test_VerySmall.png')
+map_path = 'sparcs/test_VerySmall.png'
+assert os.path.exists(map_path), f'map path {map_path} does not exist'
+map = cv.imread(map_path)
 
 #initializations
 os.system('rosservice call /gazebo/reset_simulation') 
