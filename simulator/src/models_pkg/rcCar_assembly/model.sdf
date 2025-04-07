@@ -43,10 +43,9 @@
     </include>
     
     <!-- including the camera link -->
-    <!-- 0.261799388 original (15deg), changed to 20deg->0.3490656  -->
     <include>
       <uri>model://camera</uri>
-      <pose>0.00 0 0.2 0 0.34906556 0</pose>
+      <pose>0.06 0 0.211 0 0.5235988 0</pose>
       <name>camera</name>
     </include>
     

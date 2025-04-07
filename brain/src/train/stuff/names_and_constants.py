@@ -217,10 +217,11 @@ K_VERYSMALL = 3541/MAP_H_M
 
 # #maps paths
 # MAP_VERY_SMALL_PATH = join(dirname(dirname(__file__)), 'Simulator/src/models_pkg/track/materials/textures/2024_VerySmall.png')
+MAP_VERY_SMALL_PATH = '/root/bfmc/simulator/src/models_pkg/track/materials/textures/2024_VerySmall.png'
 # MAP_SMALL_PATH = join(dirname(dirname(__file__)), 'Simulator/src/models_pkg/track/materials/textures/2024_Small.png')
 # MAP_MEDIUM_PATH = join(dirname(dirname(__file__)), 'Simulator/src/models_pkg/track/materials/textures/2024_Medium.png')
 # MAP_BIG_PATH = join(dirname(dirname(__file__)), 'Simulator/src/models_pkg/track/materials/textures/2024_Big.png')
-# assert exists(MAP_VERY_SMALL_PATH), f'very small map file not found: {MAP_VERY_SMALL_PATH}'
+assert exists(MAP_VERY_SMALL_PATH), f'very small map file not found: {MAP_VERY_SMALL_PATH}'
 # assert exists(MAP_SMALL_PATH), f'small map file not found: {MAP_SMALL_PATH}'
 # assert exists(MAP_MEDIUM_PATH), f'medium map file not found: {MAP_MEDIUM_PATH}'
 # assert exists(MAP_BIG_PATH), f'big map file not found: {MAP_BIG_PATH}'

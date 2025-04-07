@@ -7,30 +7,15 @@ from time import time
 from os.path import join, exists, dirname
 import colorsys, sys
 
-CANV_WIDTH = 1920//2 # canvas width
+CANV_WIDTH = 1920 # canvas width
+# CANV_WIDTH = 1920//2 # canvas width
 IW, IH = 320, 240 # image width, image height
 TW, TH = 240, 240 # top image width, top image height
-
-# map img path
-# #get this repo directory
-# REPO_PATH = dirname(dirname(dirname(dirname(dirname(os.path.abspath(__file__))))))
-# sys.path.append(REPO_PATH)
 
 # from stuff import LENGTH, WIDTH, BACKTOWHEEL, WB
 LENGTH = 0.45 # car length
 WIDTH = 0.18 # car width
 BACKTOWHEEL = 0.1 # distance from back wheel to center of car
-
-
-# SIMLATOR_DIR = join(REPO_PATH, 'Simulator')
-
-# #check if we need to use the 2024 map or the test map
-# with open(join(SIMLATOR_DIR, 'src/models_pkg/track/materials/scripts/bfmc_track.material'), 'r') as f:
-#     MAP_IMG_PATH = join(SIMLATOR_DIR, 'src/models_pkg/track/materials/textures/test_VerySmall.png')
-#     for line in f:
-#         if '2024' in line:
-#             MAP_IMG_PATH = join(SIMLATOR_DIR, 'src/models_pkg/track/materials/textures/2024_VerySmall.png')
-#             break
 
 MAP_IMG_PATH = join(dirname(__file__), '2024_VerySmall.png')
 assert exists(MAP_IMG_PATH), f'No map image found at {MAP_IMG_PATH}'
@@ -45,6 +30,9 @@ RAINBOW_COLORS = 3000 # number of colors in the rainbow, how fast colors change 
 def rainbow_c(idx, n=RAINBOW_COLORS): # return a rainbow color
     c_float = colorsys.hsv_to_rgb(idx/n, 1.0, 1.0)
     return tuple([int(round(255*x)) for x in c_float])
+
+# cv.namedWindow('Visualization', cv.WINDOW_NORMAL)
+# cv.resizeWindow('Visualization', CANV_WIDTH, 0)
 
 class Visualizer():
     # ===================================== INIT==========================================
@@ -78,6 +66,7 @@ class Visualizer():
         self.timer = rospy.Timer(rospy.Duration(1.0/FPS), self.draw)
         self.c_idx = 0 # color index, to cycle through rainbow colors
         self.prev_time = time()
+        self.first_draw = True
         rospy.spin()
 
     def xy2cv(self, x, y): #return x, y as a cv coordinate
@@ -122,13 +111,17 @@ class Visualizer():
             self.prev_time += 1.0/FPS
             #resize canvas with same ratio and width CANV_WIDTH
             new_h = int(round(CANV_WIDTH*self.canvas.shape[0]/self.canvas.shape[1]))
+            if self.first_draw: 
+                cv.namedWindow('Visualization', cv.WINDOW_NORMAL)
+                cv.resizeWindow('Visualization', CANV_WIDTH//2, new_h//2)
+                self.first_draw = False
             cv.imshow('Visualization', cv.resize(self.canvas, (CANV_WIDTH, new_h)))
             key = cv.waitKey(1)
             if key == 27:
                 rospy.signal_shutdown('esc pressed')
                 cv.destroyAllWindows()
                 return
-            elif key == ord('='):
+            elif key == ord('=') or key == ord('+'):
                 CANV_WIDTH *= 1.1
                 CANV_WIDTH = int(min(CANV_WIDTH, 1920)) 
             elif key == ord('-'):
