@@ -1,171 +1,67 @@
 #!/usr/bin/env python3
 
-# Copyright (c) 2019, Bosch Engineering Center Cluj and BFMC organizers
-# All rights reserved.
-
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions are met:
-
-# 1. Redistributions of source code must retain the above copyright notice, this
-#    list of conditions and the following disclaimer.
-
-# 2. Redistributions in binary form must reproduce the above copyright notice,
-#    this list of conditions and the following disclaimer in the documentation
-#    and/or other materials provided with the distribution.
-
-# 3. Neither the name of the copyright holder nor the names of its
-#    contributors may be used to endorse or promote products derived from
-#    this software without specific prior written permission.
-
-# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-# AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-# DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-# FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-# SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-# CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-# OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-# OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE
-
-import sys
-sys.path.append('.')
-from adafruit_extended_bus import ExtendedI2C as I2C
-import adafruit_bno055
-from adafruit_bno055 import NDOF_MODE, CONFIG_MODE, IMUPLUS_MODE, M4G_MODE
-
-import os.path
-import time
-import json
-
 import rospy
-
 from utils.msg import IMU
+import mmap
+import time
 
-PUB_FREQ = 100.0
+# Define shared memory file
+shm_file = "/dev/shm/imu_shared_memory"
 
-class imuNODE():
-    def __init__(self): 
-        rospy.init_node('imuNODE', anonymous=False)
-        # BNO publisher object
-        self.BNO_publisher = rospy.Publisher("/automobile/imu", IMU, queue_size=1)
-        
-    #================================ RUN ========================================
-    def run(self):
-        rospy.loginfo("starting imuNODE")
-        self._initIMU()
-        self._getting()
-    
-    #================================ INIT IMU ========================================
-    def _initIMU(self):
-        self.i2c = I2C(1)  # Device is /dev/i2c-1        
-        self.imu = adafruit_bno055.BNO055_I2C(self.i2c, address=0x28)
+# Function to parse the data from the shared memory
+def parse_data(data_str):
+    try:
+        # Split the data string by commas and convert each part to float
+        parts = [float(x) for x in data_str.strip().split(',')]
+        if len(parts) != 9:
+            rospy.logwarn(f"Invalid data length: Expected 9 values, got {len(parts)}")
+            return None
+        return parts
+    except Exception as e:
+        #rospy.logwarn(f"Error parsing IMU data: {e}")
+        return None
 
-        #self.imu.offsets_accelerometer = (-36, -56, -16)
-        #self.imu.offsets_gyroscope = (-1, -2, 1)
-        #self.imu.offsets_magnetometer = (128, 0, 0)
-        #self.imu.radius_accelerometer = 1000
-        #self.imu.radius_magnetometer = 480
+# Main function to read from shared memory and publish to ROS topic
+def main():
+    rospy.init_node('imu_shared_memory_publisher', anonymous=True)
+    pub = rospy.Publisher('/imu_data', IMU, queue_size=10)
 
-        # self.imu.mode = M4G_MODE
-        # self.imu.mode = IMUPLUS_MODE
-        self.imu.mode = NDOF_MODE
+    # Open shared memory
+    with open(shm_file, "r") as f:
+        shm = mmap.mmap(f.fileno(), 1024, access=mmap.ACCESS_READ)
 
+        rate = rospy.Rate(10)  # 10 Hz publishing rate
 
-
-        def myhook():
-            data = {}
-            data['offsets_accelerometer'] = self.imu.offsets_accelerometer
-            data['offsets_gyroscope'] = self.imu.offsets_gyroscope
-            data['offsets_magnetometer'] = self.imu.offsets_magnetometer
-            data['radius_accelerometer'] = self.imu.radius_accelerometer
-            data['radius_magnetometer'] = self.imu.radius_magnetometer
-
-            # data = json.dump(data, open("/home/pi/dei_ws/src/input/src/imu/imu_calibration_status.json","w"), indent=1)
-            data = json.dump(data, open("imu_calibration_status.json","w"), indent=1)
-            
-            print("shutdown time!")
-        rospy.on_shutdown(myhook)
-
-        print("IMU Name: BNO055")
-
-        #print(f'********* this is the imu interval: {self.poll_interval} *********************')
-
-    #================================ GETTING ========================================
-    def _getting(self):
         while not rospy.is_shutdown():
-            # if self.imu.calibration_status[-1] < 3:
-            #     print(f'Magnetometer not calibrated with status {self.imu.calibration_status}, keep moving the car ...')
-            # print(f'IMU not calibrated with status {self.imu.calibration_status}, keep moving the car ...')
+            # Read data from shared memory
+            shm.seek(0)
+            raw = shm.read(1024).decode('utf-8', errors='ignore').split('\x00', 1)[0].strip()
 
-            # self.imu.mode = CONFIG_MODE
-            # time.sleep(0.001)
-            # # self.imu.offsets_accelerometer = (-36, -56, -16)
-            # self.imu.offsets_gyroscope = (-1, -2, 1)
-            # # self.imu.offsets_magnetometer = (128, 0, 0)
-            # # self.imu.radius_accelerometer = 1000
-            # self.imu.radius_magnetometer = 480
-            # time.sleep(0.001)
-            # self.imu.mode = NDOF_MODE
-            # time.sleep(0.001)
-            
-            
-            euler_angles = self.imu.euler
-            gyro = self.imu.gyro
-            accel = self.imu.acceleration    
-            
-            imudata = IMU()
-            publish = True
+            # Log raw data for debugging (Optional)
+            rospy.logdebug(f"Raw data string: '{raw}'")
 
-            if euler_angles[2] is not None:
-                imudata.roll   =  - float(euler_angles[2]) + 180
-            else:
-                publish = False
-            if euler_angles[1] is not None:
-                imudata.pitch  =  - float(euler_angles[1]) + 180
-            else:
-                publish = False
-            if euler_angles[0] is not None:
-                #imudata.yaw    =  - float(euler_angles[0]) + 180
-                #imudata.yaw = abs(euler_angles[0] - 360)
-                temp = -(euler_angles[0]%360)
-                if temp < -180:
-                    temp += 360
-                elif temp >= 180:
-                    temp -= 360
-                imudata.yaw = temp #(-float(euler_angles[0]) + 180) #temporary
-            else:
-                publish = False
-            if accel[0] is not None:
-                imudata.accelx =  float(accel[0])
-            else:
-                publish = False
-            if accel[1] is not None:
-                imudata.accely =  float(accel[1])
-            else:
-                publish = False
-            if accel[2] is not None:
-                imudata.accelz =  float(accel[2])
-            else:
-                publish = False
-            if gyro[0] is not None:
-                imudata.gyrox  =  float(gyro[0])
-            else:
-                publish = False
-            if gyro[1] is not None:
-                imudata.gyroy  =  float(gyro[1])
-            else:
-                publish = False
-            if gyro[2] is not None:
-                imudata.gyroz  =  float(gyro[2])
-            else:
-                publish = False
-        
-            if publish:
-                self.BNO_publisher.publish(imudata)
-        
-            time.sleep(1/PUB_FREQ)
-        
+            # Parse the data
+            values = parse_data(raw)
+            if values:
+                # Create the IMU message and assign values
+                imu_msg = IMU()
+                imu_msg.roll = values[0]
+                imu_msg.pitch = values[1]
+                imu_msg.yaw = values[2]
+                imu_msg.accelx = values[3]
+                imu_msg.accely = values[4]
+                imu_msg.accelz = values[5]
+                imu_msg.gyrox = values[6]
+                imu_msg.gyroy = values[7]
+                imu_msg.gyroz = values[8]
+                
+                # Publish the message to the ROS topic
+                pub.publish(imu_msg)
+
+            rate.sleep()
+
 if __name__ == "__main__":
-    imuNod = imuNODE()
-    imuNod.run()
+    try:
+        main()
+    except rospy.ROSInterruptException:
+        pass
