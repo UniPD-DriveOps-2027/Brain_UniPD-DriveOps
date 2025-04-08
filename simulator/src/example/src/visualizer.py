@@ -136,9 +136,11 @@ if __name__ == '__main__':
     try:
         nod = Visualizer()
         cv.destroyAllWindows()
-    except rospy.ROSInterruptException:
-        rospy.loginfo("Visualizer node terminated.")
+    except Exception as e:
         cv.destroyAllWindows()
-    except KeyboardInterrupt:
+        print(f"Error: {e}")
+        sys.exit(1)
+    finally:
         cv.destroyAllWindows()
-
+        print("Exiting visualizer.")
+        sys.exit(0)

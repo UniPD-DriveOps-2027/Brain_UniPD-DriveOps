@@ -58,13 +58,13 @@ FRAME_WIDTH = 320#640           # [pix]     frame width
 FRAME_HEIGHT = 240#480          # [pix]     frame height
 DEFAULT_CAMERA_FRAME = np.zeros((FRAME_WIDTH, FRAME_HEIGHT)) # default camera frame
 # position and orientation wrt the car frame
-CAM_X = 0.0                 # [m]
+CAM_X = 0.06                 # [m]
 CAM_Y = 0.0                 # [m]
-CAM_Z = 0.2                 # [m]
+CAM_Z = 0.211                 # [m]
 CAM_ROLL = 0.0              # [rad]
-CAM_PITCH = np.deg2rad(20)  # [rad]
+CAM_PITCH = 0.523598#np.deg2rad(20)  # [rad]
 CAM_YAW =  0.0              # [rad]
-CAM_FOV = 1.085594795       # [rad]
+CAM_FOV = 1.22173#1.085594795       # [rad]
 CAM_F = 1.0                 # []        focal length
 # scaling factors
 CAM_SX = 10.0               # [pix/m]

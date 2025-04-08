@@ -100,7 +100,7 @@
         </surface>
       </collision-->
       <sensor type="camera" name="camera1">
-        <update_rate>30.0</update_rate>
+        <update_rate>150.0</update_rate>
         <camera name="head">
             <horizontal_fov>1.22173</horizontal_fov> 
           <image>

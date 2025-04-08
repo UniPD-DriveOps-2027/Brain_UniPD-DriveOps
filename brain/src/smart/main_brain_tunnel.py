@@ -51,7 +51,7 @@ from controller3 import Controller
 from controllerSP import ControllerSpeed
 from controllerAG import ControllerSpeed as ControllerBL
 from detection import Detection
-from brain import Brain
+from brain_tunnel import Brain
 from rc_brain import RC_Brain
 from environmental_data_simulator import EnvironmentalData
 

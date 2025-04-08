@@ -101,6 +101,7 @@ class RemoteControlTransmitterProcess():
         command = self.rcBrain.getMessage(key)
         if command is not None:
             command = json.dumps(command)
+            print(f'command:\n\t{command}')
             self.publisher.publish(command)  
             
 if __name__ == '__main__':

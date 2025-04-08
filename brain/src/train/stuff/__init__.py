@@ -158,9 +158,8 @@ def get_car_corners(cp:Pose):
     cn = cn @ np.array([[np.cos(ψ), -np.sin(ψ)],[np.sin(ψ), np.cos(ψ)]]).T + np.array([x,y]) #rotate corners and add car position
     return cn
 
-ZOFF = 0.03
-FRONT_CAM = {'fov':CAM_FOV,'θ':CAM_PITCH,'x':0.0+CM2WB,'z':0.2+ZOFF, 'w':320, 'h':240}
-TOP_CAM = {'fov':CAM_FOV,'θ':1.04,'x':-1+CM2WB,'z':3.5+ZOFF, 'w':480, 'h':480}
+FRONT_CAM = {'fov':CAM_FOV,'θ':CAM_PITCH,'x':-0.06+CM2WB,'z':0.211, 'w':320, 'h':240}
+TOP_CAM = {'fov':CAM_FOV,'θ':1.04,'x':-1+CM2WB,'z':3.53, 'w':480, 'h':480}
 
 def project_onto_frame(points, cp:Pose=None, cam=FRONT_CAM):
     ''' function to project points onto a camera frame, returns the points in pixel coordinates '''

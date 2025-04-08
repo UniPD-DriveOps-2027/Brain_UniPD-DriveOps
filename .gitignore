@@ -22,4 +22,4 @@ asl/*
 sd/*
 .DS_Store
 __pycache__/
-brain/src/train/training_dss/*
+brain/src/train/data/*
