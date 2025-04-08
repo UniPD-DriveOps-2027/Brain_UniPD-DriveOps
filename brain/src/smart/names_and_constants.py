@@ -10,7 +10,6 @@
 
 # This is handled with the argparse in main_brain
 RANDOM_START = None
-SPEED_CHALLENGE = None
 RC_MODE = None
 SIMULATOR_FLAG = None
 SHOW_IMGS = None
@@ -20,13 +19,40 @@ SOUTH = None
 EAST = None
 WEST = None
 
+# names_and_constants.py
+
+# Configurazioni eventi
+EVENT_CONFIGS = {
+    "tunnel": {
+        "starting_coords": [13.11, 1.98],
+        "checkpoints": [9999, 422, 398, 303, 260, 87, 118, 410, 406, 445, 164, 237, 333, 374, 30, 85, 148, 177, 143, 135, 98, 55, 30, 98, 111, 121, 92, 130]
+    },
+    "round": {
+        "starting_coords": [7.12, 7.49],
+        "checkpoints": [455, 465, 91, 466, 434, 500, 125, 154, 192]
+    },
+    "highway": {
+        "starting_coords": [3.13, 13.31],
+        "checkpoints": [50, 51, 52, 100, 101, 150, 151]
+    },
+    "crosswalk": {
+        "starting_coords": [3.13, 13.31],
+        "checkpoints": [50, 51, 52, 100, 101, 150, 151]
+    },
+    "parking": {
+        "starting_coords": [3.13, 13.31],
+        "checkpoints": [50, 51, 52, 100, 101, 150, 151]
+    }
+
+}
+
+
 EVENT_SETTINGS = None  # Variable to store the event settings
 
 # BRAIN
 # ========================= STATES ==========================
 START_STATE = 'start_state'
 END_STATE = 'end_state'
-DOING_NOTHING = 'doing_nothing'
 LANE_FOLLOWING = 'lane_following'
 APPROACHING_STOPLINE = 'approaching_stopline'
 INTERSECTION_NAVIGATION = 'intersection_navigation'
@@ -41,7 +67,6 @@ WAITING_AT_STOPLINE = 'waiting_at_stopline'
 OVERTAKING_STATIC_CAR = 'overtaking_static_car'
 OVERTAKING_MOVING_CAR = 'overtaking_moving_car'
 TAILING_CAR = 'tailing_car'
-AVOIDING_ROADBLOCK = 'avoiding_roadblock'
 PARKING = 'parking'
 CROSSWALK_NAVIGATION = 'crosswalk_navigation'
 CLASSIFYING_OBSTACLE = 'classifying_obstacle'
@@ -53,6 +78,7 @@ SLOW_DOWN = 'slow_down'
 ACCELERATE = 'accelerate'
 CONTROL_FOR_SIGNS = 'control_for_signs'
 CONTROL_FOR_OBSTACLES = 'control_for_obstacles'
+CONTROL_FOR_PEDESTRIAN = 'control_for_pedestrian'
 UPDATE_STATE = 'update_state'
 DRIVE_DESIRED_SPEED = 'drive_desired_speed'
 
@@ -67,6 +93,7 @@ PARKING_EVENT = 'parking_event'
 END_EVENT = 'end_event'
 HIGHWAY_EXIT_EVENT = 'highway_exit_event'
 HIGHWAY_ENTRANCE_EVENT = 'highway_entrance_event'
+TUNNEL_EVENT = 'tunnel_event'
 
 EVENT_TYPES = [INTERSECTION_STOP_EVENT,             #0
                INTERSECTION_TRAFFIC_LIGHT_EVENT,    #1
@@ -76,7 +103,9 @@ EVENT_TYPES = [INTERSECTION_STOP_EVENT,             #0
                CROSSWALK_EVENT,                     #5
                PARKING_EVENT,                       #6
                HIGHWAY_EXIT_EVENT,                  #7
-               HIGHWAY_ENTRANCE_EVENT]              #8
+               HIGHWAY_ENTRANCE_EVENT,              #8
+               TUNNEL_EVENT                         #9 
+               ]                             
 
 
 # ======================== ACHIEVEMENTS ========================
@@ -87,12 +116,11 @@ NO_LANE_ACHIEVED = 'no_lane_achieved'
 # ======================== CONDITIONS ==========================
 CAN_OVERTAKE = 'can_overtake'
 HIGHWAY = 'highway'
-TRUST_GPS = 'trust_gps'
 CAR_ON_PATH = 'car_on_path'
 REROUTING = 'rerouting'
 BUMPY_ROAD = 'bumpy_road'
 NO_LANE = 'no_lane'
-
+TUNNEL = 'tunnel'
 
 ###############################################################################
 ###############################################################################
@@ -127,15 +155,13 @@ SIGN_NAMES = [PARK,
 # obstacles
 CAR = 'car'
 PEDESTRIAN = 'pedestrian'
-ROADBLOCK = 'roadblock'
 
 # ENVIROMENTAL SERVER
 STATIC_CAR_ON_ROAD = 'static_car_on_road'
 STATIC_CAR_PARKING = 'static_car_parking'
 PEDESTRIAN_ON_CROSSWALK = 'pedestrian_on_crosswalk'
 PEDESTRIAN_ON_ROAD = 'pedestrian_on_road'
-ROADBLOCK = 'roadblock'
-BUMPY_ROAD = 'bumpy_road'
+
 
 # sempahores
 MASTER = 'master'
