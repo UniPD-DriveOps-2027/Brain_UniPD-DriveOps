@@ -15,7 +15,6 @@ with open('data/events_config.json', 'r') as file:
 import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--random', action='store_true')
-parser.add_argument('--speed', action='store_true')
 parser.add_argument('--rc', action='store_true')
 parser.add_argument('--sim', action='store_true')
 parser.add_argument('--show', action='store_true')
@@ -23,11 +22,11 @@ parser.add_argument('--north', action='store_true')
 parser.add_argument('--south', action='store_true')
 parser.add_argument('--east', action='store_true')
 parser.add_argument('--west', action='store_true')
+parser.add_argument('--tun', action='store_true')
 parser.add_argument('--event', type=str, required=False, help='Specify the event name')
 args = parser.parse_args()
 # If we don't call, these will be False
 nac.RANDOM_START = args.random
-nac.SPEED_CHALLENGE = args.speed
 nac.RC_MODE = args.rc
 nac.SIMULATOR_FLAG = args.sim
 nac.SHOW_IMGS = args.show
@@ -67,18 +66,12 @@ track = cv.imread('data/2024_VerySmall.png')
 # PARAMETERS
 TARGET_FPS = 30.0 # target fps of the main loop
 
-if not nac.SPEED_CHALLENGE:
-    DESIRED_SPEED = 0.35  # [m/s]
-    SP_SPEED = 0.35  # [m/s]
-    CURVE_SPEED = 0.25  # [m/s]
-    BL_SP_SPEED = 0.8
-    BL_CURVE_SPEED = 0.5
-else:
-    DESIRED_SPEED = 0.35  # [m/s]
-    SP_SPEED = 0.35  # [m/s]
-    CURVE_SPEED = 0.25  # [m/s]
-    BL_SP_SPEED = 0.8
-    BL_CURVE_SPEED = 0.35
+
+DESIRED_SPEED = 0.35  # [m/s]
+SP_SPEED = 0.35  # [m/s]
+CURVE_SPEED = 0.25  # [m/s]
+BL_SP_SPEED = 0.8
+BL_CURVE_SPEED = 0.35
 
 # CONTROLLER
 k1 = 0.0  # 0.0 gain error parallel to direction (speed)
