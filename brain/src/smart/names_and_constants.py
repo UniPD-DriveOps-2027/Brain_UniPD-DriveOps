@@ -28,20 +28,24 @@ EVENT_CONFIGS = {
         "checkpoints": [9999, 422, 398, 303, 260, 87, 118, 410, 406, 445, 164, 237, 333, 374, 30, 85, 148, 177, 143, 135, 98, 55, 30, 98, 111, 121, 92, 130]
     },
     "round": {
-        "starting_coords": [7.12, 7.49],
-        "checkpoints": [455, 465, 91, 466, 434, 500, 125, 154, 192]
+        "starting_coords": [15.38, 11,42],
+        "checkpoints": [455, 614, 350]
     },
     "highway": {
-        "starting_coords": [3.13, 13.31],
-        "checkpoints": [50, 51, 52, 100, 101, 150, 151]
+        "starting_coords": [16.65, 11.74],
+        "checkpoints": [50, 149]
     },
     "crosswalk": {
         "starting_coords": [3.13, 13.31],
         "checkpoints": [50, 51, 52, 100, 101, 150, 151]
     },
     "parking": {
-        "starting_coords": [3.13, 13.31],
-        "checkpoints": [50, 51, 52, 100, 101, 150, 151]
+        "starting_coords": [7.67, 0.75],
+        "checkpoints": [50, 412,389]
+    },
+     "test": {
+        "starting_coords": [7.67, 0.75],
+        "checkpoints": [50, 410]
     }
 
 }

@@ -30,7 +30,7 @@ END_NODE_RANDOM = 149
 END_NODE = 192
 
 
-SELECTED_EVENT = "tunnel"
+SELECTED_EVENT = "parking"  # "tunnel", "round", "highway", "crosswalk", "parking" , "test"
 if not EVENT_SETTINGS:
     # Execute the first part when event is empty
     if RANDOM_START and SELECTED_EVENT in EVENT_CONFIGS:
@@ -353,7 +353,9 @@ class Brain:
         self.checkpoint_idx = 0
         self.desired_speed = desired_speed
 
-
+        # pedestrian variables
+        self.flag_pedestrian_in_the_way = False
+        self.flag_seen_pedestrian = False
         # current and previous states (class State)
         self.curr_state = State()
         self.prev_state = State()
@@ -680,7 +682,8 @@ class Brain:
         self.activate_routines([nac.FOLLOW_LANE,
                                 nac.SLOW_DOWN,
                                 nac.DETECT_STOPLINE,
-                                nac.CONTROL_FOR_OBSTACLES])
+                                nac.CONTROL_FOR_OBSTACLES,
+                                nac.CONTROL_FOR_PEDESTRIAN])
 
         if self.curr_state.just_switched:
             cv.imwrite(f'asl/asl_{int(time() * 1000)}.png', self.car.frame)
@@ -701,7 +704,7 @@ class Brain:
             self.conditions[nac.HIGHWAY] = False
             next_event_name = self.next_event.name
             # Events with stopline
-            if next_event_name == nac.INTERSECTION_STOP_EVENT:
+            if next_event_name == nac.INTERSECTION_STOP_EVENT:      
                 self.switch_to_state(nac.WAITING_AT_STOPLINE)
             elif next_event_name == nac.INTERSECTION_TRAFFIC_LIGHT_EVENT:
                 self.switch_to_state(nac.WAITING_FOR_GREEN)
@@ -1192,12 +1195,12 @@ class Brain:
         print('LOCALIZING_PARKING_SPOT')
         self.activate_routines([nac.FOLLOW_LANE])
 
-        if(nac.TESTING):
-            print('We arrived at the parking spot')
-            self.car.drive_speed(0.0)
-            self.curr_state.var1 = (nac.CHECKING_FOR_PARKED_CARS, park_type, True)
-            print(f'curr_state.var1: {self.curr_state.var1}')
-            return
+       # if(nac.TESTING):
+         #   print('We arrived at the parking spot')
+         #   self.car.drive_speed(0.0)
+          #  self.curr_state.var1 = (nac.CHECKING_FOR_PARKED_CARS, park_type, True)
+          #  print(f'curr_state.var1: {self.curr_state.var1}')
+          #  return
 
         if just_changed:
             # this will become true if we trusted the gps
@@ -1334,8 +1337,9 @@ class Brain:
         self.go_to_next_event()
 
     def crosswalk_navigation(self):
-        #self.activate_routines([nac.CONTROL_FOR_OBSTACLES])
         self.activate_routines([nac.CONTROL_FOR_PEDESTRIAN])
+        if self.flag_seen_pedestrian:
+           
 
         #if pedestrian == True 
         #    while not front_distance ...
@@ -1529,8 +1533,8 @@ class Brain:
 
     def control_for_pedestrian(self):
         # check for pedestrian
-        flag_seen_pedestrian = False
-        flag_pedestrian_in_the_way = False
+        self.flag_seen_pedestrian = False
+        self.flag_pedestrian_in_the_way = False
 
         frame = self.car.frame
 
@@ -1579,11 +1583,11 @@ class Brain:
 
                 # Check if the centroid is inside the rectangle
                 if rect_x1 <= cx <= rect_x2 and rect_y1 <= cy <= rect_y2:
-                    flag_pedestrian_in_the_way = True
+                    self.flag_pedestrian_in_the_way = True
 
-                flag_seen_pedestrian = True
+                self.flag_seen_pedestrian = True
 
-        print(f"Pedestrian :{flag_pedestrian_in_the_way}")
+        print(f"Pedestrian :{self.flag_pedestrian_in_the_way}")
 
         #if flag_seen_pedestrian: 
             # start checking the lidar when we get close to the crosswalk

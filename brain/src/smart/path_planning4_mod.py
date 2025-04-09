@@ -361,7 +361,7 @@ class PathPlanning():
                     local_idx += 1
                 else:
             # Fallback: use fixed lookahead when no exit point is found
-                    end_idx = min(self.path_event_points_idx[i]+17, len(self.path))
+                    end_idx = min(self.path_event_points_idx[i]+13, len(self.path))
             
                 path_ahead = self.path[self.path_event_points_idx[i]:end_idx]
                 print(f'local index {local_idx}')
