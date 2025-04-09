@@ -1,3 +1,6 @@
+# This script is used to recompile the simulator and set up the environment variables
+curr_file_dir=$(dirname $(readlink -f $0))
+cd $curr_file_dir
 
 # Remove the devel and build directories
 rm -rf devel build
