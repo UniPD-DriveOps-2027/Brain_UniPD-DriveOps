@@ -84,7 +84,9 @@ class RemoteControlTransmitterProcess():
         if key == keyboard.Key.esc:                        #exit key      
             self.publisher.publish('{"action":"3","steerAngle":0.0}')   
             return False
-        try:                                               
+        try:
+            if key.char == 'r':
+                self.publisher.publish('{"action":"3","steerAngle":0.0}')   
             if key.char in self.allKeys:
                 keyMsg = 'r.'+str(key.char)
                 self._send_command(keyMsg)
