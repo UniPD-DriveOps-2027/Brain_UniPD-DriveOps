@@ -392,7 +392,6 @@ class Brain:
             # roundabout, for roundabouts the car will track the local path
             nac.ROUNDABOUT_NAVIGATION:   State(nac.ROUNDABOUT_NAVIGATION, self.roundabout_navigation),
             # waiting states  
-            nac.WAITING_FOR_PEDESTRIAN:  State(nac.WAITING_FOR_PEDESTRIAN, self.waiting_for_pedestrian),
             nac.WAITING_FOR_GREEN:       State(nac.WAITING_FOR_GREEN, self.waiting_for_green),
             nac.WAITING_AT_STOPLINE:     State(nac.WAITING_AT_STOPLINE, self.waiting_at_stopline),
             # overtaking manouver  
@@ -918,37 +917,6 @@ class Brain:
     def roundabout_navigation(self):
         self.switch_to_state(nac.TRACKING_LOCAL_PATH)
 
-    def waiting_for_pedestrian(self):
-        self.activate_routines([nac.FOLLOW_LANE])
-        dist_ahead = self.car.filtered_sonar_distance
-        if self.curr_state.just_switched:
-            self.car.drive_speed(0.0)
-            sleep(SLEEP_AFTER_STOPPING)
-            self.activate_routines([])
-            dist_to_keep = dist_ahead - PEDESTRIAN_CONTROL_DISTANCE
-            print('dist_ahead: ', dist_ahead)
-            print(f'dist_to_keep: {dist_to_keep}')
-            # last time I saw the pedestrian, initiliaze it
-            self.curr_state.var1 = time()
-            self.curr_state.just_switched = False
-        if dist_ahead < OBSTACLE_DISTANCE_THRESHOLD:
-            print('Waiting for pedestrian...')
-            self.activate_routines([])
-            self.curr_state.var1 = last_seen_pedestrian_time = time()
-        else:
-            last_seen_pedestrian_time = self.curr_state.var1
-            self.activate_routines([])
-            curr_time = time()
-            print(f'Pedestrian has cleared the road, keep waiting for: {curr_time - last_seen_pedestrian_time}/{PEDESTRIAN_TIMEOUT}')
-            if curr_time - last_seen_pedestrian_time > PEDESTRIAN_TIMEOUT:
-                sleep(SLEEP_AFTER_STOPPING)
-                if self.pedestrian_type == nac.PEDESTRIAN_ON_CROSSWALK:
-                    print(f'Switching back to {self.next_event.name}')
-                    self.car.reset_rel_pose()
-                    self.go_to_next_event()
-                    self.switch_to_state(nac.LANE_FOLLOWING)
-                else:
-                    self.switch_to_state(nac.LANE_FOLLOWING)
 
     def waiting_for_green(self):
         event_p = self.next_event.point
@@ -1337,48 +1305,19 @@ class Brain:
         self.go_to_next_event()
 
     def crosswalk_navigation(self):
-        self.activate_routines([nac.CONTROL_FOR_PEDESTRIAN])
-        if self.flag_seen_pedestrian:
-           
 
-        #if pedestrian == True 
-        #    while not front_distance ...
-        #        self.car.drive_speed(0.0)
-        #else 
-        #    self.car.reset_rel_pose()
-        #    self.go_to_next_event()
-        #    self.switch_to_state(nac.LANE_FOLLOWING)
-
-
-        if STOP_WAIT_TIME > 0.0:
-            if self.curr_state.just_switched:
-                #  we will need to check fro a pedestrian if it is true stop 
-                self.car.drive_speed(0.0)
+        if self.curr_state.just_switched:
                 self.curr_state.just_switched = False
                 self.car.reset_rel_pose()
-            if (time() - self.curr_state.start_time) > STOP_WAIT_TIME + 2.0:
-                # MATTEO
-                if self.checkpoints[self.checkpoint_idx+1] == 154:
-                    print('debug cross')
-                    print(self.car.dist_loc)
-                    print(self.checkpoints[self.checkpoint_idx+1])
-                    dist = self.car.dist_loc
-
-                    self.car.drive_angle(10) # random value
-                    self.car.drive_speed(0.2) # random value
-                    if dist > 0.25: # random value
-                        self.car.reset_rel_pose()
-                        self.go_to_next_event()
-                        self.switch_to_state(nac.LANE_FOLLOWING)
-                    # ########
-                else:
-                    self.car.reset_rel_pose()
-                    self.go_to_next_event()
-                    self.switch_to_state(nac.LANE_FOLLOWING)
+        
+        if self.flag_seen_pedestrian or self.car.central_distance < PEDESTRIAN_CONTROL_DISTANCE:
+            self.car.drive_speed(0.0)
+            while self.flag_pedestrian_in_the_way or self.car.central_distance < PEDESTRIAN_CONTROL_DISTANCE: #TODO test and regulate this value
+                self.car.drive_speed(0.0)
         else:
-            self.car.reset_rel_pose()
-            self.go_to_next_event()
+            self.car.drive_speed(self.desired_speed)
             self.switch_to_state(nac.LANE_FOLLOWING)
+            self.go_to_next_event()
 
     def classifying_obstacle(self):
         self.activate_routines([nac.FOLLOW_LANE])
@@ -1394,19 +1333,12 @@ class Brain:
         # elif OBSTACLE_IMGS_CAPTURE_STOP_DISTANCE <= dist < OBSTACLE_DISTANCE_THRESHOLD:  # we are approaching the obst
         #     print('Capturing imgs')
         else:
-            if ALWAYS_TRUST_ESP32:
-                # checking the sign is just a momentary solution cause the classifying is still not perfect (BFMC_2024)
-                if self.car.filtered_obstacle >= OBSTACLE_CLASSIFY_THRESHOLD and self.car.filtered_sign < SIGN_CLASSIFY_THRESHOLD:
-                    obstacle = nac.CAR
-                else:
-                    obstacle = nac.PEDESTRIAN
+
+            if self.prev_state.name == nac.CROSSWALK_NAVIGATION:
+                #print('debug PEDESTRIAN')
+                obstacle = nac.PEDESTRIAN
             else:
-                # BFMC 2024 TENTATIVE
-                if self.prev_state.name == nac.CROSSWALK_NAVIGATION:
-                    #print('debug PEDESTRIAN')
-                    obstacle = nac.PEDESTRIAN
-                else:
-                    obstacle = nac.CAR
+                obstacle = nac.CAR
             print(f'Obstacle: {obstacle}')
 
             if obstacle == nac.CAR or OBSTACLE_IS_ALWAYS_CAR and not OBSTACLE_IS_ALWAYS_PEDESTRIAN:
@@ -1417,7 +1349,7 @@ class Brain:
                 else:
                     self.pedestrian_type = nac.PEDESTRIAN_ON_ROAD
                 self.env.publish_obstacle(self.pedestrian_type, self.car.x_est, self.car.y_est)
-                self.switch_to_state(nac.WAITING_FOR_PEDESTRIAN)
+                #self.switch_to_state(nac.WAITING_FOR_PEDESTRIAN)
 
             else:
                 self.error('ERROR: OBSTACLE CLASSIFICATION: Unknown obstacle')
