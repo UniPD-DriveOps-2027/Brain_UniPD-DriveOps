@@ -98,7 +98,7 @@ y_orig = 0.0
 #    cap.set(cv.CAP_PROP_FRAME_HEIGHT, 240)
 #    cap.set(cv.CAP_PROP_FPS, 30)
 if not nac.SIMULATOR_FLAG:
-    cap = UnixSocketCamera(socket_addr="/tmp/bfmc_socket.sock", frame_size=(320, 240))
+    cap = UnixSocketCamera(socket_addr="/tmp/bfmc_camera_brain.sock", frame_size=(320, 240))
 
 
 # stop the car with ctrl+c
