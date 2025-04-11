@@ -20,6 +20,7 @@ EAST = None
 WEST = None
 
 # names_and_constants.py
+TESTING = False
 
 # Configurazioni eventi
 EVENT_CONFIGS = {
@@ -36,8 +37,8 @@ EVENT_CONFIGS = {
         "checkpoints": [50, 149]
     },
     "crosswalk": {
-        "starting_coords": [3.13, 13.31],
-        "checkpoints": [50, 51, 52, 100, 101, 150, 151]
+        "starting_coords": [15.75,  4.36],
+        "checkpoints": [50, 511]
     },
     "parking": {
         "starting_coords": [7.67, 0.75],

@@ -33,7 +33,6 @@ class AutomobileDataSimulator(Automobile_Data):
                  trig_sonar=False,
                  trig_cam=False,
                  trig_gps=False,
-                 trig_estimation=False,
                  trig_lidar=False,
                  ) -> None:
         # initialize the parent class
@@ -113,8 +112,7 @@ class AutomobileDataSimulator(Automobile_Data):
             self.sub_cam = rospy.Subscriber("/automobile/image_raw", Image, self.camera_callback)
         if trig_gps:
             self.sub_pos = rospy.Subscriber("/automobile/localisation", localisation, self.position_callback)
-        if trig_estimation:
-            raise NotImplementedError("estimation not implemented yet")
+
 
     def camera_callback(self, data) -> None:
         """Receive and store camera frame

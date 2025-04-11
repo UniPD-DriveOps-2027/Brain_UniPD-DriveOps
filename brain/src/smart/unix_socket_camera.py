@@ -69,7 +69,7 @@ class UnixSocketCamera:
             print("Socket closed.")
 
 if __name__ == "__main__":
-    cap = UnixSocketCamera(socket_addr="/tmp/bfmc_socket.sock", frame_size=(1152, 648)) #320, 240 or 1152, 648 or 4608, 2592
+    cap = UnixSocketCamera(socket_addr="/tmp/bfmc_socket.sock", frame_size=(320, 240)) #320, 240 or 1152, 648 or 4608, 2592
     
     try:
         while True:

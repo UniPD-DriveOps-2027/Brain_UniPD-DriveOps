@@ -30,7 +30,7 @@ END_NODE_RANDOM = 149
 END_NODE = 192
 
 
-SELECTED_EVENT = "parking"  # "tunnel", "round", "highway", "crosswalk", "parking" , "test"
+SELECTED_EVENT = "crosswalk"  # "tunnel", "round", "highway", "crosswalk", "parking" , "test"
 if not EVENT_SETTINGS:
     # Execute the first part when event is empty
     if RANDOM_START and SELECTED_EVENT in EVENT_CONFIGS:
@@ -291,7 +291,7 @@ OBSTACLE_IMGS_CAPTURE_START_DISTANCE = 0.48  # dist from where we capture imgs
 OBSTACLE_IMGS_CAPTURE_STOP_DISTANCE = 0.31   # dist up to we capture imgs
 assert OBSTACLE_IMGS_CAPTURE_STOP_DISTANCE > OBSTACLE_CONTROL_DISTANCE
 # pedestrian
-PEDESTRIAN_CONTROL_DISTANCE = 0.35   # [m] distance to keep from the pedestrian
+PEDESTRIAN_CONTROL_DISTANCE = 0.5   # [m] distance to keep from the pedestrian
 PEDESTRIAN_TIMEOUT = 2.0             # [s] time to w8 after the pedestrian cleared the road
 # car
 TAILING_DISTANCE = 0.25   # [m] distance to keep from the vehicle while tailing
@@ -356,6 +356,7 @@ class Brain:
         # pedestrian variables
         self.flag_pedestrian_in_the_way = False
         self.flag_seen_pedestrian = False
+        self.pedestrian_on_the_crosswalk = False
         # current and previous states (class State)
         self.curr_state = State()
         self.prev_state = State()
@@ -679,10 +680,10 @@ class Brain:
     def approaching_stopline(self):
         # FOLLOW_LANE, SLOW_DOWN, DETECT_STOPLINE, CONTROL_FOR_OBSTACLES
         self.activate_routines([nac.FOLLOW_LANE,
+                                nac.CONTROL_FOR_PEDESTRIAN,
                                 nac.SLOW_DOWN,
-                                nac.DETECT_STOPLINE,
-                                nac.CONTROL_FOR_OBSTACLES,
-                                nac.CONTROL_FOR_PEDESTRIAN])
+                                nac.DETECT_STOPLINE])
+        print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
 
         if self.curr_state.just_switched:
             cv.imwrite(f'asl/asl_{int(time() * 1000)}.png', self.car.frame)
@@ -745,7 +746,8 @@ class Brain:
             print('Driving towards stop line... at distance: ',
                   self.stopline_distance_median)
             self.activate_routines([nac.FOLLOW_LANE,
-                                    nac.SLOW_DOWN])  # SLOW_DOWN
+                                    nac.SLOW_DOWN,
+                                    nac.CONTROL_FOR_PEDESTRIAN])  # SLOW_DOWN
             dist_to_drive = self.stopline_distance_median - self.car.encoder_distance
             self.car.drive_distance(dist_to_drive)
             if dist_to_drive < STOPLINE_STOP_DISTANCE:
@@ -798,7 +800,6 @@ class Brain:
         print('State: tracking_local_path')
         # self.activate_routines([nac.DRIVE_DESIRED_SPEED])
         self.activate_routines([])
-        self.activate_routines([nac.DETECT_STOPLINE])   #add thomas
         if self.curr_state.just_switched:
             stopline_position = self.next_event.point
             stopline_yaw = self.next_event.yaw_stopline
@@ -1305,19 +1306,42 @@ class Brain:
         self.go_to_next_event()
 
     def crosswalk_navigation(self):
+        if nac.TESTING:
+            self.activate_routines([nac.CONTROL_FOR_PEDESTRIAN])
+            if not (self.flag_seen_pedestrian or self.car.central_distance < PEDESTRIAN_CONTROL_DISTANCE):
+                self.activate_routines([nac.FOLLOW_LANE,
+                                        nac.DRIVE_DESIRED_SPEED])
+            self.run_routines()
 
         if self.curr_state.just_switched:
                 self.curr_state.just_switched = False
                 self.car.reset_rel_pose()
-        
+
+        print (f'flag {self.flag_seen_pedestrian}')
+        print (f'in rect {self.flag_pedestrian_in_the_way}')
+        print (f'lidar dist {self.car.central_distance}')
+        print (f'on crosswalk {self.pedestrian_on_the_crosswalk}')
         if self.flag_seen_pedestrian or self.car.central_distance < PEDESTRIAN_CONTROL_DISTANCE:
             self.car.drive_speed(0.0)
-            while self.flag_pedestrian_in_the_way or self.car.central_distance < PEDESTRIAN_CONTROL_DISTANCE: #TODO test and regulate this value
+            self.activate_routines([nac.CONTROL_FOR_PEDESTRIAN])
+            if not self.pedestrian_on_the_crosswalk:
+                sleep(3)
+            if self.flag_pedestrian_in_the_way or self.car.central_distance < PEDESTRIAN_CONTROL_DISTANCE:
                 self.car.drive_speed(0.0)
+                self.pedestrian_on_the_crosswalk = True
+            else:
+                self.car.drive_speed(self.desired_speed)
+                self.switch_to_state(nac.LANE_FOLLOWING)
+                self.go_to_next_event()
+
+
         else:
             self.car.drive_speed(self.desired_speed)
-            self.switch_to_state(nac.LANE_FOLLOWING)
-            self.go_to_next_event()
+
+            if not nac.TESTING:
+                print('in not testing')
+                self.switch_to_state(nac.LANE_FOLLOWING)
+                self.go_to_next_event()
 
     def classifying_obstacle(self):
         self.activate_routines([nac.FOLLOW_LANE])
@@ -1464,10 +1488,8 @@ class Brain:
                 self.routines[nac.CONTROL_FOR_OBSTACLES].var1 = curr_dist
 
     def control_for_pedestrian(self):
+        print('PEDESTRIANNNNNNNN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
         # check for pedestrian
-        self.flag_seen_pedestrian = False
-        self.flag_pedestrian_in_the_way = False
-
         frame = self.car.frame
 
         # Resize the frame to match the preview resolution (faster display)
@@ -1516,8 +1538,12 @@ class Brain:
                 # Check if the centroid is inside the rectangle
                 if rect_x1 <= cx <= rect_x2 and rect_y1 <= cy <= rect_y2:
                     self.flag_pedestrian_in_the_way = True
+                else:
+                    self.flag_pedestrian_in_the_way =  False
 
                 self.flag_seen_pedestrian = True
+            else:
+                self.flag_seen_pedestrian =  False
 
         print(f"Pedestrian :{self.flag_pedestrian_in_the_way}")
 
@@ -1525,8 +1551,8 @@ class Brain:
             # start checking the lidar when we get close to the crosswalk
 
         # Display the resulting frame (now resized for faster performance)
-        cv.imshow("Camera", frame_resized)
-        cv.waitKey(1)
+        #cv.imshow("Camera", frame_resized)
+        #cv.waitKey(1)
  
 
     def drive_desired_speed(self):
@@ -1562,16 +1588,18 @@ class Brain:
             This condition is turned False every time we hit a stopline (inside approaching_stopline function)
             So this only works in one way of the highway
         '''
+        #TODO: implement that it can work on both  ways!
         if (self.next_event.name == nac.HIGHWAY_ENTRANCE_EVENT) and (self.car.filtered_left_sonar_distance <= 0.5):
             # self.conditions[nac.HIGHWAY] = str(self.checkpoints[self.checkpoint_idx]) in self.path_planner.highway_nodes and self.car_dist_on_path < 9.5
             self.conditions[nac.HIGHWAY] = True
+
         
         
         # TUNNEL
         '''
-            This condition is turned False every time we hit a stopline (inside approaching_stopline function)
-            So this only works in one way of the highway
+            This codition activate whenever our next event is Tunnel_event (we are on the speed curve), and lidar sees the wall on its right side
         '''
+
         if (self.next_event.name == nac.TUNNEL_EVENT) and (self.car.right_distance <= 0.4): # still on the sonar 
             self.conditions[nac.TUNNEL] = True
         else:
@@ -1590,7 +1618,7 @@ class Brain:
             self.conditions[nac.NO_LANE] = False
         # CAN_OVERTAKE
         '''
-            Very ugly solution used in 2024, please do better
+            Very ugly solution used in 2024, please do better # probably mean the line counter
         '''
         print(self.stopline_counter)
         self.conditions[nac.CAN_OVERTAKE] = (self.conditions[nac.HIGHWAY] or self.stopline_counter in OVERTAKE_COUNTER)

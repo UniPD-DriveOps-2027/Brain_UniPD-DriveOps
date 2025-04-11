@@ -25,8 +25,6 @@ class AutomobileDataPi(Automobile_Data):
                  trig_sonar=False,
                  trig_cam=False,
                  trig_gps=False,
-                 trig_estimation=False,
-                 trig_ESP32=False,
                  trig_lidar=False
                  ) -> None:
         # initialize the parent class
@@ -59,9 +57,13 @@ class AutomobileDataPi(Automobile_Data):
         self.yaw_buffer = collections.deque(maxlen=IMU_DEQUE_LENGTH)  
 
         #LIDAR Parameters
+        self.right_distance = 12.0
+        self.central_distance = 12.0
+
+
         self.desired_distance = 0.25  # Target distance from  RIGHT wall (meters), based on the calulation 
         self.steering_limit_deg = 25.0 # not to be to agressive since the curve is not very sharp 
-        self.threshhold_distance = 0.4 #when reaing this distnace you get out of the tunnel!! 
+        self.threshhold_tunnel_distance = 0.4 #when reaing this distnace you get out of the tunnel!! 
 
 
         self.Kp = 150.0  # Proportional gain (degrees per meter) # probably even less agressive
@@ -69,13 +71,8 @@ class AutomobileDataPi(Automobile_Data):
         # self.Kd = 30.0 # derivative gain (deg per meter per second)
         self.filt_derivative = 0.0
         
-        # Ki probably not useful in these situation
-        #self.integral_max = 5.0  # Anti-windup: max integral term (degrees)
-        #self.threshhold_distance = 0.4 #when reaing this distnace you get out of the tunnel!! 
-
-        # State variables - probably won't be needing it
-        self.right_distance = 12.0
-        self.central_distance = 12.0
+        # Ki
+        #self.integral_max = 5.0  # Anti-windup: max integral term (degrees) 
 
         self.integral_sum = 0.0  # Integral accumulator
         self.integral_max = 0.0
@@ -86,6 +83,7 @@ class AutomobileDataPi(Automobile_Data):
         self.steering_angle_deg = 0.0
 
         self.last_error = 0.0
+
 
 
         # PUBLISHERS AND SUBSCRIBERS
@@ -112,12 +110,6 @@ class AutomobileDataPi(Automobile_Data):
             raise NotImplementedError("cam not implemented yet")
         if trig_gps:
             self.sub_pos       = rospy.Subscriber("/automobile/vehicles", vehicles, self.position_callback)
-        if trig_estimation:
-            self.trig_estimation = trig_estimation
-            print("ESTIMATION ENABLED")
-        if trig_ESP32:
-            self.sub_obstacle  = rospy.Subscriber("/automobile/obstacle", Float32, self.obstacle_callback)
-            self.sub_sign      = rospy.Subscriber("/automobile/sign", Float32, self.sign_callback)
         if trig_lidar:
             self.sub_lidar     = rospy.Subscriber('/scan', LaserScan, self.lidar_callback) 
 
@@ -184,7 +176,7 @@ class AutomobileDataPi(Automobile_Data):
         if np.isinf(self.right_distance) or self.right_distance < data.range_min or self.right_distance > data.range_max:
             return
         
-        if self.right_distance > self.threshhold_distance:
+        if self.right_distance > self.threshhold_tunnel_distance:
             self.steering_angle_deg = 0.0
             #self.pub_steering.publish(Float32(0))
             return
@@ -199,7 +191,7 @@ class AutomobileDataPi(Automobile_Data):
         dt = current_time - self.last_time 
 
         # compute derivative term
-        alpha = 0.3
+        #alpha = 0.3
         derivative = (error - self.last_error) / dt if dt > 0 else 0.0
         #self.filt_derivative = (alpha * derivative) + (1 - alpha) * self.filt_derivative # with lowpass filter
         self.filt_derivative = derivative #without low pass filter
@@ -217,11 +209,10 @@ class AutomobileDataPi(Automobile_Data):
         self.steering_angle_deg = (self.Kp * error) + (self.Ki * self.integral_sum)
 
         self.steering_angle_deg = - self.steering_angle_deg
-
-        print(f"Distance at 90 degrees: {self.right_distance}")
-        print(f"Error: {error}")
-        print(f"Derivative: {self.derivative}")
-        print(f"Steering angle degrees: {self.steering_angle_deg}")
+        # we should print only for tunnel event, needs to be fixed
+        #print(f"Distance at 90 degrees: {self.right_distance}")
+        #print(f"Error: {error}")
+        #print(f"Steering angle degrees: {self.steering_angle_deg}")
         
         # Clamp steering angle to ±25°
         self.steering_angle_deg = np.clip(

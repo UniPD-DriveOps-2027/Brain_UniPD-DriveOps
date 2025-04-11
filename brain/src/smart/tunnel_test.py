@@ -28,7 +28,7 @@ from controller3 import Controller
 from controllerSP import ControllerSpeed
 from controllerAG import ControllerSpeed as ControllerBL
 from detection import Detection
-from brain_tunnel import Brain
+from brain import Brain
 from rc_brain import RC_Brain
 from environmental_data_simulator import EnvironmentalData
 
@@ -80,10 +80,8 @@ if __name__ == '__main__':
                                trig_bno=True, # TODO remove this
                                trig_enc=True,
                                trig_control=True,
-                               trig_estimation=True, # TODO remove this
                                trig_sonar=True,
-                               trig_ESP32=True,
-                               trig_lidar=True) # TODO remove this
+                               trig_lidar=True) 
     sleep(1.5)
 
     signal.signal(signal.SIGINT, handler)

@@ -125,17 +125,16 @@ if __name__ == '__main__':
                                       trig_bno=True, # TODO remove this
                                       trig_enc=True,
                                       trig_control=True,
-                                      trig_estimation=False, # TODO remove this
-                                      trig_sonar=True)  # <++>
+                                      trig_sonar=True,
+                                      trig_lidar=True)  # <++>
     else:
         car = AutomobileDataPi(trig_cam=False,
                                trig_gps=True,
                                trig_bno=True, # TODO remove this
                                trig_enc=True,
                                trig_control=True,
-                               trig_estimation=True, # TODO remove this
                                trig_sonar=True,
-                               trig_ESP32=True) # TODO remove this
+                               trig_lidar=True) 
     sleep(1.5)
 
     signal.signal(signal.SIGINT, handler)

@@ -73,6 +73,7 @@ def handler(signum, frame):
     exit()
 
 nac.TESTING = True
+nac.DRIVE_DESIRED_SPEED = 0.3
 
 
 if __name__ == '__main__':
@@ -84,10 +85,8 @@ if __name__ == '__main__':
                                trig_bno=True, # TODO remove this
                                trig_enc=True,
                                trig_control=True,
-                               trig_estimation=True, # TODO remove this
                                trig_sonar=True,
-                               trig_ESP32=True,
-                               trig_lidar=True) # TODO remove this
+                               trig_lidar=True) 
     sleep(1.5)
 
     signal.signal(signal.SIGINT, handler)
@@ -138,7 +137,6 @@ if __name__ == '__main__':
                 frame = np.zeros((240, 320, 3), np.uint8)
                 continue
             brain.car.frame = frame
-            brain.flag_seen_pedestrian = True
             brain.crosswalk_navigation()
 
             hf.show_camera(car, nac.SHOW_IMGS)
