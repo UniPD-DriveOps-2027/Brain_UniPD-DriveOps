@@ -313,16 +313,14 @@ class Automobile_Data():
             self.yaw_random_start = np.deg2rad(90)
             print("Orientation: North")
         elif 135 <= heading < 225:
-            self.yaw_random_start = np.deg2rad(0)
-            print("Orientation: East")
+            self.yaw_random_start = np.deg2rad(180)          
+            print("Orientation: West")
         elif 225 <= heading < 315:
             self.yaw_random_start = np.deg2rad(-90)
             print("Orientation: South")
         else:
-            self.yaw_random_start = np.deg2rad(180)
-            print("Orientation: West")
-
-
+            self.yaw_random_start = np.deg2rad(0)    
+            print("Orientation: Est")
 
     def reset_rel_pose(self) -> None:
         """Set origin of the local frame to the actual pose
