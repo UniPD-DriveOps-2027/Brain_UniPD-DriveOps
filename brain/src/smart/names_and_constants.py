@@ -38,7 +38,7 @@ EVENT_CONFIGS = {
     },
     "crosswalk": {
         "starting_coords": [15.75,  4.36],
-        "checkpoints": [50, 511]
+        "checkpoints": [50, 148]
     },
     "parking": {
         "starting_coords": [7.67, 0.75],

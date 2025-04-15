@@ -122,15 +122,15 @@ if __name__ == '__main__':
         os.system('rosservice call gazebo/unpause_physics')
         car = AutomobileDataSimulator(trig_cam=True,
                                       trig_gps=True, 
-                                      trig_bno=True, # TODO remove this
+                                      trig_bno=True, 
                                       trig_enc=True,
                                       trig_control=True,
                                       trig_sonar=True,
-                                      trig_lidar=True)  # <++>
+                                      trig_lidar=False)  # <++>
     else:
         car = AutomobileDataPi(trig_cam=False,
                                trig_gps=True,
-                               trig_bno=True, # TODO remove this
+                               trig_bno=True, 
                                trig_enc=True,
                                trig_control=True,
                                trig_sonar=True,

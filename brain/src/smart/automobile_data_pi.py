@@ -250,35 +250,34 @@ class AutomobileDataPi(Automobile_Data):
         :acts on: self.accel_x, self.accel_y, self.accel_z, self.gyrox,
                   self.gyroy, self.gyroz
         """
+        
+        self.roll = data.roll
+        self.pitch = np.deg2rad(data.pitch)
+        #self.IMU_yaw = np.deg2rad(data.yaw) - np.deg2rad(self.YAW_GLOBAL_OFFSET)
+        
+        #self.yaw = hf.diff_angle(np.deg2rad(data.yaw) + self.yaw_offset, 0.0)
+        #self.IMU_yaw = np.deg2rad(data.yaw) - np.deg2rad(self.YAW_GLOBAL_OFFSET)  #reading yaw and adjusting with global offset
+        #self.IMU_yaw = (np.deg2rad(360) - self.IMU_yaw)%np.deg2rad(360)               #change from clockwise to counterclockwise
+        # if (self.IMU_yaw < np.deg2rad(45)) or (self.IMU_yaw > np.deg2rad(315)):       #assign value multiple of pi/2 based on quadrant  
+        #     self.IMU_yaw = 0.0
+        # elif (self.IMU_yaw < np.deg2rad(135)) and (self.IMU_yaw > np.deg2rad(45)):
+        #     self.IMU_yaw = np.deg2rad(90)
+        # elif (self.IMU_yaw < np.deg2rad(225)) and (self.IMU_yaw > np.deg2rad(135)):
+        #     self.IMU_yaw = np.deg2rad(180)
+        # elif (self.IMU_yaw < np.deg2rad(315)) and (self.IMU_yaw > np.deg2rad(225)):
+        #     self.IMU_yaw = np.deg2rad(270)
+
+        self.yaw= data.yaw
+        self.accel_x = data.accelx
+        self.accel_y = data.accely
+        self.accel_z = data.accelz
+
+        self.gyrox = data.gyrox
+        self.gyroy = data.gyroy
+        self.gyroz = data.gyroz
+
+
         return
-        if not self.STARTED_WITH_IMU:
-            self.roll = np.deg2rad(data.roll)
-            self.pitch = np.deg2rad(data.pitch)
-            self.IMU_yaw = np.deg2rad(data.yaw) - np.deg2rad(self.YAW_GLOBAL_OFFSET)
-            
-            #self.yaw = hf.diff_angle(np.deg2rad(data.yaw) + self.yaw_offset, 0.0)
-            #self.IMU_yaw = np.deg2rad(data.yaw) - np.deg2rad(self.YAW_GLOBAL_OFFSET)  #reading yaw and adjusting with global offset
-            #self.IMU_yaw = (np.deg2rad(360) - self.IMU_yaw)%np.deg2rad(360)               #change from clockwise to counterclockwise
-            # if (self.IMU_yaw < np.deg2rad(45)) or (self.IMU_yaw > np.deg2rad(315)):       #assign value multiple of pi/2 based on quadrant  
-            #     self.IMU_yaw = 0.0
-            # elif (self.IMU_yaw < np.deg2rad(135)) and (self.IMU_yaw > np.deg2rad(45)):
-            #     self.IMU_yaw = np.deg2rad(90)
-            # elif (self.IMU_yaw < np.deg2rad(225)) and (self.IMU_yaw > np.deg2rad(135)):
-            #     self.IMU_yaw = np.deg2rad(180)
-            # elif (self.IMU_yaw < np.deg2rad(315)) and (self.IMU_yaw > np.deg2rad(225)):
-            #     self.IMU_yaw = np.deg2rad(270)
-
-            self.roll_deg = np.rad2deg(self.roll)
-            self.pitch_deg = np.rad2deg(self.pitch)
-            self.yaw_deg = np.rad2deg(self.yaw)
-
-            self.accel_x = data.accelx
-            self.accel_y = data.accely
-            self.accel_z = data.accelz
-
-            self.gyrox = data.gyrox
-            self.gyroy = data.gyroy
-            self.gyroz = data.gyroz
 
     def encoder_distance_callback(self, data) -> None:
         """Callback when an encoder distance message is received

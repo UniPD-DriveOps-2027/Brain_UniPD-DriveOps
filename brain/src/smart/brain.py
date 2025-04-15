@@ -39,15 +39,17 @@ if not EVENT_SETTINGS:
         CHECKPOINTS = config["checkpoints"]
         #CHECKPOINTS = [222,150,450]
         OVERTAKE_COUNTER = [1, 2, 3]
+        GPS_FOR_START_ONLY = True
     else:
         STARTING_COORDS = [-42, -42]      # DEFAULT START_POSITION
         CHECKPOINTS = [455, 465, 91, 466, 434, 500, 125, 154, END_NODE] # Techinical Run BFMC_2024 route ONLY RIGHT ROUNDABOUT
         OVERTAKE_COUNTER = [3, 4, 23]
+    GPS_FOR_START_ONLY = False
      
 else:
     # Execute the second part when event is not empty
     STARTING_COORDS = EVENT_SETTINGS['STARTING_COORDS']
-
+    GPS_FOR_START_ONLY = False
     if RANDOM_START:
         CHECKPOINTS = EVENT_SETTINGS['RANDOM_START']['CHECKPOINTS']
         OVERTAKE_COUNTER = EVENT_SETTINGS['RANDOM_START']['OVERTAKE_COUNTER']
@@ -68,6 +70,10 @@ else:
 # STARTING_COORDS = [4.11, 0.76]    # DOWN PART MIDLE CITY
 
 ALWAYS_USE_VISION_FOR_STOPLINES = True
+
+ALWAYS_TRUST_GPS = False    # if true the car will always trust the gps (bypass)
+ALWAYS_DISTRUST_GPS = False # if true, the car will always distrust the gps (bypass)
+assert not (ALWAYS_TRUST_GPS and ALWAYS_DISTRUST_GPS), 'ALWAYS_TRUST_GPS and ALWAYS_DISTRUST_GPS cannot be both True'
 
 # SP32_CAM
 ALWAYS_TRUST_ESP32 = False    # if true the car will always trust the ESP32 CAMERA CLASSIFICATION
@@ -246,6 +252,13 @@ SLOW_DOWN_CONST = 0.3
 # [m] go straight for this distance in orther to exit the hihgway
 STRAIGHT_DIST_TO_EXIT_HIGHWAY = 0.8
 
+# Rerouting
+# distance between 2 consecutive measure of the gps for
+# the kalmann filter to be considered converged
+GPS_DISTANCE_THRESHOLD_FOR_CONVERGENCE = 0.2
+GPS_SAMPLE_TIME = 0.25  # [s] time between 2 consecutive gps measurements
+GPS_CONVERGENCE_PATIANCE = 0  # 2 #iterations to consider the gps converged
+GPS_TIMEOUT = 5.0  # [s] time to wait to have gps signal
 
 # end state
 # [m] distance from the end of the path for the car
@@ -460,21 +473,38 @@ class Brain:
         start_time = time()
         while True:
             # get closest node
-            if STARTING_COORDS != [-42, -42]:        
-                curr_pos = np.array(STARTING_COORDS)
-                print(f'-----currrrr possssss  {curr_pos}')
-                closest_node, distance = self.path_planner.get_closest_node(curr_pos)
-                print(f'-----closest nodeeeee  {closest_node}')
-                self.car.publish_closest_node(float(closest_node))     ##
-                self.checkpoints[self.checkpoint_idx] = closest_node
-                self.car.x_est = curr_pos[0]
-                self.car.y_est = curr_pos[1]
-                # raise KeyboardInterrupt
-            elif len(self.car.x_buffer) < 5:
-                node_coords = self.path_planner.get_coord(str(self.checkpoints[0]))
-                self.car.x_est = node_coords[0]
-                self.car.y_est = node_coords[1]
-            break
+            if not ALWAYS_DISTRUST_GPS or GPS_FOR_START_ONLY:
+                curr_time = time()
+                curr_pos = np.array([self.car.x_est, self.car.y_est])
+                self.car.decide_yaw_start()
+                closest_node, distance = self.path_planner.get_closest_node_start(curr_pos, self.car.yaw_random_start)
+                self.car.publish_closest_node(float(closest_node))  ##
+                sleep(3.0)
+                if len(self.car.x_buffer) >= 5:
+                    print(f'Waiting for gps: {(curr_time- start_time):.1f}/{GPS_TIMEOUT}')
+                    self.checkpoints[self.checkpoint_idx] = closest_node
+                    if distance > 5.0:
+                        self.error('ERROR: REROUTING: GPS converged, but distance is too large , we are too far from the lane')
+                    break
+                if curr_time - start_time > GPS_TIMEOUT:
+                    print('WARNING: ROUTE_GENERATION: No gps signal, Starting from the first checkpoint')
+                    sleep(3.0)
+                    break
+            else:
+                if STARTING_COORDS != [-42, -42]:        
+                    curr_pos = np.array(STARTING_COORDS)
+                    closest_node, distance = self.path_planner.get_closest_node(curr_pos)
+                    self.car.publish_closest_node(float(closest_node))     ##
+                    self.checkpoints[self.checkpoint_idx] = closest_node
+                    self.car.x_est = curr_pos[0]
+                    self.car.y_est = curr_pos[1]
+                    print(closest_node)
+                    # raise KeyboardInterrupt
+                elif len(self.car.x_buffer) < 5:
+                    node_coords = self.path_planner.get_coord(str(self.checkpoints[0]))
+                    self.car.x_est = node_coords[0]
+                    self.car.y_est = node_coords[1]
+                break
             # self.car.update_estimated_state()  # <++>
 
         # if bool(self.checkpoints[self.checkpoint_idx] in

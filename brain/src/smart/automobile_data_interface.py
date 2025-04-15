@@ -70,6 +70,7 @@ class Automobile_Data():
                  trig_sonar=False,
                  trig_cam=False,
                  trig_gps=False,
+                 trig_lidar=False
                  ) -> None:
         """Manage flow of data with the car
 
@@ -303,16 +304,24 @@ class Automobile_Data():
 
 
     def decide_yaw_start(self) -> None:
-        if nac.NORTH:
+        heading = np.rad2deg(self.yaw)
+        heading = np.rad2deg(self.yaw) % 360
+        if heading is None:
+            print("Heading not available!")
+            return
+        if 45 <= heading < 135:
             self.yaw_random_start = np.deg2rad(90)
-        elif nac.SOUTH:
-            self.yaw_random_start = np.deg2rad(-90)
-        elif nac.EAST:
+            print("Orientation: North")
+        elif 135 <= heading < 225:
             self.yaw_random_start = np.deg2rad(0)
-        elif nac.WEST:
-            self.yaw_random_start = np.deg2rad(180)
+            print("Orientation: East")
+        elif 225 <= heading < 315:
+            self.yaw_random_start = np.deg2rad(-90)
+            print("Orientation: South")
         else:
-            self.yaw_random_start = self.IMU_yaw
+            self.yaw_random_start = np.deg2rad(180)
+            print("Orientation: West")
+
 
 
     def reset_rel_pose(self) -> None:

@@ -77,7 +77,7 @@ if __name__ == '__main__':
 
     car = AutomobileDataPi(trig_cam=False,
                                trig_gps=True,
-                               trig_bno=True, # TODO remove this
+                               trig_bno=True,
                                trig_enc=True,
                                trig_control=True,
                                trig_estimation=True, # TODO remove this
