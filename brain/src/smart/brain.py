@@ -30,7 +30,7 @@ END_NODE_RANDOM = 149
 END_NODE = 192
 
 
-SELECTED_EVENT = "crosswalk"  # "tunnel", "round", "highway", "crosswalk", "parking" , "test"
+SELECTED_EVENT = "round"  # "tunnel", "round", "highway", "crosswalk", "parking" , "test"
 if not EVENT_SETTINGS:
     # Execute the first part when event is empty
     if RANDOM_START and SELECTED_EVENT in EVENT_CONFIGS:
@@ -400,11 +400,7 @@ class Brain:
             nac.LANE_FOLLOWING:          State(nac.LANE_FOLLOWING, self.lane_following),
             # intersection navigation, further divided into the possible directions [left, right, straight]
             nac.APPROACHING_STOPLINE:    State(nac.APPROACHING_STOPLINE, self.approaching_stopline),
-            nac.INTERSECTION_NAVIGATION: State(nac.INTERSECTION_NAVIGATION, self.intersection_navigation),
-            nac.GOING_STRAIGHT:          State(nac.GOING_STRAIGHT, self.going_straight),
             nac.TRACKING_LOCAL_PATH:     State(nac.TRACKING_LOCAL_PATH, self.tracking_local_path),
-            # roundabout, for roundabouts the car will track the local path
-            nac.ROUNDABOUT_NAVIGATION:   State(nac.ROUNDABOUT_NAVIGATION, self.roundabout_navigation),
             # waiting states  
             nac.WAITING_FOR_GREEN:       State(nac.WAITING_FOR_GREEN, self.waiting_for_green),
             nac.WAITING_AT_STOPLINE:     State(nac.WAITING_AT_STOPLINE, self.waiting_at_stopline),
@@ -739,12 +735,12 @@ class Brain:
             elif next_event_name == nac.INTERSECTION_TRAFFIC_LIGHT_EVENT:
                 self.switch_to_state(nac.WAITING_FOR_GREEN)
             elif next_event_name == nac.INTERSECTION_PRIORITY_EVENT:
-                self.switch_to_state(nac.INTERSECTION_NAVIGATION)
+                self.switch_to_state(nac.TRACKING_LOCAL_PATH)
             elif next_event_name == nac.JUNCTION_EVENT:
                 # TODO: careful with this
-                self.switch_to_state(nac.INTERSECTION_NAVIGATION)
+                self.switch_to_state(nac.TRACKING_LOCAL_PATH)
             elif next_event_name == nac.ROUNDABOUT_EVENT:
-                self.switch_to_state(nac.ROUNDABOUT_NAVIGATION)
+                self.switch_to_state(nac.TRACKING_LOCAL_PATH)
             elif next_event_name == nac.CROSSWALK_EVENT:
                 # directly go to lane keeping, the pedestrian will
                 # be managed in that state
@@ -800,27 +796,6 @@ class Brain:
                 decide_next_state = False
         return decide_next_state
 
-    def intersection_navigation(self):
-        self.activate_routines([])
-        self.switch_to_state(nac.TRACKING_LOCAL_PATH)
-
-    def going_straight(self):
-        if self.curr_state.just_switched:
-            self.activate_routines([])
-            if self.next_event.name == nac.HIGHWAY_EXIT_EVENT:
-                distance_to_stop = STRAIGHT_DIST_TO_EXIT_HIGHWAY
-            else:
-                distance_to_stop = self.curr_state.start_distance + OPEN_LOOP_PERCENTAGE_OF_PATH_AHEAD * self.next_event.length_path_ahead
-            self.curr_state.var1 = distance_to_stop + self.car.encoder_distance
-            self.curr_state.just_switched = False
-
-        distance_to_stop = self.curr_state.var1
-        if self.car.encoder_distance < distance_to_stop:             
-            self.car.drive(speed=self.desired_speed, angle=3.0)
-        # end of the maneuver
-        else:
-            self.switch_to_state(nac.LANE_FOLLOWING)
-            self.go_to_next_event()
 
     def tracking_local_path(self):
         # var1=local_path_cf, 
@@ -860,15 +835,6 @@ class Brain:
             print(f'alpha true: {np.rad2deg(alpha):.1f}')
             alpha = self.detect.detect_yaw_stopline(self.car.frame, SHOW_IMGS and False) * 0.8
             print(f'alpha est: {np.rad2deg(alpha):.1f}')
-            if APPLY_YAW_CORRECTION:
-                closest_node, _ = self.path_planner.get_closest_node(np.array([self.car.x, self.car.y]))
-                self.car.publish_closest_node(float(closest_node))      ## get_closest_node
-                if closest_node not in self.path_planner.no_yaw_calibration_nodes:
-                    print(f'yaw = {np.rad2deg(self.car.yaw):.2f}')
-                    print(f'est yaw = {np.rad2deg(self.next_event.yaw_stopline + alpha):.2f}')
-                    diff = hf.diff_angle(self.next_event.yaw_stopline + alpha, self.car.yaw)
-                    self.car.yaw_offset += diff
-                    self.car.yaw += diff
             # assert abs(alpha) < np.pi/6, f'Car orientation wrt stopline is too big, it needs to be better aligned, alpha = {alpha}'
 
             # get position of the car in the stop line frame
@@ -944,10 +910,6 @@ class Brain:
         else:  # we are still on the path
             hf.navigate_open_loop(self, local_path_cf, idx_point_ahead, idx_car_on_path, SHOW_IMGS)
 
-    # Consider removing this <++>
-    def roundabout_navigation(self):
-        self.switch_to_state(nac.TRACKING_LOCAL_PATH)
-
 
     def waiting_for_green(self):
         event_p = self.next_event.point
@@ -964,7 +926,7 @@ class Brain:
             self.env.publish_obstacle(nac.TRAFFIC_LIGHT, self.car.x_est, self.car.y_est)
             self.curr_state.just_switched = False
         if tl_state == nac.GREEN or SEMAPHORE_IS_ALWAYS_GREEN:
-            self.switch_to_state(nac.INTERSECTION_NAVIGATION)
+            self.switch_to_state(nac.TRACKING_LOCAL_PATH)
 
     def waiting_at_stopline(self):
         EXTRA_TIME = 2.0 if self.stopline_counter == 15 else 0.0
@@ -977,9 +939,9 @@ class Brain:
                 self.car.drive_speed(0.0)
                 self.curr_state.just_switched = False
             if (time() - self.curr_state.start_time) > STOP_WAIT_TIME + EXTRA_TIME:
-                self.switch_to_state(nac.INTERSECTION_NAVIGATION)
+                self.switch_to_state(nac.TRACKING_LOCAL_PATH)
         else:
-            self.switch_to_state(nac.INTERSECTION_NAVIGATION)
+            self.switch_to_state(nac.TRACKING_LOCAL_PATH)
 
     def overtaking_static_car(self):
         self.activate_routines([])

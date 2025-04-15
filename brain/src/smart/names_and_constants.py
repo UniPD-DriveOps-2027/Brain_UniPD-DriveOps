@@ -30,7 +30,7 @@ EVENT_CONFIGS = {
     },
     "round": {
         "starting_coords": [15.38, 11,42],
-        "checkpoints": [455, 614, 350]
+        "checkpoints": [455, 350]
     },
     "highway": {
         "starting_coords": [16.65, 11.74],
@@ -60,12 +60,9 @@ START_STATE = 'start_state'
 END_STATE = 'end_state'
 LANE_FOLLOWING = 'lane_following'
 APPROACHING_STOPLINE = 'approaching_stopline'
-INTERSECTION_NAVIGATION = 'intersection_navigation'
 TURNING_RIGHT = 'turning_right'
 TURNING_LEFT = 'turning_left'
-GOING_STRAIGHT = 'going_straight'
 TRACKING_LOCAL_PATH = 'tracking_local_path'
-ROUNDABOUT_NAVIGATION = 'roundabout_navigation'
 WAITING_FOR_PEDESTRIAN = 'waiting_for_pedestrian'
 WAITING_FOR_GREEN = 'waiting_for_green'
 WAITING_AT_STOPLINE = 'waiting_at_stopline'

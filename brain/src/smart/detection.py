@@ -17,12 +17,12 @@ CAR_LENGTH = 0.4
 
 LANE_KEEPER_AHEAD_PATH = "models/lane_keeper_ahead.onnx"
 # LANE_KEEPER_AHEAD_PATH = "models/round_about8001.onnx"
-INTERSECTION_NAVIGATOR_RIGHT = "models/right.onnx"
-INTERSECTION_NAVIGATOR_LEFT = "models/left.onnx"
-INTERSECTION_NAVIGATOR_FORWARD = "models/forward.onnx"
-ROUNDABOUT_NAVIGATOR_IN = "models/right.onnx"
-ROUNDABOUT_NAVIGATOR_ABOUT = "models/round_about8001.onnx"
-ROUNDABOUT_NAVIGATOR_OUT = "models/right.onnx"
+INTERSECTION_NAVIGATOR_RIGHT = "models/he_right.onnx"
+INTERSECTION_NAVIGATOR_LEFT = "models/he_left.onnx"
+INTERSECTION_NAVIGATOR_FORWARD = "models/he_straight.onnx"
+ROUNDABOUT_NAVIGATOR_IN = "models/he_right.onnx"
+ROUNDABOUT_NAVIGATOR_ABOUT = "models/about.onnx"
+ROUNDABOUT_NAVIGATOR_OUT = "models/he_right.onnx"
 # LANE_KEEPER_AHEAD_PATH = "models/round_in.onnx"
 DISTANCE_POINT_AHEAD_AHEAD = 0.6
 
