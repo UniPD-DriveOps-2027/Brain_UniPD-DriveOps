@@ -9,7 +9,7 @@ from automobile_ekf import AutomobileEKF
 import time
 from collections import deque
 
-YAW_GLOBAL_OFFSET = 0.0  # np.deg2rad(-5)
+YAW_GLOBAL_OFFSET = np.deg2rad(0)
 
 START_X = 0.2
 START_Y = 14.8
@@ -318,13 +318,7 @@ class Automobile_Data():
             self.yaw_random_start = np.deg2rad(180)          
             print("Orientation: West")
         elif 225 <= heading < 315:
-            print("Orientation: North")
-        elif 135 <= heading < 225:
-            self.yaw_random_start = np.deg2rad(180)          
-            print("Orientation: West")
-        elif 225 <= heading < 315:
             self.yaw_random_start = np.deg2rad(-90)
-            print("Orientation: South")
             print("Orientation: South")
         else:
             self.yaw_random_start = np.deg2rad(0)    

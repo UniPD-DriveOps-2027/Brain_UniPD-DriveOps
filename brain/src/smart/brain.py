@@ -424,8 +424,8 @@ class Brain:
             nac.CONTROL_FOR_PEDESTRIAN: Routine(nac.CONTROL_FOR_PEDESTRIAN,  self.control_for_pedestrian),
             nac.UPDATE_STATE:           Routine(nac.UPDATE_STATE, self.update_state),
             nac.DRIVE_DESIRED_SPEED:    Routine(nac.DRIVE_DESIRED_SPEED, self.drive_desired_speed),
-            nac.FOLLOW_LANE_RIGHT:            Routine(nac.FOLLOW_LANE_RIGHT,  self.follow_lane_right),
-            nac.FOLLOW_LANE_LEFT:            Routine(nac.FOLLOW_LANE_LEFT,  self.follow_lane_left) 
+            nac.FOLLOW_LANE_RIGHT:      Routine(nac.FOLLOW_LANE_RIGHT,  self.follow_lane_right),
+            nac.FOLLOW_LANE_LEFT:       Routine(nac.FOLLOW_LANE_LEFT,  self.follow_lane_left) 
             
         }
         self.active_routines_names = []
@@ -473,7 +473,7 @@ class Brain:
                 curr_time = time()
                 #curr_pos = np.array([self.car.x_est, self.car.y_est])
                 curr_pos = np.array(STARTING_COORDS) 
-                closest_node, distance = self.path_planner.get_closest_node_start(curr_pos, self.car.yaw_true)
+                closest_node, distance = self.path_planner.get_closest_node_start(curr_pos, self.car.yaw)
                 self.car.publish_closest_node(float(closest_node))  ##
                 sleep(3.0)
                 if len(self.car.x_buffer) >= 5:
