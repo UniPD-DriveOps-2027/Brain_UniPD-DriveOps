@@ -17,6 +17,8 @@
 
     <node pkg="unix_out"   type="lidar_to_socket.py"    name="lidar_to_socket_NODE" output="screen"/>
 
+    <node pkg="unix_out"   type="metric_to_socket.py"    name="metric_to_socket_NODE" output="screen"/>
+
     <node pkg="input"   type="imuNODE.py"           name="imuNODE" output="screen"/>
 
     
