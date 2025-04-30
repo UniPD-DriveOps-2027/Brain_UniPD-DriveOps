@@ -29,7 +29,7 @@ from controller3 import Controller
 from controllerSP import ControllerSpeed
 from controllerAG import ControllerSpeed as ControllerBL
 from detection import Detection
-from brain_tunnel import Brain
+from brain import Brain
 from rc_brain import RC_Brain
 from environmental_data_simulator import EnvironmentalData
 
@@ -61,7 +61,7 @@ ff_curvature = 1.0  # feedforward gain
 x_orig = 0.0
 y_orig = 0.0
 
-cap = UnixSocketCamera(socket_addr="/tmp/bfmc_socket.sock", frame_size=(320, 240))
+cap = UnixSocketCamera(socket_addr="/tmp/bfmc_camera_brain.sock", frame_size=(320, 240))
 
 
 # stop the car with ctrl+c
@@ -80,14 +80,12 @@ if __name__ == '__main__':
     hf.create_frames(nac.SHOW_IMGS)
 
     car = AutomobileDataPi(trig_cam=False,
-                               trig_gps=True,
-                               trig_bno=True, # TODO remove this
-                               trig_enc=True,
-                               trig_control=True,
-                               trig_estimation=True, # TODO remove this
-                               trig_sonar=True,
-                               trig_ESP32=True,
-                               trig_lidar=True) # TODO remove this
+                           trig_control=True,
+                           trig_bno=False,
+                           trig_enc=True,
+                           trig_sonar=True,
+                           trig_gps=False,
+                           trig_lidar=True)
     sleep(1.5)
 
     signal.signal(signal.SIGINT, handler)

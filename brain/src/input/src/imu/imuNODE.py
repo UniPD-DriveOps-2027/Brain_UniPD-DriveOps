@@ -24,7 +24,7 @@ def parse_data(data_str):
 # Main function to read from shared memory and publish to ROS topic
 def main():
     rospy.init_node('imu_shared_memory_publisher', anonymous=True)
-    pub = rospy.Publisher('/imu_data', IMU, queue_size=10)
+    pub = rospy.Publisher('/automobile/imu', IMU, queue_size=10)
 
     # Open shared memory
     with open(shm_file, "r") as f:

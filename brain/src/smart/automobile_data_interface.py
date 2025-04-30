@@ -110,6 +110,7 @@ class Automobile_Data():
         self.pitch_deg = 0.0                 # [deg]   pitch angle
         self.yaw = 0.0                       # [rad]   yaw angle
         self.yaw_deg = 0.0                   # [deg]   yaw angle
+        self.yaw_true = 0.0                  # [deg]   true yaw angle
         self.accel_x = 0.0                   # [m/ss]  accelx angle
         self.accel_y = 0.0                   # [m/ss]  accely angle
         self.accel_z = 0.0                   # [m/ss]  accelz angle
@@ -154,7 +155,7 @@ class Automobile_Data():
         self.sign = 0.0                # ESP32: confidence level for sign classification
         self.filtered_sign = 0.0       # ESP32: filtered confidence level for sign classification  
         # RPLIDAR
-        self.cenrtral_distance = 12.0  # [m] RPLIDAR:  central distance, from 150 to 210 deg
+        self.central_distance = 12.0  # [m] RPLIDAR:  central distance, from 150 to 210 deg
         self.right_distance = 12.0     # [m] RPLIDAR:  right side distance, from 85 to 95 deg
         # CAMERA
         # [ndarray] CAM:image of the camera
@@ -302,10 +303,11 @@ class Automobile_Data():
                 self.x_est = x_est  # + tot_delta_x
                 self.y_est = y_est  # + tot_delta_y\
 
-
+# USED ONLY IN 2024 
     def decide_yaw_start(self) -> None:
-        heading = np.rad2deg(self.yaw)
-        heading = np.rad2deg(self.yaw) % 360
+        heading = self.yaw_true
+        #heading = np.rad2deg(self.yaw) % 360
+        print(f"Heading: {heading}")
         if heading is None:
             print("Heading not available!")
             return
@@ -316,11 +318,18 @@ class Automobile_Data():
             self.yaw_random_start = np.deg2rad(180)          
             print("Orientation: West")
         elif 225 <= heading < 315:
+            print("Orientation: North")
+        elif 135 <= heading < 225:
+            self.yaw_random_start = np.deg2rad(180)          
+            print("Orientation: West")
+        elif 225 <= heading < 315:
             self.yaw_random_start = np.deg2rad(-90)
+            print("Orientation: South")
             print("Orientation: South")
         else:
             self.yaw_random_start = np.deg2rad(0)    
             print("Orientation: Est")
+
 
     def reset_rel_pose(self) -> None:
         """Set origin of the local frame to the actual pose

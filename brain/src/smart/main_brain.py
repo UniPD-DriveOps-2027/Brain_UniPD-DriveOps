@@ -18,25 +18,14 @@ parser.add_argument('--random', action='store_true')
 parser.add_argument('--rc', action='store_true')
 parser.add_argument('--sim', action='store_true')
 parser.add_argument('--show', action='store_true')
-parser.add_argument('--north', action='store_true')
-parser.add_argument('--south', action='store_true')
-parser.add_argument('--east', action='store_true')
-parser.add_argument('--west', action='store_true')
-parser.add_argument('--tun', action='store_true')
-parser.add_argument('--event', type=str, required=False, help='Specify the event name')
+
 args = parser.parse_args()
 # If we don't call, these will be False
 nac.RANDOM_START = args.random
 nac.RC_MODE = args.rc
 nac.SIMULATOR_FLAG = args.sim
 nac.SHOW_IMGS = args.show
-nac.NORTH = args.north
-nac.SOUTH= args.south
-nac.EAST = args.east
-nac.WEST = args.west
 
-# Set event configuration based on the event name
-nac.EVENT_SETTINGS = events_config['events'].get(args.event, {})
 
 
 if not nac.SIMULATOR_FLAG:  # PI
@@ -125,15 +114,15 @@ if __name__ == '__main__':
                                       trig_bno=True, 
                                       trig_enc=True,
                                       trig_control=True,
-                                      trig_sonar=True,
-                                      trig_lidar=False)  # <++>
+                                      trig_sonar=False,
+                                      trig_lidar=True)  # <++>
     else:
         car = AutomobileDataPi(trig_cam=False,
                                trig_gps=True,
                                trig_bno=True, 
                                trig_enc=True,
                                trig_control=True,
-                               trig_sonar=True,
+                               trig_sonar=False,
                                trig_lidar=True) 
     sleep(1.5)
 

@@ -19,6 +19,7 @@ import json
 with open('data/events_config.json', 'r') as file:
     events_config = json.load(file)
 
+
 from automobile_data_pi import AutomobileDataPi
 
 import names_and_constants as nac    
@@ -32,10 +33,11 @@ from brain import Brain
 from rc_brain import RC_Brain
 from environmental_data_simulator import EnvironmentalData
 
-os.system('clear')
-print('Parking test starting...')
 
-track = cv.imread('data/2024_VerySmall.png')
+os.system('clear')
+print('No Lane test starting...')
+
+track = cv.imread('../data/2024_VerySmall.png')
 
 # PARAMETERS
 TARGET_FPS = 30.0 # target fps of the main loop
@@ -70,18 +72,20 @@ def handler(signum, frame):
     sleep(.99)
     exit()
 
+nac.TESTING = True
+
 
 if __name__ == '__main__':
 
     hf.create_frames(nac.SHOW_IMGS)
 
     car = AutomobileDataPi(trig_cam=False,
-                               trig_gps=True,
-                               trig_bno=True, # TODO remove this
-                               trig_enc=True,
-                               trig_control=True,
-                               trig_sonar=True,
-                               trig_lidar=True) 
+                           trig_control=True,
+                           trig_bno=False,
+                           trig_enc=True,
+                           trig_sonar=True,
+                           trig_gps=False,
+                           trig_lidar=True)
     sleep(1.5)
 
     signal.signal(signal.SIGINT, handler)
@@ -117,9 +121,6 @@ if __name__ == '__main__':
         car.stop()
         fps_avg = 0.0
         fps_cnt = 0
-        nac.TESTING = True
-        brain.conditions[nac.TUNNEL] = True
-        brain.curr_state.just_switched = True
         while not rospy.is_shutdown():
 
             loop_start_time = time()
@@ -135,9 +136,15 @@ if __name__ == '__main__':
                 frame = np.zeros((240, 320, 3), np.uint8)
                 continue
             brain.car.frame = frame
-            brain.conditions[nac.TUNNEL] = True
-            brain.tunnel_speed_curve()
 
+            brain.no_lane()
+
+            hf.show_camera(car, nac.SHOW_IMGS)
+
+            if nac.SHOW_IMGS:
+                if cv.waitKey(1) == 27:
+                    cv.destroyAllWindows()
+                    break
 
             loop_time = time() - loop_start_time
             fps_avg = (fps_avg * fps_cnt + 1.0 / loop_time) / (fps_cnt + 1)

@@ -1,11 +1,6 @@
 <launch>
 
-    <node pkg="input" type="sonarNODE_2024.py" name="sonarNODE_2024" output="screen"/> 
-
-    <node name="ROSserialNODE"        pkg="rosserial_python"      type="serial_node.py">
-    <param name="port"              type="string"               value="/dev/ttyACM0"/>
-    <param name="baud"              type="int"                  value="1000000"/>
-    </node>
+    <node pkg="input" type="sonarNODE_2024.py" name="sonarNODE_2024" output="screen"/>
 
     <node name="rplidarNode"          pkg="rplidar_ros"  type="rplidarNode" output="screen">
     <param name="serial_port"         type="string" value="/dev/ttyUSB0"/>
@@ -14,15 +9,17 @@
     <param name="inverted"            type="bool"   value="false"/>
     <param name="angle_compensate"    type="bool"   value="true"/>
     </node>
-    
+
+    <node name="ROSserialNODE"        pkg="rosserial_python"      type="serial_node.py">
+    <param name="port"              type="string"               value="/dev/ttyACM0"/>
+    <param name="baud"              type="int"                  value="1000000"/>
+    </node>
 
     <node pkg="unix_out"   type="lidar_to_socket.py"    name="lidar_to_socket_NODE" output="screen"/>
 
-    <?ignore 
-        <node pkg="input"   type="imuNODE.py"           name="imuNODE" output="screen"/>
-    ?>
+    <node pkg="input"   type="imuNODE.py"           name="imuNODE" output="screen"/>
+
     
-   
     
     <?ignore <node pkg="input"   type="gpstrackerNODE.py"    name="gpstrackerNODE"  output="screen"/> ?>
     <?ignore <node pkg="input"   type="semaphoreNODE.py"     name="semaphoreNODE"  output="screen"/> ?>

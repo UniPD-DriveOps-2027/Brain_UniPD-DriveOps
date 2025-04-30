@@ -9,20 +9,20 @@ import names_and_constants as nac
 
 from stopline import detect_angle
 
-LANE_KEEPER_PATH = "models/lane_keeper_small.onnx"
+LANE_KEEPER_PATH = "models/lane_keeper_small.onnx" #main model for lane keeping
 # LANE_KEEPER_PATH = "models/round_about8001.onnx"
 # avg right -0.17356677295197556
 DISTANCE_POINT_AHEAD = 0.35
 CAR_LENGTH = 0.4
 
-LANE_KEEPER_AHEAD_PATH = "models/lane_keeper_ahead.onnx"
+LANE_KEEPER_AHEAD_PATH = "models/lane_keeper_ahead.onnx" # speed challange
 # LANE_KEEPER_AHEAD_PATH = "models/round_about8001.onnx"
-INTERSECTION_NAVIGATOR_RIGHT = "models/he_right.onnx"
-INTERSECTION_NAVIGATOR_LEFT = "models/he_left.onnx"
-INTERSECTION_NAVIGATOR_FORWARD = "models/he_straight.onnx"
-ROUNDABOUT_NAVIGATOR_IN = "models/he_right.onnx"
-ROUNDABOUT_NAVIGATOR_ABOUT = "models/about.onnx"
-ROUNDABOUT_NAVIGATOR_OUT = "models/he_right.onnx"
+INTERSECTION_NAVIGATOR_RIGHT = "models/he_right_wide.onnx"
+INTERSECTION_NAVIGATOR_LEFT = "models/he_left_wide.onnx"
+INTERSECTION_NAVIGATOR_FORWARD = "models/he_straight_wide.onnx"
+ROUNDABOUT_NAVIGATOR_IN = "models/he_right_wide.onnx"
+ROUNDABOUT_NAVIGATOR_ABOUT = "models/about_dif_wide.onnx"
+ROUNDABOUT_NAVIGATOR_OUT = "models/he_right_wide.onnx"
 # LANE_KEEPER_AHEAD_PATH = "models/round_in.onnx"
 DISTANCE_POINT_AHEAD_AHEAD = 0.6
 
@@ -450,7 +450,7 @@ class Detection:
         """
         Estimates:
         - the angular error around the yaw axis wrt a fixed point ahead (e3),
-        - the ditance from the next stop line (1/dist)
+        - the distance from the next stop line (1/dist)
         """
         start_time = time()
         IMG_SIZE = (32, 32)  # match with trainer

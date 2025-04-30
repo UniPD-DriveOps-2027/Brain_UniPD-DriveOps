@@ -25,44 +25,43 @@ import helper_functions as hf
 
 from parkman import Maneuvers
 
-# BFMC_2024
-END_NODE_RANDOM = 149
-END_NODE = 192
-
-
 SELECTED_EVENT = "round"  # "tunnel", "round", "highway", "crosswalk", "parking" , "test"
-if not EVENT_SETTINGS:
-    # Execute the first part when event is empty
-    if RANDOM_START and SELECTED_EVENT in EVENT_CONFIGS:
-        config = EVENT_CONFIGS[SELECTED_EVENT]
-        STARTING_COORDS = config["starting_coords"]
-        CHECKPOINTS = config["checkpoints"]
-        #CHECKPOINTS = [222,150,450]
-        OVERTAKE_COUNTER = [1, 2, 3]
-        GPS_FOR_START_ONLY = True
-    else:
-        STARTING_COORDS = [-42, -42]      # DEFAULT START_POSITION
-        CHECKPOINTS = [455, 465, 91, 466, 434, 500, 125, 154, END_NODE] # Techinical Run BFMC_2024 route ONLY RIGHT ROUNDABOUT
-        OVERTAKE_COUNTER = [3, 4, 23]
-    GPS_FOR_START_ONLY = False
-     
-else:
-    # Execute the second part when event is not empty
-    STARTING_COORDS = EVENT_SETTINGS['STARTING_COORDS']
-    GPS_FOR_START_ONLY = False
-    if RANDOM_START:
-        CHECKPOINTS = EVENT_SETTINGS['RANDOM_START']['CHECKPOINTS']
-        OVERTAKE_COUNTER = EVENT_SETTINGS['RANDOM_START']['OVERTAKE_COUNTER']
-    else:
-        CHECKPOINTS = EVENT_SETTINGS['STANDARD_START']['CHECKPOINTS']
-        OVERTAKE_COUNTER = EVENT_SETTINGS['STANDARD_START']['OVERTAKE_COUNTER']
 
+# Based on the path given for the arena challenge
+END_NODE_ARENA = 149
+ARENA = False # TODO: Move this flag to names and constant and implement args for it --arena
+# RANDOM START
+if RANDOM_START:
+    # USED FOR SPECIFIC PATHS DURING TESTING
+    if SELECTED_EVENT in EVENT_CONFIGS:
+        config = EVENT_CONFIGS[SELECTED_EVENT]
+        STARTING_COORDS = config["starting_coords"]  
+        CHECKPOINTS = config["checkpoints"]
+        OVERTAKE_COUNTER = [25]                 # TODO: IMPLEMENT BETTER OVERTAKE CONDITION
+        GPS_FOR_START_ONLY = False
+    # MANUALLY WRITE THE PATH     
+    elif ARENA: 
+        STARTING_COORDS = [0.00, 0.00]  # IS GIVEN
+        CHECKPOINTS = [455, 465]        # IS GIVEN
+        OVERTAKE_COUNTER = [25]
+        GPS_FOR_START_ONLY = False
+    # GET THE BEST "FRUITS" PATH FROM RANDOM POSITION     
+    else: 
+        STARTING_COORDS = [3.2, 2.65] # GET FROM GPS
+        CHECKPOINTS = [222,150,450] # GET FROM FRUITS
+        OVERTAKE_COUNTER = [25]
+        GPS_FOR_START_ONLY = True
+# DEFAULT START
+else:
+    STARTING_COORDS = [-42, -42]                          # DEFAULT START POSITION
+    CHECKPOINTS = [455, 465, 91, 466, 434, 500, 125, 154] # GET FROM FRUITS
+    OVERTAKE_COUNTER = [3, 4, 23]
+    GPS_FOR_START_ONLY = False
 
 # STARTING_COORDS = [3.17, 2.55]    # SEMAPHORS ENTER DOWN
 # STARTING_COORDS = [2.77, 5.82]    # SEMAPHORS ENTER UP
 # STARTING_COORDS = [1.75, 3.97]    # SEMAPHORS ENTER LEFT
 # STARTING_COORDS = [4.25, 4.39]    # SEMAPHORS ENTER RIGHT
-
 
 # STARTING_COORDS = [5.19, 13.0]    # HIGHWAY ENTRANCE LEFTcing up)
 # STARTING_COORDS = [9.62, 4.38]    # BUS LANE AFTER CROSS
@@ -71,10 +70,10 @@ else:
 
 ALWAYS_USE_VISION_FOR_STOPLINES = True
 
-ALWAYS_TRUST_GPS = False    # if true the car will always trust the gps (bypass)
-ALWAYS_DISTRUST_GPS = False # if true, the car will always distrust the gps (bypass)
-assert not (ALWAYS_TRUST_GPS and ALWAYS_DISTRUST_GPS), 'ALWAYS_TRUST_GPS and ALWAYS_DISTRUST_GPS cannot be both True'
 
+ALWAYS_TRUST_GPS = False    # if true the car will always trust the gps (bypass)
+ALWAYS_DISTRUST_GPS = True # if true, the car will always distrust the gps (bypass)   change to false if start with imu
+assert not (ALWAYS_TRUST_GPS and ALWAYS_DISTRUST_GPS), 'ALWAYS_TRUST_GPS and ALWAYS_DISTRUST_GPS cannot be both True'
 # SP32_CAM
 ALWAYS_TRUST_ESP32 = False    # if true the car will always trust the ESP32 CAMERA CLASSIFICATION
 
@@ -141,16 +140,15 @@ class Routine():
         self.method()
 
 
-EVENT_TYPES = [nac.INTERSECTION_STOP_EVENT,
-               nac.INTERSECTION_TRAFFIC_LIGHT_EVENT,
-               nac.INTERSECTION_PRIORITY_EVENT,
-               nac.JUNCTION_EVENT,
-               nac.ROUNDABOUT_EVENT,
-               nac.CROSSWALK_EVENT,
-               nac.PARKING_EVENT,
-               nac.HIGHWAY_EXIT_EVENT,
-               nac.HIGHWAY_ENTRANCE_EVENT,
-               nac.TUNNEL_EVENT]
+EVENT_TYPES = [nac.INTERSECTION_STOP_EVENT,             #0
+               nac.INTERSECTION_TRAFFIC_LIGHT_EVENT,    #1    
+               nac.INTERSECTION_PRIORITY_EVENT,         #2
+               nac.ROUNDABOUT_EVENT,                    #4
+               nac.CROSSWALK_EVENT,                     #5  
+               nac.PARKING_EVENT,                       #6
+               nac.HIGHWAY_EXIT_EVENT,                  #7
+               nac.HIGHWAY_ENTRANCE_EVENT,              #8
+               nac.TUNNEL_EVENT]                        #9
 
 
 class Event:
@@ -188,8 +186,6 @@ CONDITIONS = {
         # if true, the car is rerouting, for example at the
         # beginning or after a roadblock
         nac.REROUTING:    True,
-        # if true, the car is on a no lane road
-        nac.NO_LANE:      False,
         # if true, the car is in the tunnel
         nac.TUNNEL:       False,
 }
@@ -260,6 +256,7 @@ GPS_SAMPLE_TIME = 0.25  # [s] time between 2 consecutive gps measurements
 GPS_CONVERGENCE_PATIANCE = 0  # 2 #iterations to consider the gps converged
 GPS_TIMEOUT = 5.0  # [s] time to wait to have gps signal
 
+
 # end state
 # [m] distance from the end of the path for the car
 # to be considered at the end of the path
@@ -307,7 +304,7 @@ assert OBSTACLE_IMGS_CAPTURE_STOP_DISTANCE > OBSTACLE_CONTROL_DISTANCE
 PEDESTRIAN_CONTROL_DISTANCE = 0.5   # [m] distance to keep from the pedestrian
 PEDESTRIAN_TIMEOUT = 2.0             # [s] time to w8 after the pedestrian cleared the road
 # car
-TAILING_DISTANCE = 0.25   # [m] distance to keep from the vehicle while tailing
+TAILING_DISTANCE = 0.30   # [m] distance to keep from the vehicle while tailing
 # overtake static car
 OVERTAKE_STEER_ANGLE = 27.0  # [deg]
 OVERTAKE_STATIC_CAR_SPEED = 0.2  # [m/s]
@@ -340,8 +337,8 @@ class Brain:
                  env: EnvironmentalData,
                  detection: Detection,
                  path_planner: PathPlanning,
-                 checkpoints=None,
-                 desired_speed=0.3,
+                 checkpoints = None,
+                 desired_speed = 0.3,
                  debug=True):
         print("Initialize brain")
         self.car = car
@@ -412,7 +409,8 @@ class Brain:
             nac.PARKING:                 State(nac.PARKING, self.parking),
             # crosswalk navigation  
             nac.CROSSWALK_NAVIGATION:    State(nac.CROSSWALK_NAVIGATION, self.crosswalk_navigation),
-            nac.CLASSIFYING_OBSTACLE:    State(nac.CLASSIFYING_OBSTACLE, self.classifying_obstacle),
+            nac.TUNNEL_SPEED_CURVE:      State(nac.TUNNEL_SPEED_CURVE, self.tunnel_speed_curve),
+            nac.NO_LANE:                 State(nac.NO_LANE, self.no_lane)
         }
 
         # INITIALIZE ROUTINES
@@ -422,10 +420,12 @@ class Brain:
             nac.SLOW_DOWN:              Routine(nac.SLOW_DOWN,  self.slow_down),
             nac.ACCELERATE:             Routine(nac.ACCELERATE,  self.accelerate),
             nac.CONTROL_FOR_SIGNS:      Routine(nac.CONTROL_FOR_SIGNS,  self.control_for_signs),
-            nac.CONTROL_FOR_OBSTACLES:  Routine(nac.CONTROL_FOR_OBSTACLES,  self.control_for_obstacles),
-            nac.CONTROL_FOR_PEDESTRIAN:  Routine(nac.CONTROL_FOR_PEDESTRIAN,  self.control_for_pedestrian),
+            nac.CONTROL_FOR_CAR:        Routine(nac.CONTROL_FOR_CAR,  self.control_for_car),
+            nac.CONTROL_FOR_PEDESTRIAN: Routine(nac.CONTROL_FOR_PEDESTRIAN,  self.control_for_pedestrian),
             nac.UPDATE_STATE:           Routine(nac.UPDATE_STATE, self.update_state),
-            nac.DRIVE_DESIRED_SPEED:    Routine(nac.DRIVE_DESIRED_SPEED, self.drive_desired_speed) 
+            nac.DRIVE_DESIRED_SPEED:    Routine(nac.DRIVE_DESIRED_SPEED, self.drive_desired_speed),
+            nac.FOLLOW_LANE_RIGHT:            Routine(nac.FOLLOW_LANE_RIGHT,  self.follow_lane_right),
+            nac.FOLLOW_LANE_LEFT:            Routine(nac.FOLLOW_LANE_LEFT,  self.follow_lane_left) 
             
         }
         self.active_routines_names = []
@@ -471,9 +471,9 @@ class Brain:
             # get closest node
             if not ALWAYS_DISTRUST_GPS or GPS_FOR_START_ONLY:
                 curr_time = time()
-                curr_pos = np.array([self.car.x_est, self.car.y_est])
-                self.car.decide_yaw_start()
-                closest_node, distance = self.path_planner.get_closest_node_start(curr_pos, self.car.yaw_random_start)
+                #curr_pos = np.array([self.car.x_est, self.car.y_est])
+                curr_pos = np.array(STARTING_COORDS) 
+                closest_node, distance = self.path_planner.get_closest_node_start(curr_pos, self.car.yaw_true)
                 self.car.publish_closest_node(float(closest_node))  ##
                 sleep(3.0)
                 if len(self.car.x_buffer) >= 5:
@@ -584,20 +584,24 @@ class Brain:
         if self.conditions[nac.HIGHWAY]:
             self.activate_routines([nac.FOLLOW_LANE,
                                     nac.DETECT_STOPLINE,
-                                    nac.CONTROL_FOR_OBSTACLES,
+                                    nac.CONTROL_FOR_CAR,
                                     nac.ACCELERATE])
         else:
             print('entering the if')
             self.activate_routines([nac.FOLLOW_LANE,
                                     nac.DETECT_STOPLINE,
-                                    nac.CONTROL_FOR_OBSTACLES,
+                                    nac.CONTROL_FOR_CAR,
                                     nac.DRIVE_DESIRED_SPEED])
+
+        if self.checkpoints[self.checkpoint_idx] in range(302, 331) or self.checkpoints[self.checkpoint_idx] in range(332, 357):
+            self.switch_to_state(nac.NO_LANE)
+
 
         # check parking
         if self.next_event.name == nac.PARKING_EVENT:
             # we dont need stoplines in parking
             self.activate_routines([nac.FOLLOW_LANE,
-                                    nac.CONTROL_FOR_OBSTACLES,
+                                    nac.CONTROL_FOR_CAR,
                                     nac.DRIVE_DESIRED_SPEED])
             self.lane_following_to_parking()
         
@@ -607,7 +611,7 @@ class Brain:
 
         #TUNNEL NEW 
         elif self.next_event.name == nac.TUNNEL_EVENT:
-            self.tunnel_speed_curve()
+            self.switch_to_state(nac.TUNNEL_SPEED_CURVE)
           
 
         # check highway exit case
@@ -687,7 +691,7 @@ class Brain:
             self.curr_state.just_switched = False
 
         self.activate_routines([nac.FOLLOW_LANE,
-                                nac.CONTROL_FOR_OBSTACLES,
+                                nac.CONTROL_FOR_CAR,
                                 nac.DRIVE_DESIRED_SPEED])
         # NOTE End is implemented only with gps now, much more robust,
         # but cannot do it without it
@@ -704,12 +708,11 @@ class Brain:
             self.error('ERROR: LANE FOLLOWING: Missed end')
 
     def approaching_stopline(self):
-        # FOLLOW_LANE, SLOW_DOWN, DETECT_STOPLINE, CONTROL_FOR_OBSTACLES
+        # FOLLOW_LANE, SLOW_DOWN, DETECT_STOPLINE, CONTROL_FOR_CAR
         self.activate_routines([nac.FOLLOW_LANE,
                                 nac.CONTROL_FOR_PEDESTRIAN,
                                 nac.SLOW_DOWN,
                                 nac.DETECT_STOPLINE])
-        print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
 
         if self.curr_state.just_switched:
             cv.imwrite(f'asl/asl_{int(time() * 1000)}.png', self.car.frame)
@@ -736,10 +739,8 @@ class Brain:
                 self.switch_to_state(nac.WAITING_FOR_GREEN)
             elif next_event_name == nac.INTERSECTION_PRIORITY_EVENT:
                 self.switch_to_state(nac.TRACKING_LOCAL_PATH)
-            elif next_event_name == nac.JUNCTION_EVENT:
-                # TODO: careful with this
-                self.switch_to_state(nac.TRACKING_LOCAL_PATH)
             elif next_event_name == nac.ROUNDABOUT_EVENT:
+                self.switch_to_state(nac.TRACKING_LOCAL_PATH)
                 self.switch_to_state(nac.TRACKING_LOCAL_PATH)
             elif next_event_name == nac.CROSSWALK_EVENT:
                 # directly go to lane keeping, the pedestrian will
@@ -846,8 +847,7 @@ class Brain:
             # Every time we stop for a stopline, we reset the local frame of reference
             self.car.reset_rel_pose()
             self.curr_state.just_switched = False
-
-            if self.next_event.name.startswith('intersection') or self.next_event.name.startswith('junction'):
+            if self.next_event.name.startswith('intersection'):
                 hf.determine_intersection_direction(self, local_path_cf)
             else:
                 self.curr_state.var4 = 0
@@ -887,18 +887,11 @@ class Brain:
             print('curvy')
 
         # State exit conditions
-        if self.next_event.name.startswith("junction"):
-            if self.curr_state.var4 == "right":
-                max_idx = max_idx * 0.80
-            else:
-                max_idx = max_idx * 0.60
         if idx_point_ahead >= max_idx:  # we reached the end of the path
             self.switch_to_state(nac.LANE_FOLLOWING)
             self.go_to_next_event()
         elif self.next_event.name.startswith("intersection"):
             hf.navigate_intersection(self, SHOW_IMGS)
-        elif self.next_event.name.startswith("junction"):
-            hf.navigate_junction(self, idx_point_ahead, SHOW_IMGS)
         elif self.next_event.name.startswith("roundabout"):
             print(f'idx (ARGMIN): {idx_point_ahead}')
             idx_point_ahead = np.round(self.car.dist_loc*100)
@@ -927,6 +920,7 @@ class Brain:
             self.curr_state.just_switched = False
         if tl_state == nac.GREEN or SEMAPHORE_IS_ALWAYS_GREEN:
             self.switch_to_state(nac.TRACKING_LOCAL_PATH)
+            self.switch_to_state(nac.TRACKING_LOCAL_PATH)
 
     def waiting_at_stopline(self):
         EXTRA_TIME = 2.0 if self.stopline_counter == 15 else 0.0
@@ -940,7 +934,9 @@ class Brain:
                 self.curr_state.just_switched = False
             if (time() - self.curr_state.start_time) > STOP_WAIT_TIME + EXTRA_TIME:
                 self.switch_to_state(nac.TRACKING_LOCAL_PATH)
+                self.switch_to_state(nac.TRACKING_LOCAL_PATH)
         else:
+            self.switch_to_state(nac.TRACKING_LOCAL_PATH)
             self.switch_to_state(nac.TRACKING_LOCAL_PATH)
 
     def overtaking_static_car(self):
@@ -1073,19 +1069,21 @@ class Brain:
         self.curr_state.var2 = dist_prev_manouver
 
     def tailing_car(self):
-        #dist = self.car.filtered_sonar_distance
+
         dist = self.car.central_distance
+        print(f"##################### DISTANCE {dist}")
+
+        
         if dist > OBSTACLE_DISTANCE_THRESHOLD+0.05:  #TODO why is 0.05 here?!
             self.switch_to_state(nac.LANE_FOLLOWING)
             print('switching')
             if(nac.TESTING):
                 print('entered')
-                self.activate_routines([nac.FOLLOW_LANE, nac.DRIVE_DESIRED_SPEED])
+                self.activate_routines([nac.FOLLOW_LANE, nac.DRIVE_DESIRED_SPEED, nac.DETECT_STOPLINE])
                 self.run_routines()
-
+        
         else:
-            print(f"DISTANCE: {dist}")
-            self.activate_routines([nac.FOLLOW_LANE, nac.DRIVE_DESIRED_SPEED])
+            self.activate_routines([nac.FOLLOW_LANE, nac.DETECT_STOPLINE])
             if(nac.TESTING):
                 print("!!!!!!!!!!!!!!!!!!!!!!!")
                 self.run_routines()
@@ -1093,10 +1091,16 @@ class Brain:
             self.car.drive_distance(dist_to_drive)
             if self.conditions[nac.CAN_OVERTAKE] and not nac.TESTING:
                 if self.conditions[nac.HIGHWAY]:
+                    print("OVERTAKINGGGGGG")
                     self.switch_to_state(nac.OVERTAKING_MOVING_CAR)
                 else:
-                    if -0.05 < dist_to_drive < 0.05:
+                    if -0.05 < dist_to_drive < 0.05: # TODO: check the distance 
+                        print("OVERTAKINGGGGGG STATICCCC")
                         self.switch_to_state(nac.OVERTAKING_STATIC_CAR)
+
+            if self.detect.est_dist_to_stopline < STOPLINE_APPROACH_DISTANCE and self.routines[nac.DETECT_STOPLINE].active:
+                print("SWITCHING TO APPROACHING STOPLINE")
+                self.switch_to_state(nac.APPROACHING_STOPLINE)
 
     
 
@@ -1334,42 +1338,8 @@ class Brain:
                 print('in not testing')
                 self.switch_to_state(nac.LANE_FOLLOWING)
                 self.go_to_next_event()
-
-    def classifying_obstacle(self):
-        self.activate_routines([nac.FOLLOW_LANE])
-        dist = self.car.filtered_sonar_distance
-        if self.curr_state.just_switched:
-            # drive to fixed dist from the obstacle
-            self.car.drive_distance(dist - OBSTACLE_CONTROL_DISTANCE)
-            self.curr_state.just_switched = False
-
-        if OBSTACLE_DISTANCE_THRESHOLD <= dist:  #
-            print('Sonar got confused: switch back to previous state')
-            self.switch_to_prev_state()
-        # elif OBSTACLE_IMGS_CAPTURE_STOP_DISTANCE <= dist < OBSTACLE_DISTANCE_THRESHOLD:  # we are approaching the obst
-        #     print('Capturing imgs')
-        else:
-
-            if self.prev_state.name == nac.CROSSWALK_NAVIGATION:
-                #print('debug PEDESTRIAN')
-                obstacle = nac.PEDESTRIAN
-            else:
-                obstacle = nac.CAR
-            print(f'Obstacle: {obstacle}')
-
-            if obstacle == nac.CAR or OBSTACLE_IS_ALWAYS_CAR and not OBSTACLE_IS_ALWAYS_PEDESTRIAN:
-                self.switch_to_state(nac.TAILING_CAR)
-            elif obstacle == nac.PEDESTRIAN or OBSTACLE_IS_ALWAYS_PEDESTRIAN:
-                if self.next_event.name == nac.CROSSWALK_EVENT:
-                    self.pedestrian_type = nac.PEDESTRIAN_ON_CROSSWALK
-                else:
-                    self.pedestrian_type = nac.PEDESTRIAN_ON_ROAD
-                self.env.publish_obstacle(self.pedestrian_type, self.car.x_est, self.car.y_est)
-                #self.switch_to_state(nac.WAITING_FOR_PEDESTRIAN)
-
-            else:
-                self.error('ERROR: OBSTACLE CLASSIFICATION: Unknown obstacle')
-
+   
+        
 
     def tunnel_speed_curve(self):
         TUNNEL_integral_sum=0.0
@@ -1389,8 +1359,31 @@ class Brain:
             
         else:
            self.activate_routines([nac.FOLLOW_LANE,
-                                nac.CONTROL_FOR_OBSTACLES,
+                                nac.CONTROL_FOR_CAR,
                                 nac.DRIVE_DESIRED_SPEED])
+
+    def no_lane(self):
+        travelled_distance = self.car.encoder_distance - self.curr_state.start_distance
+        print(f'TRAVELLED DISTANCE {travelled_distance}')
+        if self.checkpoints[self.checkpoint_idx] in range(302, 331) or nac.TESTING:
+            print('in RIGHT NO LANE!!!!!!!!')
+            if travelled_distance < 2.1:
+                self.activate_routines([nac.FOLLOW_LANE,
+                                nac.CONTROL_FOR_CAR,
+                                nac.DRIVE_DESIRED_SPEED])
+                self.run_routines()
+            elif travelled_distance < 3.8:
+                self.activate_routines([nac.FOLLOW_LANE_LEFT,
+                                nac.CONTROL_FOR_CAR,
+                                nac.DRIVE_DESIRED_SPEED])
+                self.run_routines()
+            
+
+
+        else:
+            print('in LEFT NO LANE!!!!!!!!')
+
+
 
 
     # =============== ROUTINES =============== #
@@ -1402,10 +1395,32 @@ class Brain:
         # print("ERROR point_ahead = ", point_ahead, "\n")
         print("In the lane follow!")
         hf.show_follow_lane(self, point_ahead, SHOW_IMGS)
-        _, angle_ref = self.controller.get_control(e2, e3, 0, self.desired_speed, no_lane=self.conditions[nac.NO_LANE])
+        _, angle_ref = self.controller.get_control(e2, e3, 0, self.desired_speed, no_lane=False)
         angle_ref = np.rad2deg(angle_ref)
         self.car.drive_angle(angle_ref)
-        print('im here')
+        
+
+    def follow_roundabout(self):
+        e3, point_ahead = self.detect.detect_roundabout_about(self.car.frame, SHOW_IMGS)
+        hf.show_follow_lane(self, point_ahead, SHOW_IMGS)
+        _, angle_ref = self.controller.get_control(0, e3, 0, self.desired_speed, no_lane=False)
+        angle_ref = np.rad2deg(angle_ref)
+        self.car.drive_angle(angle_ref)
+
+    def follow_lane_right(self):
+        e3, point_ahead = self.detect.detect_intersection_right(self.car.frame, SHOW_IMGS)
+        hf.show_follow_lane(self, point_ahead, SHOW_IMGS)
+        _, angle_ref = self.controller.get_control(0, e3, 0, self.desired_speed, no_lane=False)
+        angle_ref = np.rad2deg(angle_ref)
+        self.car.drive_angle(angle_ref)
+
+    def follow_lane_left(self):
+        e3, point_ahead = self.detect.detect_intersection_left(self.car.frame, SHOW_IMGS)
+        hf.show_follow_lane(self, point_ahead, SHOW_IMGS)
+        _, angle_ref = self.controller.get_control(0, e3, 0, self.desired_speed, no_lane=False)
+        angle_ref = np.rad2deg(angle_ref)
+        self.car.drive_angle(angle_ref)
+
 
     def detect_stopline(self):
         # update the variable self.detect.est_dist_to_stopline
@@ -1463,21 +1478,25 @@ class Brain:
             if self.curr_sign != prev_sign and self.curr_sign != nac.NO_SIGN:
                 self.env.publish_obstacle(self.curr_sign, self.car.x_est, self.car.y_est)
 
-    def control_for_obstacles(self):
+    def control_for_car(self):
         # check for obstacles
-        if self.routines[nac.CONTROL_FOR_OBSTACLES].var1 is not None:
-            last_obstacle_dist = self.routines[nac.CONTROL_FOR_OBSTACLES].var1
+        print('CONTROL FOR CAR!!!!!!!!!!')
+        if self.routines[nac.CONTROL_FOR_CAR].var1 is not None:
+            last_obstacle_dist = self.routines[nac.CONTROL_FOR_CAR].var1
         else:
             last_obstacle_dist = self.car.encoder_distance - 1.0                 
         curr_dist = self.car.encoder_distance                                    
         if curr_dist - last_obstacle_dist > MIN_DIST_BETWEEN_OBSTACLES:
-            dist = self.car.filtered_sonar_distance
-            if dist < OBSTACLE_DISTANCE_THRESHOLD:
+            dist = self.car.central_distance
+            print('DISTANCE:', dist)
+            if dist < OBSTACLE_DISTANCE_THRESHOLD and not self.curr_state==nac.APPROACHING_STOPLINE and not self.curr_state==nac.WAITING_AT_STOPLINE:
+                print('CARR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
                 self.car.drive_speed(speed=self.desired_speed/10)
-                # print('detecting obstacle ...')
-                # print(f'sonar dist: {self.car.filtered_sonar_distance}')
-                self.switch_to_state(nac.CLASSIFYING_OBSTACLE)
-                self.routines[nac.CONTROL_FOR_OBSTACLES].var1 = curr_dist
+                obstacle = nac.CAR
+                print(f'Obstacle: {obstacle}')
+                self.routines[nac.CONTROL_FOR_CAR].var1 = curr_dist
+                self.switch_to_state(nac.TAILING_CAR)
+                
 
     def control_for_pedestrian(self):
         print('PEDESTRIANNNNNNNN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
@@ -1601,13 +1620,13 @@ class Brain:
             The no_lane HAS to happen after the 1st time we go through the roundabout
             The checkpoint has to be after the no_lane part
         '''
-        if self.prev_event.name == nac.ROUNDABOUT_EVENT and self.next_event.name != nac.INTERSECTION_STOP_EVENT and not self.achievements[nac.NO_LANE_ACHIEVED] :
-            print('Entered no_lane')
-            self.conditions[nac.NO_LANE] = True
-        if self.conditions[nac.NO_LANE] and self.next_event.name == nac.ROUNDABOUT_EVENT and self.car_dist_on_path > 8 :
-            print('ACHIEVED NO_LANE')
-            self.achievements[nac.NO_LANE_ACHIEVED] = True
-            self.conditions[nac.NO_LANE] = False
+        #if self.prev_event.name == nac.ROUNDABOUT_EVENT and self.next_event.name != nac.INTERSECTION_STOP_EVENT and not self.achievements[nac.NO_LANE_ACHIEVED] :
+        #    print('Entered no_lane')
+        #    self.conditions[nac.NO_LANE] = True
+        #if self.conditions[nac.NO_LANE] and self.next_event.name == nac.ROUNDABOUT_EVENT and self.car_dist_on_path > 8 :
+        #    print('ACHIEVED NO_LANE')
+        #    self.achievements[nac.NO_LANE_ACHIEVED] = True
+        #    self.conditions[nac.NO_LANE] = False
         # CAN_OVERTAKE
         '''
             Very ugly solution used in 2024, please do better # probably mean the line counter

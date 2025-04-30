@@ -1,3 +1,5 @@
+#LOOK AT THIS AND SAY NOTHING
+
 #!/usr/bin/python3
 import cv2 as cv
 import pygame
@@ -17,6 +19,13 @@ OBSTACLE_CONTROL_DISTANCE = 0.5
 OBSTACLE_STOP_DISTANCE = 0.2
 
 IDLE_TIME = 120
+
+# Button ID's PS4
+# 0 = X 1 = O 2 = triangle 3 = square
+# 4 left 5 right above triggers
+# 8 share 9 options 10 PS logo
+# 11 left joystick click 12 right joy click
+
 
 class RC_Brain:
     def __init__(self, 
@@ -38,6 +47,7 @@ class RC_Brain:
         self.park = Maneuvers()
         self.car_pov = False
         self.lane_following = False
+        self.roundabout_navigation = False
 
         print("Initialize Joystick")
         pygame.init()
@@ -73,14 +83,15 @@ class RC_Brain:
             print(f' MAX_SPEED:      {100*self.max_speed:.0f} cm/s')
             print('============================================================')
             print('COMMANDS: ')
-            print(' Left Joystick  : Steer')
-            print(' Right Trigger  : Forward Speed')
-            print(' Left  Trigger  : Reverse Speed')
-            print(' A              : Follow Lane')
-            print(' B + Left/Right : Park Maneuver')
-            print(' Y              : Car_POV')
-            print(' D-Pad Up/Down  : Increase/Decrease MAX_SPEED')
-            print(' X              : Stop and Kill Car')
+            print(' Left Joystick        : Steer')
+            print(' Right Trigger        : Forward Speed')
+            print(' Left  Trigger        : Reverse Speed')
+            print(' X                    : Follow Lane')
+            print(' CIRCLE + Left/Right  : Park Maneuver')
+            print(' TRIANGLE             : Car POV')
+            print(' SQUARE               : Roundabout Navigation')
+            print(' D-Pad Up/Down        : Increase/Decrease MAX_SPEED')
+            print(' PS4 logo             : Stop and Kill Car')
             print('============================================================')
 
         else:
@@ -95,48 +106,59 @@ class RC_Brain:
             self.follow_lane()
             self.last_input_time = time()
             print('LANE FOLLOWING')
-            print('Press A to stop')
+            print('Press X to stop')
+
+        if self.roundabout_navigation:
+            self.follow_roundabout()
+            self.last_input_time = time()
+            print('ROUNDABOUT NAVIGATION')
+            print('Press X to stop')
         
         if not nac.SIMULATOR_FLAG:
             self.control_for_obstacles()
 
         self.car.drive(speed=self.rc_speed, angle=self.rc_angle)
 
-        self.check_idle(self.last_input_time)
+        #self.check_idle(self.last_input_time)
         
     def rc_inputs(self):
         for event in pygame.event.get():
             self.last_input_time = time()
             if event.type == pygame.JOYBUTTONDOWN:
-                if event.button == 3: # 'X' button on XBOX controller
-                    print("X button pressed: Exiting ...")
+                if event.button == 10: # 10 PS4 logo button / 3 'X' button on XBOX controller
+                    print("Shutdown button pressed: Exiting ...")
                     self.car.stop()
                     sleep(1)
                     print("\033c")
                     exit()
 
-                if event.button == 4: # 'Y' button on XBOX controller
+                if event.button == 2: # 2 TRIANGLE ps4 / 4 'Y' button on XBOX controller
                     print("Y button pressed: Car_POV ...")
                     self.car_pov = not self.car_pov
                     if not self.car_pov:
                         cv.destroyAllWindows()
                     sleep(0.1)
                 
-                if event.button == 0: # 'A' button on XBOX controller
+                if event.button == 0: # 0 'X' ps4 / 0 'A' button on XBOX controller
                     print("A button pressed: Following Lane...")
                     hat1 = self.joystick.get_hat(0)
                     self.lane_following = not self.lane_following
+
+                if event.button == 3: # 3 'SQUARE' ps4 
+                    print("Square button pressed: Roundabout Navigation...")
+                    hat1 = self.joystick.get_hat(0)
+                    self.roundabout_navigation = not self.roundabout_navigation
                 
-                if event.button == 1: # 'B' button on XBOX controller
+                if event.button == 1: # 1 CIRCLE ps4 / 1 'B' button on XBOX controller
                     hat1 = self.joystick.get_hat(0)
                     pad_horizontal_value = hat1[0]
                     if pad_horizontal_value == 1:
                         print("\033c")
-                        print("B button pressed: Parking Right ...")
+                        print("Parking button pressed: Parking Right ...")
                         self.park.parallel_parking(self.car, nac.RIGHT_PARK)
                     elif pad_horizontal_value == -1:
                         print("\033c")
-                        print("B button pressed: Parking Left ...")
+                        print("Parking button pressed: Parking Left ...")
                         self.park.parallel_parking(self.car, nac.LEFT_PARK)
             
             # Cancel LANE_FOLLOWING if use joystick
@@ -171,14 +193,14 @@ class RC_Brain:
                 self.rc_angle = 0.0
 
             # SPEED CONTROL
-            # Axis 4 = Right Trigger
+            # Right Trigger
             # Range = [-1,1]
-            right_trig_value = self.joystick.get_axis(4)
+            right_trig_value = self.joystick.get_axis(5) # 5 - PS4 / 4 - XBOX 
             right_trig_value = (right_trig_value + 1)/2
             # REVERSE SPEED CONTROL
-            # Axis 5 = Left Trigger
+            # Left Trigger
             # Range = [-1,1]
-            left_trig_value = self.joystick.get_axis(5)
+            left_trig_value = self.joystick.get_axis(2) # 2 - PS4 / 5 - XBOX 
             left_trig_value = (left_trig_value + 1)/2
             if abs(right_trig_value) > TRIGGER_DEADZONE:
                 self.rc_speed = right_trig_value * self.max_speed
@@ -213,6 +235,13 @@ class RC_Brain:
         self.rc_angle = np.rad2deg(angle_ref)
         self.rc_speed = self.max_speed
         # self.car.drive(speed=self.rc_speed, angle=self.rc_angle)
+
+    def follow_roundabout(self):
+        e3, _ = self.detect.detect_roundabout_about(self.car.frame, False)
+        # e3 = e3 * 1.2
+        _, angle_ref = self.controller.get_control(0, e3, 0, self.max_speed, no_lane=False)
+        self.rc_angle = np.rad2deg(angle_ref)
+        self.rc_speed = self.max_speed
 
     def control_for_obstacles(self):
         # check for obstacles

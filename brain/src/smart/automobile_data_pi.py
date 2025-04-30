@@ -25,7 +25,7 @@ class AutomobileDataPi(Automobile_Data):
                  trig_sonar=False,
                  trig_cam=False,
                  trig_gps=False,
-                 trig_lidar=False
+                 trig_lidar=False,
                  ) -> None:
         # initialize the parent class
         super().__init__()
@@ -84,6 +84,8 @@ class AutomobileDataPi(Automobile_Data):
 
         self.last_error = 0.0
 
+        self.yaw_true = 0.0
+
 
 
         # PUBLISHERS AND SUBSCRIBERS
@@ -112,6 +114,7 @@ class AutomobileDataPi(Automobile_Data):
             self.sub_pos       = rospy.Subscriber("/automobile/vehicles", vehicles, self.position_callback)
         if trig_lidar:
             self.sub_lidar     = rospy.Subscriber('/scan', LaserScan, self.lidar_callback) 
+            
 
 
     def center_sonar_callback(self, data) -> None:
@@ -152,8 +155,8 @@ class AutomobileDataPi(Automobile_Data):
         angles = np.linspace(data.angle_min, data.angle_max, len(data.ranges))
 
         # Define 85° and 95° in radians
-        angle_min_rad_right = np.deg2rad(85)
-        angle_max_rad_right = np.deg2rad(95)
+        angle_min_rad_right = np.deg2rad(90)
+        angle_max_rad_right = np.deg2rad(100)
 
         angle_min_rad_central = np.deg2rad(150)
         angle_max_rad_central = np.deg2rad(210)
@@ -171,9 +174,12 @@ class AutomobileDataPi(Automobile_Data):
         self.right_distance = np.min(selected_ranges_right)
         #self.left_distance = np.min(selected_ranges)
         self.central_distance = np.min(selected_ranges_central)
+
         
         # Skip invalid measurements
         if np.isinf(self.right_distance) or self.right_distance < data.range_min or self.right_distance > data.range_max:
+            return
+        if np.isinf(self.central_distance) or self.central_distance < data.range_min or self.central_distance > data.range_max:
             return
         
         if self.right_distance > self.threshhold_tunnel_distance:
@@ -245,40 +251,25 @@ class AutomobileDataPi(Automobile_Data):
 
     def imu_callback(self, data) -> None:
         """Receive and store rotation from IMU
-        :acts on: self.roll, self.pitch, self.yaw, self.roll_deg,
-                  self.pitch_deg, self.yaw_deg
-        :acts on: self.accel_x, self.accel_y, self.accel_z, self.gyrox,
-                  self.gyroy, self.gyroz
+        :acts on: self.roll, self.pitch, self.yaw, self.roll_deg, self.pitch_deg, self.yaw_deg
+        :acts on: self.accel_x, self.accel_y, self.accel_z, self.gyrox, self.gyroy, self.gyroz
         """
-        
-        self.roll = data.roll
-        self.pitch = np.deg2rad(data.pitch)
-        #self.IMU_yaw = np.deg2rad(data.yaw) - np.deg2rad(self.YAW_GLOBAL_OFFSET)
-        
-        #self.yaw = hf.diff_angle(np.deg2rad(data.yaw) + self.yaw_offset, 0.0)
-        #self.IMU_yaw = np.deg2rad(data.yaw) - np.deg2rad(self.YAW_GLOBAL_OFFSET)  #reading yaw and adjusting with global offset
-        #self.IMU_yaw = (np.deg2rad(360) - self.IMU_yaw)%np.deg2rad(360)               #change from clockwise to counterclockwise
-        # if (self.IMU_yaw < np.deg2rad(45)) or (self.IMU_yaw > np.deg2rad(315)):       #assign value multiple of pi/2 based on quadrant  
-        #     self.IMU_yaw = 0.0
-        # elif (self.IMU_yaw < np.deg2rad(135)) and (self.IMU_yaw > np.deg2rad(45)):
-        #     self.IMU_yaw = np.deg2rad(90)
-        # elif (self.IMU_yaw < np.deg2rad(225)) and (self.IMU_yaw > np.deg2rad(135)):
-        #     self.IMU_yaw = np.deg2rad(180)
-        # elif (self.IMU_yaw < np.deg2rad(315)) and (self.IMU_yaw > np.deg2rad(225)):
-        #     self.IMU_yaw = np.deg2rad(270)
-
-        self.yaw= data.yaw
-        self.accel_x = data.accelx
-        self.accel_y = data.accely
-        self.accel_z = data.accelz
-
-        self.gyrox = data.gyrox
-        self.gyroy = data.gyroy
-        self.gyroz = data.gyroz
-
-
-        return
-
+        self.roll = float(data.roll)
+        self.roll_deg = np.rad2deg(self.roll)
+        self.pitch = float(data.pitch)
+        self.pitch_deg = np.rad2deg(self.pitch)
+        self.yaw_true = float(data.yaw)
+        self.yaw = float(data.yaw) + self.yaw_offset
+        self.yaw_deg = np.rad2deg(self.yaw)
+        # true position, not in real car
+        #true_posL = np.array([data.posx, data.posy])
+        #true_posR = hf.mL2mR(true_posL)
+        # center x_true on the rear axis
+        #self.x_true = true_posR[0] - self.WB/2*np.cos(self.yaw_true)
+        #self.y_true = true_posR[1] - self.WB/2*np.sin(self.yaw_true)
+        #self.timestamp = float(data.timestamp)
+        # NOTE: in the simulator we don't have neither
+        #       acceleromter or gyroscope (yet)
     def encoder_distance_callback(self, data) -> None:
         """Callback when an encoder distance message is received
         :acts on: self.encoder_distance

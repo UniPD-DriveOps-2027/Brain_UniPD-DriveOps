@@ -29,22 +29,26 @@ EVENT_CONFIGS = {
         "checkpoints": [9999, 422, 398, 303, 260, 87, 118, 410, 406, 445, 164, 237, 333, 374, 30, 85, 148, 177, 143, 135, 98, 55, 30, 98, 111, 121, 92, 130]
     },
     "round": {
-        "starting_coords": [15.38, 11,42],
-        "checkpoints": [455, 350]
+        "starting_coords": [17.96, 8.81],
+        "checkpoints": [455, 200]
     },
     "highway": {
         "starting_coords": [16.65, 11.74],
         "checkpoints": [50, 149]
     },
     "crosswalk": {
-        "starting_coords": [15.75,  4.36],
-        "checkpoints": [50, 148]
+        "starting_coords": [13.02,  4.41],
+        "checkpoints": [50, 145]
     },
     "parking": {
         "starting_coords": [7.67, 0.75],
         "checkpoints": [50, 412,389]
     },
-     "test": {
+    "bus": {
+        "starting_coords": [16.42, 4.48],
+        "checkpoints": [50, 125]
+    },
+    "test": {
         "starting_coords": [7.67, 0.75],
         "checkpoints": [50, 410]
     }
@@ -71,7 +75,8 @@ OVERTAKING_MOVING_CAR = 'overtaking_moving_car'
 TAILING_CAR = 'tailing_car'
 PARKING = 'parking'
 CROSSWALK_NAVIGATION = 'crosswalk_navigation'
-CLASSIFYING_OBSTACLE = 'classifying_obstacle'
+TUNNEL_SPEED_CURVE = 'tunnel_speed_curve'
+NO_LANE = 'no_lane'
 
 # ======================== ROUTINES ==========================
 FOLLOW_LANE = 'follow_lane'
@@ -79,16 +84,17 @@ DETECT_STOPLINE = 'detect_stopline'
 SLOW_DOWN = 'slow_down'
 ACCELERATE = 'accelerate'
 CONTROL_FOR_SIGNS = 'control_for_signs'
-CONTROL_FOR_OBSTACLES = 'control_for_obstacles'
+CONTROL_FOR_CAR = 'control_for_car'
 CONTROL_FOR_PEDESTRIAN = 'control_for_pedestrian'
 UPDATE_STATE = 'update_state'
 DRIVE_DESIRED_SPEED = 'drive_desired_speed'
+FOLLOW_LANE_RIGHT = 'follow_lane_right'
+FOLLOW_LANE_LEFT = 'follow_lane_left'
 
 # ========================== EVENTS ==========================
 INTERSECTION_STOP_EVENT = 'intersection_stop_event'
 INTERSECTION_TRAFFIC_LIGHT_EVENT = 'intersection_traffic_light_event'
 INTERSECTION_PRIORITY_EVENT = 'intersection_priority_event'
-JUNCTION_EVENT = 'junction_event'
 ROUNDABOUT_EVENT = 'roundabout_event'
 CROSSWALK_EVENT = 'crosswalk_event'
 PARKING_EVENT = 'parking_event'
@@ -100,7 +106,6 @@ TUNNEL_EVENT = 'tunnel_event'
 EVENT_TYPES = [INTERSECTION_STOP_EVENT,             #0
                INTERSECTION_TRAFFIC_LIGHT_EVENT,    #1
                INTERSECTION_PRIORITY_EVENT,         #2
-               JUNCTION_EVENT,                      #3
                ROUNDABOUT_EVENT,                    #4
                CROSSWALK_EVENT,                     #5
                PARKING_EVENT,                       #6
@@ -121,7 +126,6 @@ HIGHWAY = 'highway'
 CAR_ON_PATH = 'car_on_path'
 REROUTING = 'rerouting'
 BUMPY_ROAD = 'bumpy_road'
-NO_LANE = 'no_lane'
 TUNNEL = 'tunnel'
 
 ###############################################################################

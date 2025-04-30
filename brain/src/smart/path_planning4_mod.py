@@ -9,7 +9,7 @@ import names_and_constants as nac
 import helper_functions as hf
 from numpy.linalg import norm
 
-YAW_DIFF_THRESHOLD = 70  # [deg] threshold on difference between yaw from car and edge in 'get_closest_node'
+YAW_DIFF_THRESHOLD = 90  # [deg] threshold on difference between yaw from car and edge in 'get_closest_node'
 
 class PathPlanning():
     def __init__(self, map_img):
@@ -364,9 +364,9 @@ class PathPlanning():
                     end_idx = min(self.path_event_points_idx[i]+13, len(self.path))
             
                 path_ahead = self.path[self.path_event_points_idx[i]:end_idx]
-                print(f'local index {local_idx}')
+                #print(f'local index {local_idx}')
                 path_event_path_ahead.append(path_ahead)
-                print(f'path ahead  {path_ahead}')
+                #print(f'path ahead  {path_ahead}')
                 hf.draw_event(self, path_ahead, draw)
             elif t.startswith('junction') or t.startswith('highway'):
                 assert len(self.path) > 0
@@ -376,7 +376,7 @@ class PathPlanning():
         else:
             path_event_path_ahead.append(None)
             
-        print("-------------------------------------------------------------------path_event_points_idx: ", self.path_event_points_distances)
+        print("--------------------------------------------------------------------path_event_points_idx: ", self.path_event_points_distances)
         print("--------------------------------------------------------------------path_event_points: ", self.path_event_points)
         print("_____________________________________________________________________path_event_types: ", self.path_event_types)
 
@@ -511,7 +511,7 @@ class PathPlanning():
         cv.polylines(self.map, [hf.mR2pix(self.path)], False, (200, 200, 0), thickness=4, lineType=cv.LINE_AA)
         if SHOW_IMGS:
             cv.imshow('Path', self.map)
-            #cv.waitKey(1)
+            #cv.waitKey(0)
 
     def get_closest_node(self, p):
         '''
@@ -527,30 +527,38 @@ class PathPlanning():
         '''
         Returns the closes node to the given point np.array([x,y])
         '''
+        # wrap car_yaw angle to [-180,180] and convert in radians
+
+        car_yaw = np.deg2rad((car_yaw + 180) % 360 - 180)
+
         diff = self.all_nodes_coords - p
-        
         dist = np.linalg.norm(diff, axis=1)
-        
         enumerated_list = list(enumerate(dist))
-        
         ordered_list = sorted(enumerated_list, key=lambda x: x[1])
-        
+
+        #print("Closest list of nodes from the p coords: ")
+        #for x in ordered_list[0:6]:
+        #    print(self.all_start_nodes[x[0]])
+ 
         #new code to compute orientation of the edge starting from the closest node
         for x in ordered_list:
             
             successor_list = list(self.G.successors(self.all_start_nodes[x[0]]))
-            
             successor_node = successor_list[0]
             
             closest_node_coords = self.get_coord(self.all_start_nodes[x[0]])
             successor_coords = self.get_coord(successor_node)
+
+            #print(f"closest node = {self.all_start_nodes[x[0]]} , successor node = {successor_node}")
+
             edge_yaw = np.arctan2(successor_coords[1] - closest_node_coords[1], successor_coords[0] - closest_node_coords[0])
-            print(edge_yaw)
             error_yaw = edge_yaw - car_yaw
-            error_yaw = (error_yaw + np.pi) % 2*np.pi - np.pi
+
+            #print(f"car yaw: {np.rad2deg(car_yaw)}, edge_yaSw = {np.rad2deg(edge_yaw)}, error_yaw = {np.rad2deg(error_yaw)}")
+
             if error_yaw < np.deg2rad(YAW_DIFF_THRESHOLD):
                 print("Closest node is ", self.all_start_nodes[x[0]])
-                return self.all_start_nodes[x[0]], dist[x[0]]    
+                return self.all_start_nodes[x[0]], dist[x[0]]     
         print("Error: impossible to find closest node") 
 
     def is_dotted(self, n):
