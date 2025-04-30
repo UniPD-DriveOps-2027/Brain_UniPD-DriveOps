@@ -1369,9 +1369,9 @@ class Brain:
 
     def no_lane(self):
         travelled_distance = self.car.encoder_distance - self.curr_state.start_distance
-        print(f'TRAVELLED DISTANCE {travelled_distance}')
+        print(f'/---------------/ TRAVELLED DISTANCE = {travelled_distance:.2f}')
         if self.checkpoints[self.checkpoint_idx] in range(302, 331) or nac.TESTING:
-            print('in RIGHT NO LANE!!!!!!!!')
+            #print('in RIGHT NO LANE!!!!!!!!')
 
             if travelled_distance <= 4.0:
                 self.activate_routines([nac.FOLLOW_LANE,
@@ -1393,16 +1393,17 @@ class Brain:
         
 
         else:
-            print('in LEFT NO LANE!!!!!!!!')
+            #print('in LEFT NO LANE!!!!!!!!')
 
-            
+            # KEEP LANE
             if travelled_distance <= 4.7:
                 self.activate_routines([nac.FOLLOW_LANE,
                                         nac.CONTROL_FOR_CAR,
                                         nac.DETECT_STOPLINE,
                                         nac.DRIVE_DESIRED_SPEED])
                 self.run_routines()
-
+            
+            # KEEP RIGHT WHEN YOU LOOSE LINE MARKER
             elif travelled_distance <= 5.2:
                 self.activate_routines([nac.FOLLOW_LANE_RIGHT,
                                 nac.CONTROL_FOR_CAR,
@@ -1410,6 +1411,7 @@ class Brain:
                                 nac.DRIVE_DESIRED_SPEED])
                 self.run_routines()
 
+            # KEEP LANE IN THE DOTTED LINE SECTION
             elif travelled_distance <= 6.8:
                 self.activate_routines([nac.FOLLOW_LANE,
                                 nac.CONTROL_FOR_CAR,
@@ -1417,6 +1419,7 @@ class Brain:
                                 nac.DRIVE_DESIRED_SPEED])
                 self.run_routines()
 
+            # KEEP RIGHT WHEN YOU LOOSE LINE MARKER
             elif travelled_distance <= 7.1:
                 self.activate_routines([nac.FOLLOW_LANE_RIGHT,
                                 nac.CONTROL_FOR_CAR,
@@ -1424,6 +1427,7 @@ class Brain:
                                 nac.DRIVE_DESIRED_SPEED])
                 self.run_routines()
             
+            # SWITCH STATE TO LANE FOLLOWING & RESET THE FLAG NO_LANE_CAN_BE_ACTIVATED 
             else:
                 self.NO_LANE_CAN_BE_ACTIVATED = False
                 self.switch_to_state(nac.LANE_FOLLOWING)
