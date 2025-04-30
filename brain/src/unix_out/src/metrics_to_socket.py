@@ -7,7 +7,7 @@ import os
 import random
 import argparse
 import numpy as np
-from utils.msg import IMU, localisation, vehicles
+from utils.msg import IMU, localisation, vehicles, conditions
 from std_msgs.msg import Float32, String
 
 SOCKET_PATH = "/tmp/metrics_socket.sock"
@@ -73,28 +73,49 @@ def safe_wait_for(topic, msg_type, timeout=0.1, field=None, transform=lambda x: 
     except rospy.ROSException:
         #rospy.logwarn(f"Timeout on {name or topic}")
         return None
+    
+# wrap our own round function
+def round2(x): return round(x, 2)
 
 def get_real_metrics():
     metrics = {}
-    # METRICS FROM BRAIN
-    if (state := safe_wait_for("/automobile/current_state", String, field="data", name="state")) is not None:
-        metrics["STATE"] = state
-    if (next_event := safe_wait_for("/automobile/next_event", String, field="data", name="next_event")) is not None:
-        metrics["UPCOMING_EVENT"] = next_event
-    if (prev_event := safe_wait_for("/automobile/prev_event", String, field="data", name="prev_event")) is not None:
-        metrics["PREV_EVENT"] = prev_event
-    if (closest_node := safe_wait_for("/automobile/closest_node", Float32, field="data", name="closest_node")) is not None:
-        metrics["CLOSEST_NODE"] = state
 
-    # TELEMETRY
-    if (speed := safe_wait_for("/automobile/encoder/speed", Float32, field="data", name="speed")) is not None:
-        metrics["SPEED"] = round(speed, 2)
-    if (speed := safe_wait_for("/automobile/encoder/distance", Float32, field="data", name="distance")) is not None:
-        metrics["DISTANCE"] = round(speed, 2)
-    if (steer := safe_wait_for("/automobile/command/steer", Float32, field="data", name="steer")) is not None:
-        metrics["STEER"] = round(steer, 2)
+    metric_definitions = [
+        # BRAIN STATES
+        ("STATE", "/automobile/current_state", String, "data"),
+        ("UPCOMING_EVENT", "/automobile/next_event", String, "data"),
+        ("PREV_EVENT", "/automobile/prev_event", String, "data"),
+        ("CLOSEST_NODE", "/automobile/closest_node", Float32, "data"),
+        
+        # CONDITIONS
+        ("CONDITIONS", "/automobile/conditions", conditions, None),
 
-    yaw = safe_wait_for("/automobile/imu", IMU, field="yaw", transform=lambda y: y + YAW_GLOBAL_OFFSET, name="imu")
+        # TELEMETRY
+        ("SPEED", "/automobile/encoder/speed", Float32, "data", round2),
+        ("DISTANCE", "/automobile/encoder/distance", Float32, "data", round2),
+        ("STEER", "/automobile/command/steer", Float32, "data", round2),
+    ]
+
+    for name, topic, msg_type, field, *transform in metric_definitions:
+        value = safe_wait_for(topic, msg_type, field=field, name=name,
+                              transform=transform[0] if transform else lambda x: x)
+        if value is not None:
+            metrics[name] = value
+
+    # Special handling for conditions to convert to dictionary
+    if "CONDITIONS" in metrics:
+        conditions_msg = metrics["CONDITIONS"]
+        metrics["CONDITIONS"] = {
+            "CAN_OVERTAKE": conditions_msg.can_overtake,
+            "HIGHWAY": conditions_msg.highway,
+            "CAR_ON_PATH": conditions_msg.car_on_path,
+            "REROUTING": conditions_msg.rerouting,
+            "TUNNEL": conditions_msg.tunnel
+        }
+
+    # YAW and HEADING separately due to custom logic
+    yaw = safe_wait_for("/automobile/imu", IMU, field="yaw",
+                        transform=lambda y: y + YAW_GLOBAL_OFFSET, name="imu")
     if yaw is not None:
         metrics["YAW"] = round(yaw, 2)
         if 45 <= yaw < 135:
@@ -105,6 +126,10 @@ def get_real_metrics():
             metrics["HEADING"] = "South"
         else:
             metrics["HEADING"] = "West"
+
+    # Custom logic again... read the ROUTINES as a semicolon-separated string
+    if (routines_str := safe_wait_for("/automobile/routines", String, field="data", name="routines")) is not None:
+        metrics["ROUTINES"] = routines_str.split(";")  # Convert it back to a list
 
     return metrics
 

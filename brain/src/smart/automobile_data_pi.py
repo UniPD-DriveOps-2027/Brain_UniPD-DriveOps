@@ -3,7 +3,7 @@ from automobile_data_interface import Automobile_Data
 import helper_functions as hf
 from std_msgs.msg import Float32, Bool, String
 from sensor_msgs.msg import LaserScan
-from utils.msg import IMU, localisation, vehicles
+from utils.msg import IMU, localisation, vehicles, conditions
 import rospy
 import collections
 import numpy as np
@@ -90,14 +90,17 @@ class AutomobileDataPi(Automobile_Data):
 
         # PUBLISHERS AND SUBSCRIBERS
         if trig_control:
-            self.pub_speed     = rospy.Publisher('/automobile/command/speed', Float32, queue_size=1)
-            self.pub_steer     = rospy.Publisher('/automobile/command/steer', Float32, queue_size=1)
-            self.pub_stop      = rospy.Publisher('/automobile/command/stop', Float32, queue_size=1)
-            self.pub_position  = rospy.Publisher('/automobile/command/position', Float32, queue_size=1)
-            self.pub_closest_node = rospy.Publisher('/automobile/closest_node', Float32, queue_size=1)
-            self.pub_next_event = rospy.Publisher('/automobile/next_event', String, queue_size=1)
+            self.pub_speed         = rospy.Publisher('/automobile/command/speed', Float32, queue_size=1)
+            self.pub_steer         = rospy.Publisher('/automobile/command/steer', Float32, queue_size=1)
+            self.pub_stop          = rospy.Publisher('/automobile/command/stop', Float32, queue_size=1)
+            self.pub_position      = rospy.Publisher('/automobile/command/position', Float32, queue_size=1)
+            self.pub_closest_node  = rospy.Publisher('/automobile/closest_node', Float32, queue_size=1)
+            self.pub_next_event    = rospy.Publisher('/automobile/next_event', String, queue_size=1)
+            self.pub_prev_event    = rospy.Publisher('/automobile/prev_event', String, queue_size=1)            
             self.pub_current_state = rospy.Publisher('/automobile/current_state', String, queue_size=1)
-            self.sub_position  = rospy.Subscriber("/automobile/feedback/position", Bool, self.feedback_position_callback)
+            self.pub_routines      = rospy.Publisher('/automobile/routines', String, queue_size=1)
+            self.pub_conditions    = rospy.Publisher('/automobile/conditions', conditions, queue_size=1)
+            self.sub_position      = rospy.Subscriber("/automobile/feedback/position", Bool, self.feedback_position_callback)
         if trig_bno:
             self.sub_imu       = rospy.Subscriber('/automobile/imu', IMU, self.imu_callback)
         if trig_enc:
@@ -344,6 +347,23 @@ class AutomobileDataPi(Automobile_Data):
         
     def publish_next_event(self, data):
         self.pub_next_event.publish(data)
+    
+    def publish_prev_event(self, data):
+        self.pub_prev_event.publish(data)
 
     def publish_current_state(self, data):
         self.pub_current_state.publish(data)
+
+    def publish_routines(self, data):
+        self.pub_routines.publish(data)
+
+    def publish_conditions(self, data):
+        # Create message by passing dictionary values as arguments
+        msg = conditions(
+            can_overtake=data['can_overtake'],
+            highway=data['highway'],
+            car_on_path=data['car_on_path'],
+            rerouting=data['rerouting'],
+            tunnel=data['tunnel']
+        )
+        self.pub_conditions.publish(msg)

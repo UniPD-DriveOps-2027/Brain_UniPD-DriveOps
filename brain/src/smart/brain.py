@@ -1627,9 +1627,11 @@ class Brain:
         #    print('ACHIEVED NO_LANE')
         #    self.achievements[nac.NO_LANE_ACHIEVED] = True
         #    self.conditions[nac.NO_LANE] = False
+
+
         # CAN_OVERTAKE
         '''
-            Very ugly solution used in 2024, please do better # probably mean the line counter
+            Very ugly solution used in 2024, please do better in terms of when to overtake
         '''
         print(self.stopline_counter)
         self.conditions[nac.CAN_OVERTAKE] = (self.conditions[nac.HIGHWAY] or self.stopline_counter in OVERTAKE_COUNTER)
@@ -1645,15 +1647,24 @@ class Brain:
         print(f'CONDITIONS:     {self.conditions}')
         print('==========================================================================')
         self.run_current_state()
-        # print(f'CURR_SIGN: {self.curr_sign}')
         print(f'car.yaw: {self.car.yaw}')
         print(f'car.yaw_loc: {self.car.yaw_loc}')
         print('==========================================================================')
         self.run_routines()
-        # print('==========================================================================')
-        print()
-        self.car.publish_next_event(str(self.next_event))
-        self.car.publish_current_state(str(self.curr_state))
+
+        # =============== Publish to dashboard ==================== #
+        if True:
+            self.car.publish_next_event(str(self.next_event))
+            self.car.publish_prev_event(str(self.prev_event))
+            self.car.publish_current_state(str(self.curr_state))
+            routines_str = ";".join(self.active_routines_names+ALWAYS_ON_ROUTINES)
+            self.car.publish_routines(str(routines_str))
+            self.car.publish_conditions(self.conditions)
+
+
+        
+        # print(f'CURR_SIGN: {self.curr_sign}')  
+
 
 
     def run_current_state(self):
