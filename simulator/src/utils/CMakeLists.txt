@@ -14,6 +14,7 @@ find_package(catkin REQUIRED COMPONENTS
    environmental.msg
    vehicles.msg
    semaphore.msg
+   conditions.msg
  )
 
  generate_messages(

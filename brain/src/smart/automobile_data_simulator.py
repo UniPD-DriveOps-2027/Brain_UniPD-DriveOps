@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 from automobile_data_interface import Automobile_Data
 from std_msgs.msg import String, Float32
-from utils.msg import IMU, localisation
+from utils.msg import IMU, localisation, conditions
 from sensor_msgs.msg import Image, Range
 from sensor_msgs.msg import LaserScan
 import rospy
@@ -92,9 +92,12 @@ class AutomobileDataSimulator(Automobile_Data):
             self.pub = rospy.Publisher('/automobile/command', String, queue_size=1)
             self.steer_updater = rospy.Timer(rospy.Duration(1/STEER_UPDATE_FREQ), self.steer_update_callback)
             self.drive_dist_updater = rospy.Timer(rospy.Duration(ENCODER_TIMER), self.drive_distance_callback)
-            self.pub_closest_node = rospy.Publisher('/automobile/closest_node', Float32, queue_size=1)
+            self.pub_closest_node  = rospy.Publisher('/automobile/closest_node', Float32, queue_size=1)
+            self.pub_next_event    = rospy.Publisher('/automobile/next_event', String, queue_size=1)
+            self.pub_prev_event    = rospy.Publisher('/automobile/prev_event', String, queue_size=1)            
             self.pub_current_state = rospy.Publisher('/automobile/current_state', String, queue_size=1)
-            self.pub_next_event = rospy.Publisher('/automobile/next_event', String, queue_size=1)
+            self.pub_routines      = rospy.Publisher('/automobile/routines', String, queue_size=1)
+            self.pub_conditions    = rospy.Publisher('/automobile/conditions', conditions, queue_size=1)
         if trig_bno:
             self.sub_imu = rospy.Subscriber('/automobile/IMU', IMU, self.imu_callback)
         if trig_enc:
@@ -167,9 +170,14 @@ class AutomobileDataSimulator(Automobile_Data):
         selected_ranges_central = np.array(data.ranges)[indices_central]
 
         # Compute the minimum distance in that range
-        self.right_distance = np.min(selected_ranges_right)
+        #self.right_distance = np.min(selected_ranges_right)
         #self.left_distance = np.min(selected_ranges)
-        self.central_distance = np.min(selected_ranges_central)
+        #self.central_distance = np.min(selected_ranges_central)
+
+        # Compute the minimum distance in that range
+        self.right_distance = np.min(selected_ranges_right) if len(selected_ranges_right) > 0 else float('inf')
+
+        self.central_distance = np.min(selected_ranges_central) if len(selected_ranges_central) > 0 else float('inf')
         
         # Skip invalid measurements
         if np.isinf(self.right_distance) or self.right_distance < data.range_min or self.right_distance > data.range_max:
@@ -392,9 +400,26 @@ class AutomobileDataSimulator(Automobile_Data):
 
     def publish_closest_node(self, data = 0.0):
         self.pub_closest_node.publish(data)
-
+        
     def publish_next_event(self, data):
         self.pub_next_event.publish(data)
+    
+    def publish_prev_event(self, data):
+        self.pub_prev_event.publish(data)
 
     def publish_current_state(self, data):
         self.pub_current_state.publish(data)
+
+    def publish_routines(self, data):
+        self.pub_routines.publish(data)
+
+    def publish_conditions(self, data):
+        # Create message by passing dictionary values as arguments
+        msg = conditions(
+            can_overtake=data['can_overtake'],
+            highway=data['highway'],
+            car_on_path=data['car_on_path'],
+            rerouting=data['rerouting'],
+            tunnel=data['tunnel']
+        )
+        self.pub_conditions.publish(msg)

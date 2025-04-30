@@ -15,11 +15,11 @@
   </include>
  
   <node pkg="sim_pkg" type="delay.sh" args="5 sim_pkg car.launch"                 name="car"                  output="screen"/>
- 
+    <?ignore
   <node pkg="sim_pkg" type="delay.sh" args="5 sim_pkg tunnel.launch"              name="tunnel"               output="screen"/>
   <node pkg="sim_pkg" type="delay.sh" args="5 sim_pkg separator.launch"           name="separator"            output="screen"/>
   
-   <?ignore
+
     <node pkg="sim_pkg" type="delay.sh" args="5 sim_pkg obstacle_car.launch"        name="obstacle_car"         output="screen"/>
   <node pkg="sim_pkg" type="delay.sh" args="5 sim_pkg ramp.launch"                name="ramp"                 output="screen"/>
   <node pkg="sim_pkg" type="delay.sh" args="5 sim_pkg roadblock.launch"           name="roadblock"            output="screen"/>

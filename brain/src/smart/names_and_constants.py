@@ -32,6 +32,16 @@ EVENT_CONFIGS = {
         "starting_coords": [17.96, 8.81],
         "checkpoints": [455, 200]
     },
+    # South entrance of the roundabout to no lane
+    "no_lane_right": {
+        "starting_coords": [17.96, 8.81],
+        "checkpoints": [50, 328, 280]
+    },
+    # East entrance of the roundabout to no lane
+    "no_lane_left": {
+        "starting_coords": [19.48, 11.83],
+        "checkpoints": [50, 350, 280]
+    },
     "highway": {
         "starting_coords": [16.65, 11.74],
         "checkpoints": [50, 149]

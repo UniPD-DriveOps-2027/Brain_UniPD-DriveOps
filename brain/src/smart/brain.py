@@ -25,7 +25,7 @@ import helper_functions as hf
 
 from parkman import Maneuvers
 
-SELECTED_EVENT = "round"  # "tunnel", "round", "highway", "crosswalk", "parking" , "test"
+SELECTED_EVENT = "no_lane_left"  # "tunnel", "round","no_lane_left/right", "highway", "crosswalk", "parking" , "test"
 
 # Based on the path given for the arena challenge
 END_NODE_ARENA = 149
@@ -53,8 +53,11 @@ if RANDOM_START:
         GPS_FOR_START_ONLY = True
 # DEFAULT START
 else:
-    STARTING_COORDS = [-42, -42]                          # DEFAULT START POSITION
-    CHECKPOINTS = [455, 465, 91, 466, 434, 500, 125, 154] # GET FROM FRUITS
+    STARTING_COORDS = [-42, -42]                            # DEFAULT START POSITION
+    CHECKPOINTS = [ 472, 422, 398, 303, 319, 260, 197, 207, 151, 13, 119, 91, 451, 455, 
+                    466, 444, 30, 15, 107, 111, 17, 92, 16, 130, 65, 176, 190, 236, 373,
+                    384, 407, 332, 352, 6, 165]         
+                                                            # GET FROM FRUITS
     OVERTAKE_COUNTER = [3, 4, 23]
     GPS_FOR_START_ONLY = False
 
@@ -375,6 +378,8 @@ class Brain:
         self.next_event = Event()
         self.event_idx = 0
 
+        self.NO_LANE_CAN_BE_ACTIVATED = True
+
         # stop line with higher precision
         self.stopline_distance_median = 1.0
         self.car_dist_on_path = 0  # init
@@ -517,7 +522,7 @@ class Brain:
         # elif self.checkpoints[0] in RB_NODES_LEFT_INT:
         #     self.checkpoints.insert(1, 145)                     #BFMC_2023
 
-        self.switch_to_state(nac.START_STATE)
+        #self.switch_to_state(nac.START_STATE)
         self.switch_to_state(nac.START_STATE)
 
     # =============== STATES =============== #
@@ -592,9 +597,9 @@ class Brain:
                                     nac.DETECT_STOPLINE,
                                     nac.CONTROL_FOR_CAR,
                                     nac.DRIVE_DESIRED_SPEED])
-
-        if self.checkpoints[self.checkpoint_idx] in range(302, 331) or self.checkpoints[self.checkpoint_idx] in range(332, 357):
-            self.switch_to_state(nac.NO_LANE)
+        if (self.NO_LANE_CAN_BE_ACTIVATED):
+            if self.checkpoints[self.checkpoint_idx] in range(302, 331) or self.checkpoints[self.checkpoint_idx] in range(332, 357):
+                self.switch_to_state(nac.NO_LANE)
 
 
         # check parking
@@ -624,7 +629,7 @@ class Brain:
 
         # we are approaching a stopline, check only if we are far enough from the previous stopline
         else:
-            far_enough_from_prev_stopline = (self.event_idx == 1) or (self.car.dist_loc > STOPLINE_DISTANCE_THRESHOLD)
+            far_enough_from_prev_stopline = (self.car.dist_loc > STOPLINE_DISTANCE_THRESHOLD)
             if self.prev_event.name is not None:
                 print(f'stop enough: {self.car.dist_loc}')
             if self.detect.est_dist_to_stopline < STOPLINE_APPROACH_DISTANCE and far_enough_from_prev_stopline and self.routines[nac.DETECT_STOPLINE].active:
@@ -1367,23 +1372,61 @@ class Brain:
         print(f'TRAVELLED DISTANCE {travelled_distance}')
         if self.checkpoints[self.checkpoint_idx] in range(302, 331) or nac.TESTING:
             print('in RIGHT NO LANE!!!!!!!!')
-            if travelled_distance < 2.1:
+
+            if travelled_distance <= 4.0:
                 self.activate_routines([nac.FOLLOW_LANE,
-                                nac.CONTROL_FOR_CAR,
-                                nac.DRIVE_DESIRED_SPEED])
+                                        nac.CONTROL_FOR_CAR,
+                                        nac.DETECT_STOPLINE,
+                                        nac.DRIVE_DESIRED_SPEED])
                 self.run_routines()
-            elif travelled_distance < 3.8:
+
+            elif 4.0 < travelled_distance and travelled_distance < 5.0:
                 self.activate_routines([nac.FOLLOW_LANE_LEFT,
                                 nac.CONTROL_FOR_CAR,
+                                nac.DETECT_STOPLINE,
                                 nac.DRIVE_DESIRED_SPEED])
                 self.run_routines()
             
-
+            else:
+                self.NO_LANE_CAN_BE_ACTIVATED = False
+                self.switch_to_state(nac.LANE_FOLLOWING)
+        
 
         else:
             print('in LEFT NO LANE!!!!!!!!')
 
+            
+            if travelled_distance <= 4.7:
+                self.activate_routines([nac.FOLLOW_LANE,
+                                        nac.CONTROL_FOR_CAR,
+                                        nac.DETECT_STOPLINE,
+                                        nac.DRIVE_DESIRED_SPEED])
+                self.run_routines()
 
+            elif travelled_distance <= 5.2:
+                self.activate_routines([nac.FOLLOW_LANE_RIGHT,
+                                nac.CONTROL_FOR_CAR,
+                                nac.DETECT_STOPLINE,
+                                nac.DRIVE_DESIRED_SPEED])
+                self.run_routines()
+
+            elif travelled_distance <= 6.8:
+                self.activate_routines([nac.FOLLOW_LANE,
+                                nac.CONTROL_FOR_CAR,
+                                nac.DETECT_STOPLINE,
+                                nac.DRIVE_DESIRED_SPEED])
+                self.run_routines()
+
+            elif travelled_distance <= 7.1:
+                self.activate_routines([nac.FOLLOW_LANE_RIGHT,
+                                nac.CONTROL_FOR_CAR,
+                                nac.DETECT_STOPLINE,
+                                nac.DRIVE_DESIRED_SPEED])
+                self.run_routines()
+            
+            else:
+                self.NO_LANE_CAN_BE_ACTIVATED = False
+                self.switch_to_state(nac.LANE_FOLLOWING)
 
 
     # =============== ROUTINES =============== #
@@ -1480,7 +1523,7 @@ class Brain:
 
     def control_for_car(self):
         # check for obstacles
-        print('CONTROL FOR CAR!!!!!!!!!!')
+        #print('[CONTROLING FOR CAR]')
         if self.routines[nac.CONTROL_FOR_CAR].var1 is not None:
             last_obstacle_dist = self.routines[nac.CONTROL_FOR_CAR].var1
         else:
@@ -1490,7 +1533,7 @@ class Brain:
             dist = self.car.central_distance
             print('DISTANCE:', dist)
             if dist < OBSTACLE_DISTANCE_THRESHOLD and not self.curr_state==nac.APPROACHING_STOPLINE and not self.curr_state==nac.WAITING_AT_STOPLINE:
-                print('CARR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+                print('[### CAR DETECTED ###]')
                 self.car.drive_speed(speed=self.desired_speed/10)
                 obstacle = nac.CAR
                 print(f'Obstacle: {obstacle}')
@@ -1499,7 +1542,7 @@ class Brain:
                 
 
     def control_for_pedestrian(self):
-        print('PEDESTRIANNNNNNNN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+        #print('[CONTROLING FOR PEDESTRIAN]')
         # check for pedestrian
         frame = self.car.frame
 

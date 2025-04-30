@@ -153,7 +153,7 @@ if __name__ == "__main__":
     GRAPH_FILE = "final_graph.graphml"
     FRUITS_FILE = "fruits.txt"
     MAP_FILE = "../data/2024_VerySmall.png"
-    START_NODE = "140"
+    START_NODE = "472"
     
     # Load data
     road_graph = nx.read_graphml(GRAPH_FILE)
