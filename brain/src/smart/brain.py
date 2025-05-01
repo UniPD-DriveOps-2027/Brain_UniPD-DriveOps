@@ -1,13 +1,15 @@
 
 #!/usr/bin/python3
 from names_and_constants import SIMULATOR_FLAG, SHOW_IMGS, RANDOM_START, EVENT_SETTINGS, EVENT_CONFIGS # deleted completely the speed challenge
-
+import sys
+import os
 import numpy as np
 import cv2 as cv
 from time import time, sleep
 from numpy.linalg import norm
 from collections import deque
 import names_and_constants as nac
+from extra.giveme_fruits import compute_optimal_path
 
 if not SIMULATOR_FLAG:
     from automobile_data_interface import Automobile_Data
@@ -24,8 +26,8 @@ from obstacle2 import Obstacle
 import helper_functions as hf
 
 from parkman import Maneuvers
-
-SELECTED_EVENT = "no_lane_left"  # "tunnel", "round","no_lane_left/right", "highway", "crosswalk", "parking" , "test"
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+SELECTED_EVENT = None # "tunnel", "round","no_lane_left/right", "highway", "crosswalk", "parking" , "test"
 
 # Based on the path given for the arena challenge
 END_NODE_ARENA = 149
@@ -47,16 +49,14 @@ if RANDOM_START:
         GPS_FOR_START_ONLY = False
     # GET THE BEST "FRUITS" PATH FROM RANDOM POSITION     
     else: 
-        STARTING_COORDS = [3.2, 2.65] # GET FROM GPS
-        CHECKPOINTS = [222,150,450] # GET FROM FRUITS
+        STARTING_COORDS = [17.27, 5.6] # GET FROM GPS 
+        CHECKPOINTS = compute_optimal_path(start_node=472) # GET FROM FRUITS
         OVERTAKE_COUNTER = [25]
         GPS_FOR_START_ONLY = True
 # DEFAULT START
 else:
     STARTING_COORDS = [-42, -42]                            # DEFAULT START POSITION
-    CHECKPOINTS = [ 472, 422, 398, 303, 319, 260, 197, 207, 151, 13, 119, 91, 451, 455, 
-                    466, 444, 30, 15, 107, 111, 17, 92, 16, 130, 65, 176, 190, 236, 373,
-                    384, 407, 332, 352, 6, 165]         
+    CHECKPOINTS =  compute_optimal_path(start_node=472) # GET FROM FRUITS   
                                                             # GET FROM FRUITS
     OVERTAKE_COUNTER = [3, 4, 23]
     GPS_FOR_START_ONLY = False
@@ -484,9 +484,12 @@ class Brain:
                 if len(self.car.x_buffer) >= 5:
                     print(f'Waiting for gps: {(curr_time- start_time):.1f}/{GPS_TIMEOUT}')
                     self.checkpoints[self.checkpoint_idx] = closest_node
+                    checkpoints = compute_optimal_path(start_node=closest_node)
+                    self.checkpoints = checkpoints
                     if distance > 5.0:
                         self.error('ERROR: REROUTING: GPS converged, but distance is too large , we are too far from the lane')
                     break
+            
                 if curr_time - start_time > GPS_TIMEOUT:
                     print('WARNING: ROUTE_GENERATION: No gps signal, Starting from the first checkpoint')
                     sleep(3.0)
@@ -497,6 +500,8 @@ class Brain:
                     closest_node, distance = self.path_planner.get_closest_node(curr_pos)
                     self.car.publish_closest_node(float(closest_node))     ##
                     self.checkpoints[self.checkpoint_idx] = closest_node
+                    checkpoints = compute_optimal_path(start_node=closest_node)
+                    self.checkpoints = checkpoints
                     self.car.x_est = curr_pos[0]
                     self.car.y_est = curr_pos[1]
                     print(closest_node)
@@ -536,6 +541,7 @@ class Brain:
         # localize the car and go to the first checkpoint
 
         print('Generating route...')
+        print(self.checkpoints)
         # get start and end nodes from the chekpoint list
         assert len(self.checkpoints) >= 2, 'List of checkpoints needs 2 or more nodes'
         start_node = self.checkpoints[self.checkpoint_idx]
@@ -1824,7 +1830,7 @@ class Brain:
             if path_ahead is not None:
                 loc_path = path_ahead - point
                 # get yaw of the stopline
-                assert path_ahead.shape[0] > 10, f'path_ahead is too short: {path_ahead.shape[0]}, {events}'
+                assert path_ahead.shape[0] > 10, f'path_ahead is too short: {path_ahead.shape[0]}, {events}'     
                 path_first_10 = path_ahead[:10]
                 diff10 = path_first_10[1:] - path_first_10[:-1]
                 yaw_raw = np.median(np.arctan2(diff10[:, 1], diff10[:, 0]))
