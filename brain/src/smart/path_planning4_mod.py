@@ -376,9 +376,18 @@ class PathPlanning():
         else:
             path_event_path_ahead.append(None)
             
-        print("--------------------------------------------------------------------path_event_points_idx: ", self.path_event_points_distances)
-        print("--------------------------------------------------------------------path_event_points: ", self.path_event_points)
-        print("_____________________________________________________________________path_event_types: ", self.path_event_types)
+        # Replace your current print statements with this:
+        print("\n" + "="*80)
+        print("AUGMENTING PATH".center(80))
+        print("="*80)
+        print(f"{'Events Distances:':<20} {[f'{x:.2f}' for x in self.path_event_points_distances]}")
+        print("-"*80)
+        print(f"{'Event Points:':<20}")
+        for i, point in enumerate(self.path_event_points, 1):
+            print(f"  Point {i}: [{point[0]:.2f}, {point[1]:.2f}]")
+        print("-"*80)
+        print(f"{'Event Types:':<20} {self.path_event_types}")
+        print("="*80 + "\n")
 
         events = list(zip(self.path_event_types, self.path_event_points_distances, self.path_event_points, path_event_path_ahead))
         return events

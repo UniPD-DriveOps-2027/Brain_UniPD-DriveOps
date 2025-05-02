@@ -27,11 +27,12 @@ import helper_functions as hf
 
 from parkman import Maneuvers
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-SELECTED_EVENT = None # "tunnel", "round","no_lane_left/right", "highway", "crosswalk", "parking" , "test"
+SELECTED_EVENT = "hw_tunnel" # "tunnel", "round","no_lane_left/right", "highway", "crosswalk", "parking" , "test"
 
 # Based on the path given for the arena challenge
 END_NODE_ARENA = 149
 ARENA = False # TODO: Move this flag to names and constant and implement args for it --arena
+USE_FRUITS_GENERATED_PATH = True
 # RANDOM START
 if RANDOM_START:
     # USED FOR SPECIFIC PATHS DURING TESTING
@@ -39,8 +40,10 @@ if RANDOM_START:
         config = EVENT_CONFIGS[SELECTED_EVENT]
         STARTING_COORDS = config["starting_coords"]  
         CHECKPOINTS = config["checkpoints"]
+        END_NODE = EVENT_CONFIGS[SELECTED_EVENT]["checkpoints"][-1]
         OVERTAKE_COUNTER = [25]                 # TODO: IMPLEMENT BETTER OVERTAKE CONDITION
         GPS_FOR_START_ONLY = False
+        USE_FRUITS_GENERATED_PATH = False #we are not using fruits path for when we are testing specific events
     # MANUALLY WRITE THE PATH     
     elif ARENA: 
         STARTING_COORDS = [0.00, 0.00]  # IS GIVEN
@@ -146,12 +149,12 @@ class Routine():
 EVENT_TYPES = [nac.INTERSECTION_STOP_EVENT,             #0
                nac.INTERSECTION_TRAFFIC_LIGHT_EVENT,    #1    
                nac.INTERSECTION_PRIORITY_EVENT,         #2
-               nac.ROUNDABOUT_EVENT,                    #4
-               nac.CROSSWALK_EVENT,                     #5  
-               nac.PARKING_EVENT,                       #6
-               nac.HIGHWAY_EXIT_EVENT,                  #7
-               nac.HIGHWAY_ENTRANCE_EVENT,              #8
-               nac.TUNNEL_EVENT]                        #9
+               nac.ROUNDABOUT_EVENT,                    #3
+               nac.CROSSWALK_EVENT,                     #4
+               nac.PARKING_EVENT,                       #5
+               nac.HIGHWAY_EXIT_EVENT,                  #6
+               nac.HIGHWAY_ENTRANCE_EVENT,              #7
+               nac.TUNNEL_EVENT]                        #8
 
 
 class Event:
@@ -378,7 +381,7 @@ class Brain:
         self.next_event = Event()
         self.event_idx = 0
 
-        self.NO_LANE_CAN_BE_ACTIVATED = True
+        self.NO_LANE_CAN_BE_ACTIVATED = False ## <++> BFMC_2025
 
         # stop line with higher precision
         self.stopline_distance_median = 1.0
@@ -484,8 +487,9 @@ class Brain:
                 if len(self.car.x_buffer) >= 5:
                     print(f'Waiting for gps: {(curr_time- start_time):.1f}/{GPS_TIMEOUT}')
                     self.checkpoints[self.checkpoint_idx] = closest_node
-                    checkpoints = compute_optimal_path(start_node=closest_node)
-                    self.checkpoints = checkpoints
+                    if USE_FRUITS_GENERATED_PATH:
+                        checkpoints = compute_optimal_path(start_node=closest_node)
+                        self.checkpoints = checkpoints
                     if distance > 5.0:
                         self.error('ERROR: REROUTING: GPS converged, but distance is too large , we are too far from the lane')
                     break
@@ -500,8 +504,9 @@ class Brain:
                     closest_node, distance = self.path_planner.get_closest_node(curr_pos)
                     self.car.publish_closest_node(float(closest_node))     ##
                     self.checkpoints[self.checkpoint_idx] = closest_node
-                    checkpoints = compute_optimal_path(start_node=closest_node)
-                    self.checkpoints = checkpoints
+                    if USE_FRUITS_GENERATED_PATH:
+                        checkpoints = compute_optimal_path(start_node=closest_node)
+                        self.checkpoints = checkpoints
                     self.car.x_est = curr_pos[0]
                     self.car.y_est = curr_pos[1]
                     print(closest_node)
@@ -551,9 +556,7 @@ class Brain:
         # calculate path
         self.path_planner.compute_shortest_path(start_node, end_node)
         # initialize the list of events on the path
-        print('Augmenting path...')
         events = self.path_planner.augment_path(draw=SHOW_IMGS)
-        print('Path augmented')
         # add the events to the list of events, increasing it
         self.path_planner.draw_path()
         #cv.waitKey(0) COMMENTED for debugging
@@ -563,9 +566,12 @@ class Brain:
         self.next_event = self.events[0]
         self.prev_event.dist = 0.0
         self.car.reset_rel_pose()
-        print(f'EVENTS: {self.next_event}, idx: {self.event_idx}')
-        for e in self.events:
-            print(e)
+        
+        #print(f' ======  Events ====== ')
+        #for e in self.events:
+        #    print(f"{e}")
+        #print(f' ======  ****** ====== ')
+
         # draw the path
         self.path_planner.draw_path()
         #cv.waitKey(0)
@@ -635,7 +641,7 @@ class Brain:
 
         # we are approaching a stopline, check only if we are far enough from the previous stopline
         else:
-            far_enough_from_prev_stopline = (self.car.dist_loc > STOPLINE_DISTANCE_THRESHOLD)
+            far_enough_from_prev_stopline = (self.event_idx == 1) or (self.car.dist_loc > STOPLINE_DISTANCE_THRESHOLD)
             if self.prev_event.name is not None:
                 print(f'stop enough: {self.car.dist_loc}')
             if self.detect.est_dist_to_stopline < STOPLINE_APPROACH_DISTANCE and far_enough_from_prev_stopline and self.routines[nac.DETECT_STOPLINE].active:
@@ -654,7 +660,7 @@ class Brain:
                 self.curr_state.var4 = self.car.encoder_distance           
                 self.car.drive_speed(OVERTAKE_MOVING_CAR_SPEED)
                 self.curr_state.just_switched = False
-            dist = self.car.encoder_distance - self.curr_state.var4         
+            dist = self.car.encoder_distance - self.curr_state.var4  
             assert dist > -0.05
             print(f'Switching to the right lane: {dist:.2f}/{OT_MOVING_SWITCH_2:.2f}')
             if dist > OT_MOVING_SWITCH_2:
@@ -822,6 +828,7 @@ class Brain:
             stopline_yaw = self.next_event.yaw_stopline
             # local path in the stop line frame
             local_path_slf_rot = self.next_event.path_ahead
+
             _, stopline_y, _ = self.detect.detect_stopline(self.car.frame, show_ROI=SHOW_IMGS)
             e2 = stopline_y
             if self.stopline_distance_median is not None:
@@ -894,11 +901,17 @@ class Brain:
             # max_idx = len(local_path_cf)-1  # dont follow until the end # BFMC_2023
             max_idx = 30 # BFMC_2024
         else:  # curvy path
-            max_idx = len(local_path_cf)-1  # follow until the end
+            max_idx = len(local_path_cf)-1  # follow until the end 
             print('curvy')
+
 
         # State exit conditions
         if idx_point_ahead >= max_idx:  # we reached the end of the path
+            # EUGEN TRY TO MAKE THE CROSWALK BEFORE TUNNEL WORK
+            if self.events[self.event_idx + 1].name == nac.TUNNEL_EVENT: # Force to check for pedestrains befor tunnel street
+                self.switch_to_state(nac.LANE_FOLLOWING)
+                self.go_to_next_event()
+                
             self.switch_to_state(nac.LANE_FOLLOWING)
             self.go_to_next_event()
         elif self.next_event.name.startswith("intersection"):
@@ -1361,7 +1374,8 @@ class Brain:
         if self.conditions[nac.TUNNEL]:
 
             print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-            self.activate_routines([nac.DRIVE_DESIRED_SPEED]) # NOT SURE IF IT IS NEEDED
+            self.activate_routines([nac.DRIVE_DESIRED_SPEED, # NOT SURE IF IT IS NEEDED
+                                    nac.CONTROL_FOR_CAR]) 
             self.run_routines()
             
             # Publish steering command
@@ -1655,15 +1669,14 @@ class Brain:
         #TODO: implement that it can work on both  ways!
         if (self.next_event.name == nac.HIGHWAY_ENTRANCE_EVENT) and (self.car.filtered_left_sonar_distance <= 0.5):
             # self.conditions[nac.HIGHWAY] = str(self.checkpoints[self.checkpoint_idx]) in self.path_planner.highway_nodes and self.car_dist_on_path < 9.5
-            self.conditions[nac.HIGHWAY] = True
-
+            self.conditions[nac.HIGHWAY] = True  
         
         
         # TUNNEL
         '''
             This codition activate whenever our next event is Tunnel_event (we are on the speed curve), and lidar sees the wall on its right side
         '''
-
+        #TODO move inside lane following state / remove condition and use only the event
         if (self.next_event.name == nac.TUNNEL_EVENT) and (self.car.right_distance <= 0.4): # still on the sonar 
             self.conditions[nac.TUNNEL] = True
         else:
@@ -1823,10 +1836,11 @@ class Brain:
             dist = e[1]
             point = e[2]
             path_ahead = e[3]  # path in global coordinates
-            print(f'-----ddddddd-- {dist}')
-            print(f'-----pppppppp-- {point}')
-            print(f'-----nnnnnn-- {name}')
-            #print(f'-----path ahead-- {path_ahead}')
+            #print(f"Name:           {name}")
+            #print(f"Distance:       {dist:.2f}")
+            #print(f"Point:          [{point[0]:.2f}, {point[1]:.2f}]")
+            #print(f'Path ahead:     {path_ahead}')
+
             if path_ahead is not None:
                 loc_path = path_ahead - point
                 # get yaw of the stopline
@@ -1838,7 +1852,8 @@ class Brain:
                 loc_path = loc_path @ hf.rot_matrix(yaw_stopline)
                 path_to_ret = loc_path
                 curv = hf.get_curvature(path_ahead)
-                print(f'yaw_stopline: {yaw_stopline}, name: {name}, curv: {curv}')
+                #Debugging
+                #print(f'yaw_stopline: {yaw_stopline}, name: {name}, curv: {curv}')
                 len_path_ahead = 0.01*len(path_ahead)
             else:
                 path_to_ret = None

@@ -114,7 +114,7 @@ if __name__ == '__main__':
                                       trig_bno=True, 
                                       trig_enc=True,
                                       trig_control=True,
-                                      trig_sonar=False,
+                                      trig_sonar=True,
                                       trig_lidar=True)  # <++>
     else:
         car = AutomobileDataPi(trig_cam=False,
@@ -122,7 +122,7 @@ if __name__ == '__main__':
                                trig_bno=True, 
                                trig_enc=True,
                                trig_control=True,
-                               trig_sonar=False,
+                               trig_sonar=True,
                                trig_lidar=True) 
     sleep(1.5)
 
@@ -138,6 +138,7 @@ if __name__ == '__main__':
     controller = Controller(k1=k1, k2=k2, k3=k3, k3_NL=k3_NL, k3D=k3D,
                             dist_point_ahead=dist_point_ahead,
                             ff=ff_curvature)
+    # The following controllers are not used in 2025
     controller_sp = ControllerSpeed(desired_speed=SP_SPEED,
                                     curve_speed=CURVE_SPEED)
     controller_ag = ControllerBL(straight_speed=BL_SP_SPEED,
@@ -169,7 +170,7 @@ if __name__ == '__main__':
             #print("\033c")
             
             # <++++++++++++++++++++>
-            hf.show_car(track, car, nac.SHOW_IMGS)
+            #hf.show_car(track, car, nac.SHOW_IMGS)
 
             if not nac.SIMULATOR_FLAG:
                 ret, frame = cap.read()
@@ -194,7 +195,7 @@ if __name__ == '__main__':
             #     car.drive_angle(0.0)
             #     raise
 
-            hf.show_camera(car, nac.SHOW_IMGS)
+            #hf.show_camera(car, nac.SHOW_IMGS)
 
             if nac.SHOW_IMGS:
                 if cv.waitKey(1) == 27:

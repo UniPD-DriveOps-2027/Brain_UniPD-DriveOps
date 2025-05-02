@@ -497,7 +497,7 @@ def navigate_intersection(brain, show):
         e3 = 0.80 * e3
     elif brain.curr_state.var4 == "left":
         e3, _ = brain.detect.detect_intersection_left(brain.car.frame, show_ROI=show)
-        e3 = 0.95 * e3
+        e3 = 1.8 * e3 #old value = 0.95; new = 1.8 works for highway to speedcurve
     elif brain.curr_state.var4 == "forward":
         e3, _ = brain.detect.detect_intersection_forward(brain.car.frame, show_ROI=show)
         # e3, _ = brain.detect.detect_lane_ahead(brain.car.frame, show_ROI=show)

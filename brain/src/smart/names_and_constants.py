@@ -24,43 +24,49 @@ TESTING = False
 
 # Configurazioni eventi
 EVENT_CONFIGS = {
+    # Highway to tunnel
+    "hw_tunnel": {
+        "starting_coords": [0.39, 12.2],
+        "checkpoints": [999, 143]
+    },
     "tunnel": {
-        "starting_coords": [13.11, 1.98],
-        "checkpoints": [9999, 422, 398, 303, 260, 87, 118, 410, 406, 445, 164, 237, 333, 374, 30, 85, 148, 177, 143, 135, 98, 55, 30, 98, 111, 121, 92, 130]
+        "starting_coords": [0.39, 12.2],
+        "checkpoints": [999, 170]
     },
     "round": {
         "starting_coords": [17.96, 8.81],
-        "checkpoints": [455, 200]
+        "checkpoints": [999, 200]
     },
     # South entrance of the roundabout to no lane
     "no_lane_right": {
         "starting_coords": [17.96, 8.81],
-        "checkpoints": [50, 328, 280]
+        "checkpoints": [999, 328, 280]
     },
     # East entrance of the roundabout to no lane
     "no_lane_left": {
         "starting_coords": [19.48, 11.83],
-        "checkpoints": [50, 350, 280]
+        "checkpoints": [999, 350, 280]
     },
+    # North entrance of the roundabout to Highway
     "highway": {
-        "starting_coords": [16.65, 11.74],
-        "checkpoints": [50, 149]
+        "starting_coords": [17.48, 13.55],
+        "checkpoints": [999, 170]
     },
     "crosswalk": {
         "starting_coords": [13.02,  4.41],
-        "checkpoints": [50, 145]
+        "checkpoints": [999, 145]
     },
     "parking": {
         "starting_coords": [7.67, 0.75],
-        "checkpoints": [50, 412,389]
+        "checkpoints": [999, 412,389]
     },
     "bus": {
         "starting_coords": [16.42, 4.48],
-        "checkpoints": [50, 125]
+        "checkpoints": [999, 125]
     },
     "test": {
         "starting_coords": [7.67, 0.75],
-        "checkpoints": [50, 410]
+        "checkpoints": [999, 410]
     }
 
 }
@@ -116,12 +122,12 @@ TUNNEL_EVENT = 'tunnel_event'
 EVENT_TYPES = [INTERSECTION_STOP_EVENT,             #0
                INTERSECTION_TRAFFIC_LIGHT_EVENT,    #1
                INTERSECTION_PRIORITY_EVENT,         #2
-               ROUNDABOUT_EVENT,                    #4
-               CROSSWALK_EVENT,                     #5
-               PARKING_EVENT,                       #6
-               HIGHWAY_EXIT_EVENT,                  #7
-               HIGHWAY_ENTRANCE_EVENT,              #8
-               TUNNEL_EVENT                         #9 
+               ROUNDABOUT_EVENT,                    #3
+               CROSSWALK_EVENT,                     #4
+               PARKING_EVENT,                       #5
+               HIGHWAY_EXIT_EVENT,                  #6
+               HIGHWAY_ENTRANCE_EVENT,              #7
+               TUNNEL_EVENT                         #8
                ]                             
 
 
