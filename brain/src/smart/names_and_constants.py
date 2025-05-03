@@ -21,6 +21,7 @@ WEST = None
 
 # names_and_constants.py
 TESTING = False
+PUTA = False
 
 # Configurazioni eventi
 EVENT_CONFIGS = {
@@ -30,8 +31,8 @@ EVENT_CONFIGS = {
         "checkpoints": [999, 143]
     },
     "tunnel": {
-        "starting_coords": [0.39, 12.2],
-        "checkpoints": [999, 170]
+        "starting_coords": [2.42, 10.62],
+        "checkpoints": [999, 143]
     },
     "round": {
         "starting_coords": [17.96, 8.81],

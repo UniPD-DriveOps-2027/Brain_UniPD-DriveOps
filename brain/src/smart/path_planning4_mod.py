@@ -373,8 +373,9 @@ class PathPlanning():
                 path_ahead = self.path[self.path_event_points_idx[i]:min(self.path_event_points_idx[i]+140, len(self.path))]
                 path_event_path_ahead.append(path_ahead)
                 hf.draw_event(self, path_ahead, draw)
-        else:
-            path_event_path_ahead.append(None)
+            else:
+                print(f"Event type {t} not handled")
+                path_event_path_ahead.append(None)
             
         # Replace your current print statements with this:
         print("\n" + "="*80)

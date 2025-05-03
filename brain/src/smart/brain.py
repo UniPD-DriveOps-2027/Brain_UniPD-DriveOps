@@ -27,7 +27,8 @@ import helper_functions as hf
 
 from parkman import Maneuvers
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-SELECTED_EVENT = "hw_tunnel" # "tunnel", "round","no_lane_left/right", "highway", "crosswalk", "parking" , "test"
+
+SELECTED_EVENT = "tunnel" # "tunnel", "round","no_lane_left/right", "highway", "crosswalk", "parking" , "test"
 
 # Based on the path given for the arena challenge
 END_NODE_ARENA = 149
@@ -41,6 +42,7 @@ if RANDOM_START:
         STARTING_COORDS = config["starting_coords"]  
         CHECKPOINTS = config["checkpoints"]
         END_NODE = EVENT_CONFIGS[SELECTED_EVENT]["checkpoints"][-1]
+        print(f"Starting coords: {STARTING_COORDS}, Checkpoints: {CHECKPOINTS}, End node: {END_NODE}")
         OVERTAKE_COUNTER = [25]                 # TODO: IMPLEMENT BETTER OVERTAKE CONDITION
         GPS_FOR_START_ONLY = False
         USE_FRUITS_GENERATED_PATH = False #we are not using fruits path for when we are testing specific events
@@ -379,9 +381,12 @@ class Brain:
         # previous and next event (class Event)
         self.prev_event = Event()
         self.next_event = Event()
+        self.second_next_event = Event()
         self.event_idx = 0
 
         self.NO_LANE_CAN_BE_ACTIVATED = False ## <++> BFMC_2025
+        self.tunnel_integral_error = 0.0      ## <++> BFMC_2025
+        self.tunnel_last_time = None          ## <++> BFMC_2025
 
         # stop line with higher precision
         self.stopline_distance_median = 1.0
@@ -564,6 +569,10 @@ class Brain:
         self.events = self.create_sequence_of_events(events)
         self.event_idx = 1
         self.next_event = self.events[0]
+        if not self.event_idx == len(self.events):
+            self.second_next_event = self.events[1]
+        else:
+            self.second_next_event = None
         self.prev_event.dist = 0.0
         self.car.reset_rel_pose()
         
@@ -609,6 +618,7 @@ class Brain:
                                     nac.DETECT_STOPLINE,
                                     nac.CONTROL_FOR_CAR,
                                     nac.DRIVE_DESIRED_SPEED])
+        # no lane conditions
         if (self.NO_LANE_CAN_BE_ACTIVATED):
             if self.checkpoints[self.checkpoint_idx] in range(302, 331) or self.checkpoints[self.checkpoint_idx] in range(332, 357):
                 self.switch_to_state(nac.NO_LANE)
@@ -627,8 +637,18 @@ class Brain:
             self.lane_following_highway_entrance()
 
         #TUNNEL NEW 
-        elif self.next_event.name == nac.TUNNEL_EVENT:
-            self.switch_to_state(nac.TUNNEL_SPEED_CURVE)
+        # if next next event is TUNNEL_EVENT switch to TUNNEL state (we use next next because the intersection stop event is not trigered as the croswalk is too close to the entrance)
+        if (self.second_next_event.name == nac.TUNNEL_EVENT):
+            min_distance_lidar_right = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, -95, -85) 
+            if (min_distance_lidar_right <= 0.4):    
+                self.switch_to_state(nac.TUNNEL_SPEED_CURVE)
+                self.go_to_next_event()  
+
+        if self.next_event.name == nac.TUNNEL_EVENT:
+            min_distance_lidar_right = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, -95, -85) 
+            if (min_distance_lidar_right <= 0.4):    
+                self.switch_to_state(nac.TUNNEL_SPEED_CURVE)
+
           
 
         # check highway exit case
@@ -636,8 +656,8 @@ class Brain:
         #     self.lane_following_to_highway_exit()
 
         # end of current route, go to end state
-        elif self.next_event.name == nac.END_EVENT:
-            self.lane_following_to_end()
+        #elif self.next_event.name == nac.END_EVENT:
+        #    self.lane_following_to_end()
 
         # we are approaching a stopline, check only if we are far enough from the previous stopline
         else:
@@ -703,6 +723,7 @@ class Brain:
 
     # Event: End
     def lane_following_to_end(self):
+        print('Driving toward end...')
         if self.curr_state.just_switched:
             self.curr_state.var1 = self.car.encoder_distance         
             self.curr_state.just_switched = False
@@ -772,6 +793,8 @@ class Brain:
                 print('Going to the next event')
             elif next_event_name == nac.HIGHWAY_EXIT_EVENT:
                 self.error('WARNING: UNEXPECTED STOP LINE FOUND WITH HIGHWAY EXIT AS NEXT EVENT')
+            elif next_event_name == nac.END_EVENT: # BFMC_2025 02MAY -- this way we end the runs only at stoplines instead of at the random in the middle of the road
+                self.switch_to_state(nac.END_STATE)
             else:
                 self.error('ERROR: UNEXPECTED STOP LINE FOUND WITH UNKNOWN EVENT AS NEXT EVENT')
             self.activate_routines([])  # deactivate all routines
@@ -906,17 +929,13 @@ class Brain:
 
 
         # State exit conditions
-        if idx_point_ahead >= max_idx:  # we reached the end of the path
-            # EUGEN TRY TO MAKE THE CROSWALK BEFORE TUNNEL WORK
-            if self.events[self.event_idx + 1].name == nac.TUNNEL_EVENT: # Force to check for pedestrains befor tunnel street
-                self.switch_to_state(nac.LANE_FOLLOWING)
-                self.go_to_next_event()
-                
+        if idx_point_ahead >= max_idx:  # we reached the end of the path    
             self.switch_to_state(nac.LANE_FOLLOWING)
             self.go_to_next_event()
         elif self.next_event.name.startswith("intersection"):
             hf.navigate_intersection(self, SHOW_IMGS)
         elif self.next_event.name.startswith("roundabout"):
+            self.achievements[nac.NO_LANE_ACHIEVED] = False # BFMC_2025 reset the achievement so we can achieve it again after a roundabout 
             print(f'idx (ARGMIN): {idx_point_ahead}')
             idx_point_ahead = np.round(self.car.dist_loc*100)
             if idx_point_ahead >= max_idx:  # we reached the end of the path
@@ -947,7 +966,7 @@ class Brain:
             self.switch_to_state(nac.TRACKING_LOCAL_PATH)
 
     def waiting_at_stopline(self):
-        EXTRA_TIME = 2.0 if self.stopline_counter == 15 else 0.0
+        EXTRA_TIME = 2.0 if self.stopline_counter == 50 else 0.0 # NO NEED FOR EXTRA TIME ?!
         print(f'debug extratime: {EXTRA_TIME}')
         # no routines
         self.activate_routines([])
@@ -1366,26 +1385,39 @@ class Brain:
         
 
     def tunnel_speed_curve(self):
-        TUNNEL_integral_sum=0.0
-
-        print(f"Tunnel condition{nac.TUNNEL}")
-        print(f"Conditions{self.conditions}")
-
-        if self.conditions[nac.TUNNEL]:
-
-            print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-            self.activate_routines([nac.DRIVE_DESIRED_SPEED, # NOT SURE IF IT IS NEEDED
-                                    nac.CONTROL_FOR_CAR]) 
+        right_distance = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, -95, -85)
+        if right_distance < 0.7: 
+            self.activate_routines([nac.DRIVE_DESIRED_SPEED, nac.CONTROL_FOR_CAR]) 
             self.run_routines()
-            
-            # Publish steering command
-            ##self.pub_steering.publish(Float32(self.steering_angle_deg))
-            self.car.drive_angle(self.car.steering_angle_deg)
-            
+
+            error = - 0.25 + right_distance # desired - actual distance [m]
+
+            # Time delta for PI control
+            current_time = time()
+            if self.tunnel_last_time is None:
+                delta_time = 0.0
+                self.tunnel_last_time = current_time
+            else:
+                delta_time = current_time - self.tunnel_last_time
+                self.tunnel_last_time = current_time
+
+            # Update integral term with anti-windup clamping
+            self.tunnel_integral_error += error * delta_time
+            self.tunnel_integral_error = max(min(self.tunnel_integral_error, 0.8), -0.8) # Clamp integral
+
+            # PI control
+            steering_output = (150 * error) + (100 * self.tunnel_integral_error)
+            steering_output = max(min(steering_output, 28), -28) # Clamp output
+            self.car.drive_angle(steering_output)
+            print(f"error: {error:.2f}, integral error: {self.tunnel_integral_error:.2f}, steering output: {steering_output:.2f}")
         else:
-           self.activate_routines([nac.FOLLOW_LANE,
-                                nac.CONTROL_FOR_CAR,
-                                nac.DRIVE_DESIRED_SPEED])
+            # Reset the integral error when the car is not in the tunnel
+            self.tunnel_integral_error = 0.0
+            self.tunnel_last_time = None
+            # Switch to lane following state
+            self.switch_to_state(nac.LANE_FOLLOWING)
+            self.go_to_next_event()
+
 
     def no_lane(self):
         travelled_distance = self.car.encoder_distance - self.curr_state.start_distance
@@ -1671,20 +1703,9 @@ class Brain:
             # self.conditions[nac.HIGHWAY] = str(self.checkpoints[self.checkpoint_idx]) in self.path_planner.highway_nodes and self.car_dist_on_path < 9.5
             self.conditions[nac.HIGHWAY] = True  
         
-        
-        # TUNNEL
-        '''
-            This codition activate whenever our next event is Tunnel_event (we are on the speed curve), and lidar sees the wall on its right side
-        '''
-        #TODO move inside lane following state / remove condition and use only the event
-        if (self.next_event.name == nac.TUNNEL_EVENT) and (self.car.right_distance <= 0.4): # still on the sonar 
-            self.conditions[nac.TUNNEL] = True
-        else:
-            self.conditions[nac.TUNNEL] = False
         # NO_LANE
         '''
-            The no_lane HAS to happen after the 1st time we go through the roundabout
-            The checkpoint has to be after the no_lane part
+            The NO_LANE_ACHIEVED resets after each roundabout
         '''
         #if self.prev_event.name == nac.ROUNDABOUT_EVENT and self.next_event.name != nac.INTERSECTION_STOP_EVENT and not self.achievements[nac.NO_LANE_ACHIEVED] :
         #    print('Entered no_lane')
@@ -1798,6 +1819,11 @@ class Brain:
         else:
             self.next_event = self.events[self.event_idx]
             self.event_idx += 1
+            ## Not sure of its usefulness, but we add it for now
+            if self.event_idx == len(self.events):
+                pass
+            else:
+                self.second_next_event = self.events[self.event_idx]
 
     def next_checkpoint(self):
         self.checkpoint_idx += 1
@@ -1808,17 +1834,23 @@ class Brain:
             pass
         else:
             # it was the last checkpoint
-            # TODO : IMPORTANT HARDCODED 2024, remove it later, BCS OF READING STOPLINES
-            print('Reached last checkpoint...\nExiting...')
-            # self.car.drive_angle(angle=0.0)
-            enc_start = self.car.encoder_distance
-            if self.checkpoints[-1] == END_NODE:                  #BFMC_2024 
-                extra_dist = 0.05
-                self.car.drive(speed=0.1, angle=0.0)
-                while self.car.encoder_distance - enc_start < extra_dist:
-                    sleep(0.1)
-            else:
-                self.car.drive(speed=0.0, angle=0.0)
+            # TODO : test this implemetation of PUTA, is should make the car stop only at stoplines, not in the middle of the road 
+            if nac.PUTA:
+                nac.PUTA = False
+                self.switch_to_state(nac.LANE_FOLLOWING)
+                pass
+
+            print('Reached last checkpoint...\nExiting...')      
+            self.car.drive(speed=0.0, angle=0.0)
+
+            #enc_start = self.car.encoder_distance              #BFMC_2024 <++> Commented 2025
+            #if self.checkpoints[-1] == END_NODE:                   
+            #    extra_dist = 0.00                                 
+            #    self.car.drive(speed=0.1, angle=0.0)
+            #    while self.car.encoder_distance - enc_start < extra_dist:
+            #        sleep(0.1)
+            #else:
+            #    self.car.drive(speed=0.0, angle=0.0)
 
             self.car.stop()
             sleep(3)
