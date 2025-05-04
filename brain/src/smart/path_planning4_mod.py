@@ -287,6 +287,12 @@ class PathPlanning():
         return self.path
 
     def augment_path(self, draw=True):
+
+        self.path_event_points = []
+        self.path_event_points_distances = []
+        self.path_event_points_idx = []
+        self.path_event_types = []
+
         exit_points = self.intersection_out + self.ra_exit
         exit_points = np.array([self.get_coord(x) for x in exit_points])
         path_exit_points = []
@@ -355,14 +361,13 @@ class PathPlanning():
             t = self.path_event_types[i]
             if t.startswith('intersection') or t.startswith('roundabout'):
                 assert len(self.path) > 0
-        # Safe exit point access with fallback
+                # Safe exit point access with fallback
                 if local_idx < len(exit_points_idx):
                     end_idx = min(exit_points_idx[local_idx]+10, len(self.path))
                     local_idx += 1
                 else:
-            # Fallback: use fixed lookahead when no exit point is found
+                    # Fallback: use fixed lookahead when no exit point is found
                     end_idx = min(self.path_event_points_idx[i]+13, len(self.path))
-            
                 path_ahead = self.path[self.path_event_points_idx[i]:end_idx]
                 #print(f'local index {local_idx}')
                 path_event_path_ahead.append(path_ahead)

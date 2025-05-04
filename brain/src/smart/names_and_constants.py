@@ -21,7 +21,6 @@ WEST = None
 
 # names_and_constants.py
 TESTING = False
-PUTA = False
 
 # Configurazioni eventi
 EVENT_CONFIGS = {
@@ -41,12 +40,12 @@ EVENT_CONFIGS = {
     # South entrance of the roundabout to no lane
     "no_lane_right": {
         "starting_coords": [17.96, 8.81],
-        "checkpoints": [999, 328, 280]
+        "checkpoints": [999, 328, 150]
     },
     # East entrance of the roundabout to no lane
     "no_lane_left": {
         "starting_coords": [19.48, 11.83],
-        "checkpoints": [999, 350, 280]
+        "checkpoints": [999, 350, 150]
     },
     # North entrance of the roundabout to Highway
     "highway": {
@@ -58,8 +57,8 @@ EVENT_CONFIGS = {
         "checkpoints": [999, 145]
     },
     "parking": {
-        "starting_coords": [7.67, 0.75],
-        "checkpoints": [999, 412,389]
+        "starting_coords": [7.73, 0.75],
+        "checkpoints": [450, 411]
     },
     "bus": {
         "starting_coords": [16.42, 4.48],
@@ -93,7 +92,7 @@ TAILING_CAR = 'tailing_car'
 PARKING = 'parking'
 CROSSWALK_NAVIGATION = 'crosswalk_navigation'
 TUNNEL_SPEED_CURVE = 'tunnel_speed_curve'
-NO_LANE = 'no_lane'
+NO_LANE_STATE = 'no_lane_state'
 
 # ======================== ROUTINES ==========================
 FOLLOW_LANE = 'follow_lane'
@@ -119,6 +118,7 @@ END_EVENT = 'end_event'
 HIGHWAY_EXIT_EVENT = 'highway_exit_event'
 HIGHWAY_ENTRANCE_EVENT = 'highway_entrance_event'
 TUNNEL_EVENT = 'tunnel_event'
+NO_LANE_EVENT = 'no_lane_event'
 
 EVENT_TYPES = [INTERSECTION_STOP_EVENT,             #0
                INTERSECTION_TRAFFIC_LIGHT_EVENT,    #1
@@ -128,14 +128,14 @@ EVENT_TYPES = [INTERSECTION_STOP_EVENT,             #0
                PARKING_EVENT,                       #5
                HIGHWAY_EXIT_EVENT,                  #6
                HIGHWAY_ENTRANCE_EVENT,              #7
-               TUNNEL_EVENT                         #8
+               TUNNEL_EVENT,                        #8
+               NO_LANE_EVENT                        #9 
                ]                             
 
 
 # ======================== ACHIEVEMENTS ========================
 # consider adding all the tasks, may be too cumbersome
 PARK_ACHIEVED = 'park_achieved'
-NO_LANE_ACHIEVED = 'no_lane_achieved'
 
 # ======================== CONDITIONS ==========================
 CAN_OVERTAKE = 'can_overtake'
@@ -227,3 +227,11 @@ S_PARK = 's'
 RIGHT_PARK = 'right'
 LEFT_PARK = 'left'
 TH = None
+
+
+# ADDITIONAL CONSTANTS
+
+# IN ORDER TO FIX THE PROBLEM OF STOPPING WHEN COMPUTING THE PATH WHILE WE ARE IN THE NO LANE STREET WE USE THIS FLAG
+# IT IS SET TO TRUE WHEN WE DONT STOP THE CAR INSIDE THE START_EVENT WHEN WE HAVE TO RECOMPUTE THE PATH
+# THE CHECKPOINT MUST BE AFTER THE NO LANE EVENT IN ORDER TO BY PASS THE STOP
+DONT_STOP_AT_NO_LANE_EVENT = False

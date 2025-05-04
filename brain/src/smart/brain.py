@@ -28,7 +28,7 @@ import helper_functions as hf
 from parkman import Maneuvers
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-SELECTED_EVENT = "tunnel" # "tunnel", "round","no_lane_left/right", "highway", "crosswalk", "parking" , "test"
+SELECTED_EVENT = "no_lane_right" # "tunnel", "round","no_lane_left/right", "highway", "crosswalk", "parking" , "test"
 
 # Based on the path given for the arena challenge
 END_NODE_ARENA = 149
@@ -56,13 +56,13 @@ if RANDOM_START:
     else: 
         STARTING_COORDS = [17.27, 5.6] # GET FROM GPS 
         CHECKPOINTS = compute_optimal_path(start_node=472) # GET FROM FRUITS
+        END_NODE = CHECKPOINTS[-1]  #get the last node from the path
         OVERTAKE_COUNTER = [25]
         GPS_FOR_START_ONLY = True
 # DEFAULT START
 else:
     STARTING_COORDS = [-42, -42]                            # DEFAULT START POSITION
-    CHECKPOINTS =  compute_optimal_path(start_node=472) # GET FROM FRUITS   
-                                                            # GET FROM FRUITS
+    CHECKPOINTS = [ 472, 322, 149, 123, 450, 444]#, 96, 120, 102, 130, 172, 180, 420, 352, 502, 160]
     OVERTAKE_COUNTER = [3, 4, 23]
     GPS_FOR_START_ONLY = False
 
@@ -156,7 +156,8 @@ EVENT_TYPES = [nac.INTERSECTION_STOP_EVENT,             #0
                nac.PARKING_EVENT,                       #5
                nac.HIGHWAY_EXIT_EVENT,                  #6
                nac.HIGHWAY_ENTRANCE_EVENT,              #7
-               nac.TUNNEL_EVENT]                        #8
+               nac.TUNNEL_EVENT,                        #8
+               nac.NO_LANE_EVENT]                       #9
 
 
 class Event:
@@ -195,12 +196,11 @@ CONDITIONS = {
         # beginning or after a roadblock
         nac.REROUTING:    True,
         # if true, the car is in the tunnel
-        nac.TUNNEL:       False,
+        nac.TUNNEL:       False
 }
 
 ACHIEVEMENTS = {
-        nac.PARK_ACHIEVED:    False,
-        nac.NO_LANE_ACHIEVED: False,
+        nac.PARK_ACHIEVED:    False
 }
 
 # ==============================================================
@@ -384,7 +384,7 @@ class Brain:
         self.second_next_event = Event()
         self.event_idx = 0
 
-        self.NO_LANE_CAN_BE_ACTIVATED = False ## <++> BFMC_2025
+
         self.tunnel_integral_error = 0.0      ## <++> BFMC_2025
         self.tunnel_last_time = None          ## <++> BFMC_2025
 
@@ -423,7 +423,7 @@ class Brain:
             # crosswalk navigation  
             nac.CROSSWALK_NAVIGATION:    State(nac.CROSSWALK_NAVIGATION, self.crosswalk_navigation),
             nac.TUNNEL_SPEED_CURVE:      State(nac.TUNNEL_SPEED_CURVE, self.tunnel_speed_curve),
-            nac.NO_LANE:                 State(nac.NO_LANE, self.no_lane)
+            nac.NO_LANE_STATE:           State(nac.NO_LANE_STATE, self.no_lane)
         }
 
         # INITIALIZE ROUTINES
@@ -544,7 +544,12 @@ class Brain:
     def start_state(self):
         if self.curr_state.just_switched:
             self.conditions[nac.REROUTING] = True
-            self.car.drive_distance(0.0)  # stop
+            # Check in name and constants the comment. Maybe it is not needed anymore if full path generation can be created
+            if nac.DONT_STOP_AT_NO_LANE_EVENT:
+                nac.DONT_STOP_AT_NO_LANE_EVENT = False # reset the flag 
+            else:
+                self.car.drive_distance(0.0)  # stop
+
             self.curr_state.var2 = time()
             self.curr_state.just_switched = False
 
@@ -554,13 +559,17 @@ class Brain:
         print(self.checkpoints)
         # get start and end nodes from the chekpoint list
         assert len(self.checkpoints) >= 2, 'List of checkpoints needs 2 or more nodes'
-        start_node = self.checkpoints[self.checkpoint_idx]
-        # already checked in end_state
-        end_node = self.checkpoints[self.checkpoint_idx+1]
-        print(f'Start node: {start_node}, End node: {end_node}')
-        # calculate path
-        self.path_planner.compute_shortest_path(start_node, end_node)
-        # initialize the list of events on the path
+
+        # Compute path through all remaining checkpoints
+        full_path = []
+        for i in range(self.checkpoint_idx, len(self.checkpoints)-1):
+            start_node = self.checkpoints[i]
+            end_node = self.checkpoints[i+1]
+            print(f'Computing segment {i}: {start_node} -> {end_node}')
+            self.path_planner.compute_shortest_path(start_node, end_node)
+            full_path.extend(self.path_planner.path)
+
+        self.path_planner.path = np.array(full_path)
         events = self.path_planner.augment_path(draw=SHOW_IMGS)
         # add the events to the list of events, increasing it
         self.path_planner.draw_path()
@@ -618,11 +627,6 @@ class Brain:
                                     nac.DETECT_STOPLINE,
                                     nac.CONTROL_FOR_CAR,
                                     nac.DRIVE_DESIRED_SPEED])
-        # no lane conditions
-        if (self.NO_LANE_CAN_BE_ACTIVATED):
-            if self.checkpoints[self.checkpoint_idx] in range(302, 331) or self.checkpoints[self.checkpoint_idx] in range(332, 357):
-                self.switch_to_state(nac.NO_LANE)
-
 
         # check parking
         if self.next_event.name == nac.PARKING_EVENT:
@@ -631,6 +635,10 @@ class Brain:
                                     nac.CONTROL_FOR_CAR,
                                     nac.DRIVE_DESIRED_SPEED])
             self.lane_following_to_parking()
+
+                
+        elif (self.next_event.name == nac.NO_LANE_EVENT):   
+            self.switch_to_state(nac.NO_LANE_STATE)
         
         # check highway entrance case
         elif self.next_event.name == nac.HIGHWAY_ENTRANCE_EVENT:
@@ -638,13 +646,13 @@ class Brain:
 
         #TUNNEL NEW 
         # if next next event is TUNNEL_EVENT switch to TUNNEL state (we use next next because the intersection stop event is not trigered as the croswalk is too close to the entrance)
-        if (self.second_next_event.name == nac.TUNNEL_EVENT):
+        elif getattr(self.second_next_event, 'name', None) == nac.TUNNEL_EVENT:   #safe against None values
             min_distance_lidar_right = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, -95, -85) 
             if (min_distance_lidar_right <= 0.4):    
                 self.switch_to_state(nac.TUNNEL_SPEED_CURVE)
                 self.go_to_next_event()  
 
-        if self.next_event.name == nac.TUNNEL_EVENT:
+        elif self.next_event.name == nac.TUNNEL_EVENT:
             min_distance_lidar_right = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, -95, -85) 
             if (min_distance_lidar_right <= 0.4):    
                 self.switch_to_state(nac.TUNNEL_SPEED_CURVE)
@@ -656,8 +664,15 @@ class Brain:
         #     self.lane_following_to_highway_exit()
 
         # end of current route, go to end state
-        #elif self.next_event.name == nac.END_EVENT:
-        #    self.lane_following_to_end()
+        elif self.next_event.name == nac.END_EVENT:
+            if self.checkpoint_idx == len(self.checkpoints) - 1:
+                self.lane_following_to_end()
+            else:
+                #self.switch_to_state(nac.END_STATE)
+                self.go_to_next_event()
+                # start routing for next checkpoint
+                self.next_checkpoint()
+                self.switch_to_state(nac.START_STATE)
 
         # we are approaching a stopline, check only if we are far enough from the previous stopline
         else:
@@ -769,6 +784,7 @@ class Brain:
                 self.stopline_counter += 1
             # print(self.stopline_counter)
             self.conditions[nac.HIGHWAY] = False
+            #self.conditions[nac.NO_LANE] = False  # <++> BFMC_2025
             next_event_name = self.next_event.name
             # Events with stopline
             if next_event_name == nac.INTERSECTION_STOP_EVENT:      
@@ -793,8 +809,8 @@ class Brain:
                 print('Going to the next event')
             elif next_event_name == nac.HIGHWAY_EXIT_EVENT:
                 self.error('WARNING: UNEXPECTED STOP LINE FOUND WITH HIGHWAY EXIT AS NEXT EVENT')
-            elif next_event_name == nac.END_EVENT: # BFMC_2025 02MAY -- this way we end the runs only at stoplines instead of at the random in the middle of the road
-                self.switch_to_state(nac.END_STATE)
+            #elif next_event_name == nac.END_EVENT and self.checkpoints[-1] == END_NODE: # BFMC_2025 02MAY -- this way we end the runs only at stoplines instead of at the random in the middle of the road
+            #    self.switch_to_state(nac.END_STATE)
             else:
                 self.error('ERROR: UNEXPECTED STOP LINE FOUND WITH UNKNOWN EVENT AS NEXT EVENT')
             self.activate_routines([])  # deactivate all routines
@@ -935,7 +951,6 @@ class Brain:
         elif self.next_event.name.startswith("intersection"):
             hf.navigate_intersection(self, SHOW_IMGS)
         elif self.next_event.name.startswith("roundabout"):
-            self.achievements[nac.NO_LANE_ACHIEVED] = False # BFMC_2025 reset the achievement so we can achieve it again after a roundabout 
             print(f'idx (ARGMIN): {idx_point_ahead}')
             idx_point_ahead = np.round(self.car.dist_loc*100)
             if idx_point_ahead >= max_idx:  # we reached the end of the path
@@ -1211,36 +1226,35 @@ class Brain:
           #  return
 
         if just_changed:
-            # this will become true if we trusted the gps
-            # at least once. We will use local pos afterward
+            # We will use local positioning to localize the parking spot
             self.curr_state.var1 = (park_state, park_type, False)
-            self.car.reset_rel_pose()
             self.curr_state.var2  = True
+            self.car.reset_rel_pose()
+            
+        car_est_pos = np.array([self.car.x_est, self.car.y_est])
+        # one sample for every cm in the path
+        park_index_on_path = int(self.next_event.dist*100)
+        path_to_analyze = self.path_planner.path[max(0, park_index_on_path - SUBPATH_LENGTH_FOR_PARKING): min(park_index_on_path + SUBPATH_LENGTH_FOR_PARKING, len(self.path_planner.path))]
+        car_idx_on_path = np.argmin(norm(path_to_analyze - car_est_pos, axis=1))
+        park_index_on_path = SUBPATH_LENGTH_FOR_PARKING
 
-            car_est_pos = np.array([self.car.x_est, self.car.y_est])
-            # one sample for every cm in the path
-            park_index_on_path = int(self.next_event.dist*100)
-            path_to_analyze = self.path_planner.path[max(0, park_index_on_path - SUBPATH_LENGTH_FOR_PARKING): min(park_index_on_path + SUBPATH_LENGTH_FOR_PARKING, len(self.path_planner.path))]
-            car_idx_on_path = np.argmin(norm(path_to_analyze - car_est_pos, axis=1))
-            park_index_on_path = SUBPATH_LENGTH_FOR_PARKING
-    
-            # print("path_to_analyze ", path_to_analyze)
-            print("car_est_pos ", car_est_pos)
-            print("car_idx_on_path ", car_idx_on_path)
-            print("park_index_on_path ", park_index_on_path)
-            print("self.car.dist_loc ", self.car.dist_loc)
-            print("MAX_PARK_SEARCH_DIST ", MAX_PARK_SEARCH_DIST)
-            if car_idx_on_path < park_index_on_path and self.car.dist_loc < MAX_PARK_SEARCH_DIST:
-                print('Behind parking spot')
-                self.car.drive_speed(PARK_SEARCH_SPEED)
-                if car_idx_on_path > park_index_on_path - IDX_OFFSET_FROM_SAVED_PARK_POSITION:
-                    print('We arrived at the parking spot')
-                    self.car.drive_speed(0.0)
-                    self.curr_state.var1 = (nac.CHECKING_FOR_PARKED_CARS, park_type, True)
-                else:
-                    print(f'getting closer...  dist: {self.car.dist_loc:.2f}/{MAX_PARK_SEARCH_DIST:.2f}')
+        # print("path_to_analyze ", path_to_analyze)
+        print("car_est_pos ", car_est_pos)
+        print("car_idx_on_path ", car_idx_on_path)
+        print("park_index_on_path ", park_index_on_path)
+        print("self.car.dist_loc ", self.car.dist_loc)
+        print("MAX_PARK_SEARCH_DIST ", MAX_PARK_SEARCH_DIST)
+        if car_idx_on_path < park_index_on_path and self.car.dist_loc < MAX_PARK_SEARCH_DIST:
+            print('Behind parking spot')
+            self.car.drive_speed(PARK_SEARCH_SPEED)
+            if car_idx_on_path > park_index_on_path - IDX_OFFSET_FROM_SAVED_PARK_POSITION:
+                print('We arrived at the parking spot')
+                self.car.drive_speed(0.0)
+                self.curr_state.var1 = (nac.CHECKING_FOR_PARKED_CARS, park_type, True)
             else:
-                self.error('ERROR: PARKING: In front of parking spot, or maximum search distance reached')
+                print(f'getting closer...  dist: {self.car.dist_loc:.2f}/{MAX_PARK_SEARCH_DIST:.2f}')
+        else:
+            self.error('ERROR: PARKING: In front of parking spot, or maximum search distance reached')
 
     def parking_checking(self, just_changed, park_state, park_type):
         print('Checking for parked cars...')
@@ -1360,7 +1374,9 @@ class Brain:
         print (f'in rect {self.flag_pedestrian_in_the_way}')
         print (f'lidar dist {self.car.central_distance}')
         print (f'on crosswalk {self.pedestrian_on_the_crosswalk}')
-        if self.flag_seen_pedestrian or self.car.central_distance < PEDESTRIAN_CONTROL_DISTANCE:
+
+
+        if self.flag_seen_pedestrian or self.car.central_distance < PEDESTRIAN_CONTROL_DISTANCE or (time() - self.curr_state.start_time) < 10:
             self.car.drive_speed(0.0)
             self.activate_routines([nac.CONTROL_FOR_PEDESTRIAN])
             if not self.pedestrian_on_the_crosswalk:
@@ -1432,7 +1448,7 @@ class Brain:
                                         nac.DRIVE_DESIRED_SPEED])
                 self.run_routines()
 
-            elif 4.0 < travelled_distance and travelled_distance < 5.0:
+            elif 4.0 < travelled_distance and travelled_distance < 4.5:
                 self.activate_routines([nac.FOLLOW_LANE_LEFT,
                                 nac.CONTROL_FOR_CAR,
                                 nac.DETECT_STOPLINE,
@@ -1440,8 +1456,12 @@ class Brain:
                 self.run_routines()
             
             else:
-                self.NO_LANE_CAN_BE_ACTIVATED = False
+                #self.NO_LANE_CAN_BE_ACTIVATED = False
+                #self.conditions[nac.NO_LANE] = False
                 self.switch_to_state(nac.LANE_FOLLOWING)
+                nac.DONT_STOP_AT_NO_LANE_EVENT = True
+                self.go_to_next_event()
+
         
 
         else:
@@ -1481,8 +1501,11 @@ class Brain:
             
             # SWITCH STATE TO LANE FOLLOWING & RESET THE FLAG NO_LANE_CAN_BE_ACTIVATED 
             else:
-                self.NO_LANE_CAN_BE_ACTIVATED = False
+                #self.NO_LANE_CAN_BE_ACTIVATED = False
+                #self.conditions[nac.NO_LANE] = False
                 self.switch_to_state(nac.LANE_FOLLOWING)
+                nac.DONT_STOP_AT_NO_LANE_EVENT = True
+                self.go_to_next_event() 
 
 
     # =============== ROUTINES =============== #
@@ -1705,16 +1728,10 @@ class Brain:
         
         # NO_LANE
         '''
-            The NO_LANE_ACHIEVED resets after each roundabout
+            This condition is turned False every time we hit a stopline
         '''
-        #if self.prev_event.name == nac.ROUNDABOUT_EVENT and self.next_event.name != nac.INTERSECTION_STOP_EVENT and not self.achievements[nac.NO_LANE_ACHIEVED] :
-        #    print('Entered no_lane')
+        #if (self.next_event.name == nac.NO_LANE_EVENT):
         #    self.conditions[nac.NO_LANE] = True
-        #if self.conditions[nac.NO_LANE] and self.next_event.name == nac.ROUNDABOUT_EVENT and self.car_dist_on_path > 8 :
-        #    print('ACHIEVED NO_LANE')
-        #    self.achievements[nac.NO_LANE_ACHIEVED] = True
-        #    self.conditions[nac.NO_LANE] = False
-
 
         # CAN_OVERTAKE
         '''
@@ -1737,6 +1754,11 @@ class Brain:
         print(f'car.yaw: {self.car.yaw}')
         print(f'car.yaw_loc: {self.car.yaw_loc}')
         print('==========================================================================')
+  
+        print(f'CHECKPOINT IDX: {self.checkpoint_idx}')
+        print(f'CHECKPOINT lenght: {len(self.checkpoints)}')
+        print('==========================================================================')
+        
         self.run_routines()
 
         # =============== Publish to dashboard ==================== #
@@ -1835,23 +1857,23 @@ class Brain:
         else:
             # it was the last checkpoint
             # TODO : test this implemetation of PUTA, is should make the car stop only at stoplines, not in the middle of the road 
-            if nac.PUTA:
-                nac.PUTA = False
-                self.switch_to_state(nac.LANE_FOLLOWING)
-                pass
+            #if nac.PUTA:
+            #    nac.PUTA = False
+            #    self.switch_to_state(nac.LANE_FOLLOWING)
+            #    pass
 
             print('Reached last checkpoint...\nExiting...')      
             self.car.drive(speed=0.0, angle=0.0)
-
-            #enc_start = self.car.encoder_distance              #BFMC_2024 <++> Commented 2025
-            #if self.checkpoints[-1] == END_NODE:                   
-            #    extra_dist = 0.00                                 
-            #    self.car.drive(speed=0.1, angle=0.0)
-            #    while self.car.encoder_distance - enc_start < extra_dist:
-            #        sleep(0.1)
-            #else:
-            #    self.car.drive(speed=0.0, angle=0.0)
-
+            ###
+            enc_start = self.car.encoder_distance              #BFMC_2024 <++> Commented 2025
+            if self.checkpoints[-1] == END_NODE:                   
+                extra_dist = 0.00                                 
+                self.car.drive(speed=0.1, angle=0.0)
+                while self.car.encoder_distance - enc_start < extra_dist:
+                    sleep(0.1)
+            else:
+                self.car.drive(speed=0.0, angle=0.0)
+            ###
             self.car.stop()
             sleep(3)
             cv.destroyAllWindows() if SHOW_IMGS else None

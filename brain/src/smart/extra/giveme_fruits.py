@@ -157,7 +157,7 @@ if __name__ == "__main__":
     GRAPH_FILE = "final_graph.graphml"
     FRUITS_FILE = "fruits.txt"
     MAP_FILE = "../data/2024_VerySmall.png"
-    START_NODE = '100'
+    START_NODE = '472'
 
     # Compute and visualize
     path = compute_optimal_path(START_NODE)
