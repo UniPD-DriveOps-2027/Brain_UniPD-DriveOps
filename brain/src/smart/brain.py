@@ -28,7 +28,7 @@ import helper_functions as hf
 from parkman import Maneuvers
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-SELECTED_EVENT = "no_lane_right" # "tunnel", "round","no_lane_left/right", "highway", "crosswalk", "parking" , "test"
+SELECTED_EVENT = "parking" # "tunnel", "round","no_lane_left/right", "highway", "crosswalk", "parking" , "test"
 
 # Based on the path given for the arena challenge
 END_NODE_ARENA = 149
@@ -63,6 +63,7 @@ if RANDOM_START:
 else:
     STARTING_COORDS = [-42, -42]                            # DEFAULT START POSITION
     CHECKPOINTS = [ 472, 322, 149, 123, 450, 444]#, 96, 120, 102, 130, 172, 180, 420, 352, 502, 160]
+    END_NODE = CHECKPOINTS[-1]
     OVERTAKE_COUNTER = [3, 4, 23]
     GPS_FOR_START_ONLY = False
 
@@ -275,7 +276,8 @@ PARKING_DISTANCE_SLOW_DOWN_THRESHOLD = 0.7  # 1.0
 PARKING_DISTANCE_STOP_THRESHOLD = 0.1       # 0.1
 SUBPATH_LENGTH_FOR_PARKING = 300            # length in samples of the path to consider around the parking position, max
 MAX_PARK_SEARCH_DIST = 2.0                  # [m] max distance to search for parking
-IDX_OFFSET_FROM_SAVED_PARK_POSITION = 150   # index offset from the saved parking position
+MIN_PARK_SEARCH_DIST = 0.7                  # [m] min distance to search for parking
+IDX_OFFSET_FROM_SAVED_PARK_POSITION = 150   # index offset from the saved parking position; value of 150 in 2024
 PARK_SIGN_DETETCTION_PATIENCE = 8.0         # [s] max seconds to wait for a sign to be available
 PARK_SEARCH_SPEED = 0.1                     # [m/s] speed to search for parking
 PARK_MANOUVER_SPEED = 0.15                 # [m/s] speed to perform the parking manouver
@@ -665,14 +667,16 @@ class Brain:
 
         # end of current route, go to end state
         elif self.next_event.name == nac.END_EVENT:
+
+            self.checkpoint_idx = len(self.checkpoints) ## JUST ADDED BY EUGEN
+
             if self.checkpoint_idx == len(self.checkpoints) - 1:
                 self.lane_following_to_end()
             else:
-                #self.switch_to_state(nac.END_STATE)
                 self.go_to_next_event()
                 # start routing for next checkpoint
                 self.next_checkpoint()
-                self.switch_to_state(nac.START_STATE)
+                #self.switch_to_state(nac.START_STATE)
 
         # we are approaching a stopline, check only if we are far enough from the previous stopline
         else:
@@ -1213,7 +1217,7 @@ class Brain:
         # end of manouver, go to next event
         elif park_state == nac.PARK_END:
             self.parking_end()
-
+#######################################################################
     def parking_localizing(self, just_changed, park_state, park_type):
         print('LOCALIZING_PARKING_SPOT')
         self.activate_routines([nac.FOLLOW_LANE])
@@ -1244,10 +1248,11 @@ class Brain:
         print("park_index_on_path ", park_index_on_path)
         print("self.car.dist_loc ", self.car.dist_loc)
         print("MAX_PARK_SEARCH_DIST ", MAX_PARK_SEARCH_DIST)
-        if car_idx_on_path < park_index_on_path and self.car.dist_loc < MAX_PARK_SEARCH_DIST:
+
+        if self.car.dist_loc < MAX_PARK_SEARCH_DIST:
             print('Behind parking spot')
             self.car.drive_speed(PARK_SEARCH_SPEED)
-            if car_idx_on_path > park_index_on_path - IDX_OFFSET_FROM_SAVED_PARK_POSITION:
+            if self.car.dist_loc > MIN_PARK_SEARCH_DIST:
                 print('We arrived at the parking spot')
                 self.car.drive_speed(0.0)
                 self.curr_state.var1 = (nac.CHECKING_FOR_PARKED_CARS, park_type, True)
@@ -1754,10 +1759,12 @@ class Brain:
         print(f'car.yaw: {self.car.yaw}')
         print(f'car.yaw_loc: {self.car.yaw_loc}')
         print('==========================================================================')
-  
+        print(f'car x est: {self.car.x_est}')
+        print(f'car y est: {self.car.y_est}')
         print(f'CHECKPOINT IDX: {self.checkpoint_idx}')
         print(f'CHECKPOINT lenght: {len(self.checkpoints)}')
         print('==========================================================================')
+        print(f'stopline counter: {self.stopline_counter}')
         
         self.run_routines()
 

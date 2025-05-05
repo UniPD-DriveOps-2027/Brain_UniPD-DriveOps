@@ -57,7 +57,7 @@ EVENT_CONFIGS = {
         "checkpoints": [999, 145]
     },
     "parking": {
-        "starting_coords": [7.73, 0.75],
+        "starting_coords": [6.07, 0.75], #[4.41, 0.75]  [6.07, 0.75]  [7.73, 0.75]
         "checkpoints": [450, 411]
     },
     "bus": {
