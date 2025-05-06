@@ -28,7 +28,10 @@ CP_LEFT = 2*[ # int = intersection
     (218,608),(218,608),(218,608),(218,608), # roundabout
     (498,129), # weird merge
     (114,113), # int bottom left
-    (198,175), # higwat -> speed turn
+    (198,175), (198,175),(198,175),(198,175),# higwat -> speed turn
+    (198,175),(198,175),(198,175),(198,175),# higwat -> speed turn
+    (198,175), (198,175),(198,175),(198,175),# higwat -> speed turn
+    (198,175), (198,175),(198,175),(198,175),# higwat -> speed turn
     (155,154), # speed turn
     (142,155), # speed turn
     (208,175), # speed turn
@@ -38,10 +41,10 @@ CP_STRAIGHT = 2*[(203,451),(387,397),(436,435)] # + 1*CP_COMMON
 CP_RIGHT = 2*[(100,122), (113, 95)] # + 1*CP_COMMON
 
 # uncomment to train left/straight/right
-DS_PATH, NET_PATH, CHECKPOINTS = 'data/left_ds.npz', 'data/he_left.onnx', CP_LEFT
+#DS_PATH, NET_PATH, CHECKPOINTS = 'data/left_ds_wide.npz', 'data/he_left_wide.onnx', CP_LEFT
 # DS_PATH, NET_PATH, CHECKPOINTS = 'data/straight_ds.npz', 'data/he_straight.onnx', CP_STRAIGHT
 # DS_PATH, NET_PATH, CHECKPOINTS = 'data/right_ds.npz', 'data/he_right.onnx', CP_RIGHT
-
+DS_PATH, NET_PATH, CHECKPOINTS = 'data/right_ds_wide.npz', 'data/he_right_wide.onnx', CP_RIGHT
 # CHECKPOINTS =  [(389,395)] # comment this, used for testing
 
 IMG_SIZE = 32

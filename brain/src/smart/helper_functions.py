@@ -665,14 +665,12 @@ def switch_lane_check(closest_node, meas):
     return final_node
 
 def get_min_distance_in_range(lidar_angles, lidar_ranges, start_deg, end_deg):
-    """
-    Get the minimum distance between specified angles for the LiDAR.
-    :param lidar_angles: Array of angles in degrees
-    :param lidar_ranges: Array of corresponding distance values
-    :param start_deg:    Starting angle in degrees
-    :param end_deg:      Ending angle in degrees
-    :return:             Minimum distance in meters (or inf if no valid points)
-    """
+    import numpy as np
+
+    # Convert to numpy arrays if not already
+    lidar_angles = np.atleast_1d(lidar_angles)
+    lidar_ranges = np.atleast_1d(lidar_ranges)
+
     # Convert angles from degrees to radians
     start_deg = np.deg2rad(start_deg)
     end_deg = np.deg2rad(end_deg)
@@ -681,10 +679,11 @@ def get_min_distance_in_range(lidar_angles, lidar_ranges, start_deg, end_deg):
     indices = np.where((lidar_angles >= start_deg) & (lidar_angles <= end_deg))[0]
     selected_ranges = lidar_ranges[indices]
 
-    # Filter out invalid values (0.0, inf, nan)
+    # Filter out invalid values
     valid_ranges = selected_ranges[np.isfinite(selected_ranges) & (selected_ranges > 0.0)]
 
     if len(valid_ranges) == 0:
-        return 20.0  # Return a large value if no valid points are found
+        return 20.0
 
     return np.min(valid_ranges)
+

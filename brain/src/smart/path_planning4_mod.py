@@ -8,7 +8,7 @@ from pyclothoids import Clothoid
 import names_and_constants as nac
 import helper_functions as hf
 from numpy.linalg import norm
-
+import os
 YAW_DIFF_THRESHOLD = 90  # [deg] threshold on difference between yaw from car and edge in 'get_closest_node'
 
 class PathPlanning():
@@ -25,9 +25,10 @@ class PathPlanning():
 
         # previous index of the closest point on the path to the vehicle
         self.prev_index = 0
-
+        base_dir = os.path.dirname(__file__)
+        graph_path = os.path.join(base_dir, 'data', 'final_graph.graphml')
+        self.G = nx.read_graphml(graph_path)
         # read graph
-        self.G = nx.read_graphml('data/final_graph.graphml')
         # initialize route subgraph and list for interpolation
         self.route_graph = nx.DiGraph()
         self.route_list = []
@@ -36,24 +37,38 @@ class PathPlanning():
         self.nodes_data = self.G.nodes.data()
         self.edges_data = self.G.edges.data()
         
-        # FROM MATTEO_GRANDE
-        self.intersection_cen =  list(np.loadtxt('data/int_mid.txt', dtype=str)) # mid intersection nodes
-        self.intersection_in =   list(np.loadtxt('data/int_in.txt', dtype=str)) # intersecion entry nodes
-        self.intersection_out =  list(np.loadtxt('data/int_out.txt', dtype=str)) # intersecion exit nodes
-        self.ra =                list(np.loadtxt('data/ra_mid.txt', dtype=str)) # mid roundabout nodes
-        self.ra_enter =          list(np.loadtxt('data/ra_in.txt', dtype=str)) # roundabout entry nodes
-        self.ra_exit =           list(np.loadtxt('data/ra_out.txt', dtype=str)) # roundabout exit nodes
-        self.highway_nodes =     list(np.loadtxt('data/hw.txt', dtype=str)) # highway nodes
-        self.no_lane_nodes =     list(np.loadtxt('data/no_lane.txt', dtype=str)) # no lane road nodes
+        intersection_cen_path = os.path.join(base_dir, 'data', 'int_mid.txt')
+        intersection_in_path = os.path.join(base_dir, 'data', 'int_in.txt')
+        intersection_out_path = os.path.join(base_dir, 'data', 'int_out.txt')
+        ra_path = os.path.join(base_dir, 'data', 'ra_mid.txt')
+        ra_enter_path = os.path.join(base_dir, 'data', 'ra_in.txt')
+        ra_exit_path = os.path.join(base_dir, 'data', 'ra_out.txt')
+        highway_nodes_path = os.path.join(base_dir, 'data', 'hw.txt')
+        no_lane_nodes_path = os.path.join(base_dir, 'data', 'no_lane.txt')
+        
+        # Load your files dynamically
+        self.intersection_cen = list(np.loadtxt(intersection_cen_path, dtype=str))  # mid intersection nodes
+        self.intersection_in = list(np.loadtxt(intersection_in_path, dtype=str))  # intersection entry nodes
+        self.intersection_out = list(np.loadtxt(intersection_out_path, dtype=str))  # intersection exit nodes
+        self.ra = list(np.loadtxt(ra_path, dtype=str))  # mid roundabout nodes
+        self.ra_enter = list(np.loadtxt(ra_enter_path, dtype=str))  # roundabout entry nodes
+        self.ra_exit = list(np.loadtxt(ra_exit_path, dtype=str))  # roundabout exit nodes
+        self.highway_nodes = list(np.loadtxt(highway_nodes_path, dtype=str))  # highway nodes
+        self.no_lane_nodes = list(np.loadtxt(no_lane_nodes_path, dtype=str))  # no lane road nodes
 
-        self.skip_nodes = [str(i) for i in [262,235,195,196,281,216,263,234,239,301,282,258]] # 469? # nodes to skip in route generation
-        self.no_yaw_calibration_nodes = [str(i) for i in [161, 162, 163, 164, 165]] #for compatibility or future proofing
-        self.forbidden_nodes = self.intersection_cen + self.intersection_in + self.intersection_out +  self.ra + self.ra_enter + self.ra_exit
+        # Skip nodes and forbidden nodes
+        self.skip_nodes = [str(i) for i in [262, 235, 195, 196, 281, 216, 263, 234, 239, 301, 282, 258]]  # nodes to skip
+        self.no_yaw_calibration_nodes = [str(i) for i in [161, 162, 163, 164, 165]]  # for compatibility
+        self.forbidden_nodes = self.intersection_cen + self.intersection_in + self.intersection_out + self.ra + self.ra_enter + self.ra_exit
 
-        #event points
-        self.event_points = np.loadtxt('data/event_points.txt', dtype=np.float32)
+        # Event points
+        event_points_path = os.path.join(base_dir, 'data', 'event_points.txt')
+        event_types_path = os.path.join(base_dir, 'data', 'event_types.txt')
+        self.event_points = np.loadtxt(event_points_path, dtype=np.float32)
         event_type_names = nac.EVENT_TYPES
-        self.event_types = [event_type_names[int(i)] for i in np.loadtxt('data/event_types.txt', dtype=np.int32)]
+        self.event_types = [event_type_names[int(i)] for i in np.loadtxt(event_types_path, dtype=np.int32)]
+        
+
         # #workaround: remove nodes 66 and 7, which are hard to deal with the current state machine
         # for i, (ep, et) in enumerate(zip(self.event_points, self.event_types)):
         #     p66, p7 = np.array([self.get_coord('66')]), np.array([self.get_coord('7')])
@@ -287,12 +302,6 @@ class PathPlanning():
         return self.path
 
     def augment_path(self, draw=True):
-
-        self.path_event_points = []
-        self.path_event_points_distances = []
-        self.path_event_points_idx = []
-        self.path_event_types = []
-
         exit_points = self.intersection_out + self.ra_exit
         exit_points = np.array([self.get_coord(x) for x in exit_points])
         path_exit_points = []
@@ -361,13 +370,14 @@ class PathPlanning():
             t = self.path_event_types[i]
             if t.startswith('intersection') or t.startswith('roundabout'):
                 assert len(self.path) > 0
-                # Safe exit point access with fallback
+        # Safe exit point access with fallback
                 if local_idx < len(exit_points_idx):
                     end_idx = min(exit_points_idx[local_idx]+10, len(self.path))
                     local_idx += 1
                 else:
-                    # Fallback: use fixed lookahead when no exit point is found
+            # Fallback: use fixed lookahead when no exit point is found
                     end_idx = min(self.path_event_points_idx[i]+13, len(self.path))
+            
                 path_ahead = self.path[self.path_event_points_idx[i]:end_idx]
                 #print(f'local index {local_idx}')
                 path_event_path_ahead.append(path_ahead)

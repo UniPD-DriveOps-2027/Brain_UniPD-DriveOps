@@ -8,7 +8,7 @@ import networkx as nx
 # Add parent directory to path for helper functions
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import helper_functions as hf
-
+from path_planning4_mod import PathPlanning 
 SHOW_IMGS = True
 
 # ------------------------- Load & Utility -------------------------
@@ -151,13 +151,12 @@ def compute_optimal_path(start_node='472'):
     return path
 
 
-
 # ------------------------- Optional Execution -------------------------
 if __name__ == "__main__":
     GRAPH_FILE = "final_graph.graphml"
     FRUITS_FILE = "fruits.txt"
     MAP_FILE = "../data/2024_VerySmall.png"
-    START_NODE = '472'
+    START_NODE = '94'
 
     # Compute and visualize
     path = compute_optimal_path(START_NODE)

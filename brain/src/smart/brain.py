@@ -28,12 +28,12 @@ import helper_functions as hf
 from parkman import Maneuvers
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-SELECTED_EVENT = "parking" # "tunnel", "round","no_lane_left/right", "highway", "crosswalk", "parking" , "test"
+SELECTED_EVENT = "test2" # "tunnel", "round","no_lane_left/right", "highway", "crosswalk", "parking" , "test"
 
 # Based on the path given for the arena challenge
 END_NODE_ARENA = 149
 ARENA = False # TODO: Move this flag to names and constant and implement args for it --arena
-USE_FRUITS_GENERATED_PATH = True
+USE_FRUITS_GENERATED_PATH = False
 # RANDOM START
 if RANDOM_START:
     # USED FOR SPECIFIC PATHS DURING TESTING
@@ -41,7 +41,8 @@ if RANDOM_START:
         config = EVENT_CONFIGS[SELECTED_EVENT]
         STARTING_COORDS = config["starting_coords"]  
         CHECKPOINTS = config["checkpoints"]
-        END_NODE = EVENT_CONFIGS[SELECTED_EVENT]["checkpoints"][-1]
+        #END_NODE = EVENT_CONFIGS[SELECTED_EVENT]["checkpoints"][-1]
+        END_NODE = CHECKPOINTS[-1]
         print(f"Starting coords: {STARTING_COORDS}, Checkpoints: {CHECKPOINTS}, End node: {END_NODE}")
         OVERTAKE_COUNTER = [25]                 # TODO: IMPLEMENT BETTER OVERTAKE CONDITION
         GPS_FOR_START_ONLY = False
@@ -62,7 +63,7 @@ if RANDOM_START:
 # DEFAULT START
 else:
     STARTING_COORDS = [-42, -42]                            # DEFAULT START POSITION
-    CHECKPOINTS = [ 472, 322, 149, 123, 450, 444]#, 96, 120, 102, 130, 172, 180, 420, 352, 502, 160]
+    CHECKPOINTS = [322,149,123,450, 444, 96]  #, 120, 102, 130, 172, 180, 420, 352, 502, 160]                   472, 322, 149, 123, 
     END_NODE = CHECKPOINTS[-1]
     OVERTAKE_COUNTER = [3, 4, 23]
     GPS_FOR_START_ONLY = False
@@ -525,6 +526,7 @@ class Brain:
                 break
             # self.car.update_estimated_state()  # <++>
 
+     
         # if bool(self.checkpoints[self.checkpoint_idx] in
         #         self.path_planner.intersection_in or
         #         self.checkpoints[self.checkpoint_idx] in
@@ -780,7 +782,7 @@ class Brain:
         if decide_next_state:
             print('Deciding next state, based on next event...')
             # print(f'debug: {self.checkpoint_idx}')
-            if not nac.RANDOM_START:
+            if not nac.RANDOM_START or nac.RANDOM_START :
                 self.stopline_counter += 1
             elif EVENT_SETTINGS:
                 self.stopline_counter += 1
