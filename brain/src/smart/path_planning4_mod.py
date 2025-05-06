@@ -302,6 +302,12 @@ class PathPlanning():
         return self.path
 
     def augment_path(self, draw=True):
+
+        self.path_event_points = []
+        self.path_event_points_distances = []
+        self.path_event_points_idx = []
+        self.path_event_types = []
+
         exit_points = self.intersection_out + self.ra_exit
         exit_points = np.array([self.get_coord(x) for x in exit_points])
         path_exit_points = []
