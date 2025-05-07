@@ -33,9 +33,22 @@ EVENT_CONFIGS = {
         "starting_coords": [2.42, 10.62],
         "checkpoints": [999, 143]
     },
-    "round": {
+    "round1": {
+        "starting_coords": [17.96, 8.81],
+        "checkpoints": [999, 308, 200]
+    },
+
+    "round2": {
+        "starting_coords": [17.96, 8.81],
+        "checkpoints": [999, 333, 200]
+    },
+    "round3": {
         "starting_coords": [17.96, 8.81],
         "checkpoints": [999, 200]
+    },
+    "round4": {
+        "starting_coords": [17.96, 8.81],
+        "checkpoints": [999,377,490]
     },
     # South entrance of the roundabout to no lane
     "no_lane_right": {

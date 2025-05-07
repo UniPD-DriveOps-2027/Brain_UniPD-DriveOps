@@ -10,6 +10,7 @@ from numpy.linalg import norm
 from collections import deque
 import names_and_constants as nac
 from extra.giveme_fruits import compute_optimal_path
+import math
 
 if not SIMULATOR_FLAG:
     from automobile_data_interface import Automobile_Data
@@ -28,7 +29,7 @@ import helper_functions as hf
 from parkman import Maneuvers
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-SELECTED_EVENT = "test2" # "tunnel", "round","no_lane_left/right", "highway", "crosswalk", "parking" , "test"
+SELECTED_EVENT = "round3" # "tunnel", "round","no_lane_left/right", "highway", "crosswalk", "parking" , "test"
 
 # Based on the path given for the arena challenge
 END_NODE_ARENA = 149
@@ -349,7 +350,7 @@ class Brain:
                  detection: Detection,
                  path_planner: PathPlanning,
                  checkpoints = None,
-                 desired_speed = 0.3,
+                 desired_speed = 0.2,
                  debug=True):
         print("Initialize brain")
         self.car = car
@@ -1134,7 +1135,8 @@ class Brain:
 
     def tailing_car(self):
 
-        dist = self.car.central_distance
+        dist = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, 170, 190)
+
         print(f"##################### DISTANCE {dist}")
 
         
@@ -1366,9 +1368,10 @@ class Brain:
         self.go_to_next_event()
 
     def crosswalk_navigation(self):
+        central_distance = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, 150, 210)
         if nac.TESTING:
             self.activate_routines([nac.CONTROL_FOR_PEDESTRIAN])
-            if not (self.flag_seen_pedestrian or self.car.central_distance < PEDESTRIAN_CONTROL_DISTANCE):
+            if not (self.flag_seen_pedestrian or central_distance < PEDESTRIAN_CONTROL_DISTANCE):
                 self.activate_routines([nac.FOLLOW_LANE,
                                         nac.DRIVE_DESIRED_SPEED])
             self.run_routines()
@@ -1379,41 +1382,39 @@ class Brain:
 
         print (f'flag {self.flag_seen_pedestrian}')
         print (f'in rect {self.flag_pedestrian_in_the_way}')
-        print (f'lidar dist {self.car.central_distance}')
         print (f'on crosswalk {self.pedestrian_on_the_crosswalk}')
 
+        if not (self.flag_seen_pedestrian or central_distance < PEDESTRIAN_CONTROL_DISTANCE) or (time() - self.curr_state.start_time) > 10:
 
-        if self.flag_seen_pedestrian or self.car.central_distance < PEDESTRIAN_CONTROL_DISTANCE or (time() - self.curr_state.start_time) < 10:
+            self.car.drive_speed(self.desired_speed)
+
+            if not nac.TESTING:
+                self.switch_to_state(nac.LANE_FOLLOWING)
+                self.go_to_next_event()
+
+        else:
             self.car.drive_speed(0.0)
             self.activate_routines([nac.CONTROL_FOR_PEDESTRIAN])
             if not self.pedestrian_on_the_crosswalk:
                 sleep(3)
-            if self.flag_pedestrian_in_the_way or self.car.central_distance < PEDESTRIAN_CONTROL_DISTANCE:
+            if self.flag_pedestrian_in_the_way or central_distance < PEDESTRIAN_CONTROL_DISTANCE:
                 self.car.drive_speed(0.0)
                 self.pedestrian_on_the_crosswalk = True
             else:
                 self.car.drive_speed(self.desired_speed)
                 self.switch_to_state(nac.LANE_FOLLOWING)
                 self.go_to_next_event()
-
-
-        else:
-            self.car.drive_speed(self.desired_speed)
-
-            if not nac.TESTING:
-                print('in not testing')
-                self.switch_to_state(nac.LANE_FOLLOWING)
-                self.go_to_next_event()
    
         
 
     def tunnel_speed_curve(self):
-        right_distance = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, -95, -85)
-        if right_distance < 0.7: 
-            self.activate_routines([nac.DRIVE_DESIRED_SPEED, nac.CONTROL_FOR_CAR]) 
+        right_distance = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, 85, 95)# -95 -85
+        print(f"RIGHT DISTANCE: {right_distance}")
+        if right_distance < 0.5: 
+            self.activate_routines([nac.DRIVE_DESIRED_SPEED])  #nac.CONTROL_FOR_CAR
             self.run_routines()
 
-            error = - 0.25 + right_distance # desired - actual distance [m]
+            error = - 0.2 + right_distance # desired - actual distance [m]
 
             # Time delta for PI control
             current_time = time()
@@ -1428,8 +1429,11 @@ class Brain:
             self.tunnel_integral_error += error * delta_time
             self.tunnel_integral_error = max(min(self.tunnel_integral_error, 0.8), -0.8) # Clamp integral
 
+            mapped_error = math.copysign(math.exp(abs(error)) - 1, error)
+            mapped_integral_error = math.copysign(math.exp(abs(self.tunnel_integral_error)) - 1, self.tunnel_integral_error)
+
             # PI control
-            steering_output = (150 * error) + (100 * self.tunnel_integral_error)
+            steering_output = (200 * mapped_error) + (100 * mapped_integral_error)  #150 100
             steering_output = max(min(steering_output, 28), -28) # Clamp output
             self.car.drive_angle(steering_output)
             print(f"error: {error:.2f}, integral error: {self.tunnel_integral_error:.2f}, steering output: {steering_output:.2f}")
@@ -1616,7 +1620,7 @@ class Brain:
             last_obstacle_dist = self.car.encoder_distance - 1.0                 
         curr_dist = self.car.encoder_distance                                    
         if curr_dist - last_obstacle_dist > MIN_DIST_BETWEEN_OBSTACLES:
-            dist = self.car.central_distance
+            dist = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, 150, 210)
             print('DISTANCE:', dist)
             if dist < OBSTACLE_DISTANCE_THRESHOLD and not self.curr_state==nac.APPROACHING_STOPLINE and not self.curr_state==nac.WAITING_AT_STOPLINE:
                 print('[### CAR DETECTED ###]')
@@ -1745,7 +1749,7 @@ class Brain:
             Very ugly solution used in 2024, please do better in terms of when to overtake
         '''
         print(self.stopline_counter)
-        self.conditions[nac.CAN_OVERTAKE] = (self.conditions[nac.HIGHWAY] or self.stopline_counter in OVERTAKE_COUNTER)
+        self.conditions[nac.CAN_OVERTAKE] = (self.conditions[nac.HIGHWAY] or self.checkpoints[self.checkpoint_idx] in range(372, 384) or self.checkpoints[self.checkpoint_idx] in range(386, 398) )
 
     # ===================== STATE MACHINE MANAGEMENT ===================== #
     def run(self):

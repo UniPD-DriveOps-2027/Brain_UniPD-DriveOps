@@ -154,9 +154,6 @@ class Automobile_Data():
         self.filtered_obstacle = 0.0   # ESP32: filtered confidence level for obstacle classification
         self.sign = 0.0                # ESP32: confidence level for sign classification
         self.filtered_sign = 0.0       # ESP32: filtered confidence level for sign classification  
-        # RPLIDAR
-        self.central_distance = 12.0  # [m] RPLIDAR:  central distance, from 150 to 210 deg
-        self.right_distance = 12.0     # [m] RPLIDAR:  right side distance, from 85 to 95 deg
         # CAMERA
         # [ndarray] CAM:image of the camera
         self.frame = np.zeros((FRAME_WIDTH, FRAME_HEIGHT, 3), np.uint8)

@@ -61,7 +61,7 @@ ff_curvature = 1.0  # feedforward gain
 x_orig = 0.0
 y_orig = 0.0
 
-cap = UnixSocketCamera(socket_addr="/tmp/bfmc_socket.sock", frame_size=(320, 240))
+cap = UnixSocketCamera(socket_addr="/tmp/bfmc_camera_brain.sock", frame_size=(320, 240))
 
 
 # stop the car with ctrl+c

@@ -134,6 +134,7 @@ if __name__ == '__main__':
                 print("No image from Unix socket camera")
                 frame = np.zeros((240, 320, 3), np.uint8)
                 continue
+            
             brain.car.frame = frame
             brain.conditions[nac.TUNNEL] = True
             brain.tunnel_speed_curve()
