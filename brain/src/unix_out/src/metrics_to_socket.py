@@ -117,6 +117,7 @@ def get_real_metrics():
     yaw = safe_wait_for("/automobile/imu", IMU, field="yaw",
                         transform=lambda y: y + YAW_GLOBAL_OFFSET, name="imu")
     if yaw is not None:
+        #print(f"Yaw: {yaw}")
         metrics["YAW"] = round(yaw, 2)
         if 45 <= yaw < 135:
             metrics["HEADING"] = "North"
@@ -137,7 +138,8 @@ def get_real_metrics():
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--simulate", action="store_true")
-    args = parser.parse_args()
+    args, unknown = parser.parse_known_args()
+
 
     rospy.init_node("ros_metrics_bridge", anonymous=True)
     sender = MetricSender()
