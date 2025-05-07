@@ -8,6 +8,10 @@ import numpy as np
 from time import sleep, time
 from unix_socket_camera import UnixSocketCamera
 
+import csv
+from datetime import datetime
+
+
 import json
 with open('data/events_config.json', 'r') as file:
     events_config = json.load(file)
@@ -18,6 +22,7 @@ parser.add_argument('--random', action='store_true')
 parser.add_argument('--rc', action='store_true')
 parser.add_argument('--sim', action='store_true')
 parser.add_argument('--show', action='store_true')
+parser.add_argument('--arena', action='store_true')
 
 args = parser.parse_args()
 # If we don't call, these will be False
@@ -25,7 +30,7 @@ nac.RANDOM_START = args.random
 nac.RC_MODE = args.rc
 nac.SIMULATOR_FLAG = args.sim
 nac.SHOW_IMGS = args.show
-
+nac.ARENA = args.arena
 
 
 if not nac.SIMULATOR_FLAG:  # PI
@@ -119,7 +124,7 @@ if __name__ == '__main__':
     else:
         car = AutomobileDataPi(trig_cam=False,
                                trig_gps=False,
-                               trig_bno=False, 
+                               trig_bno=True, 
                                trig_enc=True,
                                trig_control=True,
                                trig_sonar=True,
@@ -163,11 +168,26 @@ if __name__ == '__main__':
         car.stop()
         fps_avg = 0.0
         fps_cnt = 0
+
+        # Setup logging
+        log_filename = f'logs/yaw_distance_log_{datetime.now().strftime("%Y%m%d_%H%M%S")}.csv'
+        os.makedirs(os.path.dirname(log_filename), exist_ok=True)
+        log_file = open(log_filename, mode='w', newline='')
+        log_writer = csv.writer(log_file)
+        log_writer.writerow(['timestamp', 'encoder_distance','yaw_true'])  # CSV header
+
+
         while not rospy.is_shutdown():
 
             loop_start_time = time()
             # clear the screen
-            #print("\033c")
+            print("\033c")
+
+            # MAKE ME A LOG FILE HERE
+            log_writer.writerow([time(), car.encoder_distance, car.yaw_true])
+            print("Car yaw: ", car.yaw_true)
+            print("Distance: ", car.encoder_distance)
+
             
             # <++++++++++++++++++++>
             #hf.show_car(track, car, nac.SHOW_IMGS)
@@ -211,8 +231,10 @@ if __name__ == '__main__':
     except KeyboardInterrupt:
         print("Shutting down")
         car.stop()
+        log_file.close()
         sleep(.5)
         cv.destroyAllWindows()
         exit(0)
     except rospy.ROSInterruptException:
+        log_file.close()
         pass

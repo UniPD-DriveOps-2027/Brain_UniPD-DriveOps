@@ -1,6 +1,6 @@
 
 #!/usr/bin/python3
-from names_and_constants import SIMULATOR_FLAG, SHOW_IMGS, RANDOM_START, EVENT_SETTINGS, EVENT_CONFIGS # deleted completely the speed challenge
+from names_and_constants import SIMULATOR_FLAG, SHOW_IMGS, RANDOM_START, EVENT_SETTINGS, EVENT_CONFIGS, ARENA # deleted completely the speed challenge
 import sys
 import os
 import numpy as np
@@ -33,7 +33,6 @@ SELECTED_EVENT = "round3" # "tunnel", "round","no_lane_left/right", "highway", "
 
 # Based on the path given for the arena challenge
 END_NODE_ARENA = 149
-ARENA = False # TODO: Move this flag to names and constant and implement args for it --arena
 USE_FRUITS_GENERATED_PATH = False
 # RANDOM START
 if RANDOM_START:
@@ -45,30 +44,27 @@ if RANDOM_START:
         #END_NODE = EVENT_CONFIGS[SELECTED_EVENT]["checkpoints"][-1]
         END_NODE = CHECKPOINTS[-1]
         print(f"Starting coords: {STARTING_COORDS}, Checkpoints: {CHECKPOINTS}, End node: {END_NODE}")
-        OVERTAKE_COUNTER = [25]                 # TODO: IMPLEMENT BETTER OVERTAKE CONDITION
         GPS_FOR_START_ONLY = False
         USE_FRUITS_GENERATED_PATH = False #we are not using fruits path for when we are testing specific events
-    # MANUALLY WRITE THE PATH     
-    elif ARENA: 
-        STARTING_COORDS = [0.00, 0.00]  # IS GIVEN
-        CHECKPOINTS = [455, 465]        # IS GIVEN
-        OVERTAKE_COUNTER = [25]
-        GPS_FOR_START_ONLY = False
     # GET THE BEST "FRUITS" PATH FROM RANDOM POSITION     
     else: 
         STARTING_COORDS = [17.27, 5.6] # GET FROM GPS 
         CHECKPOINTS = compute_optimal_path(start_node=472) # GET FROM FRUITS
         END_NODE = CHECKPOINTS[-1]  #get the last node from the path
-        OVERTAKE_COUNTER = [25]
         GPS_FOR_START_ONLY = True
+# DEFAULT START
+elif ARENA:
+    STARTING_COORDS = [0.00, 0.00]  # IS GIVEN
+    CHECKPOINTS = [455, 465]        # IS GIVEN
+    GPS_FOR_START_ONLY = False
+    END_NODE = CHECKPOINTS[-1]
+    GPS_FOR_START_ONLY = False
 # DEFAULT START
 else:
     STARTING_COORDS = [-42, -42]                            # DEFAULT START POSITION
     CHECKPOINTS = [322,149,123,450, 444, 96]  #, 120, 102, 130, 172, 180, 420, 352, 502, 160]                   472, 322, 149, 123, 
     END_NODE = CHECKPOINTS[-1]
-    OVERTAKE_COUNTER = [3, 4, 23]
     GPS_FOR_START_ONLY = False
-
 # STARTING_COORDS = [3.17, 2.55]    # SEMAPHORS ENTER DOWN
 # STARTING_COORDS = [2.77, 5.82]    # SEMAPHORS ENTER UP
 # STARTING_COORDS = [1.75, 3.97]    # SEMAPHORS ENTER LEFT
@@ -1134,12 +1130,11 @@ class Brain:
         self.curr_state.var2 = dist_prev_manouver
 
     def tailing_car(self):
-
+        # TODO Jona: check if this works in the arena ???
+        #if (ARENA and (time() - self.curr_state.start_time) > 10) and (self.next_event.name == nac.TUNNEL_EVENT or self.next_event.name == nac.NO_LANE_EVENT):
+        #    nac.CAN_OVERTAKE = True 
         dist = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, 170, 190)
-
         print(f"##################### DISTANCE {dist}")
-
-        
         if dist > OBSTACLE_DISTANCE_THRESHOLD+0.05:  #TODO why is 0.05 here?!
             self.switch_to_state(nac.LANE_FOLLOWING)
             print('switching')
@@ -1410,6 +1405,7 @@ class Brain:
     def tunnel_speed_curve(self):
         right_distance = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, 85, 95)# -95 -85
         print(f"RIGHT DISTANCE: {right_distance}")
+        
         if right_distance < 0.5: 
             self.activate_routines([nac.DRIVE_DESIRED_SPEED])  #nac.CONTROL_FOR_CAR
             self.run_routines()
@@ -1745,9 +1741,6 @@ class Brain:
         #    self.conditions[nac.NO_LANE] = True
 
         # CAN_OVERTAKE
-        '''
-            Very ugly solution used in 2024, please do better in terms of when to overtake
-        '''
         print(self.stopline_counter)
         self.conditions[nac.CAN_OVERTAKE] = (self.conditions[nac.HIGHWAY] or self.checkpoints[self.checkpoint_idx] in range(372, 384) or self.checkpoints[self.checkpoint_idx] in range(386, 398) )
 

@@ -12,6 +12,7 @@
 RANDOM_START = None
 RC_MODE = None
 SIMULATOR_FLAG = None
+ARENA = None
 SHOW_IMGS = None
 
 NORTH = None
@@ -160,7 +161,6 @@ CAN_OVERTAKE = 'can_overtake'
 HIGHWAY = 'highway'
 CAR_ON_PATH = 'car_on_path'
 REROUTING = 'rerouting'
-BUMPY_ROAD = 'bumpy_road'
 TUNNEL = 'tunnel'
 
 ###############################################################################

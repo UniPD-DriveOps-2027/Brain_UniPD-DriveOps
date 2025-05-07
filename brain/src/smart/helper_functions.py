@@ -508,49 +508,6 @@ def navigate_intersection(brain, show):
     brain.car.drive(speed=output_speed, angle=np.rad2deg(output_angle))
 
 
-def navigate_junction(brain, idx_point_ahead, show):
-    if brain.curr_state.var4 == "right":
-        # e3, _ = brain.detect.detect_intersection_right(brain.car.frame, show_ROI=show)
-        # e3 = 1.6 * e3
-        if idx_point_ahead < 20:
-            brain.car.drive(speed=0.2, angle=0)
-        elif idx_point_ahead < 50:
-            brain.car.drive(speed=0.2, angle=0)
-        elif idx_point_ahead < 120:
-            brain.car.drive(speed=0.2, angle=15)
-        else:
-            brain.car.drive(speed=0.2, angle=5)
-    else:
-        if idx_point_ahead < 8:
-            brain.car.drive(speed=0.2, angle=10)
-        elif idx_point_ahead < 40:
-            brain.car.drive(speed=0.2, angle=20)
-        elif idx_point_ahead < 120:
-            brain.car.drive(speed=0.2, angle=-25)
-        else:
-            brain.car.drive(speed=0.2, angle=-5)
-        # if idx_point_ahead < 35:
-        #     e3, _ = brain.detect.detect_intersection_right(brain.car.frame, show_ROI=show)
-        #     e3 = 1.6 * e3
-        # else:
-        #     e3, _ = brain.detect.detect_intersection_left(brain.car.frame, show_ROI=show)
-        #     e3 = 1.6 * e3
-        # if idx_point_ahead < 140:
-        #     e3, _ = brain.detect.detect_intersection_right(brain.car.frame, show_ROI=show)
-        #     e3 = 1.6 * e3
-        # if idx_point_ahead < 100:
-        #     e3, _ = brain.detect.detect_intersection_left(brain.car.frame, show_ROI=show)
-        #     e3 = 0.2 * e3
-        # elif idx_point_ahead < 120:
-        #     e3, _ = brain.detect.detect_intersection_left(brain.car.frame, show_ROI=show)
-        #     e3 = 0.6 * e3
-        # else:
-        #     e3, _ = brain.detect.detect_intersection_left(brain.car.frame, show_ROI=show)
-    # output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, 0.0, e3)
-    # print(f'output_speed: {output_speed:.2f}, output_angle: {np.rad2deg(output_angle):.2f}')
-    # brain.car.drive(speed=output_speed, angle=np.rad2deg(output_angle))
-
-
 def navigate_open_loop(brain, local_path_cf, idx_point_ahead, idx_car_on_path, show):
     point_ahead = local_path_cf[idx_point_ahead]
     show_brain_debug(brain, local_path_cf, point_ahead, show)
