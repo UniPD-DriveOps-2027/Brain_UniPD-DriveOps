@@ -29,7 +29,7 @@ import helper_functions as hf
 from parkman import Maneuvers
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-SELECTED_EVENT = "round3" # "tunnel", "round","no_lane_left/right", "highway", "crosswalk", "parking" , "test"
+SELECTED_EVENT = "no_lane_highway" # "tunnel", "round","no_lane_left/right", "highway", "crosswalk", "parking" , "test"
 
 # Based on the path given for the arena challenge
 END_NODE_ARENA = 149
@@ -640,6 +640,7 @@ class Brain:
                 
         elif (self.next_event.name == nac.NO_LANE_EVENT):   
             self.switch_to_state(nac.NO_LANE_STATE)
+            self.next_checkpoint()
         
         # check highway entrance case
         elif self.next_event.name == nac.HIGHWAY_ENTRANCE_EVENT:
@@ -896,6 +897,15 @@ class Brain:
             print(f'alpha true: {np.rad2deg(alpha):.1f}')
             alpha = self.detect.detect_yaw_stopline(self.car.frame, SHOW_IMGS and False) * 0.8
             print(f'alpha est: {np.rad2deg(alpha):.1f}')
+            # if APPLY_YAW_CORRECTION:
+            #     closest_node, _ = self.path_planner.get_closest_node(np.array([self.car.x, self.car.y]))
+            #     self.car.publish_closest_node(float(closest_node))      ## get_closest_node
+            #     if closest_node not in self.path_planner.no_yaw_calibration_nodes:
+            #         print(f'yaw = {np.rad2deg(self.car.yaw):.2f}')
+            #         print(f'est yaw = {np.rad2deg(self.next_event.yaw_stopline + alpha):.2f}')
+            #         diff = hf.diff_angle(self.next_event.yaw_stopline + alpha, self.car.yaw)
+            #         self.car.yaw_offset += diff
+            #         self.car.yaw += diff
             # assert abs(alpha) < np.pi/6, f'Car orientation wrt stopline is too big, it needs to be better aligned, alpha = {alpha}'
 
             # get position of the car in the stop line frame
@@ -1002,6 +1012,7 @@ class Brain:
 
     def overtaking_static_car(self):
         self.activate_routines([])
+        dist_right = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, 80, 100)
         # states
         OT_SWITCHING_LANE = 1
         OT_LANE_FOLLOWING = 2
@@ -1032,7 +1043,7 @@ class Brain:
             dist = self.car.encoder_distance - dist_prev_manouver        
             print(f'Following lane: {dist:.2f}/{OT_STATIC_LANE_FOLLOW:.2f}')
             #Added double check with the sonar distance
-            if (dist > OT_STATIC_LANE_FOLLOW) and (self.car.filtered_right_sonar_distance > 0.5):
+            if (dist > OT_STATIC_LANE_FOLLOW) and (dist_right > 0.5):
                 sub_state, just_sub_switched = OT_SWITCHING_BACK, True
                 dist_prev_manouver = self.car.encoder_distance           
         elif sub_state == OT_SWITCHING_BACK:
@@ -1053,6 +1064,7 @@ class Brain:
 
     def overtaking_moving_car(self):
         self.activate_routines([])
+        dist_right = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, 80, 100)
         # states
         OT_SWITCHING_LANE = 1
         OT_LANE_FOLLOWING = 2
@@ -1084,12 +1096,12 @@ class Brain:
             self.activate_routines([nac.FOLLOW_LANE])
             dist = self.car.encoder_distance - dist_prev_manouver            
             print(f'Following lane: {dist:.2f}/{OT_MOVING_LANE_FOLLOW:.2f}')
-            if self.car.filtered_right_sonar_distance <= 0.5:  #0.5 is the distance from the lateral moving car 
+            if dist_right <= 0.5:  #0.5 is the distance from the lateral moving car 
                 # Car is beside the other car
                 sub_state, just_sub_switched = OT_BESIDE_CAR, True
                 print ('We are beside the car')
             
-        ###### New code to overtake moving car relying on sonar feedback 
+        ###### New code to overtake moving car relying on lidaer feedback 
         # it should check when the distance is low, means that the car is on the side
         # when the distance increase again, the car wait x second and then switch back lane   
         # 3rd fase
@@ -1097,7 +1109,7 @@ class Brain:
             self.activate_routines([nac.FOLLOW_LANE])
             dist = self.car.encoder_distance - dist_prev_manouver            
             print(f'Following lane besides car: {dist:.2f}/{OT_MOVING_LANE_FOLLOW:.2f}')
-            if self.car.filtered_right_sonar_distance > 0.5: #0.3 distance from the lateral car
+            if dist_right > 0.5: #0.3 distance from the lateral car
                 # Car has been overtaken, switch back to the original lane after waiting some time
                 sub_state, just_sub_switched = OT_WAITING_BEFORE_SWITCHING, True
                 print ('We passed the car')
@@ -1107,7 +1119,7 @@ class Brain:
             if just_sub_switched == True:
                 self.curr_state.var4 = time()
                 just_sub_switched = False
-            if self.car.filtered_right_sonar_distance <= 0.5:
+            if dist_right <= 0.5:
                 sub_state, just_sub_switched = OT_BESIDE_CAR, True
                 print ('We are beside the car again')
             if ((time() - self.curr_state.var4) > 0.5): #waiting time to switch back to the 2nd lane just to be sure we are ahead enough
@@ -1294,19 +1306,19 @@ class Brain:
             self.car.drive_speed(0.0)
             sleep(SLEEP_AFTER_STOPPING)
             # get right and left sonar distance
-            right_sonar_dist = self.car.filtered_right_sonar_distance
-            left_sonar_dist = self.car.filtered_left_sonar_distance
+            dist_right = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, 85, 95)
+            dist_left = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, 265, 275)
             print(f'Spot checked: {checked_spots_counter+1}')
-            print(f'Right sonar {right_sonar_dist}')
-            print(f'Left sonar {left_sonar_dist}')
-            if right_sonar_dist < 0.5:
+            print(f'Right sonar {dist_right}')
+            print(f'Left sonar {dist_left}')
+            if dist_right < 0.5:
                 print('Car in park_right')
                 self.env.publish_obstacle(nac.STATIC_CAR_PARKING, self.car.x_est, self.car.y_est-0.4)
             else:
                 free_spot_R = True
                 print('Free parking right')
                 self.curr_state.var1 = (nac.STEP0, park_type, True)
-            if left_sonar_dist < 0.5:
+            if dist_left < 0.5:
                 print('Car in park_left')
                 self.env.publish_obstacle(nac.STATIC_CAR_PARKING, self.car.x_est, self.car.y_est+0.4)
             else:
@@ -1446,26 +1458,30 @@ class Brain:
         travelled_distance = self.car.encoder_distance - self.curr_state.start_distance
         print(f'/---------------/ TRAVELLED DISTANCE = {travelled_distance:.2f}')
         if self.checkpoints[self.checkpoint_idx] in range(302, 331) or nac.TESTING:
-            #print('in RIGHT NO LANE!!!!!!!!')
+            print('in RIGHT NO LANE!!!!!!!!!!!!!!!!!!!!!!!!!!!')
 
-            if travelled_distance <= 4.0:
+            if travelled_distance <= 3.1:  #4 in simulation
+
                 self.activate_routines([nac.FOLLOW_LANE,
                                         nac.CONTROL_FOR_CAR,
                                         nac.DETECT_STOPLINE,
                                         nac.DRIVE_DESIRED_SPEED])
                 self.run_routines()
+                print("IN THE FIRST IF###############################")
 
-            elif 4.0 < travelled_distance and travelled_distance < 4.5:
+            elif 3.1 < travelled_distance and travelled_distance < 3.8: #4.7 in simulation
                 self.activate_routines([nac.FOLLOW_LANE_LEFT,
                                 nac.CONTROL_FOR_CAR,
                                 nac.DETECT_STOPLINE,
                                 nac.DRIVE_DESIRED_SPEED])
                 self.run_routines()
+                print("LEFT ||||||||||||||||||||||||||||||||||||||||")
             
             else:
                 #self.NO_LANE_CAN_BE_ACTIVATED = False
                 #self.conditions[nac.NO_LANE] = False
                 self.switch_to_state(nac.LANE_FOLLOWING)
+                print("SWITCHING THE STATE****************************")
                 nac.DONT_STOP_AT_NO_LANE_EVENT = True
                 self.go_to_next_event()
 
@@ -1546,7 +1562,7 @@ class Brain:
     def follow_lane_left(self):
         e3, point_ahead = self.detect.detect_intersection_left(self.car.frame, SHOW_IMGS)
         hf.show_follow_lane(self, point_ahead, SHOW_IMGS)
-        _, angle_ref = self.controller.get_control(0, e3, 0, self.desired_speed, no_lane=False)
+        _, angle_ref = self.controller.get_control(0, 0.8*e3, 0, self.desired_speed, no_lane=False)
         angle_ref = np.rad2deg(angle_ref)
         self.car.drive_angle(angle_ref)
 
@@ -1764,7 +1780,13 @@ class Brain:
         print(f'CHECKPOINT lenght: {len(self.checkpoints)}')
         print('==========================================================================')
         print(f'stopline counter: {self.stopline_counter}')
+        print('==========================================================================') 
+        if nac.DONT_STOP_AT_NO_LANE_EVENT:
+            print('DONT STOP AT NO LANE EVENT IS TRUEEEEEEEEEEEEEEEEEEE')
+        else:
+            print('DONT STOP AT NO LANE EVENT IS FALSEEEEEEEEEEEEEEEEEEE')
         
+
         self.run_routines()
 
         # =============== Publish to dashboard ==================== #
@@ -1862,12 +1884,6 @@ class Brain:
             pass
         else:
             # it was the last checkpoint
-            # TODO : test this implemetation of PUTA, is should make the car stop only at stoplines, not in the middle of the road 
-            #if nac.PUTA:
-            #    nac.PUTA = False
-            #    self.switch_to_state(nac.LANE_FOLLOWING)
-            #    pass
-
             print('Reached last checkpoint...\nExiting...')      
             self.car.drive(speed=0.0, angle=0.0)
             ###

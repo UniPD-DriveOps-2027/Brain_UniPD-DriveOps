@@ -140,9 +140,19 @@ class RC_Brain:
                     sleep(0.1)
                 
                 if event.button == 0: # 0 'X' ps4 / 0 'A' button on XBOX controller
-                    print("A button pressed: Following Lane...")
+                    print("X button pressed: Following Lane...")
                     hat1 = self.joystick.get_hat(0)
                     self.lane_following = not self.lane_following
+
+                if event.button == 8: # 0 'X' ps4 / 0 'A' button on XBOX controller
+                    print("Option button pressed: Following Lane...")
+                    hat1 = self.joystick.get_hat(0)
+                    self.follow_lane_left = not self.follow_lane_left
+                
+                if event.button == 9: # 0 'X' ps4 / 0 'A' button on XBOX controller
+                    print("Option button pressed: Following Lane...")
+                    hat1 = self.joystick.get_hat(0)
+                    self.follow_lane_right = not self.follow_lane_right
 
                 if event.button == 3: # 3 'SQUARE' ps4 
                     print("Square button pressed: Roundabout Navigation...")
@@ -235,6 +245,18 @@ class RC_Brain:
         self.rc_angle = np.rad2deg(angle_ref)
         self.rc_speed = self.max_speed
         # self.car.drive(speed=self.rc_speed, angle=self.rc_angle)
+
+    def follow_lane_right(self):
+        e3, _ = self.detect.detect_intersection_right(self.car.frame, False, False)
+        _, angle_ref = self.controller.get_control(0, e3, 0, self.desired_speed, no_lane=False)
+        self.rc_angle = np.rad2deg(angle_ref)
+        self.rc_speed = self.max_speed
+
+    def follow_lane_left(self):
+        e3, _ = self.detect.detect_intersection_left(self.car.frame, False, False)
+        _, angle_ref = self.controller.get_control(0, e3, 0, self.desired_speed, no_lane=False)
+        self.rc_angle = np.rad2deg(angle_ref)
+        self.rc_speed = self.max_speed
 
     def follow_roundabout(self):
         e3, _ = self.detect.detect_roundabout_about(self.car.frame, False)
