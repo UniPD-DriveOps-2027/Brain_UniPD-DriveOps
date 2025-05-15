@@ -181,7 +181,7 @@ if __name__ == '__main__':
 
             loop_start_time = time()
             # clear the screen
-            print("\033c")
+            #print("\033c")
 
             # MAKE ME A LOG FILE HERE
             #log_writer.writerow([time(), car.encoder_distance, car.yaw_true])

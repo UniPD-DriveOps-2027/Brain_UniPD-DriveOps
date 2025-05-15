@@ -58,12 +58,16 @@ EVENT_CONFIGS = {
     },
     # East entrance of the roundabout to no lane
     "no_lane_left": {
-        "starting_coords": [19.48, 11.83],
-        "checkpoints": [999, 350, 150]
+        "starting_coords": [19.28, 11.83],
+        "checkpoints": [999, 333, 150]
     },
     "no_lane_highway": {
         "starting_coords": [16.02, 11.42],
-        "checkpoints": [999, 303, 383]
+        "checkpoints": [999, 335, 210]
+    },
+    "no_lane_cuza": {
+        "starting_coords": [17.32, 7.04],
+        "checkpoints": [999, 333, 210]
     },
     # North entrance of the roundabout to Highway
     "highway": {
@@ -75,7 +79,7 @@ EVENT_CONFIGS = {
         "checkpoints": [999, 145]
     },
     "parking": {
-        "starting_coords": [6.07, 0.75], #[4.41, 0.75]  [6.07, 0.75]  [7.73, 0.75]
+        "starting_coords": [7.73, 0.75], #[4.41, 0.75]  [6.07, 0.75]  [7.73, 0.75]
         "checkpoints": [450, 411]
     },
     "bus": {
@@ -90,7 +94,22 @@ EVENT_CONFIGS = {
         "starting_coords": [3.25, 2.67],    #  1.41,3.91
         "checkpoints": [94, 95, 121, 92, 107, 109, 130, 147, 175, 123, 118, 91, 451, 455, 466, 420, 396, 306, 319, 260, 197, 207, 150, 97, 163, 190, 236, 373, 382, 407, 444, 30, 334, 352, 502]
     },
-
+    "intersection_straight": {
+        "starting_coords": [0.92, 13.17],   
+        "checkpoints": [999, 119]
+    },
+    "intersection_left": {
+        "starting_coords": [0.37, 9.84],   
+        "checkpoints": [999, 145, 153]
+    },
+    "intersection_right": {
+        "starting_coords": [0.84, 5.26],   
+        "checkpoints": [999, 145, 153]
+    },
+    "intersection_straight": {
+        "starting_coords": [15.54, 3.41],   
+        "checkpoints": [999, 445, 500]
+    }
 #94, 95, 121, 92, 107, 109, 130, 147, 175, 123, 118, 91, 451, 455, 466, 420, 396, 306, 319, 260, 197, 207, 150, 97, 163, 190, 236, 373, 382, 407, 444, 30, 334, 352, 502
 }
 

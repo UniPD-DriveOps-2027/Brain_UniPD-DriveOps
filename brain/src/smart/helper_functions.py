@@ -494,10 +494,10 @@ def determine_intersection_direction(brain, local_path_cf):
 def navigate_intersection(brain, show):
     if brain.curr_state.var4 == "right":
         e3, _ = brain.detect.detect_intersection_right(brain.car.frame, show_ROI=show)
-        e3 = 0.80 * e3
+        e3 = 1.0 * e3 #old value = 0.8; new = 1.25
     elif brain.curr_state.var4 == "left":
         e3, _ = brain.detect.detect_intersection_left(brain.car.frame, show_ROI=show)
-        e3 = 0.95 * e3 #old value = 0.95; new = 1.8 works for highway to speedcurve
+        e3 = 1.1 * e3 #old value = 0.95; new = 1.8 works for highway to speedcurve
     elif brain.curr_state.var4 == "forward":
         e3, _ = brain.detect.detect_intersection_forward(brain.car.frame, show_ROI=show)
         # e3, _ = brain.detect.detect_lane_ahead(brain.car.frame, show_ROI=show)
@@ -631,4 +631,3 @@ def get_min_distance_in_range(lidar_angles, lidar_ranges, start_deg, end_deg):
         return 20.0
 
     return np.min(valid_ranges)
-

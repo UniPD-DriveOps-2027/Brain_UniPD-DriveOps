@@ -11,6 +11,7 @@ from automobile_data_interface import Automobile_Data
 from controller3 import Controller
 from detection import Detection
 from parkman import Maneuvers
+import helper_functions as hf
 
 JOYSTICK_DEADZONE = 0.1
 TRIGGER_DEADZONE = 0.1
@@ -48,6 +49,7 @@ class RC_Brain:
         self.car_pov = False
         self.lane_following = False
         self.roundabout_navigation = False
+        self.measure_distance = False
 
         print("Initialize Joystick")
         pygame.init()
@@ -113,6 +115,11 @@ class RC_Brain:
             self.last_input_time = time()
             print('ROUNDABOUT NAVIGATION')
             print('Press X to stop')
+
+        if self.measure_distance:
+            self.measure_encoder_distance()
+            print('MEASURING DISTANCE...')
+            print('Press X to stop')
         
         if not nac.SIMULATOR_FLAG:
             self.control_for_obstacles()
@@ -144,10 +151,11 @@ class RC_Brain:
                     hat1 = self.joystick.get_hat(0)
                     self.lane_following = not self.lane_following
 
-                if event.button == 8: # 0 'X' ps4 / 0 'A' button on XBOX controller
-                    print("Option button pressed: Following Lane...")
+                if event.button == 8: # SHARE button on XBOX controller
+                    print("Share button pressed: Measuring encoder distance...")
                     hat1 = self.joystick.get_hat(0)
-                    self.follow_lane_left = not self.follow_lane_left
+                    self.first_encoder_meas = self.car.encoder_distance
+                    self.measure_distance = not self.measure_distance
                 
                 if event.button == 9: # 0 'X' ps4 / 0 'A' button on XBOX controller
                     print("Option button pressed: Following Lane...")
@@ -165,11 +173,11 @@ class RC_Brain:
                     if pad_horizontal_value == 1:
                         print("\033c")
                         print("Parking button pressed: Parking Right ...")
-                        self.park.parallel_parking(self.car, nac.RIGHT_PARK)
+                        self.park.parallel_parking_on_distance(self.car, nac.RIGHT_PARK)
                     elif pad_horizontal_value == -1:
                         print("\033c")
                         print("Parking button pressed: Parking Left ...")
-                        self.park.parallel_parking(self.car, nac.LEFT_PARK)
+                        self.park.parallel_parking_on_distance(self.car, nac.LEFT_PARK)
             
             # Cancel LANE_FOLLOWING if use joystick
             if event.type == pygame.JOYAXISMOTION:
@@ -281,3 +289,7 @@ class RC_Brain:
             self.car.stop()
             sleep(1)
             exit()
+
+    def measure_encoder_distance(self):
+        dist = self.car.encoder_distance - self.first_encoder_meas
+        print(f"DISTANCE: {dist}")

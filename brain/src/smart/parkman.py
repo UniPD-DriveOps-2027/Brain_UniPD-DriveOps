@@ -10,7 +10,7 @@ class Maneuvers():
     def __init__(self):
         # Global delay for maneuvers
         self.delay = DELAY  # [s]
-        self.park_wait_time = 3.0  # [s]
+        self.park_wait_time = 1.0  # [s]
 
         # PARALLEL PARKING
         # parking spot dimensions
@@ -32,7 +32,124 @@ class Maneuvers():
         self.park_pl_align_right = 12.0  # [deg]
         self.park_pl_align_left = -12.0  # [deg]
 
+        self.distance1 = -0.50
+        self.distance2 = -0.40  
+        self.distance3 = 0.18
+        self.distance4 = -0.18 
+        self.distance5 = 0.40 
+        self.distance6 = 0.50
+
         
+    def parallel_parking_on_distance(self, car, side=nac.RIGHT_PARK):
+        car.reset_rel_pose()
+
+        if side == nac.RIGHT_PARK:
+            # FIRST PART
+            print('FIRST PART - START - turn right and go backwards')
+            car.drive_angle(self.park_pl_turn_right)
+            car.drive_distance(self.distance1)
+            while not car.reachedPosition:
+                sleep(0.1)
+            print('FIRST PART - END')
+
+            # SECOND PART
+            print('SECOND PART - START - turn left and go backwards')
+            car.drive_angle(self.park_pl_turn_left)
+            car.drive_distance(self.distance2)
+            while not car.reachedPosition:
+                sleep(0.1)
+            print('SECOND PART - END')
+
+            # THIRD PART
+            print('THIRD PART - START - go to the center of the parking spot')
+            car.drive_angle(self.park_pl_align_right)
+            car.drive_distance(self.distance3)
+            while not car.reachedPosition:
+                sleep(0.1)
+            print('THIRD PART - END')
+            print("*** END OF THE PARKING MANEUVER ***")
+            sleep(self.park_wait_time)
+
+            # FOURTH PART
+            print('FOURTH PART - START - go back up to the end of the parking spot')
+            car.drive_angle(self.park_pl_align_right)
+            car.drive_distance(self.distance4)
+            while not car.reachedPosition:
+                sleep(0.1)
+            print('FOURTH PART - END')
+
+            # FIFTH PART
+            print('FIFTH PART - START - turn left and go forwards')
+            car.drive_angle(self.park_pl_turn_left)
+            car.drive_distance(self.distance5)
+            while not car.reachedPosition:
+                sleep(0.1)
+            print('FIFTH PART - END')
+
+            # SIXTH PART
+            print('SIXTH PART - START - turn right and go forwards')
+            car.drive_angle(self.park_pl_turn_right)
+            car.drive_distance(self.distance6)
+            while not car.reachedPosition:
+                sleep(0.1)
+            print('SIXTH PART - END')
+
+            car.reset_rel_pose()
+
+        if side == nac.LEFT_PARK:
+            # FIRST PART
+            print('FIRST PART - START - turn left and go backwards')
+            car.drive_angle(self.park_pl_turn_left)
+            car.drive_distance(self.distance1)
+            while not car.reachedPosition:
+                sleep(0.1)
+            print('FIRST PART - END')
+
+            # SECOND PART
+            print('SECOND PART - START - turn right and go backwards')
+            car.drive_angle(self.park_pl_turn_right)
+            car.drive_distance(self.distance2)
+            while not car.reachedPosition:
+                sleep(0.1)
+            print('SECOND PART - END')
+
+            # THIRD PART
+            print('THIRD PART - START - go to the center of the parking spot')
+            car.drive_angle(self.park_pl_align_left)
+            car.drive_distance(self.distance3)
+            while not car.reachedPosition:
+                sleep(0.1)
+            print('THIRD PART - END')
+            print("*** END OF THE PARKING MANEUVER ***")
+            sleep(self.park_wait_time)
+
+            # FOURTH PART
+            print('FOURTH PART - START - go back up to the end of the parking spot')
+            car.drive_angle(self.park_pl_align_left)
+            car.drive_distance(self.distance4)
+            while not car.reachedPosition:
+                sleep(0.1)
+            print('FOURTH PART - END')
+
+            # FIFTH PART
+            print('FIFTH PART - START - turn right and go forwards')
+            car.drive_angle(self.park_pl_turn_right)
+            car.drive_distance(self.distance5)
+            while not car.reachedPosition:
+                sleep(0.1)
+            print('FIFTH PART - END')
+
+            # SIXTH PART
+            print('SIXTH PART - START - turn left and go forwards')
+            car.drive_angle(self.park_pl_turn_left)
+            car.drive_distance(self.distance6)
+            while not car.reachedPosition:
+                sleep(0.1)
+            print('SIXTH PART - END')
+
+            car.reset_rel_pose()
+
+
     def parallel_parking(self, car, side=nac.RIGHT_PARK):
         car.reset_rel_pose()
 
@@ -149,6 +266,10 @@ class Maneuvers():
             car.drive_angle(0.0)
             car.stop()
             print('SIXTH PART - END')
+
+
+
+
 
     '''
     # PERPENDICULAR PARKING
