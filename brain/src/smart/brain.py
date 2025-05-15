@@ -29,7 +29,7 @@ import helper_functions as hf
 from parkman import Maneuvers
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-SELECTED_EVENT = "no_lane_highway" # "tunnel", "round","no_lane_left/right", "highway", "crosswalk", "parking" , "test"
+SELECTED_EVENT = "intersection_straight" # "tunnel", "round","no_lane_left/right", "highway", "crosswalk", "parking" , "test"
 
 # Based on the path given for the arena challenge
 END_NODE_ARENA = 149
@@ -233,8 +233,8 @@ BACKTOWHEEL = 0.10                  # [m]  distance of the wheel and the car bod
 WHEEL_LEN = 0.03
 
 # STOPLINES
-STOPLINE_APPROACH_DISTANCE = 0.4   #0.4
-STOPLINE_STOP_DISTANCE = 0.15 # 0.15 simulation       # 0.1 #in the true map
+STOPLINE_APPROACH_DISTANCE = 0.4   # 0.4
+STOPLINE_STOP_DISTANCE = 0.05      # 0.15 simulation       # 0.1 #in the true map
 assert STOPLINE_STOP_DISTANCE <= STOPLINE_APPROACH_DISTANCE
 
 # <++>
@@ -274,7 +274,7 @@ PARKING_DISTANCE_SLOW_DOWN_THRESHOLD = 0.7  # 1.0
 PARKING_DISTANCE_STOP_THRESHOLD = 0.1       # 0.1
 SUBPATH_LENGTH_FOR_PARKING = 300            # length in samples of the path to consider around the parking position, max
 MAX_PARK_SEARCH_DIST = 2.0                  # [m] max distance to search for parking
-MIN_PARK_SEARCH_DIST = 0.7                  # [m] min distance to search for parking
+MIN_PARK_SEARCH_DIST = 0.45                 # [m] min distance to search for parking
 IDX_OFFSET_FROM_SAVED_PARK_POSITION = 150   # index offset from the saved parking position; value of 150 in 2024
 PARK_SIGN_DETETCTION_PATIENCE = 8.0         # [s] max seconds to wait for a sign to be available
 PARK_SEARCH_SPEED = 0.1                     # [m/s] speed to search for parking
@@ -1218,9 +1218,9 @@ class Brain:
             sleep(0.8)
             free_spot_R, free_spot_L, _ = self.curr_state.var2
             if free_spot_R:
-                park.parallel_parking(self.car, nac.RIGHT_PARK)
+                park.parallel_parking_on_distance(self.car, nac.RIGHT_PARK) #parking with drive distance
             elif free_spot_L:
-                park.parallel_parking(self.car, nac.LEFT_PARK)
+                park.parallel_parking_on_distance(self.car, nac.LEFT_PARK)
             
             self.curr_state.var1 = (nac.PARK_END, park_type, True)
             # self.parking_s(just_changed, park_state, park_type)
@@ -1296,21 +1296,24 @@ class Brain:
         print(f'current distance :{curr_dist}')
   
         if park_type == nac.S_PARK:
-            dist_first_spot = DIST_SIGN_FIRST_S_SPOT
-            dist_spots = DIST_S_SPOTS
+            dist_first_spot = DIST_SIGN_FIRST_S_SPOT # 0.7
+            dist_spots = DIST_S_SPOTS                # 0.85 
+
             further_dist = FURTHER_DIST_S
         else:
             self.error('ERROR: PARKING: Unknown parking type!')
                 
         if ((dist_first_spot + dist_spots*checked_spots_counter) <= curr_dist < (dist_first_spot + dist_spots*checked_spots_counter+0.1)):
+
             self.car.drive_speed(0.0)
+
             sleep(SLEEP_AFTER_STOPPING)
-            # get right and left sonar distance
-            dist_right = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, 85, 95)
-            dist_left = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, 265, 275)
-            print(f'Spot checked: {checked_spots_counter+1}')
-            print(f'Right sonar {dist_right}')
-            print(f'Left sonar {dist_left}')
+            # get right and left LIDAR distance
+            dist_right = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, 75, 105)
+            dist_left = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, -105, -75)
+            #print(f'Spot checked: {checked_spots_counter+1}')
+            #print(f'Right lidar ########################  {dist_right}')
+            #print(f'Left lidar ########################  {dist_left}')
             if dist_right < 0.5:
                 print('Car in park_right')
                 self.env.publish_obstacle(nac.STATIC_CAR_PARKING, self.car.x_est, self.car.y_est-0.4)
@@ -1491,7 +1494,7 @@ class Brain:
             #print('in LEFT NO LANE!!!!!!!!')
 
             # KEEP LANE
-            if travelled_distance <= 4.7:
+            if travelled_distance <= 3.6: #4.7 sim
                 self.activate_routines([nac.FOLLOW_LANE,
                                         nac.CONTROL_FOR_CAR,
                                         nac.DETECT_STOPLINE,
@@ -1499,7 +1502,7 @@ class Brain:
                 self.run_routines()
             
             # KEEP RIGHT WHEN YOU LOOSE LINE MARKER
-            elif travelled_distance <= 5.2:
+            elif travelled_distance <= 4.72: #5.2 sim
                 self.activate_routines([nac.FOLLOW_LANE_RIGHT,
                                 nac.CONTROL_FOR_CAR,
                                 nac.DETECT_STOPLINE,
@@ -1507,7 +1510,7 @@ class Brain:
                 self.run_routines()
 
             # KEEP LANE IN THE DOTTED LINE SECTION
-            elif travelled_distance <= 6.8:
+            elif travelled_distance <= 5.45: #6.8 sim
                 self.activate_routines([nac.FOLLOW_LANE,
                                 nac.CONTROL_FOR_CAR,
                                 nac.DETECT_STOPLINE,
@@ -1515,7 +1518,7 @@ class Brain:
                 self.run_routines()
 
             # KEEP RIGHT WHEN YOU LOOSE LINE MARKER
-            elif travelled_distance <= 7.1:
+            elif travelled_distance <= 6.5: #7.1
                 self.activate_routines([nac.FOLLOW_LANE_RIGHT,
                                 nac.CONTROL_FOR_CAR,
                                 nac.DETECT_STOPLINE,
@@ -1622,6 +1625,7 @@ class Brain:
             # publish sign
             if self.curr_sign != prev_sign and self.curr_sign != nac.NO_SIGN:
                 self.env.publish_obstacle(self.curr_sign, self.car.x_est, self.car.y_est)
+                print(f'SIGN: {self.curr_sign}')
 
     def control_for_car(self):
         # check for obstacles
