@@ -28,8 +28,7 @@ import helper_functions as hf
 
 from parkman import Maneuvers
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
-SELECTED_EVENT = "intersection_straight" # "tunnel", "round","no_lane_left/right", "highway", "crosswalk", "parking" , "test"
+SELECTED_EVENT = "no_lane_highway" # "tunnel", "round","no_lane_left/right", "highway", "crosswalk", "parking" , "test"
 
 # Based on the path given for the arena challenge
 END_NODE_ARENA = 149
@@ -1494,7 +1493,7 @@ class Brain:
             #print('in LEFT NO LANE!!!!!!!!')
 
             # KEEP LANE
-            if travelled_distance <= 3.6: #4.7 sim
+            if travelled_distance <= 3.85: #4.7 sim
                 self.activate_routines([nac.FOLLOW_LANE,
                                         nac.CONTROL_FOR_CAR,
                                         nac.DETECT_STOPLINE,
@@ -1509,8 +1508,9 @@ class Brain:
                                 nac.DRIVE_DESIRED_SPEED])
                 self.run_routines()
 
+
             # KEEP LANE IN THE DOTTED LINE SECTION
-            elif travelled_distance <= 5.45: #6.8 sim
+            elif travelled_distance <= 5.55: #6.8 sim
                 self.activate_routines([nac.FOLLOW_LANE,
                                 nac.CONTROL_FOR_CAR,
                                 nac.DETECT_STOPLINE,
@@ -1558,7 +1558,7 @@ class Brain:
     def follow_lane_right(self):
         e3, point_ahead = self.detect.detect_intersection_right(self.car.frame, SHOW_IMGS)
         hf.show_follow_lane(self, point_ahead, SHOW_IMGS)
-        _, angle_ref = self.controller.get_control(0, e3, 0, self.desired_speed, no_lane=False)
+        _, angle_ref = self.controller.get_control(0, 0.7*e3, 0, self.desired_speed, no_lane=False)
         angle_ref = np.rad2deg(angle_ref)
         self.car.drive_angle(angle_ref)
 

@@ -519,7 +519,7 @@ def navigate_open_loop(brain, local_path_cf, idx_point_ahead, idx_car_on_path, s
     out_speed, out_angle = brain.controller.get_control(e2, yaw_error, 0.0, brain.desired_speed, gains=gains)
     brain.car.drive(out_speed, np.rad2deg(out_angle))
 
-
+'''
 def navigate_roundabout(brain, idx_point_ahead, max_idx, show):
     if max_idx < 200: # 1st EXIT
         out_idx_len = 70 # WORKED IN REAL LIFE
@@ -532,7 +532,7 @@ def navigate_roundabout(brain, idx_point_ahead, max_idx, show):
         # out_idx = 80  # WORKED IN SIMULATION# BFMC_2024
     else:
         out_idx_len = 100
-        
+
     if max_idx - idx_point_ahead < 10:
         print("\nAHEAD AHEAD AHEAD AHEAD AHEAD AHEAD AHEAD AHEAD AHEAD\n")
         e3, _ = brain.detect.detect_lane_ahead(brain.car.frame, show_ROI=show)
@@ -568,6 +568,84 @@ def navigate_roundabout(brain, idx_point_ahead, max_idx, show):
         e3, _ = brain.detect.detect_roundabout_about(brain.car.frame,show_ROI=show)
         brain.curr_state.var4 = 0.3 * brain.curr_state.var4 + 0.7 * e3
         output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, brain.curr_state.var4, 2.5*brain.curr_state.var4)
+    print(f'output_speed: {output_speed:.2f}, output_angle: {np.rad2deg(output_angle):.2f}')
+    brain.car.drive(speed=output_speed, angle=np.rad2deg(output_angle))
+'''
+
+def navigate_roundabout(brain, idx_point_ahead, max_idx, show):
+    if max_idx < 200:
+        out_idx_len = 70
+    elif max_idx < 300:
+        out_idx_len = 80
+    elif max_idx < 400:
+        out_idx_len = 90
+    else:
+        out_idx_len = 100
+
+    distance = brain.car.encoder_distance
+
+  # Initialize state variables if they don't exist
+    if not hasattr(brain.curr_state, 'logged_labels'):
+        brain.curr_state.logged_labels = set()
+
+    if not hasattr(brain.curr_state, 'logs_cleared'):
+        brain.curr_state.logs_cleared = False
+
+    # Clear logs once at the start
+    if not brain.curr_state.logs_cleared:
+        with open("roundabout_distances.txt", "w") as f:
+            f.write("")  # empty the file
+        brain.curr_state.logged_labels.clear()
+        brain.curr_state.logs_cleared = True
+
+    def log_distance_once(label):
+        if label not in brain.curr_state.logged_labels:
+            with open("roundabout_distances.txt", "a") as f:
+                f.write(f"{label}: {distance:.2f}\n")
+            brain.curr_state.logged_labels.add(label)
+
+    if max_idx - idx_point_ahead < 10:
+        print("\nAHEAD AHEAD AHEAD AHEAD AHEAD AHEAD AHEAD AHEAD AHEAD\n")
+        e3, _ = brain.detect.detect_lane_ahead(brain.car.frame, show_ROI=show)
+        output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, 0.0, e3)
+    elif max_idx - idx_point_ahead < out_idx_len:
+        print("\nOUT OUT OUT OUT OUT OUT OUT OUT OUT OUT\n")
+        e3, _ = brain.detect.detect_roundabout_out(brain.car.frame, show_ROI=show)
+        output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, e3, 1.4 * e3)
+    elif idx_point_ahead < 40:
+        print("\nIN IN IN IN IN IN 1\n")
+        log_distance_once("IN1")
+        e3, _ = brain.detect.detect_roundabout_in(brain.car.frame, show_ROI=show)
+        output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, e3, 0.4 * e3)
+    elif idx_point_ahead < 70:
+        print("\nIN IN IN IN IN IN 2\n")
+        log_distance_once("IN2")
+        e3, _ = brain.detect.detect_roundabout_in(brain.car.frame, show_ROI=show)
+        output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, e3, 1.2*e3)
+    elif idx_point_ahead < 80:
+        print("\nIN IN IN IN IN IN 3\n")
+        log_distance_once("IN3")
+        e3, _ = brain.detect.detect_roundabout_in(brain.car.frame, show_ROI=show)
+        output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, e3, 1.5 * e3)
+    elif idx_point_ahead < 110:
+        print("\nABOUT ABOUTABOUT 1\n")
+        log_distance_once("ABOUT1")
+        e3, _ = brain.detect.detect_roundabout_about(brain.car.frame, show_ROI=show)
+        brain.curr_state.var4 = 0.3 * brain.curr_state.var4 + 0.7 * e3
+        output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, 0.0, brain.curr_state.var4)
+    elif idx_point_ahead < 210:
+        print("\nABOUT ABOUTABOUT 2\n")
+        log_distance_once("ABOUT2")
+        e3, _ = brain.detect.detect_roundabout_about(brain.car.frame, show_ROI=show)
+        brain.curr_state.var4 = 0.3 * brain.curr_state.var4 + 0.7 * e3
+        output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, brain.curr_state.var4, 1.8*brain.curr_state.var4)
+    else:
+        print("\nABOUT ABOUTABOUT 3\n")
+        log_distance_once("ABOUT3")
+        e3, _ = brain.detect.detect_roundabout_about(brain.car.frame, show_ROI=show)
+        brain.curr_state.var4 = 0.3 * brain.curr_state.var4 + 0.7 * e3
+        output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, brain.curr_state.var4, -30) # 2.7*brain.curr_state.var4
+
     print(f'output_speed: {output_speed:.2f}, output_angle: {np.rad2deg(output_angle):.2f}')
     brain.car.drive(speed=output_speed, angle=np.rad2deg(output_angle))
 

@@ -170,12 +170,13 @@ if __name__ == '__main__':
         fps_cnt = 0
 
         # Setup logging
-        #log_filename = f'logs/yaw_distance_log_{datetime.now().strftime("%Y%m%d_%H%M%S")}.csv'
-        #os.makedirs(os.path.dirname(log_filename), exist_ok=True)
-        #log_file = open(log_filename, mode='w', newline='')
-        #log_writer = csv.writer(log_file)
-        #log_writer.writerow(['timestamp', 'encoder_distance','yaw_true'])  # CSV header
-
+        '''
+        log_filename = f'logs/yaw_distance_log_{datetime.now().strftime("%Y%m%d_%H%M%S")}.csv'
+        os.makedirs(os.path.dirname(log_filename), exist_ok=True)
+        log_file = open(log_filename, mode='w', newline='')
+        log_writer = csv.writer(log_file)
+        log_writer.writerow(['timestamp', 'encoder_distance','yaw_true'])  # CSV header
+        '''
 
         while not rospy.is_shutdown():
 
