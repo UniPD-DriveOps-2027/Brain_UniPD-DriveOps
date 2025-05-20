@@ -152,7 +152,7 @@ def scan_callback(scan_msg):
     angles = angle_min + np.arange(num_points) * angle_increment
 
     # Process only 90° to 270° (rear of robot)
-    min_distance = get_min_distance_in_range(angles, ranges, 160, 200,
+    min_distance = get_min_distance_in_range(angles, ranges,160,180,
                                              size_threshold=0.02, 
                                              cluster_dist_threshold=0.07,  #0.5
                                              min_cluster_size=5)
