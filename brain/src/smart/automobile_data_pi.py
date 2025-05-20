@@ -11,6 +11,7 @@ import numpy as np
 SONAR_THRESHOLD = 5
 
 SONAR_DEQUE_LENGTH = 20
+TOF_DEQUE_LENGTH = 10
 
 IMU_DEQUE_LENGTH = 10
 
@@ -26,6 +27,7 @@ class AutomobileDataPi(Automobile_Data):
                  trig_cam=False,
                  trig_gps=False,
                  trig_lidar=False,
+                 trig_tof=False
                  ) -> None:
         # initialize the parent class
         super().__init__()
@@ -39,6 +41,9 @@ class AutomobileDataPi(Automobile_Data):
         self.center_sonar_distance = 3.0
         self.center_sonar_distance_buffer = collections.deque(maxlen=SONAR_DEQUE_LENGTH)
         self.filtered_center_sonar_distance = 3.0
+
+        self.center_tof_distance_buffer = collections.deque(maxlen=TOF_DEQUE_LENGTH)
+        self.left_tof_distance_buffer = collections.deque(maxlen=TOF_DEQUE_LENGTH)
 
         self.encoder_velocity_buffer = collections.deque(maxlen=SONAR_DEQUE_LENGTH)
         self.reachedPosition = False
@@ -93,6 +98,9 @@ class AutomobileDataPi(Automobile_Data):
             self.sub_pos       = rospy.Subscriber("/automobile/vehicles", vehicles, self.position_callback)
         if trig_lidar:
             self.sub_lidar     = rospy.Subscriber('/scan', LaserScan, self.lidar_callback) 
+        if trig_tof:
+            self.sub_tof_center     = rospy.Subscriber('/automobile/tof/center', Float32, self.center_tof_callback)
+            self.sub_tof_left      = rospy.Subscriber('/automobile/tof/left', Float32, self.left_tof_callback)
             
 
 
@@ -126,9 +134,26 @@ class AutomobileDataPi(Automobile_Data):
         self.left_sonar_distance_buffer.append(self.left_sonar_distance)
         self.filtered_left_sonar_distance = np.median(self.left_sonar_distance_buffer)
 
+    def center_tof_callback(self, data) -> None:
+        """Receive and store distance of an obstacle ahead in
+        :acts on: self.tof_distance, self.filtered_tof_distance
+        """
+        self.center_tof_distance = data.data if data.data > 0 else self.center_tof_distance
+        self.center_tof_distance_buffer.append(self.center_tof_distance)
+        self.filtered_center_tof_distance = np.median(self.center_tof_distance_buffer)
+        #print(f'RIGHT SONAR{self.filtered_right_sonar_distance}')
+    
+    def left_tof_callback(self, data) -> None:
+        """Receive and store distance of an obstacle ahead in
+        :acts on: self.tof_distance, self.filtered_tof_distance
+        """
+        self.left_tof_distance = data.data if data.data > 0 else self.left_tof_distance
+        self.left_tof_distance_buffer.append(self.left_tof_distance)
+        self.filtered_left_tof_distance = np.median(self.left_tof_distance_buffer)
+
 
     def lidar_callback(self, data: LaserScan):
-        """Receive and store camera frame
+        """Receive and store LIDAR data
         :acts on: self.lidar_angles, self.lidar_ranges
         """
         self.lidar_angles = np.linspace(data.angle_min, data.angle_max, len(data.ranges))  # [rad] range: [-2.094, 2.094] or [-120°, 120°] 

@@ -70,7 +70,8 @@ class Automobile_Data():
                  trig_sonar=False,
                  trig_cam=False,
                  trig_gps=False,
-                 trig_lidar=False
+                 trig_lidar=False, 
+                 trig_tof=False
                  ) -> None:
         """Manage flow of data with the car
 
@@ -149,6 +150,11 @@ class Automobile_Data():
         self.filtered_right_sonar_distance = 3.0  # [m] SONAR:filt dist lat
         self.left_sonar_distance = 3.0  # [m] SONAR: unfilt dist from lat
         self.filtered_left_sonar_distance = 3.0  # [m] SONAR:filt dist lat
+        # TOFs
+        self.center_tof_distance = 0.21  # [m] TOF: unfilt dist from lat
+        self.filtered_center_tof_distance = 0.21  # [m] TOF:filt dist lat
+        self.left_tof_distance = 0.21 # [m] TOF: unfilt dist from lat
+        self.filtered_left_tof_distance = 0.21  # [m] TOF:filt dist lat
         # ESP32 CAMERA
         self.obstacle = 0.0            # ESP32: confidence level for obstacle classification
         self.filtered_obstacle = 0.0   # ESP32: filtered confidence level for obstacle classification

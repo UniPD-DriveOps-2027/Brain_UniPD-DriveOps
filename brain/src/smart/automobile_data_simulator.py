@@ -34,6 +34,7 @@ class AutomobileDataSimulator(Automobile_Data):
                  trig_cam=False,
                  trig_gps=False,
                  trig_lidar=False,
+                 trig_tof=False
                  ) -> None:
         # initialize the parent class
         super().__init__()
@@ -42,6 +43,8 @@ class AutomobileDataSimulator(Automobile_Data):
         self.sonar_distance_buffer = collections.deque(maxlen=20)
         self.right_sonar_distance_buffer = collections.deque(maxlen=20)
         self.left_sonar_distance_buffer = collections.deque(maxlen=20)
+        self.center_tof_distance_buffer = collections.deque(maxlen=20)
+        self.left_tof_distance_buffer = collections.deque(maxlen=20)
         self.timestamp = 0.0
         self.prev_x_true = self.x_true
         self.prev_y_true = self.y_true
@@ -93,7 +96,10 @@ class AutomobileDataSimulator(Automobile_Data):
             self.sub_cam = rospy.Subscriber("/automobile/image_raw", Image, self.camera_callback)
         if trig_gps:
             self.sub_pos = rospy.Subscriber("/automobile/localisation", localisation, self.position_callback)
-
+        if trig_tof:
+            self.sub_tof_right     = rospy.Subscriber('/automobile/tof/right', Float32, self.right_tof_callback)
+            self.sub_tof_left      = rospy.Subscriber('/automobile/tof/left', Float32, self.left_tof_callback)
+            
 
     def camera_callback(self, data) -> None:
         """Receive and store camera frame
@@ -124,6 +130,22 @@ class AutomobileDataSimulator(Automobile_Data):
         self.left_sonar_distance = data.range
         self.left_sonar_distance_buffer.append(self.left_sonar_distance)
         self.filtered_left_sonar_distance = np.median(self.left_sonar_distance_buffer)
+
+    def center_tof_callback(self, data) -> None:
+        """Receive and store distance of a right obstacle
+        :acts on: self.center_tof_distance, self.filtered_center_tof_distance
+        """
+        self.center_tof_distance = data.range
+        self.center_tof_distance_buffer.append(self.center_tof_distance)
+        self.filtered_center_tof_distance = np.median(self.center_tof_distance_buffer)
+        
+    def left_tof_callback(self, data) -> None:
+        """Receive and store distance of a left obstacle
+        :acts on: self.left_tof_distance, self.filtered_tof_sonar_distance
+        """
+        self.left_tof_distance = data.range
+        self.left_tof_distance_buffer.append(self.left_tof_distance)
+        self.filtered_left_tof_distance = np.median(self.left_tof_distance_buffer)
     
     def lidar_callback(self, data: LaserScan):
         """Receive and store camera frame
