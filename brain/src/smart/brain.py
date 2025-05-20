@@ -28,7 +28,7 @@ import helper_functions as hf
 
 from parkman import Maneuvers
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-SELECTED_EVENT = "no_lane_highway" # "tunnel", "round","no_lane_left/right", "highway", "crosswalk", "parking" , "test"
+SELECTED_EVENT = "round1" # "tunnel", "round","no_lane_left/right", "highway", "crosswalk", "parking" , "test"
 
 # Based on the path given for the arena challenge
 END_NODE_ARENA = 149
@@ -311,10 +311,10 @@ assert OBSTACLE_IMGS_CAPTURE_STOP_DISTANCE > OBSTACLE_CONTROL_DISTANCE
 PEDESTRIAN_CONTROL_DISTANCE = 0.5   # [m] distance to keep from the pedestrian
 PEDESTRIAN_TIMEOUT = 2.0             # [s] time to w8 after the pedestrian cleared the road
 # car
-TAILING_DISTANCE = 0.30   # [m] distance to keep from the vehicle while tailing
+TAILING_DISTANCE = 0.35   # [m] distance to keep from the vehicle while tailing
 # overtake static car
 OVERTAKE_STEER_ANGLE = 27.0  # [deg]
-OVERTAKE_STATIC_CAR_SPEED = 0.2  # [m/s]
+OVERTAKE_STATIC_CAR_SPEED = 0.5  # [m/s]
 OT_STATIC_SWITCH_1 = 0.3
 OT_STATIC_SWITCH_2 = 0.55 # BFMC_2023
 OT_STATIC_SWITCH_2 = 0.40 # good for simulation # BFMC_2024
@@ -776,6 +776,8 @@ class Brain:
 
         decide_next_state = self.approaching_stopline_vision()
 
+        dist = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, -170, -110)
+
         if decide_next_state:
             print('Deciding next state, based on next event...')
             # print(f'debug: {self.checkpoint_idx}')
@@ -787,7 +789,6 @@ class Brain:
                 self.stopline_counter += 1
             # print(self.stopline_counter)
             self.conditions[nac.HIGHWAY] = False
-            #self.conditions[nac.NO_LANE] = False  # <++> BFMC_2025
             next_event_name = self.next_event.name
             # Events with stopline
             if next_event_name == nac.INTERSECTION_STOP_EVENT:      
@@ -797,8 +798,10 @@ class Brain:
             elif next_event_name == nac.INTERSECTION_PRIORITY_EVENT:
                 self.switch_to_state(nac.TRACKING_LOCAL_PATH)
             elif next_event_name == nac.ROUNDABOUT_EVENT:
-                self.switch_to_state(nac.TRACKING_LOCAL_PATH)
-                self.switch_to_state(nac.TRACKING_LOCAL_PATH)
+                if dist < OBSTACLE_DISTANCE_THRESHOLD and ARENA:
+                    self.switch_to_state(nac.WAITING_AT_STOPLINE)
+                else:
+                    self.switch_to_state(nac.TRACKING_LOCAL_PATH)
             elif next_event_name == nac.CROSSWALK_EVENT:
                 # directly go to lane keeping, the pedestrian will
                 # be managed in that state
@@ -833,7 +836,7 @@ class Brain:
                   self.stopline_distance_median)
             self.activate_routines([nac.FOLLOW_LANE,
                                     nac.SLOW_DOWN,
-                                    nac.CONTROL_FOR_PEDESTRIAN])  # SLOW_DOWN
+                                    nac.CONTROL_FOR_PEDESTRIAN])  
             dist_to_drive = self.stopline_distance_median - self.car.encoder_distance
             self.car.drive_distance(dist_to_drive)
             if dist_to_drive < STOPLINE_STOP_DISTANCE:
@@ -994,6 +997,7 @@ class Brain:
 
     def waiting_at_stopline(self):
         EXTRA_TIME = 2.0 if self.stopline_counter == 50 else 0.0 # NO NEED FOR EXTRA TIME ?!
+        dist = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, -170, -110)
         print(f'debug extratime: {EXTRA_TIME}')
         # no routines
         self.activate_routines([])
@@ -1003,15 +1007,16 @@ class Brain:
                 self.car.drive_speed(0.0)
                 self.curr_state.just_switched = False
             if (time() - self.curr_state.start_time) > STOP_WAIT_TIME + EXTRA_TIME:
-                self.switch_to_state(nac.TRACKING_LOCAL_PATH)
-                self.switch_to_state(nac.TRACKING_LOCAL_PATH)
+                if self.next_event.name == nac.ROUNDABOUT_EVENT and dist < OBSTACLE_DISTANCE_THRESHOLD and ARENA:
+                    self.curr_state.start_time = time()
+                else: 
+                    self.switch_to_state(nac.TRACKING_LOCAL_PATH)
         else:
-            self.switch_to_state(nac.TRACKING_LOCAL_PATH)
             self.switch_to_state(nac.TRACKING_LOCAL_PATH)
 
     def overtaking_static_car(self):
         self.activate_routines([])
-        dist_right = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, 80, 100)
+        dist_right = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, 60, 120)
         # states
         OT_SWITCHING_LANE = 1
         OT_LANE_FOLLOWING = 2
@@ -1142,36 +1147,41 @@ class Brain:
 
     def tailing_car(self):
         # TODO Jona: check if this works in the arena ???
-        #if (ARENA and (time() - self.curr_state.start_time) > 10) and (self.next_event.name == nac.TUNNEL_EVENT or self.next_event.name == nac.NO_LANE_EVENT):
-        #    nac.CAN_OVERTAKE = True 
-        dist = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, 170, 190)
-        print(f"##################### DISTANCE {dist}")
-        if dist > OBSTACLE_DISTANCE_THRESHOLD+0.05:  #TODO why is 0.05 here?!
+        if (ARENA and (time() - self.curr_state.start_time) > 10) and (self.next_event.name == nac.TUNNEL_EVENT or self.next_event.name == nac.NO_LANE_EVENT):
+            nac.CAN_OVERTAKE = True 
+        dist1 = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, 170, 180)
+        dist2= hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges,- 180, -170)
+        print(f"##################### DISTANCE {dist1} {dist2} #####################")
+        if (dist1 > OBSTACLE_DISTANCE_THRESHOLD+0.05) and (dist2 > OBSTACLE_DISTANCE_THRESHOLD+0.05):
             self.switch_to_state(nac.LANE_FOLLOWING)
-            print('switching')
+            #print('switching')
             if(nac.TESTING):
-                print('entered')
+                #print('entered')
                 self.activate_routines([nac.FOLLOW_LANE, nac.DRIVE_DESIRED_SPEED, nac.DETECT_STOPLINE])
                 self.run_routines()
         
         else:
             self.activate_routines([nac.FOLLOW_LANE, nac.DETECT_STOPLINE])
             if(nac.TESTING):
-                print("!!!!!!!!!!!!!!!!!!!!!!!")
+                #print("!!!!!!!!!!!!!!!!!!!!!!!")
                 self.run_routines()
+            dist = min(dist1, dist2)
+            print(f'Following car: {dist:.2f}/{TAILING_DISTANCE:.2f}')
             dist_to_drive = dist - TAILING_DISTANCE
+            if (dist_to_drive >-0.05) and (dist_to_drive < 0.0):
+                dist_to_drive = 0.0
             self.car.drive_distance(dist_to_drive)
             if self.conditions[nac.CAN_OVERTAKE] and not nac.TESTING:
                 if self.conditions[nac.HIGHWAY]:
-                    print("OVERTAKINGGGGGG")
+                    #print("OVERTAKINGGGGGG")
                     self.switch_to_state(nac.OVERTAKING_MOVING_CAR)
                 else:
                     if -0.05 < dist_to_drive < 0.05: # TODO: check the distance 
-                        print("OVERTAKINGGGGGG STATICCCC")
+                        #print("OVERTAKINGGGGGG STATICCCC")
                         self.switch_to_state(nac.OVERTAKING_STATIC_CAR)
 
             if self.detect.est_dist_to_stopline < STOPLINE_APPROACH_DISTANCE and self.routines[nac.DETECT_STOPLINE].active:
-                print("SWITCHING TO APPROACHING STOPLINE")
+                #print("SWITCHING TO APPROACHING STOPLINE")
                 self.switch_to_state(nac.APPROACHING_STOPLINE)
 
     
@@ -1419,7 +1429,9 @@ class Brain:
     def tunnel_speed_curve(self):
         right_distance = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, 85, 95)# -95 -85
         print(f"RIGHT DISTANCE: {right_distance}")
-        
+        if ARENA:
+            self.activate_routines([nac.CONTROL_FOR_CAR])  #nac.CONTROL_FOR_CAR
+
         if right_distance < 0.5: 
             self.activate_routines([nac.DRIVE_DESIRED_SPEED])  #nac.CONTROL_FOR_CAR
             self.run_routines()
@@ -1748,8 +1760,8 @@ class Brain:
             This condition is turned False every time we hit a stopline (inside approaching_stopline function)
             So this only works in one way of the highway
         '''
-        #TODO: implement that it can work on both  ways!
-        if (self.next_event.name == nac.HIGHWAY_ENTRANCE_EVENT) and (self.car.filtered_left_sonar_distance <= 0.5):
+        #TODO: implement that it can work on both  ways! Done
+        if ((self.next_event.name == nac.HIGHWAY_ENTRANCE_EVENT) and (self.car.filtered_left_sonar_distance <= 0.5) and (int(self.checkpoints[self.checkpoint_idx]) not in range(152, 176))):
             # self.conditions[nac.HIGHWAY] = str(self.checkpoints[self.checkpoint_idx]) in self.path_planner.highway_nodes and self.car_dist_on_path < 9.5
             self.conditions[nac.HIGHWAY] = True  
         
@@ -1762,7 +1774,8 @@ class Brain:
 
         # CAN_OVERTAKE
         print(self.stopline_counter)
-        self.conditions[nac.CAN_OVERTAKE] = (self.conditions[nac.HIGHWAY] or self.checkpoints[self.checkpoint_idx] in range(372, 384) or self.checkpoints[self.checkpoint_idx] in range(386, 398) )
+
+        self.conditions[nac.CAN_OVERTAKE] = ((self.conditions[nac.HIGHWAY]) or (int(self.checkpoints[self.checkpoint_idx]) in range(372, 384)) or (int(self.checkpoints[self.checkpoint_idx]) in range(386, 398)))
 
     # ===================== STATE MACHINE MANAGEMENT ===================== #
     def run(self):

@@ -35,8 +35,8 @@ EVENT_CONFIGS = {
         "checkpoints": [999, 143]
     },
     "round1": {
-        "starting_coords": [17.96, 8.81],
-        "checkpoints": [999, 308, 200]
+        "starting_coords": [17.3, 6.0],
+        "checkpoints": [999, 397, 200]
     },
 
     "round2": {

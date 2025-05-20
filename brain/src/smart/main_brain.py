@@ -120,7 +120,8 @@ if __name__ == '__main__':
                                       trig_enc=True,
                                       trig_control=True,
                                       trig_sonar=True,
-                                      trig_lidar=True)  # <++>
+                                      trig_lidar=True,
+                                      trig_tof=True)  # <++>
     else:
         car = AutomobileDataPi(trig_cam=False,
                                trig_gps=False,
@@ -128,7 +129,8 @@ if __name__ == '__main__':
                                trig_enc=True,
                                trig_control=True,
                                trig_sonar=True,
-                               trig_lidar=True) 
+                               trig_lidar=True,
+                               trig_tof=True) 
     sleep(1.5)
 
     signal.signal(signal.SIGINT, handler)
