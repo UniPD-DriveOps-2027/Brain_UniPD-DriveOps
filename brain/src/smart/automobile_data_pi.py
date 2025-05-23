@@ -81,6 +81,7 @@ class AutomobileDataPi(Automobile_Data):
             self.pub_current_state = rospy.Publisher('/automobile/current_state', String, queue_size=1)
             self.pub_routines      = rospy.Publisher('/automobile/routines', String, queue_size=1)
             self.pub_conditions    = rospy.Publisher('/automobile/conditions', conditions, queue_size=1)
+            self.pub_arena         = rospy.Publisher('/automobile/arena', Bool, queue_size=1)
             self.sub_position      = rospy.Subscriber("/automobile/feedback/position", Bool, self.feedback_position_callback)
         if trig_bno:
             self.sub_imu       = rospy.Subscriber('/automobile/imu', IMU, self.imu_callback)
@@ -99,7 +100,7 @@ class AutomobileDataPi(Automobile_Data):
         if trig_lidar:
             self.sub_lidar     = rospy.Subscriber('/scan', LaserScan, self.lidar_callback) 
         if trig_tof:
-            self.sub_tof_center     = rospy.Subscriber('/automobile/tof/center', Float32, self.center_tof_callback)
+            self.sub_tof_center     = rospy.Subscriber('/automobile/tof/front', Float32, self.center_tof_callback)
             self.sub_tof_left      = rospy.Subscriber('/automobile/tof/left', Float32, self.left_tof_callback)
             
 
@@ -276,6 +277,9 @@ class AutomobileDataPi(Automobile_Data):
         self.pub_prev_event.publish(data)
 
     def publish_current_state(self, data):
+        self.pub_current_state.publish(data)
+
+    def publish_arena_flag(self, data):
         self.pub_current_state.publish(data)
 
     def publish_routines(self, data):

@@ -8,17 +8,17 @@
     
 
     <node pkg="unix_out"   type="metrics_to_socket.py"    name="metrics_to_socket_NODE" output="screen"/>
-    <node pkg="input"   type="imuNODE.py"           name="imuNODE" output="screen"/>
+    <?ignore <node pkg="input"   type="imuNODE.py"           name="imuNODE" output="screen"/> ?>
     
 
-	
+	<?ignore
     <node name="rplidarNode"          pkg="rplidar_ros"  type="rplidarNode" output="screen">
     <param name="serial_port"         type="string" value="/dev/ttyUSB0"/>
     <param name="serial_baudrate"     type="int"    value="115200"/>
     <param name="frame_id"            type="string" value="laser"/>
     <param name="inverted"            type="bool"   value="false"/>
     <param name="angle_compensate"    type="bool"   value="true"/>
-    </node>
+    </node> ?>
 
     <node pkg="unix_out"   type="lidar_to_socket.py"    name="lidar_to_socket_NODE" output="screen"/> 
 

@@ -505,6 +505,7 @@ def navigate_intersection(brain, show):
         e3, _ = brain.detect.detect_lane_ahead(brain.car.frame, show_ROI=show)
     output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, 0.0, e3)
     print(f'output_speed: {output_speed:.2f}, output_angle: {np.rad2deg(output_angle):.2f}')
+
     brain.car.drive(speed=output_speed, angle=np.rad2deg(output_angle))
 
 
@@ -687,7 +688,7 @@ def switch_lane_check(closest_node, meas):
 
     return final_node
 
-def get_min_distance_in_range(lidar_angles, lidar_ranges, start_deg, end_deg):
+def get_lidar_valid_ranges(lidar_angles, lidar_ranges, start_deg, end_deg):
     import numpy as np
 
     # Convert to numpy arrays if not already
@@ -701,11 +702,61 @@ def get_min_distance_in_range(lidar_angles, lidar_ranges, start_deg, end_deg):
     # Find indices within the specified angle range
     indices = np.where((lidar_angles >= start_deg) & (lidar_angles <= end_deg))[0]
     selected_ranges = lidar_ranges[indices]
+    selected_angles = lidar_angles[indices]
 
     # Filter out invalid values
-    valid_ranges = selected_ranges[np.isfinite(selected_ranges) & (selected_ranges > 0.0)]
+    valid_mask = np.isfinite(selected_ranges) & (selected_ranges > 0.0)
+    selected_angles = selected_angles[valid_mask]
+    selected_ranges = selected_ranges[valid_mask]
 
-    if len(valid_ranges) == 0:
+    if len(selected_ranges) == 0:
+        return 20.0, np.array([])
+
+    return selected_ranges, selected_angles
+
+def get_min_distance_in_range(lidar_angles, lidar_ranges, start_deg, end_deg):
+    import numpy as np
+
+    valid_ranges, _ = get_lidar_valid_ranges(lidar_angles, lidar_ranges, start_deg, end_deg)
+    return np.min(valid_ranges)
+
+def get_min_distance_in_filtered_range(lidar_angles, lidar_ranges, start_deg, end_deg, 
+                                        size_threshold=0.1, cluster_dist_threshold=0.05, min_cluster_size=5):
+
+    import numpy as np
+    from scipy.spatial.distance import pdist
+
+    selected_ranges, selected_angles = get_lidar_valid_ranges(lidar_angles, lidar_ranges, start_deg, end_deg)
+
+    # Convert to Cartesian coordinates
+    x = selected_ranges * np.cos(selected_angles)
+    y = selected_ranges * np.sin(selected_angles)
+    points = np.vstack((x, y)).T
+
+    # Cluster points
+    clusters = []
+    current_cluster = [points[0]]
+    
+    for i in range(1, len(points)):
+        if np.linalg.norm(points[i] - points[i - 1]) < cluster_dist_threshold:
+            current_cluster.append(points[i])
+        else:
+            clusters.append(np.array(current_cluster))
+            current_cluster = [points[i]]
+    clusters.append(np.array(current_cluster))
+
+    # Filter valid clusters based on size and diameter
+    valid_clusters = []
+    for cluster in clusters:
+        if len(cluster) >= min_cluster_size:
+            max_pairwise_dist = np.max(pdist(cluster)) if len(cluster) >= 2 else 0
+            if max_pairwise_dist >= size_threshold:
+                valid_clusters.append(cluster)
+
+    if not valid_clusters:
         return 20.0
 
-    return np.min(valid_ranges)
+    # Return the minimum distance from any valid cluster
+    min_dists = [np.min(np.linalg.norm(cluster, axis=1)) for cluster in valid_clusters]
+    return min(min_dists)
+

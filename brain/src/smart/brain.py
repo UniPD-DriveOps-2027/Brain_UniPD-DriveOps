@@ -1,6 +1,6 @@
 
 #!/usr/bin/python3
-from names_and_constants import SIMULATOR_FLAG, SHOW_IMGS, RANDOM_START, EVENT_SETTINGS, EVENT_CONFIGS, ARENA # deleted completely the speed challenge
+from names_and_constants import SIMULATOR_FLAG, SHOW_IMGS, RANDOM_START, EVENT_SETTINGS, EVENT_CONFIGS, ARENA# deleted completely the speed challenge
 import sys
 import os
 import numpy as np
@@ -28,7 +28,7 @@ import helper_functions as hf
 
 from parkman import Maneuvers
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-SELECTED_EVENT = "round1" # "tunnel", "round","no_lane_left/right", "highway", "crosswalk", "parking" , "test"
+SELECTED_EVENT = "intersection_left" # "tunnel", "round","no_lane_left/right", "highway", "crosswalk", "parking" , "test"
 
 # Based on the path given for the arena challenge
 END_NODE_ARENA = 149
@@ -239,6 +239,7 @@ assert STOPLINE_STOP_DISTANCE <= STOPLINE_APPROACH_DISTANCE
 # <++>
 # STOP_WAIT_TIME = 0.001*3.0  
 STOP_WAIT_TIME = 3.0 
+
 # local tracking
 OPEN_LOOP_PERCENTAGE_OF_PATH_AHEAD = 0.6  # 0.6
 # distance from previous stopline from which is possible to start detecting a stop line again
@@ -302,6 +303,8 @@ OBSTACLE_IS_ALWAYS_CAR = False
 # obstacle classification
 MIN_DIST_BETWEEN_OBSTACLES = 0.5             # dont detect obstacle for this distance after detecting one of them
 OBSTACLE_DISTANCE_THRESHOLD = 0.6            # [m] distance from the obstacle to consider it as an obstacle
+CAR_DISTANCE_THRESHOLD_ROUND = 0.9           # [m] distance from the upcoming car in the roundabout
+CAR_DISTANCE_THRESHOLD_INTERSECTION = 0.3    # [m] distance from the upcoming car in the intersection
 OBSTACLE_CONTROL_DISTANCE = 0.3              # distance to where to stop wrt the obstacle
 OBSTACLE_CLASSIFY_THRESHOLD = 0.80           # confidence level of the classifying
 OBSTACLE_IMGS_CAPTURE_START_DISTANCE = 0.48  # dist from where we capture imgs
@@ -330,6 +333,7 @@ OT_MOVING_SWITCH_2 = 0.27  # [m]
 # [m] max distance from the lane to trip the state checker
 MAX_DIST_AWAY_FROM_LANE = 0.8
 MAX_ERROR_ON_LOCAL_DIST = 0.05  # [m] max error on the local distance
+
 
 
 # ==============================================================
@@ -460,6 +464,7 @@ class Brain:
         self.start_node_validated = False
 
         self.stopline_counter = 0
+        self.time_counter = 0
         self.pedestrian_type = None
 
         print('Brain initialized')
@@ -776,7 +781,7 @@ class Brain:
 
         decide_next_state = self.approaching_stopline_vision()
 
-        dist = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, -170, -110)
+        dist = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, -170, -130)
 
         if decide_next_state:
             print('Deciding next state, based on next event...')
@@ -791,14 +796,14 @@ class Brain:
             self.conditions[nac.HIGHWAY] = False
             next_event_name = self.next_event.name
             # Events with stopline
-            if next_event_name == nac.INTERSECTION_STOP_EVENT:      
+            if next_event_name == nac.INTERSECTION_STOP_EVENT:   
                 self.switch_to_state(nac.WAITING_AT_STOPLINE)
             elif next_event_name == nac.INTERSECTION_TRAFFIC_LIGHT_EVENT:
                 self.switch_to_state(nac.WAITING_FOR_GREEN)
             elif next_event_name == nac.INTERSECTION_PRIORITY_EVENT:
                 self.switch_to_state(nac.TRACKING_LOCAL_PATH)
             elif next_event_name == nac.ROUNDABOUT_EVENT:
-                if dist < OBSTACLE_DISTANCE_THRESHOLD and ARENA:
+                if dist < CAR_DISTANCE_THRESHOLD_ROUND and ARENA:
                     self.switch_to_state(nac.WAITING_AT_STOPLINE)
                 else:
                     self.switch_to_state(nac.TRACKING_LOCAL_PATH)
@@ -921,6 +926,12 @@ class Brain:
             self.curr_state.just_switched = False
             if self.next_event.name.startswith('intersection'):
                 hf.determine_intersection_direction(self, local_path_cf)
+                #dist_right = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, 100, 140)
+                #dist_left = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, -140, -100)
+                #dist_front = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, -180, -140)
+                #if self.curr_state.var4 = "right" and dist ARENA:
+                #elif self.curr_state.var4 = "left" and ARENA:
+                #elif self.curr_state.var4 = "forward" and ARENA:
             else:
                 self.curr_state.var4 = 0
 
@@ -998,19 +1009,34 @@ class Brain:
     def waiting_at_stopline(self):
         EXTRA_TIME = 2.0 if self.stopline_counter == 50 else 0.0 # NO NEED FOR EXTRA TIME ?!
         dist = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, -170, -110)
-        print(f'debug extratime: {EXTRA_TIME}')
+
+        dist_right = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, 100, 140)
+        dist_left = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, -140, -100)
+        dist_front = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, -180, -140)
+
+        print(f"DISTANCE RIGTH ------------------------------------ {dist_right}")
+        print(f"DISTANCE LEFT ------------------------------------ {dist_left}")
+        print(f"DISTANCE FRONT ------------------------------------ {dist_front}")
+        print(f"################################### CNT {self.time_counter}")
+
         # no routines
         self.activate_routines([])
         if STOP_WAIT_TIME > 0.0:
+            print("################################### IN THE FIRST IF")
             if self.curr_state.just_switched:
                 self.activate_routines([])
                 self.car.drive_speed(0.0)
                 self.curr_state.just_switched = False
             if (time() - self.curr_state.start_time) > STOP_WAIT_TIME + EXTRA_TIME:
-                if self.next_event.name == nac.ROUNDABOUT_EVENT and dist < OBSTACLE_DISTANCE_THRESHOLD and ARENA:
+                print("################################### IN THE SECOND IF")
+                self.time_counter = self.time_counter +1
+                if self.next_event.name == nac.ROUNDABOUT_EVENT and dist < CAR_DISTANCE_THRESHOLD_ROUND and ARENA and self.time_counter < 7:
+                    self.curr_state.start_time = time()
+                elif self.next_event.name == nac.INTERSECTION_STOP_EVENT and (dist_right < CAR_DISTANCE_THRESHOLD_INTERSECTION or dist_left < CAR_DISTANCE_THRESHOLD_INTERSECTION or dist_front < CAR_DISTANCE_THRESHOLD_INTERSECTION) and ARENA and self.time_counter < 7:
                     self.curr_state.start_time = time()
                 else: 
                     self.switch_to_state(nac.TRACKING_LOCAL_PATH)
+                    self.time_counter = 0.0
         else:
             self.switch_to_state(nac.TRACKING_LOCAL_PATH)
 
@@ -1815,6 +1841,8 @@ class Brain:
             self.car.publish_routines(str(routines_str))
             self.car.publish_conditions(self.conditions)
 
+            # FOR EMERGENCY BRAKE ON STM
+            self.publish_arena_flag(ARENA)
 
         
         # print(f'CURR_SIGN: {self.curr_sign}')  

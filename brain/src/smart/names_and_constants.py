@@ -105,11 +105,11 @@ EVENT_CONFIGS = {
     "intersection_right": {
         "starting_coords": [0.84, 5.26],   
         "checkpoints": [999, 145, 153]
-    },
-    "intersection_straight": {
-        "starting_coords": [15.54, 3.41],   
-        "checkpoints": [999, 445, 500]
     }
+    #"intersection_straight": {
+    #    "starting_coords": [15.54, 3.41],   
+    #    "checkpoints": [999, 445, 500]
+    #}
 #94, 95, 121, 92, 107, 109, 130, 147, 175, 123, 118, 91, 451, 455, 466, 420, 396, 306, 319, 260, 197, 207, 150, 97, 163, 190, 236, 373, 382, 407, 444, 30, 334, 352, 502
 }
 

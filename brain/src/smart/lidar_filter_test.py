@@ -89,28 +89,45 @@ import numpy as np
 from sensor_msgs.msg import LaserScan
 from scipy.spatial.distance import pdist
 
-def get_min_distance_in_range(lidar_angles, lidar_ranges, start_deg, end_deg, 
-                              size_threshold=0.1, cluster_dist_threshold=0.05, min_cluster_size=5):
-    # Convert to numpy arrays
+def get_lidar_valid_ranges(lidar_angles, lidar_ranges, start_deg, end_deg):
+    import numpy as np
+
+    # Convert to numpy arrays if not already
     lidar_angles = np.atleast_1d(lidar_angles)
     lidar_ranges = np.atleast_1d(lidar_ranges)
 
     # Convert angles from degrees to radians
-    start_rad = np.deg2rad(start_deg)
-    end_rad = np.deg2rad(end_deg)
+    start_deg = np.deg2rad(start_deg)
+    end_deg = np.deg2rad(end_deg)
 
-    # Select points in the angular range
-    indices = np.where((lidar_angles >= start_rad) & (lidar_angles <= end_rad))[0]
-    selected_angles = lidar_angles[indices]
+    # Find indices within the specified angle range
+    indices = np.where((lidar_angles >= start_deg) & (lidar_angles <= end_deg))[0]
     selected_ranges = lidar_ranges[indices]
+    selected_angles = lidar_angles[indices]
 
-    # Filter valid range readings
+    # Filter out invalid values
     valid_mask = np.isfinite(selected_ranges) & (selected_ranges > 0.0)
     selected_angles = selected_angles[valid_mask]
     selected_ranges = selected_ranges[valid_mask]
 
     if len(selected_ranges) == 0:
-        return 20.0
+        return 20.0, np.array([])
+
+    return selected_ranges, selected_angles
+
+def get_min_distance_in_range(lidar_angles, lidar_ranges, start_deg, end_deg):
+    import numpy as np
+
+    valid_ranges, _ = get_lidar_valid_ranges(lidar_angles, lidar_ranges, start_deg, end_deg)
+    return np.min(valid_ranges)
+
+def get_min_distance_in_filtered_range(lidar_angles, lidar_ranges, start_deg, end_deg, 
+                                        size_threshold=0.1, cluster_dist_threshold=0.05, min_cluster_size=5):
+
+    import numpy as np
+    from scipy.spatial.distance import pdist
+
+    selected_ranges, selected_angles = get_lidar_valid_ranges(lidar_angles, lidar_ranges, start_deg, end_deg)
 
     # Convert to Cartesian coordinates
     x = selected_ranges * np.cos(selected_angles)
@@ -144,6 +161,7 @@ def get_min_distance_in_range(lidar_angles, lidar_ranges, start_deg, end_deg,
     min_dists = [np.min(np.linalg.norm(cluster, axis=1)) for cluster in valid_clusters]
     return min(min_dists)
 
+
 def scan_callback(scan_msg):
     angle_min = scan_msg.angle_min
     angle_increment = scan_msg.angle_increment
@@ -152,10 +170,11 @@ def scan_callback(scan_msg):
     angles = angle_min + np.arange(num_points) * angle_increment
 
     # Process only 90° to 270° (rear of robot)
-    min_distance = get_min_distance_in_range(angles, ranges,160,180,
-                                             size_threshold=0.02, 
-                                             cluster_dist_threshold=0.07,  #0.5
-                                             min_cluster_size=5)
+    min_distance = get_min_distance_in_range(angles, ranges,-170,-130)
+   #min_distance = get_min_distance_in_filtered_range(angles, ranges,160,180,
+    #                                         size_threshold=0.02, 
+    #                                         cluster_dist_threshold=0.07,  #0.5
+    #                                         min_cluster_size=5)
 
     rospy.loginfo(f"Min obstacle distance (filtered): {min_distance:.2f} m")
 
