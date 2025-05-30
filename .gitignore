@@ -23,3 +23,6 @@ sd/*
 .DS_Store
 __pycache__/
 brain/src/train/data/*
+brain/src/smart/logs/*
+brain/src/smart/core
+brain/src/smart/extra/core
