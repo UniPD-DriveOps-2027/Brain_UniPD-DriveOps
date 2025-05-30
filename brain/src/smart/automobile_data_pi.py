@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 from automobile_data_interface import Automobile_Data
 import helper_functions as hf
-from std_msgs.msg import Float32, Bool, String
+from std_msgs.msg import Float32, Bool, String, UInt8
 from sensor_msgs.msg import LaserScan
 from utils.msg import IMU, localisation, vehicles, conditions
 import rospy
@@ -82,6 +82,7 @@ class AutomobileDataPi(Automobile_Data):
             self.pub_routines      = rospy.Publisher('/automobile/routines', String, queue_size=1)
             self.pub_conditions    = rospy.Publisher('/automobile/conditions', conditions, queue_size=1)
             self.pub_arena         = rospy.Publisher('/automobile/arena', Bool, queue_size=1)
+            self.pub_led           = rospy.Publisher('/automobile/led', Bool, queue_size=1)
             self.sub_position      = rospy.Subscriber("/automobile/feedback/position", Bool, self.feedback_position_callback)
         if trig_bno:
             self.sub_imu       = rospy.Subscriber('/automobile/imu', IMU, self.imu_callback)
@@ -100,8 +101,9 @@ class AutomobileDataPi(Automobile_Data):
         if trig_lidar:
             self.sub_lidar     = rospy.Subscriber('/scan', LaserScan, self.lidar_callback) 
         if trig_tof:
-            self.sub_tof_center     = rospy.Subscriber('/automobile/tof/front', Float32, self.center_tof_callback)
-            self.sub_tof_left      = rospy.Subscriber('/automobile/tof/left', Float32, self.left_tof_callback)
+            self.sub_tof_center     = rospy.Subscriber('/automobile/tof/front', UInt8, self.center_tof_callback)
+            self.sub_tof_left      = rospy.Subscriber('/automobile/tof/left', UInt8, self.left_tof_callback)
+            print("AutomobileDataPi initialized with tof, lidar, gps, encoders, bno and sonars")
             
 
 
@@ -129,6 +131,7 @@ class AutomobileDataPi(Automobile_Data):
     
     def left_sonar_callback(self, data) -> None:
         """Receive and store distance of an obstacle ahead in
+
         :acts on: self.sonar_distance, self.filtered_sonar_distance
         """
         self.left_sonar_distance = data.data if data.data > 0 else self.left_sonar_distance
@@ -140,7 +143,7 @@ class AutomobileDataPi(Automobile_Data):
         :acts on: self.tof_distance, self.filtered_tof_distance
         """
         self.center_tof_distance = data.data if data.data > 0 else self.center_tof_distance
-        self.center_tof_distance_buffer.append(self.center_tof_distance)
+        self.center_tof_distance_buffer.append(self.center_tof_distance/1000)  # mm to m conversion
         self.filtered_center_tof_distance = np.median(self.center_tof_distance_buffer)
         #print(f'RIGHT SONAR{self.filtered_right_sonar_distance}')
     
@@ -149,7 +152,7 @@ class AutomobileDataPi(Automobile_Data):
         :acts on: self.tof_distance, self.filtered_tof_distance
         """
         self.left_tof_distance = data.data if data.data > 0 else self.left_tof_distance
-        self.left_tof_distance_buffer.append(self.left_tof_distance)
+        self.left_tof_distance_buffer.append(self.left_tof_distance/1000)
         self.filtered_left_tof_distance = np.median(self.left_tof_distance_buffer)
 
 
@@ -280,7 +283,7 @@ class AutomobileDataPi(Automobile_Data):
         self.pub_current_state.publish(data)
 
     def publish_arena_flag(self, data):
-        self.pub_current_state.publish(data)
+        self.pub_arena.publish(data)
 
     def publish_routines(self, data):
         self.pub_routines.publish(data)
@@ -295,3 +298,6 @@ class AutomobileDataPi(Automobile_Data):
             tunnel=data['tunnel']
         )
         self.pub_conditions.publish(msg)
+
+    def publish_led_control(self, data):
+        self.pub_led.publish(data)
