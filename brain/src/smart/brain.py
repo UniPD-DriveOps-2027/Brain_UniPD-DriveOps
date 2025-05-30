@@ -28,11 +28,11 @@ import helper_functions as hf
 
 from parkman import Maneuvers
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-SELECTED_EVENT = "intersection_left" # "tunnel", "round","no_lane_left/right", "highway", "crosswalk", "parking" , "test"
+SELECTED_EVENT = "round2" # "tunnel", "round","no_lane_left/right", "highway", "crosswalk", "parking" , "test"
 
 # Based on the path given for the arena challenge
 END_NODE_ARENA = 149
-USE_FRUITS_GENERATED_PATH = False
+USE_FRUITS_GENERATED_PATH = True
 # RANDOM START
 if RANDOM_START:
     # USED FOR SPECIFIC PATHS DURING TESTING
@@ -47,7 +47,7 @@ if RANDOM_START:
         USE_FRUITS_GENERATED_PATH = False #we are not using fruits path for when we are testing specific events
     # GET THE BEST "FRUITS" PATH FROM RANDOM POSITION     
     else: 
-        STARTING_COORDS = [17.27, 5.6] # GET FROM GPS 
+        STARTING_COORDS = [3.00, 4.18] # GET FROM GPS 
         CHECKPOINTS = compute_optimal_path(start_node=472) # GET FROM FRUITS
         END_NODE = CHECKPOINTS[-1]  #get the last node from the path
         GPS_FOR_START_ONLY = True
@@ -155,7 +155,9 @@ EVENT_TYPES = [nac.INTERSECTION_STOP_EVENT,             #0
                nac.HIGHWAY_EXIT_EVENT,                  #6
                nac.HIGHWAY_ENTRANCE_EVENT,              #7
                nac.TUNNEL_EVENT,                        #8
-               nac.NO_LANE_EVENT]                       #9
+               nac.NO_LANE_EVENT,                       #9
+               nac.FOG_EVENT                            #10
+               ]                       
 
 
 class Event:
@@ -218,6 +220,7 @@ DISTANCES_BETWEEN_FRAMES = 0.03
 # Yaw
 APPLY_YAW_CORRECTION = False
 ENCODER_POS_FREQ = 100.0             # [Hz] frequency of encoder position messages
+YAW_OFFSET = 180
 
 # Vehicle driving parameters
 MIN_SPEED = -0.3                    # [m/s]     minimum speed
@@ -274,7 +277,7 @@ PARKING_DISTANCE_SLOW_DOWN_THRESHOLD = 0.7  # 1.0
 PARKING_DISTANCE_STOP_THRESHOLD = 0.1       # 0.1
 SUBPATH_LENGTH_FOR_PARKING = 300            # length in samples of the path to consider around the parking position, max
 MAX_PARK_SEARCH_DIST = 2.0                  # [m] max distance to search for parking
-MIN_PARK_SEARCH_DIST = 0.45                 # [m] min distance to search for parking
+MIN_PARK_SEARCH_DIST = 0.5                 # [m] min distance to search for parking
 IDX_OFFSET_FROM_SAVED_PARK_POSITION = 150   # index offset from the saved parking position; value of 150 in 2024
 PARK_SIGN_DETETCTION_PATIENCE = 8.0         # [s] max seconds to wait for a sign to be available
 PARK_SEARCH_SPEED = 0.1                     # [m/s] speed to search for parking
@@ -284,6 +287,7 @@ DIST_SIGN_FIRST_S_SPOT = 0.7               # [m] distance from the sign to the f
 DIST_S_SPOTS = 0.85                         # [m] distance to go forward to start parking
 FURTHER_DIST_S = 0.70                       # [m] distance to proceed further in order to perform the s manouver
 DIST_FORWARD = 0.7
+
 
 S_ANGLE = 29.0                              # [deg] angle to perform the s manouver
 DIST_2S = 0.40                              # 0.38 #[m] distance to perform the 2nd part of s manouver
@@ -302,7 +306,7 @@ OBSTACLE_IS_ALWAYS_CAR = False
 
 # obstacle classification
 MIN_DIST_BETWEEN_OBSTACLES = 0.5             # dont detect obstacle for this distance after detecting one of them
-OBSTACLE_DISTANCE_THRESHOLD = 0.6            # [m] distance from the obstacle to consider it as an obstacle
+OBSTACLE_DISTANCE_THRESHOLD = 0.4            # [m] distance from the obstacle to consider it as an obstacle
 CAR_DISTANCE_THRESHOLD_ROUND = 0.9           # [m] distance from the upcoming car in the roundabout
 CAR_DISTANCE_THRESHOLD_INTERSECTION = 0.3    # [m] distance from the upcoming car in the intersection
 OBSTACLE_CONTROL_DISTANCE = 0.3              # distance to where to stop wrt the obstacle
@@ -490,10 +494,11 @@ class Brain:
                 curr_time = time()
                 #curr_pos = np.array([self.car.x_est, self.car.y_est])
                 curr_pos = np.array(STARTING_COORDS) 
-                closest_node, distance = self.path_planner.get_closest_node_start(curr_pos, self.car.yaw)
-                self.car.publish_closest_node(float(closest_node))  ##
-                sleep(3.0)
-                if len(self.car.x_buffer) >= 5:
+                closest_node, distance = self.path_planner.get_closest_node_start(curr_pos, self.car.yaw+YAW_OFFSET)
+                self.car.publish_closest_node(float(closest_node))
+                #print(f"Closest NODE is: {float(closest_node)} YAW: {self.car.yaw}" )
+                sleep(30.0)
+                if len(self.car.x_buffer) >= 0:    #5 put in real life                       ################ - PUT BACK THE 5 - ####################
                     print(f'Waiting for gps: {(curr_time- start_time):.1f}/{GPS_TIMEOUT}')
                     self.checkpoints[self.checkpoint_idx] = closest_node
                     if USE_FRUITS_GENERATED_PATH:
@@ -620,14 +625,14 @@ class Brain:
 
     def lane_following(self):  # LANE FOLLOWING ##############################
         # highway conditions
-        print('in the function')
+        #print('in the function')
         if self.conditions[nac.HIGHWAY]:
             self.activate_routines([nac.FOLLOW_LANE,
                                     nac.DETECT_STOPLINE,
                                     nac.CONTROL_FOR_CAR,
                                     nac.ACCELERATE])
         else:
-            print('entering the if')
+           # print('entering the if')
             self.activate_routines([nac.FOLLOW_LANE,
                                     nac.DETECT_STOPLINE,
                                     nac.CONTROL_FOR_CAR,
@@ -663,7 +668,10 @@ class Brain:
             if (min_distance_lidar_right <= 0.4):    
                 self.switch_to_state(nac.TUNNEL_SPEED_CURVE)
 
-          
+        elif self.next_event.name == nac.FOG_EVENT:
+            # if the next event is fog, switch to no lane state
+            self.car.publish_led_control(True)
+            self.go_to_next_event()
 
         # check highway exit case
         # elif self.next_event.name == nac.HIGHWAY_EXIT_EVENT:    # BFMC_2023
@@ -672,7 +680,7 @@ class Brain:
         # end of current route, go to end state
         elif self.next_event.name == nac.END_EVENT:
 
-            self.checkpoint_idx = len(self.checkpoints) ## JUST ADDED BY EUGEN
+            #self.checkpoint_idx = len(self.checkpoints) ## JUST ADDED BY EUGEN
 
             if self.checkpoint_idx == len(self.checkpoints) - 1:
                 self.lane_following_to_end()
@@ -697,7 +705,7 @@ class Brain:
         print("Highway entrance phase")
         if self.conditions[nac.HIGHWAY]:
             self.activate_routines([])
-            # if self.car.filtered_left_sonar_distance <= 0.5: #checking distance from the highway separator
+            #if self.car.filtered_left_tof_distance <= 0.5: #checking distance from the highway separator
             if self.curr_state.just_switched:
                 self.car.drive_angle(OVERTAKE_STEER_ANGLE)
                 self.curr_state.var4 = self.car.encoder_distance           
@@ -774,6 +782,14 @@ class Brain:
                                 nac.CONTROL_FOR_PEDESTRIAN,
                                 nac.SLOW_DOWN,
                                 nac.DETECT_STOPLINE])
+        # Convert current checkpoint to int for comparison
+        current_cp = int(self.checkpoints[self.checkpoint_idx])
+
+        # List of checkpoints for which the LED should stay ON
+        led_on_checkpoints = [109, 107, 97, 92, 118]       #change in case we move the checkpoints for the fruits path
+
+        if current_cp not in led_on_checkpoints:
+            self.car.publish_led_control(False)  # Turn off LED
 
         if self.curr_state.just_switched:
             cv.imwrite(f'asl/asl_{int(time() * 1000)}.png', self.car.frame)
@@ -830,8 +846,8 @@ class Brain:
     # Substate
     def approaching_stopline_vision(self):
         dist = self.detect.est_dist_to_stopline
-        # #check if we are here by mistake
-        print(f'debug: est_dist_to_stopline: {dist}')
+        #check if we are here by mistake
+        #print(f'debug: est_dist_to_stopline: {dist}')
         if dist > STOPLINE_APPROACH_DISTANCE:
             self.switch_to_state(nac.LANE_FOLLOWING)
             return False
@@ -854,7 +870,7 @@ class Brain:
         # alternative, if we don't have a median, we just use the
         # (possibly inaccurate) network estimaiton
         else:
-            print('WARNING: APPROACHING_STOPLINE: stop distance may be imprecise')
+            #print('WARNING: APPROACHING_STOPLINE: stop distance may be imprecise')
             if dist < STOPLINE_STOP_DISTANCE:
                 print('Stopped at stop line. Using network distance: ', self.detect.est_dist_to_stopline)
                 decide_next_state = True
@@ -870,7 +886,7 @@ class Brain:
         # var2=distance travelled
         # var3=None 
         # var4=intersection direction / ra pred avg
-        print('State: tracking_local_path')
+        #print('State: tracking_local_path')
         # self.activate_routines([nac.DRIVE_DESIRED_SPEED])
         self.activate_routines([])
         if self.curr_state.just_switched:
@@ -878,6 +894,7 @@ class Brain:
             stopline_yaw = self.next_event.yaw_stopline
             # local path in the stop line frame
             local_path_slf_rot = self.next_event.path_ahead
+            print(f"local_path_slf_rot = {local_path_slf_rot}")
 
             _, stopline_y, _ = self.detect.detect_stopline(self.car.frame, show_ROI=SHOW_IMGS)
             e2 = stopline_y
@@ -897,6 +914,10 @@ class Brain:
 
             # get orientation of the car in the stop line frame
             yaw_car = self.car.yaw
+            # normalize to [-180,180]
+            if (yaw_car > 180):
+                yaw_car -= 360
+            yaw_car = np.deg2rad(yaw_car)  # Convert degrees to radians
             yaw_mult_90 = hf.get_yaw_closest_axis(yaw_car)
             # get the difference from the closest multiple of 90deg
             alpha = hf.diff_angle(yaw_car, yaw_mult_90)
@@ -948,8 +969,8 @@ class Brain:
         dist_path = dist_path[idx_car_on_path:]
         dist_path = np.abs(dist_path - D)
         # get idx of point ahead
-        # idx_point_ahead = np.argmin(dist_path) + idx_car_on_path
-        idx_point_ahead = np.round(self.car.dist_loc*100) # NEW TRYING BFMC_2024t
+        #idx_point_ahead = np.argmin(dist_path) + idx_car_on_path
+        idx_point_ahead = np.round(self.car.dist_loc*100) # Index ahead using dist_loc
         print(f'idx_point_ahead: {idx_point_ahead} / {len(local_path_cf)}')
         local_path_cf = local_path_cf @ hf.rot_matrix(self.car.yaw_loc)
 
@@ -967,7 +988,7 @@ class Brain:
             max_idx = 30 # BFMC_2024
         else:  # curvy path
             max_idx = len(local_path_cf)-1  # follow until the end 
-            print('curvy')
+            #print('curvy')
 
 
         # State exit conditions
@@ -1014,21 +1035,21 @@ class Brain:
         dist_left = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, -140, -100)
         dist_front = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, -180, -140)
 
-        print(f"DISTANCE RIGTH ------------------------------------ {dist_right}")
-        print(f"DISTANCE LEFT ------------------------------------ {dist_left}")
-        print(f"DISTANCE FRONT ------------------------------------ {dist_front}")
-        print(f"################################### CNT {self.time_counter}")
+       # print(f"DISTANCE RIGTH ------------------------------------ {dist_right}")
+       # print(f"DISTANCE LEFT ------------------------------------ {dist_left}")
+       # print(f"DISTANCE FRONT ------------------------------------ {dist_front}")
+        #print(f"################################### CNT {self.time_counter}")
 
         # no routines
         self.activate_routines([])
         if STOP_WAIT_TIME > 0.0:
-            print("################################### IN THE FIRST IF")
+           # print("################################### IN THE FIRST IF")
             if self.curr_state.just_switched:
                 self.activate_routines([])
                 self.car.drive_speed(0.0)
                 self.curr_state.just_switched = False
             if (time() - self.curr_state.start_time) > STOP_WAIT_TIME + EXTRA_TIME:
-                print("################################### IN THE SECOND IF")
+               # print("################################### IN THE SECOND IF")
                 self.time_counter = self.time_counter +1
                 if self.next_event.name == nac.ROUNDABOUT_EVENT and dist < CAR_DISTANCE_THRESHOLD_ROUND and ARENA and self.time_counter < 7:
                     self.curr_state.start_time = time()
@@ -1177,8 +1198,10 @@ class Brain:
             nac.CAN_OVERTAKE = True 
         dist1 = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, 170, 180)
         dist2= hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges,- 180, -170)
-        print(f"##################### DISTANCE {dist1} {dist2} #####################")
-        if (dist1 > OBSTACLE_DISTANCE_THRESHOLD+0.05) and (dist2 > OBSTACLE_DISTANCE_THRESHOLD+0.05):
+        dist_tof = self.car.filtered_center_tof_distance
+
+        print(f"##################### DISTANCE LIDAR {min(dist1,dist2)}  DISTANCE TOF {dist_tof} #####################")
+        if (dist1 > OBSTACLE_DISTANCE_THRESHOLD+0.05) and (dist2 > OBSTACLE_DISTANCE_THRESHOLD+0.05) and (dist_tof > 0.1):
             self.switch_to_state(nac.LANE_FOLLOWING)
             #print('switching')
             if(nac.TESTING):
@@ -1191,7 +1214,7 @@ class Brain:
             if(nac.TESTING):
                 #print("!!!!!!!!!!!!!!!!!!!!!!!")
                 self.run_routines()
-            dist = min(dist1, dist2)
+            dist = min(dist1, dist2, dist_tof)
             print(f'Following car: {dist:.2f}/{TAILING_DISTANCE:.2f}')
             dist_to_drive = dist - TAILING_DISTANCE
             if (dist_to_drive >-0.05) and (dist_to_drive < 0.0):
@@ -1395,7 +1418,7 @@ class Brain:
                 self.curr_state.var1 = (park_state, park_type, False)
 
         dist = self.car.dist_loc
-        print(f'Distance: {dist}')
+        #print(f'Distance: {dist}')
         dist_spots = DIST_FORWARD
         if dist > dist_spots:
             self.car.drive_speed(0.0)
@@ -1579,7 +1602,7 @@ class Brain:
         # print("\nERROR e2 = ", e2)
         # print("ERROR e3 = ", e3)
         # print("ERROR point_ahead = ", point_ahead, "\n")
-        print("In the lane follow!")
+        #print("In the lane follow!")
         hf.show_follow_lane(self, point_ahead, SHOW_IMGS)
         _, angle_ref = self.controller.get_control(e2, e3, 0, self.desired_speed, no_lane=False)
         angle_ref = np.rad2deg(angle_ref)
@@ -1674,8 +1697,10 @@ class Brain:
             last_obstacle_dist = self.car.encoder_distance - 1.0                 
         curr_dist = self.car.encoder_distance                                    
         if curr_dist - last_obstacle_dist > MIN_DIST_BETWEEN_OBSTACLES:
-            dist = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, 150, 210)
-            print('DISTANCE:', dist)
+            dist1 = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, 150, 180)
+            dist2 = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, -180, -150)
+            dist = min(dist1, dist2)
+        #    print('DISTANCE:', dist)
             if dist < OBSTACLE_DISTANCE_THRESHOLD and not self.curr_state==nac.APPROACHING_STOPLINE and not self.curr_state==nac.WAITING_AT_STOPLINE:
                 print('[### CAR DETECTED ###]')
                 self.car.drive_speed(speed=self.desired_speed/10)
@@ -1743,7 +1768,7 @@ class Brain:
             else:
                 self.flag_seen_pedestrian =  False
 
-        print(f"Pedestrian :{self.flag_pedestrian_in_the_way}")
+       # print(f"Pedestrian :{self.flag_pedestrian_in_the_way}")
 
         #if flag_seen_pedestrian: 
             # start checking the lidar when we get close to the crosswalk
@@ -1764,14 +1789,14 @@ class Brain:
         the end of a self.run
         """
         # deque of past imgs
-        print('UPDATE STATE')
+        #print('UPDATE STATE')
         if self.routines[nac.UPDATE_STATE].var1 is not None:
             prev_dist = self.routines[nac.UPDATE_STATE].var1
         else:
             prev_dist = self.car.encoder_distance                    
         curr_dist = self.car.encoder_distance                        
-        print(f'VAR1: {self.routines[nac.UPDATE_STATE].var1}')
-        print(f'DISTANCE CHANGE: {prev_dist-curr_dist}')
+        #print(f'VAR1: {self.routines[nac.UPDATE_STATE].var1}')
+        #print(f'DISTANCE CHANGE: {prev_dist-curr_dist}')
         if np.abs(prev_dist-curr_dist) > DISTANCES_BETWEEN_FRAMES:
             self.past_frames.append(self.car.frame)
             prev_dist = curr_dist
@@ -1779,7 +1804,7 @@ class Brain:
 
         self.car_dist_on_path += curr_dist - prev_dist
         # print('PATH: ', self.path_planner.path)
-        print('DIST ON PATH: ', self.car_dist_on_path)
+        #print('DIST ON PATH: ', self.car_dist_on_path)
 
         # HIGHWAY
         '''
@@ -1787,7 +1812,7 @@ class Brain:
             So this only works in one way of the highway
         '''
         #TODO: implement that it can work on both  ways! Done
-        if ((self.next_event.name == nac.HIGHWAY_ENTRANCE_EVENT) and (self.car.filtered_left_sonar_distance <= 0.5) and (int(self.checkpoints[self.checkpoint_idx]) not in range(152, 176))):
+        if ((self.next_event.name == nac.HIGHWAY_ENTRANCE_EVENT) and (self.car.filtered_left_tof_distance <= 0.2)  and (int(self.checkpoints[self.checkpoint_idx]) not in range(152, 176))):
             # self.conditions[nac.HIGHWAY] = str(self.checkpoints[self.checkpoint_idx]) in self.path_planner.highway_nodes and self.car_dist_on_path < 9.5
             self.conditions[nac.HIGHWAY] = True  
         
@@ -1799,7 +1824,7 @@ class Brain:
         #    self.conditions[nac.NO_LANE] = True
 
         # CAN_OVERTAKE
-        print(self.stopline_counter)
+       # print(self.stopline_counter)
 
         self.conditions[nac.CAN_OVERTAKE] = ((self.conditions[nac.HIGHWAY]) or (int(self.checkpoints[self.checkpoint_idx]) in range(372, 384)) or (int(self.checkpoints[self.checkpoint_idx]) in range(386, 398)))
 
@@ -1814,20 +1839,17 @@ class Brain:
         print(f'CONDITIONS:     {self.conditions}')
         print('==========================================================================')
         self.run_current_state()
-        print(f'car.yaw: {self.car.yaw}')
-        print(f'car.yaw_loc: {self.car.yaw_loc}')
-        print('==========================================================================')
-        print(f'car x est: {self.car.x_est}')
-        print(f'car y est: {self.car.y_est}')
-        print(f'CHECKPOINT IDX: {self.checkpoint_idx}')
-        print(f'CHECKPOINT lenght: {len(self.checkpoints)}')
-        print('==========================================================================')
-        print(f'stopline counter: {self.stopline_counter}')
-        print('==========================================================================') 
-        if nac.DONT_STOP_AT_NO_LANE_EVENT:
-            print('DONT STOP AT NO LANE EVENT IS TRUEEEEEEEEEEEEEEEEEEE')
-        else:
-            print('DONT STOP AT NO LANE EVENT IS FALSEEEEEEEEEEEEEEEEEEE')
+        #print(f'car.yaw: {self.car.yaw}')
+       # print(f'car.yaw_loc: {self.car.yaw_loc}')
+        #print('==========================================================================')
+        #print(f'car x est: {self.car.x_est}')
+        #print(f'car y est: {self.car.y_est}')
+        #print(f'CHECKPOINT IDX: {self.checkpoint_idx}')
+        #print(f'CHECKPOINT lenght: {len(self.checkpoints)}')
+       # print('==========================================================================')
+       # print(f'stopline counter: {self.stopline_counter}')
+       # print('==========================================================================') 
+
         
 
         self.run_routines()
@@ -1842,7 +1864,7 @@ class Brain:
             self.car.publish_conditions(self.conditions)
 
             # FOR EMERGENCY BRAKE ON STM
-            self.publish_arena_flag(ARENA)
+            self.car.publish_arena_flag(ARENA)
 
         
         # print(f'CURR_SIGN: {self.curr_sign}')  
@@ -2011,6 +2033,8 @@ class Brain:
         # convert self.past_frames to a list
         past_frames = list(self.past_frames)
         return past_frames[idx_start:idx_end]
+    
+
 
     # DEBUG
     def error(self, error_msg):
