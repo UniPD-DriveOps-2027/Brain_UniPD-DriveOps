@@ -7,7 +7,7 @@ import time
 from sensor_msgs.msg import LaserScan
 
 SOCKET_PATH = "/tmp/lidar_socket.sock"
-MAX_DISTANCE_TO_SEND = 0.45  # meters
+MAX_DISTANCE_TO_SEND = 0.65  # meters
 ANGLE_MIN_DEG = 45           # front right
 ANGLE_MAX_DEG = 315          # front left
 
