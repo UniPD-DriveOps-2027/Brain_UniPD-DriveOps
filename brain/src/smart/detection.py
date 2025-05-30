@@ -563,7 +563,7 @@ class Detection:
                 cv.imshow('stopline_detection', frame)
                 cv.imwrite(f'sd/sd_{int(time()*1000)}.png', frame)
                 # cv.waitKey(1)
-            print(f"stopline_detection dist: {dist:.2f}, in {stopline_detection_time:.2f} ms")
+            #print(f"stopline_detection dist: {dist:.2f}, in {stopline_detection_time:.2f} ms")
             return stopline_x, stopline_y, stopline_angle
         except Exception:
             return 69, 420, 666
