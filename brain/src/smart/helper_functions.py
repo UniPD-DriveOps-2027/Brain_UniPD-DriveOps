@@ -504,7 +504,7 @@ def navigate_intersection(brain, show):
     else:
         e3, _ = brain.detect.detect_lane_ahead(brain.car.frame, show_ROI=show)
     output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, 0.0, e3)
-    print(f'output_speed: {output_speed:.2f}, output_angle: {np.rad2deg(output_angle):.2f}')
+    #print(f'output_speed: {output_speed:.2f}, output_angle: {np.rad2deg(output_angle):.2f}')
 
     brain.car.drive(speed=output_speed, angle=np.rad2deg(output_angle))
 
@@ -607,10 +607,12 @@ def navigate_roundabout(brain, idx_point_ahead, max_idx, show):
 
     if max_idx - idx_point_ahead < 10:
         print("\nAHEAD AHEAD AHEAD AHEAD AHEAD AHEAD AHEAD AHEAD AHEAD\n")
+        log_distance_once("AHEAD")
         e3, _ = brain.detect.detect_lane_ahead(brain.car.frame, show_ROI=show)
         output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, 0.0, e3)
     elif max_idx - idx_point_ahead < out_idx_len:
         print("\nOUT OUT OUT OUT OUT OUT OUT OUT OUT OUT\n")
+        log_distance_once("OUT")
         e3, _ = brain.detect.detect_roundabout_out(brain.car.frame, show_ROI=show)
         output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, e3, 1.4 * e3)
     elif idx_point_ahead < 40:
@@ -647,7 +649,7 @@ def navigate_roundabout(brain, idx_point_ahead, max_idx, show):
         brain.curr_state.var4 = 0.3 * brain.curr_state.var4 + 0.7 * e3
         output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, brain.curr_state.var4, -30) # 2.7*brain.curr_state.var4
 
-    print(f'output_speed: {output_speed:.2f}, output_angle: {np.rad2deg(output_angle):.2f}')
+    #print(f'output_speed: {output_speed:.2f}, output_angle: {np.rad2deg(output_angle):.2f}')
     brain.car.drive(speed=output_speed, angle=np.rad2deg(output_angle))
 
 
