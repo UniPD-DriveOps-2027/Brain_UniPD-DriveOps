@@ -559,8 +559,10 @@ class PathPlanning():
         Returns the closes node to the given point np.array([x,y])
         '''
         # wrap car_yaw angle to [-180,180] and convert in radians
-
-        car_yaw = np.deg2rad((car_yaw + 180) % 360 - 180)
+        #car_yaw = np.deg2rad((car_yaw + 180) % 360 - 180)
+        
+        #flipping on x axis (270 -> 90 & 90 -> 270)
+        car_yaw = (360 - car_yaw) % 360
 
         diff = self.all_nodes_coords - p
         dist = np.linalg.norm(diff, axis=1)
@@ -570,7 +572,7 @@ class PathPlanning():
         #print("Closest list of nodes from the p coords: ")
         #for x in ordered_list[0:6]:
         #    print(self.all_start_nodes[x[0]])
- 
+
         #new code to compute orientation of the edge starting from the closest node
         for x in ordered_list:
             
@@ -580,14 +582,18 @@ class PathPlanning():
             closest_node_coords = self.get_coord(self.all_start_nodes[x[0]])
             successor_coords = self.get_coord(successor_node)
 
-            #print(f"closest node = {self.all_start_nodes[x[0]]} , successor node = {successor_node}")
+            print(f"closest node = {self.all_start_nodes[x[0]]} , successor node = {successor_node}")
 
-            edge_yaw = np.arctan2(successor_coords[1] - closest_node_coords[1], successor_coords[0] - closest_node_coords[0])
-            error_yaw = edge_yaw - car_yaw
+            edge_yaw_deg = np.rad2deg(np.arctan2(successor_coords[1] - closest_node_coords[1], successor_coords[0] - closest_node_coords[0]))
+            print(F"UNWRAPPED {edge_yaw_deg}")
+            edge_yaw_deg = (edge_yaw_deg + 360) % 360
+            
+            error_yaw = edge_yaw_deg - car_yaw
 
-            #print(f"car yaw: {np.rad2deg(car_yaw)}, edge_yaSw = {np.rad2deg(edge_yaw)}, error_yaw = {np.rad2deg(error_yaw)}")
+            print(f"car yaw: {car_yaw}, edge_yaw = {edge_yaw_deg}, error_yaw = {error_yaw}")
+            print("////")
 
-            if error_yaw < np.deg2rad(YAW_DIFF_THRESHOLD):
+            if abs(error_yaw) < YAW_DIFF_THRESHOLD:
                 print("Closest node is ", self.all_start_nodes[x[0]])
                 return self.all_start_nodes[x[0]], dist[x[0]]     
         print("Error: impossible to find closest node") 
