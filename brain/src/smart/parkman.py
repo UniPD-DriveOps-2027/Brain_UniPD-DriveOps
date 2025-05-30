@@ -33,10 +33,10 @@ class Maneuvers():
         self.park_pl_align_left = -12.0  # [deg]
 
         self.distance1 = -0.50
-        self.distance2 = -0.40  
+        self.distance2 = -0.43  
         self.distance3 = 0.18
         self.distance4 = -0.18 
-        self.distance5 = 0.40 
+        self.distance5 = 0.43 
         self.distance6 = 0.50
 
         
