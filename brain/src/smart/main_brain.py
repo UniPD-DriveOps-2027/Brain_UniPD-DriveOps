@@ -125,7 +125,7 @@ if __name__ == '__main__':
     else:
         car = AutomobileDataPi(trig_cam=False,
                                trig_gps=False,
-                               trig_bno=False, 
+                               trig_bno=True, 
                                trig_enc=True,
                                trig_control=True,
                                trig_sonar=True,
@@ -172,13 +172,13 @@ if __name__ == '__main__':
         fps_cnt = 0
 
         # Setup logging
-        '''
+        
         log_filename = f'logs/yaw_distance_log_{datetime.now().strftime("%Y%m%d_%H%M%S")}.csv'
         os.makedirs(os.path.dirname(log_filename), exist_ok=True)
         log_file = open(log_filename, mode='w', newline='')
         log_writer = csv.writer(log_file)
         log_writer.writerow(['timestamp', 'encoder_distance','yaw_true'])  # CSV header
-        '''
+        
 
         while not rospy.is_shutdown():
 
@@ -187,9 +187,9 @@ if __name__ == '__main__':
             #print("\033c")
 
             # MAKE ME A LOG FILE HERE
-            #log_writer.writerow([time(), car.encoder_distance, car.yaw_true])
-            print("Car yaw: ", car.yaw_true)
-            print("Distance: ", car.encoder_distance)
+            log_writer.writerow([time(), car.encoder_distance, car.yaw_true])
+            #print("Car yaw: ", car.yaw_true)
+            #print("Distance: ", car.encoder_distance)
 
             
             # <++++++++++++++++++++>
@@ -234,10 +234,13 @@ if __name__ == '__main__':
     except KeyboardInterrupt:
         print("Shutting down")
         car.stop()
-        #log_file.close()
+        
+        log_file.close()
+        
         sleep(.5)
         cv.destroyAllWindows()
         exit(0)
     except rospy.ROSInterruptException:
-        #log_file.close()
+        
+        log_file.close()
         pass

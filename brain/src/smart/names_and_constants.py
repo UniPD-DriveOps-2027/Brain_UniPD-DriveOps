@@ -71,7 +71,7 @@ EVENT_CONFIGS = {
     },
     # North entrance of the roundabout to Highway
     "highway": {
-        "starting_coords": [17.48, 13.55],
+        "starting_coords": [17, 11.73],
         "checkpoints": [999, 170]
     },
     "crosswalk": {
@@ -91,8 +91,8 @@ EVENT_CONFIGS = {
         "checkpoints": [999, 410]
     },
     "test2": {
-        "starting_coords": [3.25, 2.67],    #  1.41,3.91
-        "checkpoints": [94, 95, 121, 92, 107, 109, 130, 147, 175, 123, 118, 91, 451, 455, 466, 420, 396, 306, 319, 260, 197, 207, 150, 97, 163, 190, 236, 373, 382, 407, 444, 30, 334, 352, 502]
+        "starting_coords": [12.02, 0.75],    #  1.41,3.91
+        "checkpoints": [460, 466, 420, 396, 306, 319, 260, 197, 207, 150, 123, 118, 91, 451, 455, 444, 30, 130, 147, 175, 121, 92, 95, 107, 109, 97, 163, 190, 236, 373, 382, 407, 334, 352, 502]
     },
     "intersection_straight": {
         "starting_coords": [0.92, 13.17],   
@@ -161,6 +161,7 @@ HIGHWAY_EXIT_EVENT = 'highway_exit_event'
 HIGHWAY_ENTRANCE_EVENT = 'highway_entrance_event'
 TUNNEL_EVENT = 'tunnel_event'
 NO_LANE_EVENT = 'no_lane_event'
+FOG_EVENT = 'fog_event'
 
 EVENT_TYPES = [INTERSECTION_STOP_EVENT,             #0
                INTERSECTION_TRAFFIC_LIGHT_EVENT,    #1
@@ -171,7 +172,8 @@ EVENT_TYPES = [INTERSECTION_STOP_EVENT,             #0
                HIGHWAY_EXIT_EVENT,                  #6
                HIGHWAY_ENTRANCE_EVENT,              #7
                TUNNEL_EVENT,                        #8
-               NO_LANE_EVENT                        #9 
+               NO_LANE_EVENT,                       #9 
+               FOG_EVENT                            #10
                ]                             
 
 

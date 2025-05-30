@@ -68,31 +68,47 @@ def greedy_collect(fruit_graph, start, fruits):
     return len(path) - 1, path
 
 # ------------------------- Path Reconstruction -------------------------
-def reconstruct_full_path(high_level_path, graph):
-    full = []
+def reconstruct_full_path(high_level_path, graph, fruits_set=None):
+    full_path = []
+
     for i in range(len(high_level_path) - 1):
         start, end = high_level_path[i], high_level_path[i + 1]
+
+        # Run Dijkstra from start to end
         distances = {node: float('inf') for node in graph}
         prev = {}
         distances[start] = 0
         heap = [(0, start)]
+
         while heap:
             cost, node = heapq.heappop(heap)
+            if node == end:
+                break
             for neighbor in graph.get(node, []):
-                if (new_cost := cost + 1) < distances[neighbor]:
-                    distances[neighbor] = new_cost
+                if distances[node] + 1 < distances[neighbor]:
+                    distances[neighbor] = distances[node] + 1
                     prev[neighbor] = node
-                    heapq.heappush(heap, (new_cost, neighbor))
-        if end not in prev:
-            print(f"No path between {start} and {end}")
-            continue
+                    heapq.heappush(heap, (distances[neighbor], neighbor))
+
+        # Backtrack path from end to start
         segment = []
         cur = end
         while cur != start:
             segment.append(cur)
             cur = prev[cur]
-        full.extend([start] + segment[::-1][:-1])
-    return full + [high_level_path[-1]]
+        segment.append(start)
+        segment.reverse()
+
+        # Append to full path (avoid duplicating start if not first segment)
+        if full_path:
+            full_path.extend(segment[1:])
+        else:
+            full_path.extend(segment)
+
+    return full_path
+
+
+
 
 # ------------------------- Visualization -------------------------
 def visualize_path(path, graph, map_image, fruit_order, frame_delay=300):
@@ -139,7 +155,7 @@ def compute_optimal_path(start_node='472'):
 
     if not os.path.exists(graph_file):
         raise FileNotFoundError(f"Graph file not found: {graph_file}")
-    
+
     road_graph = nx.read_graphml(graph_file)
     graph_dict = {str(n): [str(neigh) for neigh in road_graph.neighbors(n)] for n in road_graph.nodes}
     fruits = load_fruits(fruits_file)
@@ -147,8 +163,17 @@ def compute_optimal_path(start_node='472'):
     fruit_graph = build_fruit_graph(graph_dict, fruits, str(start_node))
     _, best_path = greedy_collect(fruit_graph, str(start_node), set(fruits))
 
-    path = [int(node) for node in best_path]
-    return path
+    # Reconstruct full path with intermediates
+    full_path = reconstruct_full_path(best_path, graph_dict)
+
+    # Filter to include only fruits and the first node
+    filtered_path = [full_path[0]]
+    for node in full_path[1:]:
+        if node in fruits:
+            filtered_path.append(node)
+
+    return filtered_path
+
 
 
 # ------------------------- Optional Execution -------------------------
@@ -156,16 +181,19 @@ if __name__ == "__main__":
     GRAPH_FILE = "final_graph.graphml"
     FRUITS_FILE = "fruits.txt"
     MAP_FILE = "../data/2024_VerySmall.png"
-    START_NODE = '94'
+    START_NODE = '91'
 
     # Compute and visualize
     path = compute_optimal_path(START_NODE)
-    print(f"\nCollected {len(path)-1} fruits")
-    print("Optimal path:", " → ".join(map(str, path)))
-    print(path)
 
-    # Reconstruct full and visualize
+    print(f"\nCollected {len(path)-1} fruits")
+    print("High-level fruit path:", " → ".join(map(str, path)))
+
+    # Reconstruct full path with intermediates
     road_graph = nx.read_graphml(GRAPH_FILE)
     graph_dict = {str(n): [str(neigh) for neigh in road_graph.neighbors(n)] for n in road_graph.nodes}
     full_path = reconstruct_full_path(list(map(str, path)), graph_dict)
+
+
     visualize_path(full_path, road_graph, MAP_FILE, list(map(str, path)), 250)
+
