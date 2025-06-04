@@ -14,7 +14,7 @@ RC_MODE = None
 SIMULATOR_FLAG = None
 ARENA = None
 SHOW_IMGS = None
-
+RESUME = None
 NORTH = None
 SOUTH = None
 EAST = None

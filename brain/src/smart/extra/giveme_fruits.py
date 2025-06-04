@@ -148,6 +148,9 @@ def visualize_path(path, graph, map_image, fruit_order, frame_delay=300):
         cv.waitKey(0)
         cv.destroyAllWindows()
 
+import os
+import networkx as nx
+
 def compute_optimal_path(start_node='472'):
     graph_file = os.path.join(os.path.dirname(__file__), "final_graph.graphml")
     fruits_file = os.path.join(os.path.dirname(__file__), "fruits.txt")
@@ -171,6 +174,10 @@ def compute_optimal_path(start_node='472'):
     for node in full_path[1:]:
         if node in fruits:
             filtered_path.append(node)
+
+    # Remove custom checkpoints
+    #checkpoints_to_remove = {'175', '207','197','236'}
+    #filtered_path = [node for node in filtered_path if node not in checkpoints_to_remove]
 
     return filtered_path
 

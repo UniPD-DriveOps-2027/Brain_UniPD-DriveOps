@@ -23,7 +23,7 @@ parser.add_argument('--rc', action='store_true')
 parser.add_argument('--sim', action='store_true')
 parser.add_argument('--show', action='store_true')
 parser.add_argument('--arena', action='store_true')
-
+parser.add_argument('--resume', action='store_true')
 args = parser.parse_args()
 # If we don't call, these will be False
 nac.RANDOM_START = args.random
@@ -31,7 +31,7 @@ nac.RC_MODE = args.rc
 nac.SIMULATOR_FLAG = args.sim
 nac.SHOW_IMGS = args.show
 nac.ARENA = args.arena
-
+nac.RESUME = args.resume
 
 if not nac.SIMULATOR_FLAG:  # PI
     from automobile_data_pi import AutomobileDataPi
