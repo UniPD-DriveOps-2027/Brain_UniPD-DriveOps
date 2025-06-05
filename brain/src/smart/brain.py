@@ -692,13 +692,15 @@ class Brain:
         #TUNNEL NEW 
         # if next next event is TUNNEL_EVENT switch to TUNNEL state (we use next next because the intersection stop event is not trigered as the croswalk is too close to the entrance)
         elif getattr(self.second_next_event, 'name', None) == nac.TUNNEL_EVENT:   #safe against None values
-            min_distance_lidar_right = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, -95, -85) 
+            min_distance_lidar_right = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, 85, 95)
+            print("Second next event is tunnel")
+            print(f'Right distance to trigger the tunnel:{min_distance_lidar_right}')
             if (min_distance_lidar_right <= 0.4):    
                 self.switch_to_state(nac.TUNNEL_SPEED_CURVE)
                 self.go_to_next_event()  
 
         elif self.next_event.name == nac.TUNNEL_EVENT:
-            min_distance_lidar_right = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, -95, -85) 
+            min_distance_lidar_right = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, 85, 95) 
             if (min_distance_lidar_right <= 0.4):    
                 self.switch_to_state(nac.TUNNEL_SPEED_CURVE)
 
