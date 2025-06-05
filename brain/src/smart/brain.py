@@ -72,27 +72,22 @@ elif RESUME:
 
 # DEFAULT START
 else:
-    STARTING_COORDS = [-42, -42]                            # DEFAULT START POSITION
-    CHECKPOINTS = [322,149,123,450, 444, 96]  #, 120, 102, 130, 172, 180, 420, 352, 502, 160]                   472, 322, 149, 123, 
+    STARTING_COORDS = [-42, -42] # DEFAULT START POSITION
+    CHECKPOINTS = [ 472, 334, 260, 140, 121, 92, 109, 130, 147, 175, 123, 118, 420, 444, 122, 97, 91,
+        163, 190, 306, 373, 406, 420, 444, 502]
+    #CHECKPOINTS = [ 472, 420, 396, 334, 352, 260, 197, 207, 150, 121, 92, 107,
+    #    109, 130, 147, 175, 123, 118, 91, 451, 455, 466, 420, 444, 511, 97, 91,
+    #    163, 190, 236, 306, 319, 373, 382, 407, 420, 444, 502]
     END_NODE = CHECKPOINTS[-1]
     GPS_FOR_START_ONLY = False
-# STARTING_COORDS = [3.17, 2.55]    # SEMAPHORS ENTER DOWN
-# STARTING_COORDS = [2.77, 5.82]    # SEMAPHORS ENTER UP
-# STARTING_COORDS = [1.75, 3.97]    # SEMAPHORS ENTER LEFT
-# STARTING_COORDS = [4.25, 4.39]    # SEMAPHORS ENTER RIGHT
 
-# STARTING_COORDS = [5.19, 13.0]    # HIGHWAY ENTRANCE LEFTcing up)
-# STARTING_COORDS = [9.62, 4.38]    # BUS LANE AFTER CROSS
-# STARTING_COORDS = [17.49, 9.81]    # ROUNDABOUT EXIT DOWN
-# STARTING_COORDS = [4.11, 0.76]    # DOWN PART MIDLE CITY
 
 ALWAYS_USE_VISION_FOR_STOPLINES = True
-
 
 ALWAYS_TRUST_GPS = False    # if true the car will always trust the gps (bypass)
 ALWAYS_DISTRUST_GPS = True # if true, the car will always distrust the gps (bypass)   change to false if start with imu
 assert not (ALWAYS_TRUST_GPS and ALWAYS_DISTRUST_GPS), 'ALWAYS_TRUST_GPS and ALWAYS_DISTRUST_GPS cannot be both True'
-# SP32_CAM
+
 ALWAYS_TRUST_ESP32 = False    # if true the car will always trust the ESP32 CAMERA CLASSIFICATION
 
 # Templates for obstacle detection
