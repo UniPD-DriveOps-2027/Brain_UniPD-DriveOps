@@ -188,7 +188,7 @@ if __name__ == "__main__":
     GRAPH_FILE = "final_graph.graphml"
     FRUITS_FILE = "fruits.txt"
     MAP_FILE = "../data/2024_VerySmall.png"
-    START_NODE = '91'
+    START_NODE = '472'
 
     # Compute and visualize
     path = compute_optimal_path(START_NODE)
@@ -199,8 +199,15 @@ if __name__ == "__main__":
     # Reconstruct full path with intermediates
     road_graph = nx.read_graphml(GRAPH_FILE)
     graph_dict = {str(n): [str(neigh) for neigh in road_graph.neighbors(n)] for n in road_graph.nodes}
-    full_path = reconstruct_full_path(list(map(str, path)), graph_dict)
+    path_start_by_hand = [
+    '472', '420', '396', '334', '352', '260',
+    '197', '207', '150', '121', '92', '107',
+    '109', '130', '147', '175', '123', '118',
+    '91', '451', '455', '466', '420', '444',
+    '511', '97', '91', '163', '190', '236',
+    '306', '319', '373', '382', '407', '420',
+    '444', '502']
 
-
-    visualize_path(full_path, road_graph, MAP_FILE, list(map(str, path)), 250)
+    full_path = reconstruct_full_path(list(map(str, path_start_by_hand)), graph_dict)
+    visualize_path(full_path, road_graph, MAP_FILE, list(map(str, path)), 10)
 
