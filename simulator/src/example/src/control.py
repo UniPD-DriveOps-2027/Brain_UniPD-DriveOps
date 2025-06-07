@@ -1,38 +1,54 @@
 #!/usr/bin/env python3
+
+# Copyright (c) 2019, Bosch Engineering Center Cluj and BFMC organizers
+# All rights reserved.
+
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are met:
+
+# 1. Redistributions of source code must retain the above copyright notice, this
+#    list of conditions and the following disclaimer.
+
+# 2. Redistributions in binary form must reproduce the above copyright notice,
+#    this list of conditions and the following disclaimer in the documentation
+#    and/or other materials provided with the distribution.
+
+# 3. Neither the name of the copyright holder nor the names of its
+#    contributors may be used to endorse or promote products derived from
+#    this software without specific prior written permission.
+
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+# AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+# DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+# FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+# SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+# CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+# OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+# OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE
+
 import json
 from pynput import keyboard
-import cv2 as cv
-import names_and_constants as nac
+
 from RcBrainThread import RcBrainThread
 from std_msgs.msg import String
-from sensor_msgs.msg import Image
-from utils.msg import IMU
-from cv_bridge import CvBridge
-from time import time, sleep
-import signal
-import numpy as np
-import os, sys
 
-import rospy
+import rospy, os
 
 class RemoteControlTransmitterProcess():
     # ===================================== INIT==========================================
     def __init__(self):
         """Run on the PC. It forwards the commans from the user via KeboardListenerThread to the RcBrainThread. 
         The RcBrainThread converts them into actual commands and sends them to the remote via a socket connection.
-        
         """
         self.dirKeys   = ['w', 'a', 's', 'd']
         self.paramKeys = ['t','g','y','h','u','j','i','k', 'r', 'p']
         self.pidKeys = ['z','x','v','b','n','m']
         self.allKeys = self.dirKeys + self.paramKeys + self.pidKeys
         self.rcBrain   =  RcBrainThread()   
-        # rospy.init_node('EXAMPLEnode', anonymous=False)     
+        rospy.init_node('EXAMPLEnode', anonymous=False)     
         self.publisher = rospy.Publisher('/automobile/command', String, queue_size=1)
-
-        #kewboard listener thread, non-blocking
-        self.keyboardListenerThread = keyboard.Listener(on_press = self.keyPress, on_release = self.keyRelease)
-        self.keyboardListenerThread.start()
 
     # ===================================== RUN ==========================================
     def run(self):
@@ -40,7 +56,8 @@ class RemoteControlTransmitterProcess():
         """
         with keyboard.Listener(on_press = self.keyPress, on_release = self.keyRelease) as listener: 
             listener.join()
-            cv.waitKey(1)
+        #send a clear command to the terminal
+        os.system('clear')
 	
     # ===================================== KEY PRESS ====================================
     def keyPress(self,key):
@@ -50,19 +67,10 @@ class RemoteControlTransmitterProcess():
         key : pynput.keyboard.Key
             The key pressed
         """                                     
-        try:
-            if key.char == 'q':
-                print('Exiting...')
-                cv.destroyAllWindows()
-                nod.keyboardListenerThread.stop()   
-                raise KeyboardInterrupt
-            if key.char == 'r':
-                os.system('rosservice call /gazebo/reset_simulation')                             
+        try:                                                
             if key.char in self.allKeys:
                 keyMsg = 'p.' + str(key.char)
-
                 self._send_command(keyMsg)
-    
         except: pass
         
     # ===================================== KEY RELEASE ==================================
@@ -76,12 +84,12 @@ class RemoteControlTransmitterProcess():
         if key == keyboard.Key.esc:                        #exit key      
             self.publisher.publish('{"action":"3","steerAngle":0.0}')   
             return False
-        try:                                               
+        try:
+            if key.char == 'r':
+                self.publisher.publish('{"action":"3","steerAngle":0.0}')   
             if key.char in self.allKeys:
                 keyMsg = 'r.'+str(key.char)
-
                 self._send_command(keyMsg)
-    
         except: pass                                                              
                  
     # ===================================== SEND COMMAND =================================
@@ -95,38 +103,12 @@ class RemoteControlTransmitterProcess():
         command = self.rcBrain.getMessage(key)
         if command is not None:
             command = json.dumps(command)
+            print(f'command:\n\t{command}')
             self.publisher.publish(command)  
-
-os.system('clear')
-print('Manual Control starting...')
-
-# stop the car with ctrl+c
-def handler(signum, frame):
-    print("Exiting ...")
-    nod.keyboardListenerThread.stop()
-    if nac.SIMULATOR_FLAG:
-        os.system('rosservice call gazebo/pause_physics')
-    cv.destroyAllWindows()
-    sleep(.99)
-    exit()
-
-
-if __name__ == '__main__': 
-    signal.signal(signal.SIGINT, handler)  
+            
+if __name__ == '__main__':
     try:
-        rospy.init_node('manual_controller', anonymous=False)
-        rospy.sleep(.1)  # wait for publisher to register to roscore
         nod = RemoteControlTransmitterProcess()
-
-        while not rospy.is_shutdown():
-            key = cv.waitKey(1)
-            sleep(1/15)
-
-    except KeyboardInterrupt:
-        print("Shutting down")
-        nod.keyboardListenerThread.stop()
-        sleep(.5)
-        cv.destroyAllWindows()
-        exit(0)
+        nod.run()
     except rospy.ROSInterruptException:
         pass

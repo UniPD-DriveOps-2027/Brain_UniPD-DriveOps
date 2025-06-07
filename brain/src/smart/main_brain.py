@@ -8,6 +8,10 @@ import numpy as np
 from time import sleep, time
 from unix_socket_camera import UnixSocketCamera
 
+import csv
+from datetime import datetime
+
+
 import json
 with open('data/events_config.json', 'r') as file:
     events_config = json.load(file)
@@ -15,40 +19,19 @@ with open('data/events_config.json', 'r') as file:
 import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--random', action='store_true')
-parser.add_argument('--speed', action='store_true')
 parser.add_argument('--rc', action='store_true')
 parser.add_argument('--sim', action='store_true')
 parser.add_argument('--show', action='store_true')
-<<<<<<< Updated upstream
-parser.add_argument('--north', action='store_true')
-parser.add_argument('--south', action='store_true')
-parser.add_argument('--east', action='store_true')
-parser.add_argument('--west', action='store_true')
-parser.add_argument('--event', type=str, required=False, help='Specify the event name')
-=======
 parser.add_argument('--arena', action='store_true')
 parser.add_argument('--resume', action='store_true')
->>>>>>> Stashed changes
 args = parser.parse_args()
 # If we don't call, these will be False
 nac.RANDOM_START = args.random
-nac.SPEED_CHALLENGE = args.speed
 nac.RC_MODE = args.rc
 nac.SIMULATOR_FLAG = args.sim
 nac.SHOW_IMGS = args.show
-<<<<<<< Updated upstream
-nac.NORTH = args.north
-nac.SOUTH= args.south
-nac.EAST = args.east
-nac.WEST = args.west
-
-# Set event configuration based on the event name
-nac.EVENT_SETTINGS = events_config['events'].get(args.event, {})
-
-=======
 nac.ARENA = args.arena
 nac.RESUME = args.resume
->>>>>>> Stashed changes
 
 if not nac.SIMULATOR_FLAG:  # PI
     from automobile_data_pi import AutomobileDataPi
@@ -77,18 +60,12 @@ track = cv.imread('data/2024_VerySmall.png')
 # PARAMETERS
 TARGET_FPS = 30.0 # target fps of the main loop
 
-if not nac.SPEED_CHALLENGE:
-    DESIRED_SPEED = 0.35  # [m/s]
-    SP_SPEED = 0.35  # [m/s]
-    CURVE_SPEED = 0.25  # [m/s]
-    BL_SP_SPEED = 0.8
-    BL_CURVE_SPEED = 0.5
-else:
-    DESIRED_SPEED = 0.35  # [m/s]
-    SP_SPEED = 0.35  # [m/s]
-    CURVE_SPEED = 0.25  # [m/s]
-    BL_SP_SPEED = 0.8
-    BL_CURVE_SPEED = 0.35
+
+DESIRED_SPEED = 0.35  # [m/s]
+SP_SPEED = 0.35  # [m/s]
+CURVE_SPEED = 0.25  # [m/s]
+BL_SP_SPEED = 0.8
+BL_CURVE_SPEED = 0.35
 
 # CONTROLLER
 k1 = 0.0  # 0.0 gain error parallel to direction (speed)
@@ -115,7 +92,7 @@ y_orig = 0.0
 #    cap.set(cv.CAP_PROP_FRAME_HEIGHT, 240)
 #    cap.set(cv.CAP_PROP_FPS, 30)
 if not nac.SIMULATOR_FLAG:
-    cap = UnixSocketCamera(socket_addr="/tmp/bfmc_socket.sock", frame_size=(320, 240))
+    cap = UnixSocketCamera(socket_addr="/tmp/bfmc_camera_brain.sock", frame_size=(320, 240))
 
 
 # stop the car with ctrl+c
@@ -139,20 +116,21 @@ if __name__ == '__main__':
         os.system('rosservice call gazebo/unpause_physics')
         car = AutomobileDataSimulator(trig_cam=True,
                                       trig_gps=True, 
-                                      trig_bno=True, # TODO remove this
+                                      trig_bno=True, 
                                       trig_enc=True,
                                       trig_control=True,
-                                      trig_estimation=False, # TODO remove this
-                                      trig_sonar=True)  # <++>
+                                      trig_sonar=True,
+                                      trig_lidar=True,
+                                      trig_tof=True)  # <++>
     else:
         car = AutomobileDataPi(trig_cam=False,
-                               trig_gps=True,
-                               trig_bno=True, # TODO remove this
+                               trig_gps=False,
+                               trig_bno=True, 
                                trig_enc=True,
                                trig_control=True,
-                               trig_estimation=True, # TODO remove this
                                trig_sonar=True,
-                               trig_ESP32=True) # TODO remove this
+                               trig_lidar=True,
+                               trig_tof=True) 
     sleep(1.5)
 
     signal.signal(signal.SIGINT, handler)
@@ -167,6 +145,7 @@ if __name__ == '__main__':
     controller = Controller(k1=k1, k2=k2, k3=k3, k3_NL=k3_NL, k3D=k3D,
                             dist_point_ahead=dist_point_ahead,
                             ff=ff_curvature)
+    # The following controllers are not used in 2025
     controller_sp = ControllerSpeed(desired_speed=SP_SPEED,
                                     curve_speed=CURVE_SPEED)
     controller_ag = ControllerBL(straight_speed=BL_SP_SPEED,
@@ -191,14 +170,30 @@ if __name__ == '__main__':
         car.stop()
         fps_avg = 0.0
         fps_cnt = 0
+
+        # Setup logging
+        
+        log_filename = f'logs/yaw_distance_log_{datetime.now().strftime("%Y%m%d_%H%M%S")}.csv'
+        os.makedirs(os.path.dirname(log_filename), exist_ok=True)
+        log_file = open(log_filename, mode='w', newline='')
+        log_writer = csv.writer(log_file)
+        log_writer.writerow(['timestamp', 'encoder_distance','yaw_true'])  # CSV header
+        
+
         while not rospy.is_shutdown():
 
             loop_start_time = time()
             # clear the screen
             #print("\033c")
+
+            # MAKE ME A LOG FILE HERE
+            log_writer.writerow([time(), car.encoder_distance, car.yaw_true])
+            #print("Car yaw: ", car.yaw_true)
+            #print("Distance: ", car.encoder_distance)
+
             
             # <++++++++++++++++++++>
-            hf.show_car(track, car, nac.SHOW_IMGS)
+            #hf.show_car(track, car, nac.SHOW_IMGS)
 
             if not nac.SIMULATOR_FLAG:
                 ret, frame = cap.read()
@@ -223,7 +218,7 @@ if __name__ == '__main__':
             #     car.drive_angle(0.0)
             #     raise
 
-            hf.show_camera(car, nac.SHOW_IMGS)
+            #hf.show_camera(car, nac.SHOW_IMGS)
 
             if nac.SHOW_IMGS:
                 if cv.waitKey(1) == 27:
@@ -239,8 +234,13 @@ if __name__ == '__main__':
     except KeyboardInterrupt:
         print("Shutting down")
         car.stop()
+        
+        log_file.close()
+        
         sleep(.5)
         cv.destroyAllWindows()
         exit(0)
     except rospy.ROSInterruptException:
+        
+        log_file.close()
         pass

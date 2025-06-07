@@ -9,7 +9,7 @@ from automobile_ekf import AutomobileEKF
 import time
 from collections import deque
 
-YAW_GLOBAL_OFFSET = 0.0  # np.deg2rad(-5)
+YAW_GLOBAL_OFFSET = np.deg2rad(0)
 
 START_X = 0.2
 START_Y = 14.8
@@ -70,8 +70,8 @@ class Automobile_Data():
                  trig_sonar=False,
                  trig_cam=False,
                  trig_gps=False,
-                 trig_estimation=False,
-                 trig_ESP32=False,
+                 trig_lidar=False, 
+                 trig_tof=False
                  ) -> None:
         """Manage flow of data with the car
 
@@ -111,6 +111,7 @@ class Automobile_Data():
         self.pitch_deg = 0.0                 # [deg]   pitch angle
         self.yaw = 0.0                       # [rad]   yaw angle
         self.yaw_deg = 0.0                   # [deg]   yaw angle
+        self.yaw_true = 0.0                  # [deg]   true yaw angle
         self.accel_x = 0.0                   # [m/ss]  accelx angle
         self.accel_y = 0.0                   # [m/ss]  accely angle
         self.accel_z = 0.0                   # [m/ss]  accelz angle
@@ -149,11 +150,16 @@ class Automobile_Data():
         self.filtered_right_sonar_distance = 3.0  # [m] SONAR:filt dist lat
         self.left_sonar_distance = 3.0  # [m] SONAR: unfilt dist from lat
         self.filtered_left_sonar_distance = 3.0  # [m] SONAR:filt dist lat
+        # TOFs
+        self.center_tof_distance = 0.21  # [m] TOF: unfilt dist from lat
+        self.filtered_center_tof_distance = 0.21  # [m] TOF:filt dist lat
+        self.left_tof_distance = 0.21 # [m] TOF: unfilt dist from lat
+        self.filtered_left_tof_distance = 0.21  # [m] TOF:filt dist lat
         # ESP32 CAMERA
         self.obstacle = 0.0            # ESP32: confidence level for obstacle classification
         self.filtered_obstacle = 0.0   # ESP32: filtered confidence level for obstacle classification
         self.sign = 0.0                # ESP32: confidence level for sign classification
-        self.filtered_sign = 0.0       # ESP32: filtered confidence level for sign classification        
+        self.filtered_sign = 0.0       # ESP32: filtered confidence level for sign classification  
         # CAMERA
         # [ndarray] CAM:image of the camera
         self.frame = np.zeros((FRAME_WIDTH, FRAME_HEIGHT, 3), np.uint8)
@@ -300,18 +306,26 @@ class Automobile_Data():
                 self.x_est = x_est  # + tot_delta_x
                 self.y_est = y_est  # + tot_delta_y\
 
-
+# USED ONLY IN 2024 
     def decide_yaw_start(self) -> None:
-        if nac.NORTH:
+        heading = self.yaw_true
+        #heading = np.rad2deg(self.yaw) % 360
+        print(f"Heading: {heading}")
+        if heading is None:
+            print("Heading not available!")
+            return
+        if 45 <= heading < 135:
             self.yaw_random_start = np.deg2rad(90)
-        elif nac.SOUTH:
+            print("Orientation: North")
+        elif 135 <= heading < 225:
+            self.yaw_random_start = np.deg2rad(180)          
+            print("Orientation: West")
+        elif 225 <= heading < 315:
             self.yaw_random_start = np.deg2rad(-90)
-        elif nac.EAST:
-            self.yaw_random_start = np.deg2rad(0)
-        elif nac.WEST:
-            self.yaw_random_start = np.deg2rad(180)
+            print("Orientation: South")
         else:
-            self.yaw_random_start = self.IMU_yaw
+            self.yaw_random_start = np.deg2rad(0)    
+            print("Orientation: Est")
 
 
     def reset_rel_pose(self) -> None:

@@ -55,6 +55,7 @@ add_message_files(
   Log.msg
   TopicInfo.msg
   semaphore.msg
+  conditions.msg
 )
 
 ## Generate services in the 'srv' folder

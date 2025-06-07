@@ -5,7 +5,6 @@ import numpy as np
 import cv2 as cv
 import pickle
 import time
-from names_and_constants import SPEED_CHALLENGE
 
 
 def diff_angle(angle1, angle2):
@@ -495,64 +494,19 @@ def determine_intersection_direction(brain, local_path_cf):
 def navigate_intersection(brain, show):
     if brain.curr_state.var4 == "right":
         e3, _ = brain.detect.detect_intersection_right(brain.car.frame, show_ROI=show)
-        e3 = 0.80 * e3
+        e3 = 1.0 * e3 #old value = 0.8; new = 1.25
     elif brain.curr_state.var4 == "left":
         e3, _ = brain.detect.detect_intersection_left(brain.car.frame, show_ROI=show)
-        if SPEED_CHALLENGE:
-            e3 = 1.1 * e3
-        else:
-            e3 = 0.95 * e3
+        e3 = 1.1 * e3 #old value = 0.95; new = 1.8 works for highway to speedcurve
     elif brain.curr_state.var4 == "forward":
         e3, _ = brain.detect.detect_intersection_forward(brain.car.frame, show_ROI=show)
         # e3, _ = brain.detect.detect_lane_ahead(brain.car.frame, show_ROI=show)
     else:
         e3, _ = brain.detect.detect_lane_ahead(brain.car.frame, show_ROI=show)
     output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, 0.0, e3)
-    print(f'output_speed: {output_speed:.2f}, output_angle: {np.rad2deg(output_angle):.2f}')
+    #print(f'output_speed: {output_speed:.2f}, output_angle: {np.rad2deg(output_angle):.2f}')
+
     brain.car.drive(speed=output_speed, angle=np.rad2deg(output_angle))
-
-
-def navigate_junction(brain, idx_point_ahead, show):
-    if brain.curr_state.var4 == "right":
-        # e3, _ = brain.detect.detect_intersection_right(brain.car.frame, show_ROI=show)
-        # e3 = 1.6 * e3
-        if idx_point_ahead < 20:
-            brain.car.drive(speed=0.2, angle=0)
-        elif idx_point_ahead < 50:
-            brain.car.drive(speed=0.2, angle=0)
-        elif idx_point_ahead < 120:
-            brain.car.drive(speed=0.2, angle=15)
-        else:
-            brain.car.drive(speed=0.2, angle=5)
-    else:
-        if idx_point_ahead < 8:
-            brain.car.drive(speed=0.2, angle=10)
-        elif idx_point_ahead < 40:
-            brain.car.drive(speed=0.2, angle=20)
-        elif idx_point_ahead < 120:
-            brain.car.drive(speed=0.2, angle=-25)
-        else:
-            brain.car.drive(speed=0.2, angle=-5)
-        # if idx_point_ahead < 35:
-        #     e3, _ = brain.detect.detect_intersection_right(brain.car.frame, show_ROI=show)
-        #     e3 = 1.6 * e3
-        # else:
-        #     e3, _ = brain.detect.detect_intersection_left(brain.car.frame, show_ROI=show)
-        #     e3 = 1.6 * e3
-        # if idx_point_ahead < 140:
-        #     e3, _ = brain.detect.detect_intersection_right(brain.car.frame, show_ROI=show)
-        #     e3 = 1.6 * e3
-        # if idx_point_ahead < 100:
-        #     e3, _ = brain.detect.detect_intersection_left(brain.car.frame, show_ROI=show)
-        #     e3 = 0.2 * e3
-        # elif idx_point_ahead < 120:
-        #     e3, _ = brain.detect.detect_intersection_left(brain.car.frame, show_ROI=show)
-        #     e3 = 0.6 * e3
-        # else:
-        #     e3, _ = brain.detect.detect_intersection_left(brain.car.frame, show_ROI=show)
-    # output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, 0.0, e3)
-    # print(f'output_speed: {output_speed:.2f}, output_angle: {np.rad2deg(output_angle):.2f}')
-    # brain.car.drive(speed=output_speed, angle=np.rad2deg(output_angle))
 
 
 def navigate_open_loop(brain, local_path_cf, idx_point_ahead, idx_car_on_path, show):
@@ -566,29 +520,28 @@ def navigate_open_loop(brain, local_path_cf, idx_point_ahead, idx_car_on_path, s
     out_speed, out_angle = brain.controller.get_control(e2, yaw_error, 0.0, brain.desired_speed, gains=gains)
     brain.car.drive(out_speed, np.rad2deg(out_angle))
 
-
+'''
 def navigate_roundabout(brain, idx_point_ahead, max_idx, show):
     if max_idx < 200: # 1st EXIT
-        out_idx_len = 70 # WORKED IN REAL LIFE # BFMC_2024
-        # out_idx = 80  # WORKED IN SIMULATION# BFMC_2024
+        out_idx_len = 70 # WORKED IN REAL LIFE
+        # out_idx = 80  # WORKED IN SIMTION# BFMC_2024
     elif max_idx < 300: # 2nd EXIT
-        out_idx_len = 75 # WORKED IN REAL LIFE # BFMC_2024
+        out_idx_len = 80 # WORKED IN REAL LIFE # BFMC_2024
         # out_idx = 80  # WORKED IN SIMULATION# BFMC_2024
-    else: # 3nd EXIT
+    elif max_idx < 400: # 3nd EXIT and 4th 
         out_idx_len = 90 # WORKED IN REAL LIFE # BFMC_2024
         # out_idx = 80  # WORKED IN SIMULATION# BFMC_2024
-        
-    if max_idx - idx_point_ahead < 5:
+    else:
+        out_idx_len = 100
+
+    if max_idx - idx_point_ahead < 10:
         print("\nAHEAD AHEAD AHEAD AHEAD AHEAD AHEAD AHEAD AHEAD AHEAD\n")
         e3, _ = brain.detect.detect_lane_ahead(brain.car.frame, show_ROI=show)
         output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, 0.0, e3)
-    # elif max_idx - idx_point_ahead < 75:
     elif max_idx - idx_point_ahead < out_idx_len:
         print("\nOUT OUT OUT OUT OUT OUT OUT OUT OUT OUT\n")
         e3, _ = brain.detect.detect_roundabout_out(brain.car.frame, show_ROI=show)
-        # e3, _ = brain.detect.detect_intersection_right(brain.car.frame, show_ROI=show)
         output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, e3, 1.4*e3)
-
     elif idx_point_ahead < 40:
         print("\nIN IN IN IN IN IN 1\n")
         e3, _ = brain.detect.detect_roundabout_in(brain.car.frame, show_ROI=show)
@@ -597,16 +550,16 @@ def navigate_roundabout(brain, idx_point_ahead, max_idx, show):
         print("\nIN IN IN IN IN IN 2\n")
         e3, _ = brain.detect.detect_roundabout_in(brain.car.frame, show_ROI=show)
         output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, e3, 1.1*e3)
-    elif idx_point_ahead < 80:
+    elif idx_point_ahead < 90:
         print("\nIN IN IN IN IN IN 3\n")
         e3, _ = brain.detect.detect_roundabout_in(brain.car.frame, show_ROI=show)
         output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, e3, 1.5*e3)
-    elif idx_point_ahead < 100:
+    elif idx_point_ahead < 110:
         print("\nABOUT ABOUTABOUT 1\n")
         e3, _ = brain.detect.detect_roundabout_about(brain.car.frame, show_ROI=show)
         brain.curr_state.var4 = 0.3 * brain.curr_state.var4 + 0.7 * e3
         output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, 0.0, brain.curr_state.var4)
-    elif idx_point_ahead < 260:
+    elif idx_point_ahead < 230:
         print("\nABOUT ABOUTABOUT 2\n")
         e3, _ = brain.detect.detect_roundabout_about(brain.car.frame, show_ROI=show)
         brain.curr_state.var4 = 0.3 * brain.curr_state.var4 + 0.7 * e3
@@ -614,10 +567,89 @@ def navigate_roundabout(brain, idx_point_ahead, max_idx, show):
     else:
         print("\nABOUT ABOUTABOUT 3\n")
         e3, _ = brain.detect.detect_roundabout_about(brain.car.frame,show_ROI=show)
-        # output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, e3 + 0.16, 2*e3 + 0.14)
         brain.curr_state.var4 = 0.3 * brain.curr_state.var4 + 0.7 * e3
-        output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, brain.curr_state.var4, 2*brain.curr_state.var4)
+        output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, brain.curr_state.var4, 2.5*brain.curr_state.var4)
     print(f'output_speed: {output_speed:.2f}, output_angle: {np.rad2deg(output_angle):.2f}')
+    brain.car.drive(speed=output_speed, angle=np.rad2deg(output_angle))
+'''
+
+def navigate_roundabout(brain, idx_point_ahead, max_idx, show):
+    if max_idx < 200:
+        out_idx_len = 70
+    elif max_idx < 300:
+        out_idx_len = 80
+    elif max_idx < 400:
+        out_idx_len = 90
+    else:
+        out_idx_len = 100
+
+    distance = brain.car.encoder_distance
+
+  # Initialize state variables if they don't exist
+    if not hasattr(brain.curr_state, 'logged_labels'):
+        brain.curr_state.logged_labels = set()
+
+    if not hasattr(brain.curr_state, 'logs_cleared'):
+        brain.curr_state.logs_cleared = False
+
+    # Clear logs once at the start
+    if not brain.curr_state.logs_cleared:
+        with open("roundabout_distances.txt", "w") as f:
+            f.write("")  # empty the file
+        brain.curr_state.logged_labels.clear()
+        brain.curr_state.logs_cleared = True
+
+    def log_distance_once(label):
+        if label not in brain.curr_state.logged_labels:
+            with open("roundabout_distances.txt", "a") as f:
+                f.write(f"{label}: {distance:.2f}\n")
+            brain.curr_state.logged_labels.add(label)
+
+    if max_idx - idx_point_ahead < 10:
+        print("\nAHEAD AHEAD AHEAD AHEAD AHEAD AHEAD AHEAD AHEAD AHEAD\n")
+        log_distance_once("AHEAD")
+        e3, _ = brain.detect.detect_lane_ahead(brain.car.frame, show_ROI=show)
+        output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, 0.0, e3)
+    elif max_idx - idx_point_ahead < out_idx_len:
+        print("\nOUT OUT OUT OUT OUT OUT OUT OUT OUT OUT\n")
+        log_distance_once("OUT")
+        e3, _ = brain.detect.detect_roundabout_out(brain.car.frame, show_ROI=show)
+        output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, e3, 1.4 * e3)
+    elif idx_point_ahead < 40:
+        print("\nIN IN IN IN IN IN 1\n")
+        log_distance_once("IN1")
+        e3, _ = brain.detect.detect_roundabout_in(brain.car.frame, show_ROI=show)
+        output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, e3, 0.4 * e3)
+    elif idx_point_ahead < 70:
+        print("\nIN IN IN IN IN IN 2\n")
+        log_distance_once("IN2")
+        e3, _ = brain.detect.detect_roundabout_in(brain.car.frame, show_ROI=show)
+        output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, e3, 1.2*e3)
+    elif idx_point_ahead < 80:
+        print("\nIN IN IN IN IN IN 3\n")
+        log_distance_once("IN3")
+        e3, _ = brain.detect.detect_roundabout_in(brain.car.frame, show_ROI=show)
+        output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, e3, 1.5 * e3)
+    elif idx_point_ahead < 110:
+        print("\nABOUT ABOUTABOUT 1\n")
+        log_distance_once("ABOUT1")
+        e3, _ = brain.detect.detect_roundabout_about(brain.car.frame, show_ROI=show)
+        brain.curr_state.var4 = 0.3 * brain.curr_state.var4 + 0.7 * e3
+        output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, 0.0, brain.curr_state.var4)
+    elif idx_point_ahead < 210:
+        print("\nABOUT ABOUTABOUT 2\n")
+        log_distance_once("ABOUT2")
+        e3, _ = brain.detect.detect_roundabout_about(brain.car.frame, show_ROI=show)
+        brain.curr_state.var4 = 0.3 * brain.curr_state.var4 + 0.7 * e3
+        output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, brain.curr_state.var4, 1.8*brain.curr_state.var4)
+    else:
+        print("\nABOUT ABOUTABOUT 3\n")
+        log_distance_once("ABOUT3")
+        e3, _ = brain.detect.detect_roundabout_about(brain.car.frame, show_ROI=show)
+        brain.curr_state.var4 = 0.3 * brain.curr_state.var4 + 0.7 * e3
+        output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, brain.curr_state.var4, -30) # 2.7*brain.curr_state.var4
+
+    #print(f'output_speed: {output_speed:.2f}, output_angle: {np.rad2deg(output_angle):.2f}')
     brain.car.drive(speed=output_speed, angle=np.rad2deg(output_angle))
 
 
@@ -657,3 +689,76 @@ def switch_lane_check(closest_node, meas):
         final_node = highway_dict[final_node]
 
     return final_node
+
+def get_lidar_valid_ranges(lidar_angles, lidar_ranges, start_deg, end_deg):
+    import numpy as np
+
+    # Convert to numpy arrays if not already
+    lidar_angles = np.atleast_1d(lidar_angles)
+    lidar_ranges = np.atleast_1d(lidar_ranges)
+
+    # Convert angles from degrees to radians
+    start_deg = np.deg2rad(start_deg)
+    end_deg = np.deg2rad(end_deg)
+
+    # Find indices within the specified angle range
+    indices = np.where((lidar_angles >= start_deg) & (lidar_angles <= end_deg))[0]
+    selected_ranges = lidar_ranges[indices]
+    selected_angles = lidar_angles[indices]
+
+    # Filter out invalid values
+    valid_mask = np.isfinite(selected_ranges) & (selected_ranges > 0.0)
+    selected_angles = selected_angles[valid_mask]
+    selected_ranges = selected_ranges[valid_mask]
+
+    if len(selected_ranges) == 0:
+        return 20.0, np.array([])
+
+    return selected_ranges, selected_angles
+
+def get_min_distance_in_range(lidar_angles, lidar_ranges, start_deg, end_deg):
+    import numpy as np
+
+    valid_ranges, _ = get_lidar_valid_ranges(lidar_angles, lidar_ranges, start_deg, end_deg)
+    return np.min(valid_ranges)
+
+def get_min_distance_in_filtered_range(lidar_angles, lidar_ranges, start_deg, end_deg, 
+                                        size_threshold=0.1, cluster_dist_threshold=0.05, min_cluster_size=5):
+
+    import numpy as np
+    from scipy.spatial.distance import pdist
+
+    selected_ranges, selected_angles = get_lidar_valid_ranges(lidar_angles, lidar_ranges, start_deg, end_deg)
+
+    # Convert to Cartesian coordinates
+    x = selected_ranges * np.cos(selected_angles)
+    y = selected_ranges * np.sin(selected_angles)
+    points = np.vstack((x, y)).T
+
+    # Cluster points
+    clusters = []
+    current_cluster = [points[0]]
+    
+    for i in range(1, len(points)):
+        if np.linalg.norm(points[i] - points[i - 1]) < cluster_dist_threshold:
+            current_cluster.append(points[i])
+        else:
+            clusters.append(np.array(current_cluster))
+            current_cluster = [points[i]]
+    clusters.append(np.array(current_cluster))
+
+    # Filter valid clusters based on size and diameter
+    valid_clusters = []
+    for cluster in clusters:
+        if len(cluster) >= min_cluster_size:
+            max_pairwise_dist = np.max(pdist(cluster)) if len(cluster) >= 2 else 0
+            if max_pairwise_dist >= size_threshold:
+                valid_clusters.append(cluster)
+
+    if not valid_clusters:
+        return 20.0
+
+    # Return the minimum distance from any valid cluster
+    min_dists = [np.min(np.linalg.norm(cluster, axis=1)) for cluster in valid_clusters]
+    return min(min_dists)
+

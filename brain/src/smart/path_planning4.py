@@ -81,9 +81,6 @@ class PathPlanning():
                 self.all_start_nodes.append(n)
         self.all_nodes_coords = np.array([self.get_coord(node) for node in self.all_start_nodes])
 
-        self.bumpy_road_nodes = ['0'] # BFMC_2024
-
-        self.junctions = ['0'] # BFMC_2024
         
         # import map to plot trajectory and car
         self.map = map_img
@@ -360,7 +357,7 @@ class PathPlanning():
                 local_idx += 1
                 path_event_path_ahead.append(path_ahead)
                 hf.draw_event(self, path_ahead, draw)
-            elif t.startswith('junction') or t.startswith('highway'):
+            elif t.startswith('highway'):
                 assert len(self.path) > 0
                 path_ahead = self.path[self.path_event_points_idx[i]:min(self.path_event_points_idx[i]+140, len(self.path))]
                 path_event_path_ahead.append(path_ahead)

@@ -1,15 +1,17 @@
 #!/usr/bin/python3
 from automobile_data_interface import Automobile_Data
 import helper_functions as hf
-from std_msgs.msg import Float32, Bool, String
-from utils.msg import IMU, localisation, vehicles
+from std_msgs.msg import Float32, Bool, String, UInt8
+from sensor_msgs.msg import LaserScan
+from utils.msg import IMU, localisation, vehicles, conditions
 import rospy
 import collections
 import numpy as np
 
 SONAR_THRESHOLD = 5
 
-SONAR_DEQUE_LENGTH = 5
+SONAR_DEQUE_LENGTH = 20
+TOF_DEQUE_LENGTH = 10
 
 IMU_DEQUE_LENGTH = 10
 
@@ -24,8 +26,8 @@ class AutomobileDataPi(Automobile_Data):
                  trig_sonar=False,
                  trig_cam=False,
                  trig_gps=False,
-                 trig_estimation=False,
-                 trig_ESP32=False,
+                 trig_lidar=False,
+                 trig_tof=False
                  ) -> None:
         # initialize the parent class
         super().__init__()
@@ -39,6 +41,9 @@ class AutomobileDataPi(Automobile_Data):
         self.center_sonar_distance = 3.0
         self.center_sonar_distance_buffer = collections.deque(maxlen=SONAR_DEQUE_LENGTH)
         self.filtered_center_sonar_distance = 3.0
+
+        self.center_tof_distance_buffer = collections.deque(maxlen=TOF_DEQUE_LENGTH)
+        self.left_tof_distance_buffer = collections.deque(maxlen=TOF_DEQUE_LENGTH)
 
         self.encoder_velocity_buffer = collections.deque(maxlen=SONAR_DEQUE_LENGTH)
         self.reachedPosition = False
@@ -54,19 +59,31 @@ class AutomobileDataPi(Automobile_Data):
         self.y_buffer = collections.deque(maxlen=5)
 
         #IMU moving buffer
-        self.yaw_buffer = collections.deque(maxlen=IMU_DEQUE_LENGTH)     
+        self.yaw_buffer = collections.deque(maxlen=IMU_DEQUE_LENGTH)  
+
+        #LIDAR Parameters
+        self.lidar_angles = 0  # [rad] range: [-2.094, 2.094] or [-120°, 120°] 
+        self.lidar_ranges = 0  # [m]
+
+        self.yaw_true = 0.0
+
 
 
         # PUBLISHERS AND SUBSCRIBERS
         if trig_control:
-            self.pub_speed     = rospy.Publisher('/automobile/command/speed', Float32, queue_size=1)
-            self.pub_steer     = rospy.Publisher('/automobile/command/steer', Float32, queue_size=1)
-            self.pub_stop      = rospy.Publisher('/automobile/command/stop', Float32, queue_size=1)
-            self.pub_position  = rospy.Publisher('/automobile/command/position', Float32, queue_size=1)
-            self.pub_closest_node = rospy.Publisher('/automobile/closest_node', Float32, queue_size=1)
-            self.pub_next_event = rospy.Publisher('/automobile/next_event', String, queue_size=1)
+            self.pub_speed         = rospy.Publisher('/automobile/command/speed', Float32, queue_size=1)
+            self.pub_steer         = rospy.Publisher('/automobile/command/steer', Float32, queue_size=1)
+            self.pub_stop          = rospy.Publisher('/automobile/command/stop', Float32, queue_size=1)
+            self.pub_position      = rospy.Publisher('/automobile/command/position', Float32, queue_size=1)
+            self.pub_closest_node  = rospy.Publisher('/automobile/closest_node', Float32, queue_size=1)
+            self.pub_next_event    = rospy.Publisher('/automobile/next_event', String, queue_size=1)
+            self.pub_prev_event    = rospy.Publisher('/automobile/prev_event', String, queue_size=1)            
             self.pub_current_state = rospy.Publisher('/automobile/current_state', String, queue_size=1)
-            self.sub_position  = rospy.Subscriber("/automobile/feedback/position", Bool, self.feedback_position_callback)
+            self.pub_routines      = rospy.Publisher('/automobile/routines', String, queue_size=1)
+            self.pub_conditions    = rospy.Publisher('/automobile/conditions', conditions, queue_size=1)
+            self.pub_arena         = rospy.Publisher('/automobile/arena', Bool, queue_size=1)
+            self.pub_led           = rospy.Publisher('/automobile/led', Bool, queue_size=1)
+            self.sub_position      = rospy.Subscriber("/automobile/feedback/position", Bool, self.feedback_position_callback)
         if trig_bno:
             self.sub_imu       = rospy.Subscriber('/automobile/imu', IMU, self.imu_callback)
         if trig_enc:
@@ -81,12 +98,14 @@ class AutomobileDataPi(Automobile_Data):
             raise NotImplementedError("cam not implemented yet")
         if trig_gps:
             self.sub_pos       = rospy.Subscriber("/automobile/vehicles", vehicles, self.position_callback)
-        if trig_estimation:
-            self.trig_estimation = trig_estimation
-            print("ESTIMATION ENABLED")
-        if trig_ESP32:
-            self.sub_obstacle  = rospy.Subscriber("/automobile/obstacle", Float32, self.obstacle_callback)
-            self.sub_sign      = rospy.Subscriber("/automobile/sign", Float32, self.sign_callback)
+        if trig_lidar:
+            self.sub_lidar     = rospy.Subscriber('/scan', LaserScan, self.lidar_callback) 
+        if trig_tof:
+            self.sub_tof_center     = rospy.Subscriber('/automobile/tof/front', UInt8, self.center_tof_callback)
+            self.sub_tof_left      = rospy.Subscriber('/automobile/tof/left', UInt8, self.left_tof_callback)
+            print("AutomobileDataPi initialized with tof, lidar, gps, encoders, bno and sonars")
+            
+
 
     def center_sonar_callback(self, data) -> None:
         """Receive and store distance of an obstacle ahead in
@@ -95,6 +114,9 @@ class AutomobileDataPi(Automobile_Data):
         self.center_sonar_distance = data.data if data.data > 0 else self.center_sonar_distance
         self.center_sonar_distance_buffer.append(self.center_sonar_distance)
         self.filtered_center_sonar_distance = np.median(self.center_sonar_distance_buffer)
+        #print("-----------------------------------------")
+        #print(f"BUFFER: {self.center_sonar_distance_buffer}")
+        #print("-----------------------------------------")
         self.sonar_distance = self.center_sonar_distance
         self.filtered_sonar_distance = self.filtered_center_sonar_distance
 
@@ -105,14 +127,41 @@ class AutomobileDataPi(Automobile_Data):
         self.right_sonar_distance = data.data if data.data > 0 else self.right_sonar_distance
         self.right_sonar_distance_buffer.append(self.right_sonar_distance)
         self.filtered_right_sonar_distance = np.median(self.right_sonar_distance_buffer)
+        #print(f'RIGHT SONAR{self.filtered_right_sonar_distance}')
     
     def left_sonar_callback(self, data) -> None:
         """Receive and store distance of an obstacle ahead in
+
         :acts on: self.sonar_distance, self.filtered_sonar_distance
         """
         self.left_sonar_distance = data.data if data.data > 0 else self.left_sonar_distance
         self.left_sonar_distance_buffer.append(self.left_sonar_distance)
         self.filtered_left_sonar_distance = np.median(self.left_sonar_distance_buffer)
+
+    def center_tof_callback(self, data) -> None:
+        """Receive and store distance of an obstacle ahead in
+        :acts on: self.tof_distance, self.filtered_tof_distance
+        """
+        self.center_tof_distance = data.data if data.data > 0 else self.center_tof_distance
+        self.center_tof_distance_buffer.append(self.center_tof_distance/1000)  # mm to m conversion
+        self.filtered_center_tof_distance = np.median(self.center_tof_distance_buffer)
+        #print(f'RIGHT SONAR{self.filtered_right_sonar_distance}')
+    
+    def left_tof_callback(self, data) -> None:
+        """Receive and store distance of an obstacle ahead in
+        :acts on: self.tof_distance, self.filtered_tof_distance
+        """
+        self.left_tof_distance = data.data if data.data > 0 else self.left_tof_distance
+        self.left_tof_distance_buffer.append(self.left_tof_distance/1000)
+        self.filtered_left_tof_distance = np.median(self.left_tof_distance_buffer)
+
+
+    def lidar_callback(self, data: LaserScan):
+        """Receive and store LIDAR data
+        :acts on: self.lidar_angles, self.lidar_ranges
+        """
+        self.lidar_angles = np.linspace(data.angle_min, data.angle_max, len(data.ranges))  # [rad] range: [-2.094, 2.094] or [-120°, 120°] 
+        self.lidar_ranges = np.array(data.ranges)                                          # [m]
 
     def position_callback(self, data) -> None:
         """Receive and store global coordinates from GPS
@@ -133,41 +182,25 @@ class AutomobileDataPi(Automobile_Data):
 
     def imu_callback(self, data) -> None:
         """Receive and store rotation from IMU
-        :acts on: self.roll, self.pitch, self.yaw, self.roll_deg,
-                  self.pitch_deg, self.yaw_deg
-        :acts on: self.accel_x, self.accel_y, self.accel_z, self.gyrox,
-                  self.gyroy, self.gyroz
+        :acts on: self.roll, self.pitch, self.yaw, self.roll_deg, self.pitch_deg, self.yaw_deg
+        :acts on: self.accel_x, self.accel_y, self.accel_z, self.gyrox, self.gyroy, self.gyroz
         """
-        return
-        if not self.STARTED_WITH_IMU:
-            self.roll = np.deg2rad(data.roll)
-            self.pitch = np.deg2rad(data.pitch)
-            self.IMU_yaw = np.deg2rad(data.yaw) - np.deg2rad(self.YAW_GLOBAL_OFFSET)
-            
-            #self.yaw = hf.diff_angle(np.deg2rad(data.yaw) + self.yaw_offset, 0.0)
-            #self.IMU_yaw = np.deg2rad(data.yaw) - np.deg2rad(self.YAW_GLOBAL_OFFSET)  #reading yaw and adjusting with global offset
-            #self.IMU_yaw = (np.deg2rad(360) - self.IMU_yaw)%np.deg2rad(360)               #change from clockwise to counterclockwise
-            # if (self.IMU_yaw < np.deg2rad(45)) or (self.IMU_yaw > np.deg2rad(315)):       #assign value multiple of pi/2 based on quadrant  
-            #     self.IMU_yaw = 0.0
-            # elif (self.IMU_yaw < np.deg2rad(135)) and (self.IMU_yaw > np.deg2rad(45)):
-            #     self.IMU_yaw = np.deg2rad(90)
-            # elif (self.IMU_yaw < np.deg2rad(225)) and (self.IMU_yaw > np.deg2rad(135)):
-            #     self.IMU_yaw = np.deg2rad(180)
-            # elif (self.IMU_yaw < np.deg2rad(315)) and (self.IMU_yaw > np.deg2rad(225)):
-            #     self.IMU_yaw = np.deg2rad(270)
-
-            self.roll_deg = np.rad2deg(self.roll)
-            self.pitch_deg = np.rad2deg(self.pitch)
-            self.yaw_deg = np.rad2deg(self.yaw)
-
-            self.accel_x = data.accelx
-            self.accel_y = data.accely
-            self.accel_z = data.accelz
-
-            self.gyrox = data.gyrox
-            self.gyroy = data.gyroy
-            self.gyroz = data.gyroz
-
+        self.roll = float(data.roll)
+        self.roll_deg = np.rad2deg(self.roll)
+        self.pitch = float(data.pitch)
+        self.pitch_deg = np.rad2deg(self.pitch)
+        self.yaw_true = float(data.yaw)
+        self.yaw = float(data.yaw) + self.yaw_offset
+        self.yaw_deg = np.rad2deg(self.yaw)
+        # true position, not in real car
+        #true_posL = np.array([data.posx, data.posy])
+        #true_posR = hf.mL2mR(true_posL)
+        # center x_true on the rear axis
+        #self.x_true = true_posR[0] - self.WB/2*np.cos(self.yaw_true)
+        #self.y_true = true_posR[1] - self.WB/2*np.sin(self.yaw_true)
+        #self.timestamp = float(data.timestamp)
+        # NOTE: in the simulator we don't have neither
+        #       acceleromter or gyroscope (yet)
     def encoder_distance_callback(self, data) -> None:
         """Callback when an encoder distance message is received
         :acts on: self.encoder_distance
@@ -208,6 +241,7 @@ class AutomobileDataPi(Automobile_Data):
         :param speed: speed of the car [m/s], defaults to 0.0
         """
         speed = Automobile_Data.normalizeSpeed(speed)   # normalize speed
+        self.speed = speed
         self.pub_speed.publish(speed)
 
     def drive_angle(self, angle=0.0) -> None:
@@ -241,6 +275,29 @@ class AutomobileDataPi(Automobile_Data):
         
     def publish_next_event(self, data):
         self.pub_next_event.publish(data)
+    
+    def publish_prev_event(self, data):
+        self.pub_prev_event.publish(data)
 
     def publish_current_state(self, data):
         self.pub_current_state.publish(data)
+
+    def publish_arena_flag(self, data):
+        self.pub_arena.publish(data)
+
+    def publish_routines(self, data):
+        self.pub_routines.publish(data)
+
+    def publish_conditions(self, data):
+        # Create message by passing dictionary values as arguments
+        msg = conditions(
+            can_overtake=data['can_overtake'],
+            highway=data['highway'],
+            car_on_path=data['car_on_path'],
+            rerouting=data['rerouting'],
+            tunnel=data['tunnel']
+        )
+        self.pub_conditions.publish(msg)
+
+    def publish_led_control(self, data):
+        self.pub_led.publish(data)

@@ -71,9 +71,7 @@ class EnvironmentalData():
                                 nac.STATIC_CAR_ON_ROAD:      10,
                                 nac.STATIC_CAR_PARKING:      11,
                                 nac.PEDESTRIAN_ON_CROSSWALK: 12,
-                                nac.PEDESTRIAN_ON_ROAD:      13,
-                                nac.ROADBLOCK:               14,
-                                nac.BUMPY_ROAD:              15
+                                nac.PEDESTRIAN_ON_ROAD:      13
                             }
         # SEMAPHORE
         self.semaphore_states = {

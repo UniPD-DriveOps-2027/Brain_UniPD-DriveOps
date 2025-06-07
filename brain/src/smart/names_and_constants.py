@@ -10,9 +10,9 @@
 
 # This is handled with the argparse in main_brain
 RANDOM_START = None
-SPEED_CHALLENGE = None
 RC_MODE = None
 SIMULATOR_FLAG = None
+ARENA = None
 SHOW_IMGS = None
 RESUME = None
 NORTH = None
@@ -20,8 +20,6 @@ SOUTH = None
 EAST = None
 WEST = None
 
-<<<<<<< Updated upstream
-=======
 # names_and_constants.py
 TESTING = False
 
@@ -116,32 +114,27 @@ EVENT_CONFIGS = {
 }
 
 
->>>>>>> Stashed changes
 EVENT_SETTINGS = None  # Variable to store the event settings
 
 # BRAIN
 # ========================= STATES ==========================
 START_STATE = 'start_state'
 END_STATE = 'end_state'
-DOING_NOTHING = 'doing_nothing'
 LANE_FOLLOWING = 'lane_following'
 APPROACHING_STOPLINE = 'approaching_stopline'
-INTERSECTION_NAVIGATION = 'intersection_navigation'
 TURNING_RIGHT = 'turning_right'
 TURNING_LEFT = 'turning_left'
-GOING_STRAIGHT = 'going_straight'
 TRACKING_LOCAL_PATH = 'tracking_local_path'
-ROUNDABOUT_NAVIGATION = 'roundabout_navigation'
 WAITING_FOR_PEDESTRIAN = 'waiting_for_pedestrian'
 WAITING_FOR_GREEN = 'waiting_for_green'
 WAITING_AT_STOPLINE = 'waiting_at_stopline'
 OVERTAKING_STATIC_CAR = 'overtaking_static_car'
 OVERTAKING_MOVING_CAR = 'overtaking_moving_car'
 TAILING_CAR = 'tailing_car'
-AVOIDING_ROADBLOCK = 'avoiding_roadblock'
 PARKING = 'parking'
 CROSSWALK_NAVIGATION = 'crosswalk_navigation'
-CLASSIFYING_OBSTACLE = 'classifying_obstacle'
+TUNNEL_SPEED_CURVE = 'tunnel_speed_curve'
+NO_LANE_STATE = 'no_lane_state'
 
 # ======================== ROUTINES ==========================
 FOLLOW_LANE = 'follow_lane'
@@ -149,47 +142,51 @@ DETECT_STOPLINE = 'detect_stopline'
 SLOW_DOWN = 'slow_down'
 ACCELERATE = 'accelerate'
 CONTROL_FOR_SIGNS = 'control_for_signs'
-CONTROL_FOR_OBSTACLES = 'control_for_obstacles'
+CONTROL_FOR_CAR = 'control_for_car'
+CONTROL_FOR_PEDESTRIAN = 'control_for_pedestrian'
 UPDATE_STATE = 'update_state'
 DRIVE_DESIRED_SPEED = 'drive_desired_speed'
+FOLLOW_LANE_RIGHT = 'follow_lane_right'
+FOLLOW_LANE_LEFT = 'follow_lane_left'
 
 # ========================== EVENTS ==========================
 INTERSECTION_STOP_EVENT = 'intersection_stop_event'
 INTERSECTION_TRAFFIC_LIGHT_EVENT = 'intersection_traffic_light_event'
 INTERSECTION_PRIORITY_EVENT = 'intersection_priority_event'
-JUNCTION_EVENT = 'junction_event'
 ROUNDABOUT_EVENT = 'roundabout_event'
 CROSSWALK_EVENT = 'crosswalk_event'
 PARKING_EVENT = 'parking_event'
 END_EVENT = 'end_event'
 HIGHWAY_EXIT_EVENT = 'highway_exit_event'
 HIGHWAY_ENTRANCE_EVENT = 'highway_entrance_event'
+TUNNEL_EVENT = 'tunnel_event'
+NO_LANE_EVENT = 'no_lane_event'
+FOG_EVENT = 'fog_event'
 
 EVENT_TYPES = [INTERSECTION_STOP_EVENT,             #0
                INTERSECTION_TRAFFIC_LIGHT_EVENT,    #1
                INTERSECTION_PRIORITY_EVENT,         #2
-               JUNCTION_EVENT,                      #3
-               ROUNDABOUT_EVENT,                    #4
-               CROSSWALK_EVENT,                     #5
-               PARKING_EVENT,                       #6
-               HIGHWAY_EXIT_EVENT,                  #7
-               HIGHWAY_ENTRANCE_EVENT]              #8
+               ROUNDABOUT_EVENT,                    #3
+               CROSSWALK_EVENT,                     #4
+               PARKING_EVENT,                       #5
+               HIGHWAY_EXIT_EVENT,                  #6
+               HIGHWAY_ENTRANCE_EVENT,              #7
+               TUNNEL_EVENT,                        #8
+               NO_LANE_EVENT,                       #9 
+               FOG_EVENT                            #10
+               ]                             
 
 
 # ======================== ACHIEVEMENTS ========================
 # consider adding all the tasks, may be too cumbersome
 PARK_ACHIEVED = 'park_achieved'
-NO_LANE_ACHIEVED = 'no_lane_achieved'
 
 # ======================== CONDITIONS ==========================
 CAN_OVERTAKE = 'can_overtake'
 HIGHWAY = 'highway'
-TRUST_GPS = 'trust_gps'
 CAR_ON_PATH = 'car_on_path'
 REROUTING = 'rerouting'
-BUMPY_ROAD = 'bumpy_road'
-NO_LANE = 'no_lane'
-
+TUNNEL = 'tunnel'
 
 ###############################################################################
 ###############################################################################
@@ -224,15 +221,13 @@ SIGN_NAMES = [PARK,
 # obstacles
 CAR = 'car'
 PEDESTRIAN = 'pedestrian'
-ROADBLOCK = 'roadblock'
 
 # ENVIROMENTAL SERVER
 STATIC_CAR_ON_ROAD = 'static_car_on_road'
 STATIC_CAR_PARKING = 'static_car_parking'
 PEDESTRIAN_ON_CROSSWALK = 'pedestrian_on_crosswalk'
 PEDESTRIAN_ON_ROAD = 'pedestrian_on_road'
-ROADBLOCK = 'roadblock'
-BUMPY_ROAD = 'bumpy_road'
+
 
 # sempahores
 MASTER = 'master'
@@ -275,3 +270,11 @@ S_PARK = 's'
 RIGHT_PARK = 'right'
 LEFT_PARK = 'left'
 TH = None
+
+
+# ADDITIONAL CONSTANTS
+
+# IN ORDER TO FIX THE PROBLEM OF STOPPING WHEN COMPUTING THE PATH WHILE WE ARE IN THE NO LANE STREET WE USE THIS FLAG
+# IT IS SET TO TRUE WHEN WE DONT STOP THE CAR INSIDE THE START_EVENT WHEN WE HAVE TO RECOMPUTE THE PATH
+# THE CHECKPOINT MUST BE AFTER THE NO LANE EVENT IN ORDER TO BY PASS THE STOP
+DONT_STOP_AT_NO_LANE_EVENT = False
