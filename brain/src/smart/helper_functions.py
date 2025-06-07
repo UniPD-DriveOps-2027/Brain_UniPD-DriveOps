@@ -403,7 +403,7 @@ def show_local_path_just_switched(brain,
                 p = local_path_cf[i]
                 pix = mR2pix(p)
                 pix = (int(pix[0]+w//2), int(pix[1]-h//2))
-                cv.circle(local_map_img, pix, 10, (0, 150, 150), -1)
+            #    cv.circle(local_map_img, pix, 10, (0, 150, 150), -1)
         cv.imshow('local_path', local_map_img)
         # cv.waitKey(1)
         brain.curr_state.var3 = local_map_img

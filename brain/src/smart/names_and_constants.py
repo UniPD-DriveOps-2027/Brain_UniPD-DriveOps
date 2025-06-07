@@ -14,12 +14,109 @@ SPEED_CHALLENGE = None
 RC_MODE = None
 SIMULATOR_FLAG = None
 SHOW_IMGS = None
-
+RESUME = None
 NORTH = None
 SOUTH = None
 EAST = None
 WEST = None
 
+<<<<<<< Updated upstream
+=======
+# names_and_constants.py
+TESTING = False
+
+# Configurazioni eventi
+EVENT_CONFIGS = {
+    # Highway to tunnel
+    "hw_tunnel": {
+        "starting_coords": [0.39, 12.2],
+        "checkpoints": [999, 143]
+    },
+    "tunnel": {
+        "starting_coords": [2.42, 10.62],
+        "checkpoints": [999, 143]
+    },
+    "round1": {
+        "starting_coords": [17.3, 6.0],
+        "checkpoints": [999, 397, 200]
+    },
+
+    "round2": {
+        "starting_coords": [17.96, 8.81],
+        "checkpoints": [999, 333, 200]
+    },
+    "round3": {
+        "starting_coords": [17.96, 8.81],
+        "checkpoints": [999, 200]
+    },
+    "round4": {
+        "starting_coords": [17.96, 8.81],
+        "checkpoints": [999,377,490]
+    },
+    # South entrance of the roundabout to no lane
+    "no_lane_right": {
+        "starting_coords": [17.96, 8.81],
+        "checkpoints": [999, 328, 150]
+    },
+    # East entrance of the roundabout to no lane
+    "no_lane_left": {
+        "starting_coords": [19.28, 11.83],
+        "checkpoints": [999, 333, 150]
+    },
+    "no_lane_highway": {
+        "starting_coords": [16.02, 11.42],
+        "checkpoints": [999, 335, 210]
+    },
+    "no_lane_cuza": {
+        "starting_coords": [17.32, 7.04],
+        "checkpoints": [999, 333, 210]
+    },
+    # North entrance of the roundabout to Highway
+    "highway": {
+        "starting_coords": [17, 11.73],
+        "checkpoints": [999, 170]
+    },
+    "crosswalk": {
+        "starting_coords": [13.02,  4.41],
+        "checkpoints": [999, 145]
+    },
+    "parking": {
+        "starting_coords": [7.73, 0.75], #[4.41, 0.75]  [6.07, 0.75]  [7.73, 0.75]
+        "checkpoints": [450, 411]
+    },
+    "bus": {
+        "starting_coords": [16.42, 4.48],
+        "checkpoints": [999, 125]
+    },
+    "test": {
+        "starting_coords": [0.39, 6.14],
+        "checkpoints": [999, 131, 114, 434]
+    },
+    "test2": {
+        "starting_coords": [12.02, 0.75],    #  1.41,3.91
+        "checkpoints": [460, 466, 420, 396, 306, 319, 260, 197, 207, 150, 123, 118, 91, 451, 455, 444, 30, 130, 147, 175, 121, 92, 95, 107, 109, 97, 163, 190, 236, 373, 382, 407, 334, 352, 502]
+    },
+    "intersection_straight": {
+        "starting_coords": [0.92, 13.17],   
+        "checkpoints": [999, 119]
+    },
+    "intersection_left": {
+        "starting_coords": [0.37, 9.84],   
+        "checkpoints": [999, 145, 153]
+    },
+    "intersection_right": {
+        "starting_coords": [0.84, 5.26],   
+        "checkpoints": [999, 145, 153]
+    }
+    #"intersection_straight": {
+    #    "starting_coords": [15.54, 3.41],   
+    #    "checkpoints": [999, 445, 500]
+    #}
+#94, 95, 121, 92, 107, 109, 130, 147, 175, 123, 118, 91, 451, 455, 466, 420, 396, 306, 319, 260, 197, 207, 150, 97, 163, 190, 236, 373, 382, 407, 444, 30, 334, 352, 502
+}
+
+
+>>>>>>> Stashed changes
 EVENT_SETTINGS = None  # Variable to store the event settings
 
 # BRAIN

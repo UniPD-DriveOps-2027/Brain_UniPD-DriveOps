@@ -523,6 +523,7 @@ class PathPlanning():
         return self.all_start_nodes[index_closest], dist[index_closest]
        
 
+<<<<<<< Updated upstream
     def get_closest_node_start(self, p, car_yaw):
         '''
         Returns the closes node to the given point np.array([x,y])
@@ -552,6 +553,50 @@ class PathPlanning():
                 print("Closest node is ", self.all_start_nodes[x[0]])
                 return self.all_start_nodes[x[0]], dist[x[0]]    
         print("Error: impossible to find closest node") 
+=======
+
+    def get_closest_node_start(self, p, car_yaw):
+            '''
+            Returns the closes node to the given point np.array([x,y])
+            '''
+            # wrap car_yaw angle to [-180,180] and convert in radians
+
+            car_yaw = np.deg2rad((car_yaw + 180) % 360 - 180)
+
+            diff = self.all_nodes_coords - p
+            dist = np.linalg.norm(diff, axis=1)
+            enumerated_list = list(enumerate(dist))
+            ordered_list = sorted(enumerated_list, key=lambda x: x[1])
+            def angle_diff_rad(a, b):
+                diff = a - b
+                val = (diff + np.pi) % (2 * np.pi) - np.pi
+                return val
+            #print("Closest list of nodes from the p coords: ")
+            #for x in ordered_list[0:6]:
+            #    print(self.all_start_nodes[x[0]])
+    
+            #new code to compute orientation of the edge starting from the closest node
+            for x in ordered_list:
+                
+                successor_list = list(self.G.successors(self.all_start_nodes[x[0]]))
+                successor_node = successor_list[0]
+                
+                closest_node_coords = self.get_coord(self.all_start_nodes[x[0]])
+                successor_coords = self.get_coord(successor_node)
+
+                print(f"closest node = {self.all_start_nodes[x[0]]} , successor node = {successor_node}")
+
+                edge_yaw = np.arctan2(successor_coords[1] - closest_node_coords[1], successor_coords[0] - closest_node_coords[0])
+                #error_yaw = edge_yaw - car_yaw
+                error_yaw = angle_diff_rad(edge_yaw, car_yaw)
+                print(f"car yaw: {np.rad2deg(car_yaw)}, edge_yaSw = {np.rad2deg(edge_yaw)}, error_yaw = {np.rad2deg(error_yaw)}")
+
+                if abs(error_yaw) < np.deg2rad(YAW_DIFF_THRESHOLD):
+                    print("Closest node is ", self.all_start_nodes[x[0]])
+                    return self.all_start_nodes[x[0]], dist[x[0]]     
+            print("Error: impossible to find closest node") 
+
+>>>>>>> Stashed changes
 
     def is_dotted(self, n):
         """

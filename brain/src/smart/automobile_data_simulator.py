@@ -55,7 +55,7 @@ class AutomobileDataSimulator(Automobile_Data):
         self.target_dist = 0.0
         self.arrived_at_dist = True
         self.yaw_true = 0.0
-
+    
         self.x_buffer = collections.deque(maxlen=5)
         self.y_buffer = collections.deque(maxlen=5)
 
@@ -113,8 +113,15 @@ class AutomobileDataSimulator(Automobile_Data):
             self.sub_cam = rospy.Subscriber("/automobile/image_raw", Image, self.camera_callback)
         if trig_gps:
             self.sub_pos = rospy.Subscriber("/automobile/localisation", localisation, self.position_callback)
+<<<<<<< Updated upstream
         if trig_estimation:
             raise NotImplementedError("estimation not implemented yet")
+=======
+       # if trig_tof:
+        #    self.sub_tof_right     = rospy.Subscriber('/automobile/tof/right', Float32, self.right_tof_callback)
+        #    self.sub_tof_left      = rospy.Subscriber('/automobile/tof/left', Float32, self.left_tof_callback)
+            
+>>>>>>> Stashed changes
 
     def camera_callback(self, data) -> None:
         """Receive and store camera frame

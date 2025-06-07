@@ -1,12 +1,23 @@
 #!/usr/bin/python3
+<<<<<<< Updated upstream
 from names_and_constants import SIMULATOR_FLAG, SHOW_IMGS, RANDOM_START, EVENT_SETTINGS
 
+=======
+from names_and_constants import SIMULATOR_FLAG, SHOW_IMGS, RANDOM_START, EVENT_SETTINGS, EVENT_CONFIGS, ARENA, RESUME # deleted completely the speed challenge
+import sys
+import os
+>>>>>>> Stashed changes
 import numpy as np
 import cv2 as cv
 from time import time, sleep
 from numpy.linalg import norm
 from collections import deque
 import names_and_constants as nac
+<<<<<<< Updated upstream
+=======
+from extra.giveme_fruits import compute_optimal_path, compute_path
+import math
+>>>>>>> Stashed changes
 
 if not SIMULATOR_FLAG:
     from automobile_data_interface import Automobile_Data
@@ -23,6 +34,7 @@ from obstacle2 import Obstacle
 import helper_functions as hf
 
 from parkman import Maneuvers
+<<<<<<< Updated upstream
 
 # BFMC_2024
 END_NODE_RANDOM = 149
@@ -50,6 +62,55 @@ if not EVENT_SETTINGS:
 else:
     # Execute the second part when event is not empty
     STARTING_COORDS = EVENT_SETTINGS['STARTING_COORDS']
+=======
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+SELECTED_EVENT = None# "tunnel", "round","no_lane_left/right", "highway", "crosswalk", "parking" , "test"
+
+# Based on the path given for the arena challenge
+END_NODE_ARENA = 149
+USE_FRUITS_GENERATED_PATH = True
+# RANDOM START
+if RANDOM_START:
+    # USED FOR SPECIFIC PATHS DURING TESTING
+    if SELECTED_EVENT in EVENT_CONFIGS:
+        config = EVENT_CONFIGS[SELECTED_EVENT]
+        STARTING_COORDS = config["starting_coords"]  
+        CHECKPOINTS = config["checkpoints"]
+        #END_NODE = EVENT_CONFIGS[SELECTED_EVENT]["checkpoints"][-1]
+        END_NODE = CHECKPOINTS[-1]
+        print(f"Starting coords: {STARTING_COORDS}, Checkpoints: {CHECKPOINTS}, End node: {END_NODE}")
+        GPS_FOR_START_ONLY = False
+        USE_FRUITS_GENERATED_PATH = False #we are not using fruits path for when we are testing specific events
+    # GET THE BEST "FRUITS" PATH FROM RANDOM POSITION     
+    else: 
+        STARTING_COORDS = [2.79, 5.68] # GET FROM GPS 
+        CHECKPOINTS = compute_path(start_node=472) # GET FROM FRUITS
+        END_NODE = CHECKPOINTS[-1]  #get the last node from the path
+        GPS_FOR_START_ONLY = True
+# DEFAULT START
+elif ARENA:
+    STARTING_COORDS = [0.00, 0.00]  # IS GIVEN
+    CHECKPOINTS = [455, 465]        # IS GIVEN
+    GPS_FOR_START_ONLY = False
+    END_NODE = CHECKPOINTS[-1]
+    GPS_FOR_START_ONLY = False
+
+elif RESUME:
+
+    STARTING_COORDS = [-42, -42]  # DEFAULT START POSITION
+
+    # Load checkpoints from file
+    with open("remaining_checkpoints.txt", "r") as f:
+        CHECKPOINTS = [int(line.strip()) for line in f if line.strip().isdigit()]
+
+    END_NODE = CHECKPOINTS[-1] if CHECKPOINTS else None  # Handle empty list case
+    GPS_FOR_START_ONLY = False
+else:
+    STARTING_COORDS = [-42, -42]                            # DEFAULT START POSITION
+    CHECKPOINTS = [ 134, 121, 451, 455, 334, 260, 140, 121, 92, 109, 130, 147, 175, 123, 118, 420, 444, 122, 97, 91,
+        163, 190, 306, 373, 406, 420, 444, 502, 333] 
+    END_NODE = CHECKPOINTS[-1]
+>>>>>>> Stashed changes
     GPS_FOR_START_ONLY = False
     if RANDOM_START:
         CHECKPOINTS = EVENT_SETTINGS['RANDOM_START']['CHECKPOINTS']
@@ -148,6 +209,7 @@ class Routine():
         self.method()
 
 
+<<<<<<< Updated upstream
 EVENT_TYPES = [nac.INTERSECTION_STOP_EVENT,
                nac.INTERSECTION_TRAFFIC_LIGHT_EVENT,
                nac.INTERSECTION_PRIORITY_EVENT,
@@ -157,6 +219,19 @@ EVENT_TYPES = [nac.INTERSECTION_STOP_EVENT,
                nac.PARKING_EVENT,
                nac.HIGHWAY_EXIT_EVENT,
                nac.HIGHWAY_ENTRANCE_EVENT]
+=======
+EVENT_TYPES = [nac.INTERSECTION_STOP_EVENT,             #0
+               nac.INTERSECTION_TRAFFIC_LIGHT_EVENT,    #1    
+               nac.INTERSECTION_PRIORITY_EVENT,         #2
+               nac.ROUNDABOUT_EVENT,                    #3
+               nac.CROSSWALK_EVENT,                     #4
+               nac.PARKING_EVENT,                       #5
+               nac.HIGHWAY_EXIT_EVENT,                  #6
+               nac.HIGHWAY_ENTRANCE_EVENT,              #7
+               nac.TUNNEL_EVENT,                        #8
+               nac.NO_LANE_EVENT,                       #9
+               ]                       
+>>>>>>> Stashed changes
 
 
 class Event:
@@ -227,8 +302,12 @@ DISTANCES_BETWEEN_FRAMES = 0.03
 APPLY_YAW_CORRECTION = False
 GPS_DELAY = 0.45                     # [s] delay for gps message to arrive
 ENCODER_POS_FREQ = 100.0             # [Hz] frequency of encoder position messages
+<<<<<<< Updated upstream
 GPS_FREQ = 10.0                      # [Hz] frequency of gps messages
 BUFFER_PAST_MEASUREMENTS_LENGTH = int(round(GPS_DELAY * ENCODER_POS_FREQ))
+=======
+YAW_OFFSET = 0                  #real case 180
+>>>>>>> Stashed changes
 
 # Vehicle driving parameters
 MIN_SPEED = -0.3                    # [m/s]     minimum speed
@@ -486,7 +565,11 @@ class Brain:
         self.pedestrian_type = None
 
         print('Brain initialized')
+<<<<<<< Updated upstream
         if not RANDOM_START and not SPEED_CHALLENGE:
+=======
+        if not RANDOM_START and not RESUME:
+>>>>>>> Stashed changes
             print('Waiting for start semaphore...')
             sleep(3.0)
             while True:
@@ -506,6 +589,7 @@ class Brain:
             # get closest node
             if not ALWAYS_DISTRUST_GPS or GPS_FOR_START_ONLY:
                 curr_time = time()
+<<<<<<< Updated upstream
                 curr_pos = np.array([self.car.x_est, self.car.y_est])
                 self.car.decide_yaw_start()
                 closest_node, distance = self.path_planner.get_closest_node_start(curr_pos, self.car.yaw_random_start)
@@ -514,6 +598,20 @@ class Brain:
                 if len(self.car.x_buffer) >= 5:
                     print(f'Waiting for gps: {(curr_time- start_time):.1f}/{GPS_TIMEOUT}')
                     self.checkpoints[self.checkpoint_idx] = closest_node
+=======
+                #curr_pos = np.array([self.car.x_est, self.car.y_est])
+                curr_pos = np.array(STARTING_COORDS) 
+                closest_node, distance = self.path_planner.get_closest_node_start(curr_pos, self.car.yaw+YAW_OFFSET)
+                self.car.publish_closest_node(float(closest_node))
+                #print(f"Closest NODE is: {float(closest_node)} YAW: {self.car.yaw}" )
+                sleep(3.0)
+                if len(self.car.x_buffer) >= 5:    #5 put in real life                       ################ - PUT BACK THE 5 - ####################
+                    print(f'Waiting for gps: {(curr_time- start_time):.1f}/{GPS_TIMEOUT}')
+                    self.checkpoints[self.checkpoint_idx] = closest_node
+                    if USE_FRUITS_GENERATED_PATH:
+                        checkpoints = compute_path(start_node=closest_node)
+                        self.checkpoints = checkpoints
+>>>>>>> Stashed changes
                     if distance > 5.0:
                         self.error('ERROR: REROUTING: GPS converged, but distance is too large , we are too far from the lane')
                     break
@@ -527,6 +625,12 @@ class Brain:
                     closest_node, distance = self.path_planner.get_closest_node(curr_pos)
                     self.car.publish_closest_node(float(closest_node))     ##
                     self.checkpoints[self.checkpoint_idx] = closest_node
+<<<<<<< Updated upstream
+=======
+                    if USE_FRUITS_GENERATED_PATH:
+                        checkpoints = compute_path(start_node=closest_node)
+                        self.checkpoints = checkpoints
+>>>>>>> Stashed changes
                     self.car.x_est = curr_pos[0]
                     self.car.y_est = curr_pos[1]
                     print(closest_node)
@@ -555,6 +659,7 @@ class Brain:
         self.switch_to_state(nac.START_STATE)
 
     # =============== STATES =============== #
+    # =============== STATES =============== #
     def start_state(self):
         if self.curr_state.just_switched:
             self.conditions[nac.REROUTING] = True
@@ -567,6 +672,7 @@ class Brain:
         print('Generating route...')
         # get start and end nodes from the chekpoint list
         assert len(self.checkpoints) >= 2, 'List of checkpoints needs 2 or more nodes'
+<<<<<<< Updated upstream
         start_node = self.checkpoints[self.checkpoint_idx]
         # already checked in end_state
         end_node = self.checkpoints[self.checkpoint_idx+1]
@@ -575,6 +681,33 @@ class Brain:
         self.path_planner.compute_shortest_path(start_node, end_node)
         # initialize the list of events on the path
         print('Augmenting path...')
+=======
+
+        # Get the current checkpoint
+        current_checkpoint = self.checkpoints[self.checkpoint_idx]
+
+        # Find the first occurrence of the current checkpoint
+        try:
+            idx = self.checkpoints.index(current_checkpoint)
+            # Keep the current checkpoint and remove all the previous ones
+            remaining_checkpoints = self.checkpoints[idx:]
+        except ValueError:
+            # If the checkpoint is not found (shouldn't happen), keep the original list
+            remaining_checkpoints = self.checkpoints.copy()
+
+        # Save the updated list to a file
+        with open("remaining_checkpoints.txt", "w") as f:
+            for cp in remaining_checkpoints:
+                f.write(f"{cp}\n")
+
+
+        start_node = self.checkpoints[self.checkpoint_idx]
+        end_node = self.checkpoints[self.checkpoint_idx+1]
+        self.path_planner.compute_shortest_path(start_node, end_node)
+
+
+
+>>>>>>> Stashed changes
         events = self.path_planner.augment_path(draw=SHOW_IMGS)
         print('Path augmented')
         # add the events to the list of events, increasing 
@@ -611,9 +744,14 @@ class Brain:
 
     def lane_following(self):  # LANE FOLLOWING ##############################
         # highway conditions
+<<<<<<< Updated upstream
         # if self.prev_event.name == nac.JUNCTION_EVENT and SPEED_CHALLENGE:  # BFMC_2023
         #     self.switch_to_state(nac.BRAINLESS)
 
+=======
+        #print('in the function')
+ 
+>>>>>>> Stashed changes
         if self.conditions[nac.HIGHWAY]:
             self.activate_routines([nac.FOLLOW_LANE,
                                     nac.DETECT_STOPLINE,
@@ -632,23 +770,67 @@ class Brain:
 
         # check parking
         if self.next_event.name == nac.PARKING_EVENT:
+            self.go_to_next_event()
             # we dont need stoplines in parking
+<<<<<<< Updated upstream
             self.activate_routines([nac.FOLLOW_LANE,
                                     nac.CONTROL_FOR_OBSTACLES,
                                     nac.DRIVE_DESIRED_SPEED])
             self.lane_following_to_parking()
+=======
+           
+
+                
+        elif (self.next_event.name == nac.NO_LANE_EVENT):   
+            self.switch_to_state(nac.NO_LANE_STATE)
+            self.next_checkpoint()
+>>>>>>> Stashed changes
         
         # check highway entrance case
         elif self.next_event.name == nac.HIGHWAY_ENTRANCE_EVENT:
             self.lane_following_highway_entrance()
 
+<<<<<<< Updated upstream
+=======
+        #TUNNEL NEW 
+        # if next next event is TUNNEL_EVENT switch to TUNNEL state (we use next next because the intersection stop event is not trigered as the croswalk is too close to the entrance)
+        elif getattr(self.second_next_event, 'name', None) == nac.TUNNEL_EVENT:   #safe against None values
+            min_distance_lidar_right = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, -95, -85) 
+            if (min_distance_lidar_right <= 0.4):    
+                self.switch_to_state(nac.TUNNEL_SPEED_CURVE)
+                self.go_to_next_event()  
+
+        elif self.next_event.name == nac.TUNNEL_EVENT:
+            min_distance_lidar_right = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, -95, -85) 
+            if (min_distance_lidar_right <= 0.4):    
+                self.switch_to_state(nac.TUNNEL_SPEED_CURVE)
+
+        #elif self.next_event.name == nac.FOG_EVENT:
+            # if the next event is , switch to no lane state
+         #   self.car.publish_led_control(True)
+         #   self.go_to_next_event()
+
+>>>>>>> Stashed changes
         # check highway exit case
         # elif self.next_event.name == nac.HIGHWAY_EXIT_EVENT:    # BFMC_2023
         #     self.lane_following_to_highway_exit()
 
         # end of current route, go to end state
         elif self.next_event.name == nac.END_EVENT:
+<<<<<<< Updated upstream
             self.lane_following_to_end()
+=======
+
+            #self.checkpoint_idx = len(self.checkpoints) ## JUST ADDED BY EUGEN
+
+            if self.checkpoint_idx == len(self.checkpoints)-1 :
+                self.lane_following_to_end()
+            else:
+                self.go_to_next_event()
+                # start routing for next checkpoint
+                self.next_checkpoint()
+                self.switch_to_state(nac.START_STATE)
+>>>>>>> Stashed changes
 
         # we are approaching a stopline, check only if we are far enough from the previous stopline
         else:
@@ -739,6 +921,7 @@ class Brain:
                 self.error('ERROR: LANE FOLLOWING: Missed end')
 
     def approaching_stopline(self):
+<<<<<<< Updated upstream
         # FOLLOW_LANE, SLOW_DOWN, DETECT_STOPLINE, CONTROL_FOR_OBSTACLES
         if not SPEED_CHALLENGE:
             self.activate_routines([nac.FOLLOW_LANE,
@@ -750,6 +933,21 @@ class Brain:
         #         # if self.checkpoint_idx >= (len(self.checkpoints)-2):
         #         raise KeyboardInterrupt
 
+=======
+        # FOLLOW_LANE, SLOW_DOWN, DETECT_STOPLINE, CONTROL_FOR_CAR
+        self.activate_routines([nac.FOLLOW_LANE,
+                                nac.CONTROL_FOR_PEDESTRIAN,
+                                nac.SLOW_DOWN,
+                                nac.DETECT_STOPLINE])
+        # Convert current checkpoint to int for comparison
+        current_cp = int(self.checkpoints[self.checkpoint_idx])
+
+        # List of checkpoints for which the LED should stay ON
+        #led_on_checkpoints = [109, 107, 97, 92, 118]       #change in case we move the checkpoints for the fruits path
+
+        #if current_cp not in led_on_checkpoints:
+         #   self.car.publish_led_control(False)  # Turn off LED
+>>>>>>> Stashed changes
 
         if self.curr_state.just_switched:
             cv.imwrite(f'asl/asl_{int(time() * 1000)}.png', self.car.frame)
@@ -796,6 +994,7 @@ class Brain:
                 print('Going to the next event')
             elif next_event_name == nac.HIGHWAY_EXIT_EVENT:
                 self.error('WARNING: UNEXPECTED STOP LINE FOUND WITH HIGHWAY EXIT AS NEXT EVENT')
+<<<<<<< Updated upstream
             else:
                 self.error('ERROR: UNEXPECTED STOP LINE FOUND WITH UNKNOWN EVENT AS NEXT EVENT')
             self.activate_routines([])  # deactivate all routines
@@ -817,6 +1016,13 @@ class Brain:
             self.error(f'ERROR: APPROACHING STOP LINE: Missed stop line, dist: {dist_to_stopline}')
         return decide_next_state
 
+=======
+
+            else:
+                self.error('ERROR: UNEXPECTED STOP LINE FOUND WITH UNKNOWN EVENT AS NEXT EVENT')
+            self.activate_routines([])  # deactivate all routines
+    
+>>>>>>> Stashed changes
     # Substate
     def approaching_stopline_vision(self):
         dist = self.detect.est_dist_to_stopline
@@ -920,6 +1126,13 @@ class Brain:
 
             # get orientation of the car in the stop line frame
             yaw_car = self.car.yaw
+<<<<<<< Updated upstream
+=======
+            # normalize to [-180,180]
+            if (yaw_car > 180):
+                yaw_car -= 360
+            yaw_car = (yaw_car)  # Convert degrees to radians
+>>>>>>> Stashed changes
             yaw_mult_90 = hf.get_yaw_closest_axis(yaw_car)
             # get the difference from the closest multiple of 90deg
             alpha = hf.diff_angle(yaw_car, yaw_mult_90)
@@ -1065,8 +1278,32 @@ class Brain:
             self.switch_to_state(nac.INTERSECTION_NAVIGATION)
 
     def waiting_at_stopline(self):
+<<<<<<< Updated upstream
         EXTRA_TIME = 2.0 if self.stopline_counter == 15 else 0.0
         print(f'debug extratime: {EXTRA_TIME}')
+=======
+        print(f'checkpoint_idx: {self.checkpoint_idx}')
+        if self.checkpoint_idx >= (len(self.checkpoints)-2) and self.checkpoints[self.checkpoint_idx] == self.checkpoints[-2]:# BFMC_2025 02MAY -- this way we end the runs only at stoplines instead of at the random in the middle of the road:
+                    # it was the last checkpoint
+                    print('Reached last checkpoint...\nExiting...')      
+                    self.car.drive(speed=0.0, angle=0.0)
+                    self.car.stop()
+                    sleep(3)
+                    cv.destroyAllWindows() if SHOW_IMGS else None
+                    exit()
+        EXTRA_TIME = 2.0 if self.stopline_counter == 50 else 0.0 # NO NEED FOR EXTRA TIME ?!
+        dist = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, -170, -110)
+
+        dist_right = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, 100, 140)
+        dist_left = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, -140, -100)
+        dist_front = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, -180, -140)
+
+       # print(f"DISTANCE RIGTH ------------------------------------ {dist_right}")
+       # print(f"DISTANCE LEFT ------------------------------------ {dist_left}")
+       # print(f"DISTANCE FRONT ------------------------------------ {dist_front}")
+        #print(f"################################### CNT {self.time_counter}")
+
+>>>>>>> Stashed changes
         # no routines
         self.activate_routines([])
         if STOP_WAIT_TIME > 0.0:
@@ -1074,6 +1311,7 @@ class Brain:
                 self.activate_routines([])
                 self.car.drive_speed(0.0)
                 self.curr_state.just_switched = False
+                
             if (time() - self.curr_state.start_time) > STOP_WAIT_TIME + EXTRA_TIME:
                 self.switch_to_state(nac.INTERSECTION_NAVIGATION)
         else:
@@ -1209,8 +1447,21 @@ class Brain:
         self.curr_state.var2 = dist_prev_manouver
 
     def tailing_car(self):
+<<<<<<< Updated upstream
         dist = self.car.filtered_sonar_distance
         if dist > OBSTACLE_DISTANCE_THRESHOLD+0.05:
+=======
+        # TODO Jona: check if this works in the arena ???
+        if (ARENA and (time() - self.curr_state.start_time) > 10) and (self.next_event.name == nac.TUNNEL_EVENT or self.next_event.name == nac.NO_LANE_EVENT):
+            nac.CAN_OVERTAKE = True 
+        dist1 = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, 170, 180)
+        dist2= hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges,- 180, -170)
+     #   dist_tof = self.car.filtered_center_tof_distance  
+        dist_tof = hf.get_min_distance_in_range(self.car_lidar_angles,self.car.lidar_ranges, 170, 180) # put for simulator
+
+        print(f"##################### DISTANCE LIDAR {min(dist1,dist2)}  DISTANCE TOF {dist_tof} #####################")
+        if (dist1 > OBSTACLE_DISTANCE_THRESHOLD+0.05) and (dist2 > OBSTACLE_DISTANCE_THRESHOLD+0.05) and (dist_tof > 0.1):
+>>>>>>> Stashed changes
             self.switch_to_state(nac.LANE_FOLLOWING)
         else:
             self.activate_routines([nac.FOLLOW_LANE])
@@ -1761,6 +2012,7 @@ class Brain:
             prev_dist = curr_dist
         self.routines[nac.UPDATE_STATE].var1 = prev_dist
 
+<<<<<<< Updated upstream
         # mirror trust gps from automobile_data
         self.conditions[nac.TRUST_GPS] = self.car.trust_gps and not ALWAYS_DISTRUST_GPS or ALWAYS_TRUST_GPS
 
@@ -1805,6 +2057,21 @@ class Brain:
                     # Assumes no self loops in the path
                     self.car_dist_on_path = np.argmin(norm(self.path_planner.path - est_pos, axis=1))*0.01
                     self.car_dist_on_path += dist_delay_increment
+=======
+        self.car_dist_on_path += curr_dist - prev_dist
+        # print('PATH: ', self.path_planner.path)
+        #print('DIST ON PATH: ', self.car_dist_on_path)
+
+        # HIGHWAY
+        '''
+            This condition is turned False every time we hit a stopline (inside approaching_stopline function)
+            So this only works in one way of the highway
+        '''
+        #TODO: implement that it can work on both  ways! Done
+        if ((self.next_event.name == nac.HIGHWAY_ENTRANCE_EVENT)   and (int(self.checkpoints[self.checkpoint_idx]) not in range(152, 176))):   #and (self.car.filtered_left_tof_distance <= 0.2)
+            # self.conditions[nac.HIGHWAY] = str(self.checkpoints[self.checkpoint_idx]) in self.path_planner.highway_nodes and self.car_dist_on_path < 9.5
+            self.conditions[nac.HIGHWAY] = True  
+>>>>>>> Stashed changes
         
         # WITHOUT GPS
         else:
@@ -1864,10 +2131,29 @@ class Brain:
         print(f'car.yaw_loc: {self.car.yaw_loc}')
         print('==========================================================================')
         self.run_routines()
+<<<<<<< Updated upstream
         # print('==========================================================================')
         print()
         self.car.publish_next_event(str(self.next_event))
         self.car.publish_current_state(str(self.curr_state))
+=======
+
+        # =============== Publish to dashboard ==================== #
+        if True:
+            self.car.publish_next_event(str(self.next_event))
+            self.car.publish_prev_event(str(self.prev_event))
+            self.car.publish_current_state(str(self.curr_state))
+            routines_str = ";".join(self.active_routines_names+ALWAYS_ON_ROUTINES)
+            self.car.publish_routines(str(routines_str))
+            self.car.publish_conditions(self.conditions)
+
+            # FOR EMERGENCY BRAKE ON STM
+            #self.car.publish_arena_flag(ARENA)
+
+        
+        # print(f'CURR_SIGN: {self.curr_sign}')  
+
+>>>>>>> Stashed changes
 
 
     def run_current_state(self):
@@ -1943,7 +2229,7 @@ class Brain:
             # update events
             self.prev_event = self.next_event  # deepcopy(self.next_event)
             pass
-        else:
+        """else:
             # it was the last checkpoint
             print('Reached last checkpoint...\nExiting...')
             # self.car.drive_angle(angle=0.0)
@@ -1964,7 +2250,7 @@ class Brain:
             self.car.stop()
             sleep(3)
             cv.destroyAllWindows() if SHOW_IMGS else None
-            exit()
+            exit() """
 
     def create_sequence_of_events(self, events):
         """
@@ -2005,6 +2291,8 @@ class Brain:
                 to_ret.append(event)
         # add end of path event
         ee_point = self.path_planner.path[-1]
+        #print(f"End event created: {ee_point}")
+        #sleep(30.0)
         end_event = Event(nac.END_EVENT, dist=0.0, point=ee_point)
         to_ret.append(end_event)
         return to_ret

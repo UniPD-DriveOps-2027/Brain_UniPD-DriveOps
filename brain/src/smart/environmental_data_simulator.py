@@ -34,12 +34,12 @@ class NumpyEncoder(json.JSONEncoder):
 
 VEHICLE_CLOSE_RADIUS = 0.5  # [m]
 
-# SEMAPHORE_POSITIONS = {
-#         nac.ANTIMASTER: np.array([2.01, 4.16]),
-#         nac.SLAVE:      np.array([3.69, 4.54]),
-#         nac.MASTER:     np.array([3.06, 3.5]),
-#         nac.START:      np.array([0.84, 0.64])
-#         }
+SEMAPHORE_POSITIONS = {
+         nac.ANTIMASTER: np.array([2.01, 4.16]),
+         nac.SLAVE:      np.array([3.69, 4.54]),
+         nac.MASTER:     np.array([3.06, 3.5]),
+         nac.START:      np.array([0.84, 0.64])
+         }
 
 
 class EnvironmentalData():
@@ -77,11 +77,11 @@ class EnvironmentalData():
                             }
         # SEMAPHORE
         self.semaphore_states = {
-                nac.MASTER:     0,
-                nac.SLAVE:      0,
-                nac.ANTIMASTER: 0,
+                nac.MASTER:     3,
+                nac.SLAVE:      2,
+                nac.ANTIMASTER: 1,
                 nac.START:      0,
-                nac.ANTISLAVE:  0
+                nac.ANTISLAVE:  2
                 }  # can be changed to 1,2,3,4
         
         self.semaphore_positions = {
@@ -102,11 +102,10 @@ class EnvironmentalData():
         # SEMAPHORE
         if trig_semaphore:
             if SIMULATOR_FLAG:
-                pass
-                # self.sub_semaphoremaster =     rospy.Subscriber("/automobile/trafficlight/master", semaphore, self.semaphore_master_callback)
-                # self.sub_semaphoreslave =      rospy.Subscriber("/automobile/trafficlight/slave", semaphore, self.semaphore_slave_callback)
-                # self.sub_semaphoreantimaster = rospy.Subscriber("/automobile/trafficlight/antimaster", semaphore, self.semaphore_antimaster_callback)
-                # self.sub_semaphorestart =      rospy.Subscriber("/automobile/trafficlight/start", semaphore, self.semaphore_start_callback)
+                self.sub_semaphoremaster =     rospy.Subscriber("/automobile/trafficlight/master", semaphore, self.semaphore_master_callback)
+                self.sub_semaphoreslave =      rospy.Subscriber("/automobile/trafficlight/slave", semaphore, self.semaphore_slave_callback)
+                self.sub_semaphoreantimaster = rospy.Subscriber("/automobile/trafficlight/antimaster", semaphore, self.semaphore_antimaster_callback)
+                self.sub_semaphorestart =      rospy.Subscriber("/automobile/trafficlight/start", semaphore, self.semaphore_start_callback)
             else:
                 self.sub_semaphoremaster =     rospy.Subscriber("/automobile/semaphore/master", semaphore, self.semaphore_master_callback)
                 self.sub_semaphoreslave =      rospy.Subscriber("/automobile/semaphore/slave", semaphore, self.semaphore_slave_callback)
