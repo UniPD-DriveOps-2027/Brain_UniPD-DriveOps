@@ -374,7 +374,7 @@ class PathPlanning():
         local_idx = 0
         for i in range(len(path_event_points)):
             t = self.path_event_types[i]
-            if t.startswith('intersection') or t.startswith('roundabout'):
+            if t.startswith('intersection') or t.startswith('roundabout') or t.startswith('crosswalk'):
                 assert len(self.path) > 0
         # Safe exit point access with fallback
                 if local_idx < len(exit_points_idx):
