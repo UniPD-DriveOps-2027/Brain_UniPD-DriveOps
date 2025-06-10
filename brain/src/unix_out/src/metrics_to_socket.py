@@ -8,7 +8,7 @@ import random
 import argparse
 import numpy as np
 from utils.msg import IMU, localisation, vehicles, conditions
-from std_msgs.msg import Float32, String, UInt8
+from std_msgs.msg import Float32, String, UInt8, Bool
 
 SOCKET_PATH = "/tmp/metrics_socket.sock"
 
@@ -92,10 +92,12 @@ def get_real_metrics():
 
         # TELEMETRY
         ("SPEED", "/automobile/encoder/speed", Float32, "data", round2),
+        ("SPEED_CMD", "/automobile/command/speed", Float32, "data", round2),
         ("DISTANCE", "/automobile/encoder/distance", Float32, "data", round2),
         ("STEER", "/automobile/command/steer", Float32, "data", round2),
         ("TOF_FRONT", "/automobile/tof/front", UInt8, "data"),
         ("TOF_LEFT", "/automobile/tof/left", UInt8, "data"),
+        ("HEADLIGHTS", "/automobile/led", Bool, "data"),
     ]
 
     for name, topic, msg_type, field, *transform in metric_definitions:
