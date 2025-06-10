@@ -181,7 +181,105 @@ def compute_optimal_path(start_node='472'):
 
     return filtered_path
 
+def compute_path(start_node='472'):
+    import os
+    import networkx as nx
+    import heapq
 
+    graph_file = os.path.join(os.path.dirname(__file__), "final_graph.graphml")
+    fruits_file = os.path.join(os.path.dirname(__file__), "fruits.txt")
+
+    if not os.path.exists(graph_file):
+        raise FileNotFoundError(f"Graph file not found: {graph_file}")
+    if not os.path.exists(fruits_file):
+        raise FileNotFoundError(f"Fruits file not found: {fruits_file}")
+
+    # Load graph and fruits
+    road_graph = nx.read_graphml(graph_file)
+    graph_dict = {str(n): [str(neigh) for neigh in road_graph.neighbors(n)] for n in road_graph.nodes}
+    with open(fruits_file, 'r') as f:
+        fruit_checkpoints = set(line.strip() for line in f)
+
+    # Dijkstra path from start to 455
+    def dijkstra_path(graph, start, end):
+        distances = {node: float('inf') for node in graph}
+        prev = {}
+        distances[start] = 0
+        heap = [(0, start)]
+
+        while heap:
+            cost, node = heapq.heappop(heap)
+            if node == end:
+                break
+            for neighbor in graph.get(node, []):
+                if distances[node] + 1 < distances[neighbor]:
+                    distances[neighbor] = distances[node] + 1
+                    prev[neighbor] = node
+                    heapq.heappush(heap, (distances[neighbor], neighbor))
+
+        if end not in prev and end != start:
+            raise ValueError(f"No valid path from {start} to {end}")
+
+        path = []
+        cur = end
+        while cur != start:
+            path.append(cur)
+            cur = prev[cur]
+        path.append(start)
+        path.reverse()
+        return path
+
+    # Step 1: Start to 455 path
+    full_partial_path = dijkstra_path(graph_dict, str(start_node), '455')
+
+    # Step 2: Keep only fruits and start
+    filtered_path = [full_partial_path[0]]
+    for node in full_partial_path[1:]:
+        if node in fruit_checkpoints:
+            filtered_path.append(node)
+
+    # Step 3: Append fixed post-455 segment
+    fixed_post_455 = [
+        '334', '260', '140', '121', '92'
+    ]
+#        '334', '260', '140', '121', '92', '109', '130', '147', '175', '123', '118',
+       # '420', '444', '122', '97', '91', '163', '190', '306', '373', '406', '420',
+       # '444', '502'
+    try:
+        idx_455 = filtered_path.index('455')
+        merged_path = filtered_path[:idx_455 + 1]
+    except ValueError:
+        merged_path = filtered_path
+
+    for node in fixed_post_455:
+        if not merged_path or node != merged_path[-1]:
+            merged_path.append(node)
+
+    # Step 4: From final node, find farthest fruit checkpoint
+    last_node = merged_path[-1]
+    distances = {node: float('inf') for node in graph_dict}
+    distances[last_node] = 0
+    heap = [(0, last_node)]
+
+    while heap:
+        cost, node = heapq.heappop(heap)
+        for neighbor in graph_dict.get(node, []):
+            if cost + 1 < distances[neighbor]:
+                distances[neighbor] = cost + 1
+                heapq.heappush(heap, (distances[neighbor], neighbor))
+
+    reachable_fruits = {f for f in fruit_checkpoints if distances.get(f, float('inf')) < float('inf')}
+    if reachable_fruits:
+        farthest_fruit = max(reachable_fruits, key=lambda x: distances[x])
+        if farthest_fruit != last_node:
+            merged_path.append(farthest_fruit)
+            print(f"Appended farthest fruit checkpoint: {farthest_fruit}")
+        else:
+            print("No additional distant fruit to add (same as last node).")
+    else:
+        print("No reachable fruit checkpoint found.")
+
+    return merged_path
 
 # ------------------------- Optional Execution -------------------------
 if __name__ == "__main__":
