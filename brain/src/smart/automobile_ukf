@@ -1,0 +1,110 @@
+#!/usr/bin/python3
+import numpy as np
+from filterpy.kalman import MerweScaledSigmaPoints, UnscentedKalmanFilter as UKF
+
+DEBUG = False
+
+# === Sensor Noise Parameters ===
+SIGMA_X = 0.1                   # [m] GPS x-position measurement noise (1-sigma)
+SIGMA_Y = 0.1                   # [m] GPS y-position measurement noise (1-sigma)
+SIGMA_SPEED = 0.01             # [m/s] velocity command/input noise
+SIGMA_STEER = np.deg2rad(0.1)  # [rad] steering angle command/input noise
+SIGMA_YAW = np.deg2rad(0.01)   # [rad] estimated yaw noise (can be fused in future)
+
+class AutomobileUKF:
+    def __init__(self, x0, WB):
+        """
+        Unscented Kalman Filter for a ground vehicle using a bicycle model.
+
+        State vector:      [x, y, yaw, velocity]
+        Inputs (control):  [velocity_command, steering_angle]
+        Measurements:      [GPS x, GPS y]
+
+        :param x0: Initial state vector (4x1) [x, y, yaw, v]
+        :param WB: Vehicle wheelbase (in meters)
+        """
+        dim_x = 4  # State dimension
+        dim_z = 2  # Measurement dimension (x, y from GPS)
+        self.WB = WB
+
+        # Sigma point generator for UKF using Merwe scaled sigma points
+        self.sigmas = MerweScaledSigmaPoints(n=dim_x, alpha=0.1, beta=2.0, kappa=0)
+
+        # Initialize UKF
+        self.ukf = UKF(dim_x=dim_x, dim_z=dim_z, fx=self.f_process, hx=self.h_meas,
+                       dt=0.1, points=self.sigmas)
+
+        self.ukf.x = x0.flatten()  # Set initial state
+
+        # === Process Noise Covariance Matrix Q ===
+        # Models uncertainty in system dynamics
+        self.ukf.Q = np.diag([
+            0.05**2,        # x uncertainty
+            0.05**2,        # y uncertainty
+            SIGMA_YAW**2,   # yaw uncertainty
+            SIGMA_SPEED**2  # velocity uncertainty
+        ])
+
+        # === Measurement Noise Covariance Matrix R ===
+        # Models uncertainty in GPS measurements
+        self.ukf.R = np.diag([
+            SIGMA_X**2,     # GPS x measurement
+            SIGMA_Y**2      # GPS y measurement
+        ])
+
+    def f_process(self, x, dt, u=None):
+        """
+        Nonlinear process model: bicycle model
+        x = [x, y, yaw, v]
+        u = [v_cmd, steering angle]
+        """
+        x_pos, y_pos, yaw, v = x
+        speed, steer = u if u is not None else (v, 0.0)  # Default to no control
+
+        if abs(steer) < 1e-4:
+            steer = 1e-4  # Avoid division by zero in tan()
+
+        # Bicycle model equations
+        x_pos += v * np.cos(yaw) * dt
+        y_pos += v * np.sin(yaw) * dt
+        yaw += (v / self.WB) * np.tan(steer) * dt
+        v = speed  # Update velocity directly from command
+
+        return np.array([x_pos, y_pos, yaw, v])
+
+    def h_meas(self, x):
+        """
+        Measurement model: we only observe GPS x and y
+        """
+        return x[:2]
+
+    def predict(self, u, dt):
+        """
+        Perform UKF prediction step given control input and time step
+        """
+        self.ukf.predict(dt=dt, u=u)
+        if DEBUG:
+            print(f'Predicted state: {self.ukf.x}')
+
+    def update(self, z):
+        """
+        Perform UKF update step given new GPS measurement
+        """
+        self.ukf.update(z)
+        if DEBUG:
+            print(f'Updated state: {self.ukf.x}')
+
+    def estimate_state(self, sampling_time, input, output):
+        """
+        Run a full predict-update UKF cycle
+
+        :param sampling_time: time since last update (dt)
+        :param input: control input [speed, steer]
+        :param output: GPS measurement [x_meas, y_meas]
+        :return: estimated [x, y] position
+        """
+        self.predict(u=input, dt=sampling_time)
+        self.update(z=output)
+        x_est = self.ukf.x[0]  # Estimated x
+        y_est = self.ukf.x[1]  # Estimated y
+        return x_est, y_est
