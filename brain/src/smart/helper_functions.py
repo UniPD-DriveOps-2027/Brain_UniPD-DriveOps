@@ -508,6 +508,37 @@ def navigate_intersection(brain, show):
 
     brain.car.drive(speed=output_speed, angle=np.rad2deg(output_angle))
 
+def navigate_intersection_to_crosswalk(brain, show):
+    if brain.curr_state.var4 == "right":
+        print('CROSSWALK RIGHT')
+        e3, _ = brain.detect.detect_intersection_right(brain.car.frame, show_ROI=show)
+        e3 = 1.5 * e3 #old value = 0.8; new = 1.
+        output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, 0.0, e3)
+        # in order to avoid the line of the crosswalk we clamp the steering angle
+        if output_angle < np.deg2rad(15):
+            output_angle = np.deg2rad(15)
+
+        index_point_ahead = np.round(brain.car.dist_loc*100)
+        #print(f'crosswalk index point ahead = {index_point_ahead}')
+        # making short the distance to drive
+        if index_point_ahead > 70:
+            brain.switch_to_state('crosswalk_navigation')
+    elif brain.curr_state.var4 == "left":
+        print('CROSSWALK LEFT')
+        e3, _ = brain.detect.detect_intersection_left(brain.car.frame, show_ROI=show)
+        e3 = 1.27 * e3 #highway to speedcurve 
+        output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, 0.0, e3)
+    elif brain.curr_state.var4 == "forward":
+        print('CROSSWALK STRAIGHT')
+        e3, _ = brain.detect.detect_intersection_forward(brain.car.frame, show_ROI=show)
+        output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, 0.0, e3)
+    else:
+        print('CROSSWALK UNDEFINED')
+        e3, _ = brain.detect.detect_lane_ahead(brain.car.frame, show_ROI=show)
+        output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, 0.0, e3)
+
+    print(f'output_speed: {output_speed:.2f}, output_angle: {np.rad2deg(output_angle):.2f}, e3: {e3:.2f}')
+    brain.car.drive(speed=output_speed, angle=np.rad2deg(output_angle))
 
 def navigate_open_loop(brain, local_path_cf, idx_point_ahead, idx_car_on_path, show):
     point_ahead = local_path_cf[idx_point_ahead]
