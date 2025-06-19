@@ -28,8 +28,8 @@ import helper_functions as hf
 
 from parkman import Maneuvers
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-SELECTED_EVENT = "none" # "tunnel", "round","no_lane_left/right", "highway", "crosswalk", "parking" , "test"
-
+SELECTED_EVENT = "test3" # "tunnel", "round","no_lane_left/right", "highway", "crosswalk", "parking" , "test"
+base_dir = os.path.dirname(__file__)
 # Based on the path given for the arena challenge
 END_NODE_ARENA = 149
 USE_FRUITS_GENERATED_PATH = True
@@ -73,7 +73,8 @@ elif RESUME:
 # DEFAULT START
 else:
     STARTING_COORDS = [-42, -42] # DEFAULT START POSITION
-    CHECKPOINTS = [ 147, 175, 123, 118, 420, 444, 122, 97, 91, #472, 390, 334, 150, 140, 121, 92, 109, 130
+    #CHECKPOINTS = [214, 119, 451]
+    CHECKPOINTS = [ 460, 334, 150, 140, 121, 92, 109, 130, 147, 175, 133, 123, 118, 91, 420, 444, 122, 97, 91, 
         163, 190, 306, 373, 406, 420, 444, 502]
     #CHECKPOINTS = [ 472, 420, 396, 334, 352, 260, 197, 207, 150, 121, 92, 107,
     #    109, 130, 147, 175, 123, 118, 91, 451, 455, 466, 420, 444, 511, 97, 91,
@@ -163,7 +164,8 @@ EVENT_TYPES = [nac.INTERSECTION_STOP_EVENT,             #0
                nac.HIGHWAY_ENTRANCE_EVENT,              #7
                nac.TUNNEL_EVENT,                        #8
                nac.NO_LANE_EVENT,                       #9
-               nac.FOG_EVENT                            #10
+               nac.FOG_EVENT,                           #10
+               nac.CROSSWALK_TUNNEL_EVENT               #11
                ]                       
 
 
@@ -471,6 +473,7 @@ class Brain:
         assert len(self.sign_points) == len(self.sign_types), f'len(self.sign_points): {len(self.sign_points)}, len(self.sign_types): {len(self.sign_types)}'
         self.sign_seen = np.zeros(len(self.sign_types))
         self.curr_sign = nac.NO_SIGN
+        self.curr_sign_confidence = 0
         self.past_frames = deque(maxlen=DEQUE_OF_PAST_FRAMES_LENGTH)
 
         self.frame_for_stopline_angle = None
@@ -707,10 +710,12 @@ class Brain:
                     self.switch_to_state(nac.TUNNEL_SPEED_CURVE)
                     handled = True
 
-            elif self.next_event.name == nac.FOG_EVENT:
+            elif self.next_event.name == nac.FOG_EVENT :
                 self.car.publish_led_control(True)
                 self.go_to_next_event()
                 handled = True
+            elif self.second_next_event.name == nac.FOG_EVENT :
+                self.car.publish_led_control(True)
 
             # check highway exit case
             # elif self.next_event.name == nac.HIGHWAY_EXIT_EVENT:    # BFMC_2023
@@ -831,11 +836,17 @@ class Brain:
                                 nac.CONTROL_FOR_PEDESTRIAN,
                                 nac.SLOW_DOWN,
                                 nac.DETECT_STOPLINE])
+        result = self.sign_detection_position()    # detect sign and position Thomas
+        if result is not None:
+            sign_detect, sign_position = result
+            print(f"Sign detected: {sign_detect}, position: {sign_position}")
+        else:
+            print("No sign detected.")
         # Convert current checkpoint to int for comparison
         current_cp = int(self.checkpoints[self.checkpoint_idx])
 
         # List of checkpoints for which the LED should stay ON
-        led_on_checkpoints = [109, 107, 97, 92, 118]       #change in case we move the checkpoints for the fruits path
+        led_on_checkpoints = [123, 109, 107, 97, 92, 118]       #change in case we move the checkpoints for the fruits path
 
         if current_cp not in led_on_checkpoints:
             self.car.publish_led_control(False)  # Turn off LED
@@ -843,6 +854,7 @@ class Brain:
         if self.curr_state.just_switched:
             cv.imwrite(f'asl/asl_{int(time() * 1000)}.png', self.car.frame)
             self.curr_state.just_switched = False
+            #self.curr_sign = "NO_sign"
 
         decide_next_state = self.approaching_stopline_vision()
 
@@ -861,12 +873,18 @@ class Brain:
             self.conditions[nac.HIGHWAY] = False
             next_event_name = self.next_event.name
             # Events with stopline
-            if next_event_name == nac.INTERSECTION_STOP_EVENT:   
-                self.switch_to_state(nac.WAITING_AT_STOPLINE)
+            if next_event_name == nac.INTERSECTION_STOP_EVENT:  
+                if self.curr_sign=="priority":
+                    self.switch_to_state(nac.TRACKING_LOCAL_PATH)
+                else: 
+                    self.switch_to_state(nac.WAITING_AT_STOPLINE)
             elif next_event_name == nac.INTERSECTION_TRAFFIC_LIGHT_EVENT:
                 self.switch_to_state(nac.WAITING_FOR_GREEN)
             elif next_event_name == nac.INTERSECTION_PRIORITY_EVENT:
-                self.switch_to_state(nac.TRACKING_LOCAL_PATH)
+                if self.curr_sign=="stop":
+                    self.switch_to_state(nac.WAITING_AT_STOPLINE)
+                else: 
+                    self.switch_to_state(nac.TRACKING_LOCAL_PATH)
             elif next_event_name == nac.ROUNDABOUT_EVENT:
                 if dist < CAR_DISTANCE_THRESHOLD_ROUND and ARENA:
                     self.switch_to_state(nac.WAITING_AT_STOPLINE)
@@ -929,6 +947,37 @@ class Brain:
                 decide_next_state = False
         return decide_next_state
 
+    def sign_detection_position(self):
+
+            """
+            Finds a matching sign from a sign file based on the current stopline position.
+
+            Returns:
+                tuple: (sign_name, (x, y)) if a match is found, else None.
+            """
+            tolerance = 0.001
+            curr_stopline = self.path_planner.path_event_points[self.stopline_counter]
+            sign_file_path = os.path.join(base_dir, 'data', 'sign_with_position.txt')
+            def is_close(coord1, coord2):
+                return math.isclose(coord1[0], coord2[0], abs_tol=tolerance) and \
+                    math.isclose(coord1[1], coord2[1], abs_tol=tolerance)
+
+            # Load signs from file
+            signs = []
+            with open(sign_file_path, 'r') as f:
+                for line in f:
+                    parts = line.strip().split()
+                    if len(parts) >= 3:
+                        name = parts[0]
+                        x, y = map(float, parts[1:3])
+                        signs.append((name, (x, y)))
+
+            # Find match
+            for sign_name, sign_pos in signs:
+                if is_close(curr_stopline, sign_pos):
+                    return (sign_name, sign_pos)
+
+            return None  # No match found
 
     def tracking_local_path(self):
         # var1=local_path_cf, 
@@ -994,14 +1043,10 @@ class Brain:
             # Every time we stop for a stopline, we reset the local frame of reference
             self.car.reset_rel_pose()
             self.curr_state.just_switched = False
+
+            # Determine the direction left right forward
             if self.next_event.name.startswith('intersection'):
                 hf.determine_intersection_direction(self, local_path_cf)
-                #dist_right = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, 100, 140)
-                #dist_left = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, -140, -100)
-                #dist_front = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, -180, -140)
-                #if self.curr_state.var4 = "right" and dist ARENA:
-                #elif self.curr_state.var4 = "left" and ARENA:
-                #elif self.curr_state.var4 = "forward" and ARENA:
             else:
                 self.curr_state.var4 = 0
 
@@ -1037,13 +1082,15 @@ class Brain:
             max_idx = 30 # BFMC_2024
         else:  # curvy path
             max_idx = len(local_path_cf)-1  # follow until the end 
-            #print('curvy')
+            print('curvy')
 
 
         # State exit conditions
         if idx_point_ahead >= max_idx:  # we reached the end of the path    
             self.switch_to_state(nac.LANE_FOLLOWING)
             self.go_to_next_event()
+        elif self.second_next_event.name == nac.CROSSWALK_TUNNEL_EVENT:
+            hf.navigate_intersection_to_crosswalk(self,SHOW_IMGS)
         elif self.next_event.name.startswith("intersection"):
             hf.navigate_intersection(self, SHOW_IMGS)
         elif self.next_event.name.startswith("roundabout"):
@@ -1499,7 +1546,9 @@ class Brain:
         self.go_to_next_event()
 
     def crosswalk_navigation(self):
-        central_distance = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, 150, 210)
+        central_distance_right = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, 150, 180)
+        central_distance_left = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, -180, -150)
+        central_distance = min(central_distance_left,central_distance_right)
         if nac.TESTING:
             self.activate_routines([nac.CONTROL_FOR_PEDESTRIAN])
             if not (self.flag_seen_pedestrian or central_distance < PEDESTRIAN_CONTROL_DISTANCE):
@@ -1742,14 +1791,35 @@ class Brain:
         if np.abs(self.car.filtered_encoder_velocity < ACCELERATION_CONST*self.desired_speed):
             self.car.drive_speed(ACCELERATION_CONST*self.desired_speed)
 
+    def control_for_signs(self):
+        prev_sign = self.curr_sign
+        if not self.conditions[nac.REROUTING]:
+            # Use signs    
+            # TODO remove it and use better detection
+            sign, confidence = self.detect.detect_sign(self.car.frame,
+                                              show_ROI=SHOW_IMGS,
+                                              show_kp=SHOW_IMGS)
+            if sign != nac.NO_SIGN and sign != self.curr_sign:
+                self.curr_sign = sign
+                self.curr_sign_confidence = confidence
+            
+            if self.curr_sign == 'stop' or self.curr_sign == 'priority':
+                if self.curr_sign_confidence < 0.80:
+                    self.curr_sign = nac.NO_SIGN
+
+            #print(f'Current sign: {self.curr_sign}, confidence: {self.curr_sign_confidence}')
+
+            # publish sign
+            if self.curr_sign != prev_sign and self.curr_sign != nac.NO_SIGN:
+                self.env.publish_obstacle(self.curr_sign, self.car.x_est, self.car.y_est)
+                print(f'SIGN: {self.curr_sign}')
+    """
     def control_for_signs(self): # we dont do, either do it or delete it 
         prev_sign = self.curr_sign
         if not self.conditions[nac.REROUTING]:
              # Use signs                # not implemented? <++>
-            return  # TODO remove it and use better detection
-            sign, _ = self.detect.detect_sign(self.car.frame,
-                                              show_ROI=SHOW_IMGS,
-                                              show_kp=SHOW_IMGS)
+            sign = self.detect.detect_objects_with_yolo(self.car.frame,show=True)
+            print(f'Sign detected: {sign}')
             if sign != nac.NO_SIGN and sign != self.curr_sign:
                 self.curr_sign = sign
 
@@ -1757,7 +1827,7 @@ class Brain:
             if self.curr_sign != prev_sign and self.curr_sign != nac.NO_SIGN:
                 self.env.publish_obstacle(self.curr_sign, self.car.x_est, self.car.y_est)
                 print(f'SIGN: {self.curr_sign}')
-
+    """
     def control_for_car(self):
         # check for obstacles
         #print('CONTROLING FOR CAR')
@@ -1767,12 +1837,15 @@ class Brain:
             last_obstacle_dist = self.car.encoder_distance - 1.0                 
         curr_dist = self.car.encoder_distance                                    
         if curr_dist - last_obstacle_dist > MIN_DIST_BETWEEN_OBSTACLES:
-            dist1 = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, 150, 180)
-            dist2 = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, -180, -150)
+            #dist1 = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, 150, 180)
+            #dist2 = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, -180, -150)
+            dist1 = hf.get_min_distance_in_filtered_range(self.car.lidar_angles,self.car.lidar_ranges, 150, 180)
+            dist2 = hf.get_min_distance_in_filtered_range(self.car.lidar_angles,self.car.lidar_ranges, -180, -150)
             dist = min(dist1, dist2)
             #print('DISTANCE:', dist)
             if dist < OBSTACLE_DISTANCE_THRESHOLD and not self.curr_state==nac.APPROACHING_STOPLINE and not self.curr_state==nac.WAITING_AT_STOPLINE:
                 print('[### CAR DETECTED ###]')
+                print(f'THE FKCING DISTANCE IS {dist}')
                 self.car.drive_speed(speed=self.desired_speed/10)
                 obstacle = nac.CAR
                 print(f'Obstacle: {obstacle}')
@@ -1903,13 +1976,15 @@ class Brain:
         print('==========================================================================')
         print(f'CHECKPOINT:     {self.checkpoints[self.checkpoint_idx]}')
         print(f'STATE:          {self.curr_state}')
+        print(f'2nd_PREV_EVENT: {self.second_prev_event}')
         print(f'PREV_EVENT:     {self.prev_event}')
-        print(f'SECOND_PREV_EVENT: {self.second_prev_event}')
-        print(f'UPCOMING_EVENT: {self.next_event}')
+        print(f'NEXT_EVENT:     {self.next_event}')
+        print(f'2nd_NEXT_EVENT: {self.second_next_event}')
         print(f'ROUTINES:       {self.active_routines_names+ALWAYS_ON_ROUTINES}')
         print(f'CONDITIONS:     {self.conditions}')
         print('==========================================================================')
         print(f'stopline_counter: {self.stopline_counter}')
+        print(f'Current sign: {self.curr_sign}, confidence: {self.curr_sign_confidence}')
         self.run_current_state()
         #print(f'car.yaw: {self.car.yaw}')
        # print(f'car.yaw_loc: {self.car.yaw_loc}')
