@@ -8,6 +8,24 @@ import time
 # Define shared memory file
 shm_file = "/dev/shm/imu_shared_memory"
 
+YAW_OFFSET = 50.0  # Change this value to your desired offset
+
+def apply_yaw_offset(yaw_value, offset):
+    """
+    Apply offset to yaw value and ensure it stays within 0-360 range
+    Returns:
+        float: Adjusted yaw value within 0-360 range
+    """
+    adjusted_yaw = yaw_value + offset
+    
+    # Normalize to 0-360 range
+    while adjusted_yaw < 0:
+        adjusted_yaw += 360.0
+    while adjusted_yaw >= 360:
+        adjusted_yaw -= 360.0
+    
+    return adjusted_yaw
+
 # Function to parse the data from the shared memory
 def parse_data(data_str):
     try:
@@ -47,7 +65,10 @@ def main():
                 imu_msg = IMU()
                 imu_msg.roll = values[0]
                 imu_msg.pitch = values[1]
-                imu_msg.yaw = values[2]
+
+                original_yaw = values[2]
+                imu_msg.yaw = apply_yaw_offset(original_yaw, YAW_OFFSET)
+
                 imu_msg.accelx = values[3]
                 imu_msg.accely = values[4]
                 imu_msg.accelz = values[5]
