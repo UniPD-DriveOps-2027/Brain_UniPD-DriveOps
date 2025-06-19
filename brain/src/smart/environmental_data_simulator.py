@@ -71,7 +71,24 @@ class EnvironmentalData():
                                 nac.STATIC_CAR_ON_ROAD:      10,
                                 nac.STATIC_CAR_PARKING:      11,
                                 nac.PEDESTRIAN_ON_CROSSWALK: 12,
-                                nac.PEDESTRIAN_ON_ROAD:      13
+                                nac.PEDESTRIAN_ON_ROAD:      13,
+                                nac.NO_SIGN:                 14,
+                            }
+        self.sign_name_map = {
+                                'stop': nac.STOP,
+                                'priority': nac.PRIORITY,
+                                'parking': nac.PARK,
+                                'crosswalk': nac.CROSSWALK,
+                                'highway_entry': nac.HW_ENTER,
+                                'highway_end': nac.HW_EXIT,
+                                'roundabout': nac.ROUNDABOUT,
+                                'one_way': nac.ONE_WAY,
+                                'traffic_light': nac.TRAFFIC_LIGHT,
+                                'static_car_on_road': nac.STATIC_CAR_ON_ROAD,
+                                'static_car_parking': nac.STATIC_CAR_PARKING,
+                                'pedestrian_on_crosswalk': nac.PEDESTRIAN_ON_CROSSWALK,
+                                'pedestrian_on_road': nac.PEDESTRIAN_ON_ROAD,
+                                'no_sign': nac.NO_SIGN
                             }
         # SEMAPHORE
         self.semaphore_states = {
@@ -161,7 +178,12 @@ class EnvironmentalData():
 
     # V2X CALLBACKS AND FUNCTIONS
     def publish_obstacle(self, type, x, y):
-        assert type in self.obstacle_map.keys(), "Obstacle type not recognized"
+        # Convert string (e.g. "priority") to constant (e.g. nac.PRIORITY)
+        type_const = self.sign_name_map.get(type.lower())
+
+        assert type_const is not None, f"[ERROR] Unknown sign type: {type}"
+        assert type_const in self.obstacle_map, f"[ERROR] Sign constant {type_const} not in obstacle_map"
+
         data = environmental()
         data.obstacle_id = self.obstacle_map[type]
         pR = np.array([x, y])
