@@ -7,7 +7,7 @@ import time
 import signal
 
 class UnixSocketCamera:
-    def __init__(self, socket_addr="/tmp/bfmc_socket.sock", frame_size=(320, 240)):
+    def __init__(self, socket_addr="/tmp/bfmc_camera_brain.sock", frame_size=(320, 240)):
         self.socket_addr = socket_addr
         self.frame_size = frame_size
         self.msg_size = frame_size[0] * frame_size[1] * 3
