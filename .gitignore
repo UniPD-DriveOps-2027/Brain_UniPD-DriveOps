@@ -26,3 +26,4 @@ brain/src/train/data/*
 brain/src/smart/logs/*
 brain/src/smart/core
 brain/src/smart/extra/core
+brain/src/smart/reak-system-packages
