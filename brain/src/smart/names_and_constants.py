@@ -87,12 +87,16 @@ EVENT_CONFIGS = {
         "checkpoints": [999, 125]
     },
     "test": {
-        "starting_coords": [7.67, 0.75],
+        "starting_coords": [7.67, 0.75], 
         "checkpoints": [999, 410]
     },
     "test2": {
         "starting_coords": [12.02, 0.75],    #  1.41,3.91
         "checkpoints": [460, 466, 420, 396, 306, 319, 260, 197, 207, 150, 123, 118, 91, 451, 455, 444, 30, 130, 147, 175, 121, 92, 95, 107, 109, 97, 163, 190, 236, 373, 382, 407, 334, 352, 502]
+    },
+    "test3": {
+        "starting_coords": [0.41,6.12],    #  1.41,3.91
+        "checkpoints": [999,114,435]
     },
     "intersection_straight": {
         "starting_coords": [0.92, 13.17],   
@@ -162,6 +166,7 @@ HIGHWAY_ENTRANCE_EVENT = 'highway_entrance_event'
 TUNNEL_EVENT = 'tunnel_event'
 NO_LANE_EVENT = 'no_lane_event'
 FOG_EVENT = 'fog_event'
+CROSSWALK_TUNNEL_EVENT = 'crosswalk_tunnel_event' 
 
 EVENT_TYPES = [INTERSECTION_STOP_EVENT,             #0
                INTERSECTION_TRAFFIC_LIGHT_EVENT,    #1
@@ -173,7 +178,8 @@ EVENT_TYPES = [INTERSECTION_STOP_EVENT,             #0
                HIGHWAY_ENTRANCE_EVENT,              #7
                TUNNEL_EVENT,                        #8
                NO_LANE_EVENT,                       #9 
-               FOG_EVENT                            #10
+               FOG_EVENT,                            #10
+               CROSSWALK_TUNNEL_EVENT               #11
                ]                             
 
 
