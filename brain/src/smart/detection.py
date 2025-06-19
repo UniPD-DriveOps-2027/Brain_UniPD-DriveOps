@@ -6,7 +6,7 @@ import pickle
 import collections
 from time import time
 import names_and_constants as nac
-
+from ultralytics import YOLO
 from stopline import detect_angle
 
 LANE_KEEPER_PATH = "models/lane_keeper_small.onnx" #main model for lane keeping
@@ -30,6 +30,8 @@ STOPLINE_ESTIMATOR_PATH = "models/stopline_estimator.onnx"
 
 STOPLINE_ESTIMATOR_ADV_PATH = "models/stopline_estimator_advanced.onnx"
 PREDICTION_OFFSET = -0.08
+#yolo sign classifier
+SIGN_CLASSIFIER_YOLO_PATH = "models/sign_classifier_yolo.tflite"
 
 # SIGN_CLASSIFIER_PATH = 'models/sign_classifier.onnx'
 
@@ -141,6 +143,10 @@ class Detection:
         self.sign_probs_buffer = collections.deque(maxlen=10)
         self.sign_prediction = NO_SIGN
         self.sign_conf = 1
+
+        # YOLO sign classifier
+        #self.sign_yolo = YOLO(SIGN_CLASSIFIER_YOLO_PATH, task='detect')
+        #self.names = self.sign_yolo.names
 
         # obstacle classifier
         self.no_clusters = NUM_CLUSTERS_OBS  # use const
@@ -623,7 +629,7 @@ class Detection:
                     idx += 1
         return imgs, centers, widths_idxs
 
-    def detect_sign(self, frame, show_ROI=True, show_kp=True):
+    def detect_sign_old(self, frame, show_ROI=True, show_kp=True):
         """
         Sign classifiier:
         takes the whole frame as input and returns the sign name and
@@ -673,9 +679,9 @@ class Detection:
                 probs_array = probs_array.reshape(-1)
                 # inserting the No sing probability
                 probs_array = np.concatenate([probs_array, [0]])
-                print(
-                    f'single prediction: \
-                    {nac.SIGN_NAMES[MAP_DICT_NAMES[np.argmax(probs_array)]]}')
+                #print(
+                #    f'single prediction: \
+                #    {nac.SIGN_NAMES[MAP_DICT_NAMES[np.argmax(probs_array)]]}')
         else:
             print('No descriptors')
             probs_array = np.zeros(len(signs_dict))
@@ -694,7 +700,7 @@ class Detection:
         # most likely sign_prediction
         new_prediction = nac.SIGN_NAMES[MAP_DICT_NAMES[pred_idx]]
         new_conf = buffer_mean[pred_idx]
-        print('Prediction proposal:', new_prediction, int(100*new_conf))
+        #print('Prediction proposal:', new_prediction, int(100*new_conf))
         # Comparison of the first two maxima of the buffer_mean
         buffer_mean = np.delete(buffer_mean, pred_idx)
         conf_2 = buffer_mean[int(np.argmax(buffer_mean))]
@@ -712,6 +718,148 @@ class Detection:
                                show_prediction=True)
         return self.sign_prediction, self.sign_conf
 
+    def detect_sign(self, frame, show_ROI=True, show_kp=True):
+        """
+        Sign classifiier:
+        takes the whole frame as input and returns the sign name and
+        classification confidence. If the network is not confident enough,
+        it returns None sign name and 0.0 confidence
+        """
+        # ROI
+        TL = (240, 10)   # x1, y1
+        BR = (320, 70)   # x2, y2
+        img = frame.copy()
+        img = Detection.automatic_brightness_and_contrast(img)
+        img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+        img = img[TL[1]:BR[1], TL[0]:BR[0]]
+
+        if show_ROI:
+            cv.imshow('ROI', img)
+            Detection.draw_ROI(frame, TL, BR, show_rect=False, prediction=None,
+                               conf=None, show_prediction=False)
+
+        ratio = 1
+        img = cv.resize(img, None, fx=ratio, fy=ratio,
+                        interpolation=cv.INTER_AREA)
+        kp, des = self.sign_sift.detectAndCompute(img, None)
+        if (des is not None):
+            if show_kp:
+                cop = img.copy()
+                cop = \
+                    cv.drawKeypoints(cop,
+                                     kp,
+                                     cop,
+                                     flags=cv.
+                                     DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+                cv.imshow('keypoints', cop)
+            if len(des) < 10:
+                print('No enougth descriptors')
+                probs_array = np.zeros(len(signs_dict))
+                # the last element of the list of obstacles is no obstacles
+                probs_array[-1] = 1
+            else:
+                im_hist = Detection.ImageHistogram(self.sign_kmean_model,
+                                                   des, self.sign_no_clusters)
+                im_hist = im_hist.reshape(1, -1)
+                im_hist = self.sign_scale_model.transform(im_hist)
+                probs_array = self.sign_svm_model.predict_proba(im_hist)
+                probs_array = probs_array.reshape(-1)
+                # inserting the No sing probability
+                probs_array = np.concatenate([probs_array, [0]])
+                #print(
+                #   f'single prediction: \
+                #    {nac.SIGN_NAMES[MAP_DICT_NAMES[np.argmax(probs_array)]]}')
+        else:
+            print('No descriptors')
+            probs_array = np.zeros(len(signs_dict))
+            # the last element of the list of obstacles is no obstacles
+            probs_array[-1] = 1
+
+        # buffer of classification probabilities
+        self.sign_probs_buffer.append(probs_array)
+
+        # mean of the predicion probabilities in the buffer
+        buffer_mean = list(self.sign_probs_buffer)
+        buffer_mean = np.asarray(buffer_mean)
+        buffer_mean = np.mean(buffer_mean, axis=0)
+        buffer_mean = buffer_mean.reshape(-1)
+        pred_idx = np.argmax(buffer_mean)
+
+        # CHECK: If prediction is closed_road, treat as NO_sign
+        predicted_sign_name = nac.SIGN_NAMES[MAP_DICT_NAMES[pred_idx]]
+        if predicted_sign_name == "closed_road":
+            # Force prediction to NO_sign
+            self.sign_prediction = NO_SIGN
+            self.sign_conf = 1.0
+            print(f'Closed road detected but ignored - setting to: {NO_SIGN}')
+        else:
+            # Original logic for other signs
+            new_prediction = predicted_sign_name
+            new_conf = buffer_mean[pred_idx]
+            #print('Prediction proposal:', new_prediction, int(100*new_conf))
+            # Comparison of the first two maxima of the buffer_mean
+            buffer_mean_temp = np.delete(buffer_mean, pred_idx)
+            conf_2 = buffer_mean_temp[int(np.argmax(buffer_mean_temp))]
+            # To have a good enough sign_prediction the rest of the probabilities
+            # have to be spread
+            if (new_conf - conf_2) > 0.30:
+                self.sign_prediction = new_prediction
+                self.sign_conf = new_conf
+
+        print('New sign_prediction', self.sign_prediction,
+              int(100*self.sign_conf))
+        if show_ROI:
+            Detection.draw_ROI(frame, TL, BR, show_rect=True,
+                               prediction=self.sign_prediction,
+                               conf=int(100*self.sign_conf),
+                               show_prediction=True)
+        return self.sign_prediction, self.sign_conf
+    """
+    def detect_objects_with_yolo(self,frame, show=False):
+
+
+        #frame = cv.flip(frame, -1)  # Flip if needed
+        #frame = cv.resize(frame, (600, 480))
+        #frame = cv.rotate(frame, cv.ROTATE_180)
+        #TL = (240, 10)   # x1, y1
+        #BR = (320, 70)   # x2, y2
+        TL = (frame.shape[1] - 110, 5)     # x1, y1 (near top-right)
+        BR = (frame.shape[1] - 50, 50)     # x2, y2
+
+        img = frame.copy()
+        frame = img[TL[1]:BR[1], TL[0]:BR[0]]
+
+        results = self.sign_yolo.track(frame, persist=True, imgsz=256)
+
+        detections = []
+
+        if results[0].boxes.id is not None:
+            ids = results[0].boxes.id.cpu().numpy().astype(int)
+            boxes = results[0].boxes.xyxy.cpu().numpy().astype(int)
+            class_ids = results[0].boxes.cls.int().cpu().tolist()
+
+            for track_id, box, class_id in zip(ids, boxes, class_ids):
+                x1, y1, x2, y2 = box
+                label = self.sign_yolo.names[class_id]
+                detections.append({
+                    'track_id': track_id,
+                    'box': (x1, y1, x2, y2),
+                    'label': label
+                })
+                #print(f"Detectedddddddddddddddddd {label}")
+                self.sign_prediction = label
+
+                if show:
+                    cv.rectangle(frame, (x1, y1), (x2, y2), (255, 0, 0), 2)
+                    cv.putText(frame, f"{label} ID:{track_id}", (x1, y1 - 10),
+                                cv.FONT_HERSHEY_SIMPLEX, 0.6, (255, 0, 255), 2)
+
+        if show:
+            cv.imshow("YOLO Detection", frame)
+            cv.waitKey(1)
+
+        return self.sign_prediction if self.sign_prediction != None else NO_SIGN
+    """
     def classify_frontal_obstacle(self, frames, distances, show_ROI=False,
                                   show_kp=False):
         """
@@ -928,7 +1076,7 @@ class Detection:
         # feature is the descriptor of a single keypoint
         for feature in descriptor_list:
 
-            feature = feature.reshape(1, 32)
+            feature = feature.reshape(1, -1) 
             idx = kmeans.predict(feature)
             im_hist[idx] += 1
         return im_hist
