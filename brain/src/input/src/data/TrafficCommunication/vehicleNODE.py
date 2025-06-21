@@ -94,7 +94,7 @@ if __name__ == "__main__":
             #x = data['msgValue']['x']
             #y = data['msgValue']['Y']
             
-            #print(f'X = {veh.posA } Y = {veh.posB}')
+            print(f'X = {veh.posA } Y = {veh.posB}')
             Vehicles_publisher.publish(veh)
 
             #x_publisher.publish(Float64(x))

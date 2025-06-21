@@ -42,7 +42,9 @@ class gpstrackerNODE():
     def __init__(self):
         beacon = 12345
         id = 88
-        serverpublickey = '/home/pi/dei_ws/src/input/src/gpstracker/publickey_server.pem'
+        #serverpublickey = '/home/pi/dei_ws/src/input/src/gpstracker/publickey_server.pem'
+        serverpublickey = '/root/bfmc/brain/src/input/src/gpstracker/publickey_server.pem'
+        #serverpublickey = '../servers/trafficCommunicationServer/Useful/privatekey_server_test.pem'
         
         
         self.gpsStR, gpsStS = Pipe(duplex = False)
