@@ -65,7 +65,8 @@ else:
     STARTING_COORDS = [-42, -42]                            # DEFAULT START POSITION
     #CHECKPOINTS = [392, 333, 373, 405]  #, 120, 102, 130, 172, 180, 420, 352, 502, 160]                   472, 322, 149, 123,
     #CHECKPOINTS = [392, 333, 373, 405] # left no lane working
-    CHECKPOINTS = [392, 303, 333, 373, 405]
+    CHECKPOINTS = [392, 303, 333, 373, 405] #  no lane working (help in the roundabout)
+    CHECKPOINTS = [205, 170, 114, 125, 147]
     END_NODE = CHECKPOINTS[-1]
     OVERTAKE_COUNTER = [3, 4, 23]
     GPS_FOR_START_ONLY = False
