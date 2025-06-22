@@ -61,7 +61,7 @@ ff_curvature = 1.0  # feedforward gain
 x_orig = 0.0
 y_orig = 0.0
 
-cap = UnixSocketCamera(socket_addr="/tmp/bfmc_camera_brain.sock", frame_size=(320, 240))
+cap = UnixSocketCamera(socket_addr="/tmp/bfmc_camera_brain.sock", frame_size=(320, 240)
 
 
 # stop the car with ctrl+c
@@ -71,6 +71,37 @@ def handler(signum, frame):
     cv.destroyAllWindows()
     sleep(.99)
     exit()
+
+def mouse_callback(event, x, y, flags, param):
+    if event == cv.EVENT_LBUTTONDOWN:
+        frame = param
+        hsv_frame = cv.cvtColor(frame, cv.COLOR_BGR2HSV)
+
+        # Define the size of the region around the click (e.g., 5x5)
+        region_size = 5
+        half_size = region_size // 2
+
+        x_start = max(0, x - half_size)
+        y_start = max(0, y - half_size)
+        x_end = min(frame.shape[1], x + half_size + 1)
+        y_end = min(frame.shape[0], y + half_size + 1)
+
+        # Extract the region of interest
+        roi = hsv_frame[y_start:y_end, x_start:x_end]
+
+        # Compute min and max HSV in the region
+        h_min, s_min, v_min = np.min(roi[:, :, 0]), np.min(roi[:, :, 1]), np.min(roi[:, :, 2])
+        h_max, s_max, v_max = np.max(roi[:, :, 0]), np.max(roi[:, :, 1]), np.max(roi[:, :, 2])
+
+        lower = np.array([h_min, s_min, v_min])
+        upper = np.array([h_max, s_max, v_max])
+
+        clicked_hsv_values.append((lower, upper))
+
+        print(f"HSV range from ({x},{y}) in a {region_size}x{region_size} area:")
+        print(f"  Lower: {lower}")
+        print(f"  Upper: {upper}")
+
 
 nac.TESTING = True
 nac.DRIVE_DESIRED_SPEED = 0.3
@@ -166,33 +197,3 @@ if __name__ == '__main__':
 
 
     clicked_hsv_values = []
-
-def mouse_callback(event, x, y, flags, param):
-    if event == cv.EVENT_LBUTTONDOWN:
-        frame = param
-        hsv_frame = cv.cvtColor(frame, cv.COLOR_BGR2HSV)
-
-        # Define the size of the region around the click (e.g., 5x5)
-        region_size = 5
-        half_size = region_size // 2
-
-        x_start = max(0, x - half_size)
-        y_start = max(0, y - half_size)
-        x_end = min(frame.shape[1], x + half_size + 1)
-        y_end = min(frame.shape[0], y + half_size + 1)
-
-        # Extract the region of interest
-        roi = hsv_frame[y_start:y_end, x_start:x_end]
-
-        # Compute min and max HSV in the region
-        h_min, s_min, v_min = np.min(roi[:, :, 0]), np.min(roi[:, :, 1]), np.min(roi[:, :, 2])
-        h_max, s_max, v_max = np.max(roi[:, :, 0]), np.max(roi[:, :, 1]), np.max(roi[:, :, 2])
-
-        lower = np.array([h_min, s_min, v_min])
-        upper = np.array([h_max, s_max, v_max])
-
-        clicked_hsv_values.append((lower, upper))
-
-        print(f"HSV range from ({x},{y}) in a {region_size}x{region_size} area:")
-        print(f"  Lower: {lower}")
-        print(f"  Upper: {upper}")

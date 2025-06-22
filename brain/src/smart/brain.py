@@ -75,10 +75,13 @@ else:
     STARTING_COORDS = [-42, -42] # DEFAULT START POSITION
     CHECKPOINTS = [ 460, 334, 150, 140, 121, 92, 109, 130, 147, 175, 133, 123, 118, 91, 420, 444, 122, 97, 91, 
         163, 190, 306, 373, 406, 420, 444, 502] #good one don t modify
-    CHECKPOINTS = [150, 140, 121, 92, 109, 130, 147,175, 133, 123, 118, 91, 163,373, 406,444] # TEST INTERSECTIONS
+    
     CHECKPOINTS = [140,460,306,150, 140, 121, 92, 109, 130, 147,175, 133, 123, 118, 91, 163,373, 406,444] # TEST WHOLE PATH
-    CHECKPOINTS = [390,306,323,150, 140] # TEST WHOLE PATH
-
+    CHECKPOINTS = [390,306,333,150, 140] # TEST DOUBLE NO LANE
+    CHECKPOINTS = [390,150] # TEST DOUBLE NO LANE
+    CHECKPOINTS = [468,393,306,150, 140, 121, 92, 109, 130, 147,175, 133, 123, 118, 91, 163,373, 406,444] # TEST WHOLE PATH
+    CHECKPOINTS = [150, 140, 121, 92, 109, 130, 147,175, 143, 133, 123, 118, 91, 163,373, 406,444] # TEST INTERSECTIONS
+    CHECKPOINTS = [460, 395, 306] # TEST INTERSECTIONS
     END_NODE = CHECKPOINTS[-1]
     GPS_FOR_START_ONLY = False
 
@@ -250,7 +253,7 @@ assert STOPLINE_STOP_DISTANCE <= STOPLINE_APPROACH_DISTANCE
 
 # <++>
 # STOP_WAIT_TIME = 0.001*3.0  
-STOP_WAIT_TIME = 3.0 
+STOP_WAIT_TIME = 1.5 
 
 # local tracking
 OPEN_LOOP_PERCENTAGE_OF_PATH_AHEAD = 0.6  # 0.6
@@ -337,7 +340,7 @@ OVERTAKE_STATIC_CAR_SPEED = 0.5  # [m/s]
 OT_STATIC_SWITCH_1 = 0.3
 OT_STATIC_SWITCH_2 = 0.55 # BFMC_2023
 OT_STATIC_SWITCH_2 = 0.40 # good for simulation # BFMC_2024
-OT_STATIC_LANE_FOLLOW = 0.3
+OT_STATIC_LANE_FOLLOW = 0.35 #DISTANCE FROM THE STATIC CAR TO OVERTAKE IT
 # overtake moving car
 OVERTAKE_MOVING_CAR_SPEED = 0.5  # [m/s]
 OT_MOVING_SWITCH_1 = 0.27  # [m]
@@ -378,8 +381,6 @@ class Brain:
 
         self.car.drive(speed=0.0, angle=0.0)
         self.laremilputas = None
-
-        self.flag_problematic_stopline = False
 
         # navigation instruction is a list of tuples:
         self.navigation_instructions = []
@@ -676,15 +677,32 @@ class Brain:
             self.lane_following_to_parking()
             return
 
-        handled = False #helper handler
-                
-        if (self.next_event.name == nac.NO_LANE_EVENT):   
-            self.switch_to_state(nac.NO_LANE_STATE)
-            self.next_checkpoint()
-            handled = True
+        if self.next_event.name == nac.NO_LANE_EVENT:   
+            self.no_lane()
 
+        # PROBLEMATIC STOPLINE
+        if ((self.prev_event.name == nac.CROSSWALK_EVENT) and (norm(self.prev_event.point - np.array([18.83, 2.55])) < 0.03)): # fix this, workaround put a checkpoint in 420
+            print("PROBLEMATIC STOPLINE")
+            travelled_distance = self.car.encoder_distance - self.curr_state.start_distance
+            print(f'TRAVELLED DISTANCE {travelled_distance}')
+            if travelled_distance > 2.4:
+
+                self.switch_to_state(nac.WAITING_AT_STOPLINE)
+                #result = self.sign_detection_position()    # detect sign and position Thomas
+                #sign_detect = "Stop"
+                #if result is not None:
+                #    sign_detect, sign_position = result
+                #    print(f"Sign detected: {sign_detect}, position: {sign_position}")
+
+                #if self.sign_detect=="Priority":
+                #    self.switch_to_state(nac.TRACKING_LOCAL_PATH)
+                #else:
+                #    self.switch_to_state(nac.WAITING_AT_STOPLINE)
+                
+
+        handled = False #helper handler
         # check highway entrance case
-        elif self.next_event.name == nac.HIGHWAY_ENTRANCE_EVENT:
+        if self.next_event.name == nac.HIGHWAY_ENTRANCE_EVENT:
             self.lane_following_highway_entrance()
             handled = True
 
@@ -695,7 +713,7 @@ class Brain:
         #TUNNEL NEW 
         # if next next event is TUNNEL_EVENT switch to TUNNEL state (we use next next because the intersection stop event is not trigered as the croswalk is too close to the entrance)
         elif getattr(self.second_next_event, 'name', None) == nac.TUNNEL_EVENT:   #safe against None values
-            min_distance_lidar_right = hf.get_min_distance_in_filtered_range(self.car.lidar_angles,self.car.lidar_ranges, 85, 95)
+            min_distance_lidar_right = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, 85, 95)
             print("Second next event is tunnel")
             print(f'Right distance to trigger the tunnel:{min_distance_lidar_right}')
             if (min_distance_lidar_right <= 0.35):    
@@ -705,8 +723,8 @@ class Brain:
         
         if not handled:
             if self.next_event.name == nac.TUNNEL_EVENT:
-                min_distance_lidar_right = hf.get_min_distance_in_filtered_range(self.car.lidar_angles,self.car.lidar_ranges, 85, 95) 
-                if (min_distance_lidar_right <= 0.5):    
+                min_distance_lidar_right = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, 85, 95) 
+                if (min_distance_lidar_right <= 0.35):    
                     self.switch_to_state(nac.TUNNEL_SPEED_CURVE)
                     handled = True
 
@@ -717,14 +735,9 @@ class Brain:
             elif getattr(self.second_next_event, 'name', None) == nac.FOG_EVENT :
                 self.car.publish_led_control(True)
 
-            # check highway exit case
-            # elif self.next_event.name == nac.HIGHWAY_EXIT_EVENT:    # BFMC_2023
-            #     self.lane_following_to_highway_exit()
-
             # end of current route, go to end state
             elif self.next_event.name == nac.END_EVENT:
-                #self.checkpoint_idx = len(self.checkpoints) ## JUST ADDED BY EUGEN
-                if self.checkpoint_idx == len(self.checkpoints) - 1:
+                if self.checkpoint_idx == len(self.checkpoints) - 1: # if it's the last checkpoint
                     self.lane_following_to_end()
                 else:
                     self.go_to_next_event()
@@ -740,25 +753,6 @@ class Brain:
                 print(f'stop enough: {self.car.dist_loc}')
             if self.detect.est_dist_to_stopline < STOPLINE_APPROACH_DISTANCE and far_enough_from_prev_stopline and self.routines[nac.DETECT_STOPLINE].active:
                 self.switch_to_state(nac.APPROACHING_STOPLINE)
-
-        # PROBLEMATIC STOPLINE
-        if ((self.prev_event.name == nac.CROSSWALK_EVENT) and (int(self.checkpoints[self.checkpoint_idx]) in range(411, 423))):
-            print("ENTERED THE PROBLEMATIC STOPLINE")
-
-            travelled_distance = self.car.encoder_distance - self.curr_state.start_distance
-            print(f'TRAVELLED DISTANCE {travelled_distance}')
-            if travelled_distance > 1.5:
-
-                result = self.sign_detection_position()    # detect sign and position Thomas
-                sign_detect = "Stop"
-                if result is not None:
-                    sign_detect, sign_position = result
-                    print(f"Sign detected: {sign_detect}, position: {sign_position}")
-
-                if self.sign_detect=="Priority":
-                    self.switch_to_state(nac.TRACKING_LOCAL_PATH)
-                else: 
-                    self.switch_to_state(nac.WAITING_AT_STOPLINE)
 
 
     def lane_following_highway_entrance(self):
@@ -883,7 +877,6 @@ class Brain:
 
 
         if decide_next_state:
-            self.flag_problematic_stopline = False
             print('Deciding next state, based on next event...')
             # print(f'debug: {self.checkpoint_idx}')
             if not nac.RANDOM_START or nac.RANDOM_START :
@@ -1122,6 +1115,7 @@ class Brain:
             idx_point_ahead = np.round(self.car.dist_loc*100)
             if idx_point_ahead >= max_idx:  # we reached the end of the path
                 self.switch_to_state(nac.LANE_FOLLOWING)
+                print("SWITCHED TO LANE FOLLOWOING IN TRACKING LOCAL PATH!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
                 self.go_to_next_event()
             print(f'idx (DIST_LOC): {idx_point_ahead}')
             hf.navigate_roundabout(self, idx_point_ahead, max_idx, SHOW_IMGS)
@@ -1665,7 +1659,7 @@ class Brain:
             self.go_to_next_event()
 
 
-    def no_lane(self):
+    def no_lane(self): # we are in lane following
         travelled_distance = self.car.encoder_distance - self.curr_state.start_distance
         print(f'/---------------/ TRAVELLED DISTANCE = {travelled_distance:.2f}')
         if self.checkpoints[self.checkpoint_idx] in range(302, 331) or nac.TESTING:
@@ -1680,7 +1674,7 @@ class Brain:
                 self.run_routines()
                 print("IN THE FIRST IF###############################")
 
-            elif 3.7 < travelled_distance and travelled_distance < 4.6: #4.7 in simulation
+            elif travelled_distance < 4.6: #4.7 in simulation
                 self.activate_routines([nac.FOLLOW_LANE_LEFT,
                                 nac.CONTROL_FOR_CAR,
                                 nac.DETECT_STOPLINE,
@@ -1696,10 +1690,8 @@ class Brain:
                 nac.DONT_STOP_AT_NO_LANE_EVENT = True
                 self.go_to_next_event()
 
-        
-
-        else:
-            #print('in LEFT NO LANE!!!!!!!!')
+        elif self.checkpoints[self.checkpoint_idx] in range(333, 356) or nac.TESTING:
+            print('in LEFT NO LANE!!!!!!!!')
 
             # KEEP LANE
             if travelled_distance <= 4.1: #4.7 sim
@@ -1740,7 +1732,8 @@ class Brain:
                 #self.conditions[nac.NO_LANE] = False
                 self.switch_to_state(nac.LANE_FOLLOWING)
                 nac.DONT_STOP_AT_NO_LANE_EVENT = True
-                self.go_to_next_event() 
+                self.go_to_next_event()
+        else: assert False, 'This should never happen!'
 
 
     # =============== ROUTINES =============== #
