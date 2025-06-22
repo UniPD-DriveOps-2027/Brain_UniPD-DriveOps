@@ -258,7 +258,7 @@ STOP_WAIT_TIME = 1.5
 # local tracking
 OPEN_LOOP_PERCENTAGE_OF_PATH_AHEAD = 0.6  # 0.6
 # distance from previous stopline from which is possible to start detecting a stop line again
-STOPLINE_DISTANCE_THRESHOLD = 0.2 #0.2
+STOPLINE_DISTANCE_THRESHOLD = 0.5 #0.2
 POINT_AHEAD_DISTANCE_LOCAL_TRACKING = 0.3  # 0.3
 
 # speed control
@@ -306,7 +306,7 @@ DIST_FORWARD = 0.7
 
 S_ANGLE = 29.0                              # [deg] angle to perform the s manouver
 DIST_2S = 0.40                              # 0.38 #[m] distance to perform the 2nd part of s manouver
-DIST_4S = 0.05                              # [m] dsemaphoreistance to perform the 4th part of s manouver
+DIST_4S = 0.05                              # [m] distance to perform the 4th part of s manouver
 STEER_ACTUATION_DELAY_PARK = 0.5            # [s] delay to perform the steering manouver
 SLEEP_AFTER_STOPPING = 0.3                  # [s] WARNING: this stops the state machine. So be careful increasing it
 STEER_ACTUATION_DELAY = 0.3                 # [s] delay to perform the steering manouver
