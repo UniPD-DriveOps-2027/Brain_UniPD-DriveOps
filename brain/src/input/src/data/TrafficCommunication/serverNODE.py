@@ -1,7 +1,7 @@
 
 import rospy
 from std_msgs.msg import Float64
-from utils.msg import vehicles, environmental
+from utils.msg import vehicles, environmental, localisation, IMU
 
 if __name__ == "__main__":
     import sys
@@ -14,6 +14,23 @@ from src.templates.workerprocess import WorkerProcess
 from src.data.TrafficCommunication.threads.threadTrafficCommunicaiton import (
     threadTrafficCommunication,
 )
+
+import os
+import signal
+import subprocess
+
+import subprocess
+
+def kill_process_on_port(port):
+    try:
+        cmd = f"sudo lsof -t -i:{port} | xargs --no-run-if-empty sudo kill -9"
+        subprocess.check_call(cmd, shell=True)
+        print(f"Processes using port {port} have been killed (if any).")
+    except subprocess.CalledProcessError:
+        print(f"No process is using port {port}.")
+
+
+
 class processTrafficCommunication(WorkerProcess):
     """This process receives the location of the car and sends it to the processGateway.
     
@@ -68,6 +85,12 @@ class processTrafficCommunication(WorkerProcess):
 if __name__ == "__main__":
     from multiprocessing import Queue
     import time
+    import signal
+
+    def signal_handler(sig, frame):
+        print('Ctrl+C caught, shutting down...')
+        rospy.signal_shutdown('Ctrl+C pressed')
+    signal.signal(signal.SIGINT, signal_handler)
 
     shared_memory = sharedMem()
     locsysReceivePipe, locsysSendPipe = Pipe(duplex=False)
@@ -88,41 +111,78 @@ if __name__ == "__main__":
 
     # =================================== ROS =========================================
     rospy.init_node('serverNODE', anonymous=False)
+    veh = vehicles()
+    loc = localisation()
     # =============================== PUBLISHERS ======================================
     Vehicles_publisher = rospy.Publisher("/automobile/vehicles", vehicles, queue_size=1)
     Environment_publisher = rospy.Publisher("/automobile/environment", environmental, queue_size=1)
     # ============================== SUBSCRIPTIONS  ===================================
+
+    # ROS Subscribers Setup
 
     def environment_callback(msg):
         print(f"Received Obstacle ID: {msg.obstacle_id}, X: {msg.x}, Y: {msg.y}")
         msg_sign = {
             "reqORinfo": "info",
             "type": "historyData",
-            "value1": msg.x,             # pos x
-            "value2": msg.y,             # pos y
-            "value3": msg.obstacle_id,   # obstacle id
+            "value1": msg.x,
+            "value2": msg.y,
+            "value3": msg.obstacle_id,
         }
         traffic_communication.tcp_factory.send_data_to_server(msg_sign)
 
+    def car_position_callback(msg):
+        print(f"car_position_callback: X: {msg.x}, Y: {msg.y}")
+        msg_position = {
+            "reqORinfo": "info",
+            "type": "devicePos",
+            "value1": msg.x,
+            "value2": msg.y,
+        }
+        traffic_communication.tcp_factory.send_data_to_server(msg_position)
+
+    def car_speed_callback(msg):
+        print(f"car_speed_callback: Speed: {msg.data}")
+        msg_speed = {
+            "reqORinfo": "info",
+            "type": "deviceSpeed",
+            "value1": msg.data,
+        }
+        traffic_communication.tcp_factory.send_data_to_server(msg_speed)
+
+    def car_yaw_callback(msg):
+        print(f"car_yaw_callback: Yaw: {msg.yaw}")
+        msg_yaw = {
+            "reqORinfo": "info",
+            "type": "deviceRot",
+            "value1": float(msg.yaw),
+        }
+        traffic_communication.tcp_factory.send_data_to_server(msg_yaw)
+
+    # ROS Subscribers
 
     rospy.Subscriber('/automobile/environment', environmental, environment_callback)
-    veh = vehicles()
+    rospy.Subscriber('/automobile/localisation', localisation, car_position_callback)
+    rospy.Subscriber('/automobile/speed', Float64, car_speed_callback)
+    rospy.Subscriber('/automobile/imu', IMU, car_yaw_callback)
+
     try:
         while not rospy.is_shutdown():
             data = queueList["General"].get()
-            veh.posA  = float(data['msgValue']['x'])
-            veh.posB  = float(data['msgValue']['y'])
+            veh.posA = float(data['msgValue']['x'])
+            veh.posB = float(data['msgValue']['y'])
             print(f'X = {veh.posA} Y = {veh.posB}')
             Vehicles_publisher.publish(veh)
 
-            # Example environment message
             env_msg = environmental()
             env_msg.obstacle_id = 1
             env_msg.x = veh.posA + 0.001
             env_msg.y = veh.posB + 0.001
             Environment_publisher.publish(env_msg)
 
-    except rospy.ROSInterruptException:
-        pass
+    except (rospy.ROSInterruptException, KeyboardInterrupt):
+        print("Shutting down safely hopefully")
     finally:
         traffic_communication.stop()
+        kill_process_on_port(9000)
+

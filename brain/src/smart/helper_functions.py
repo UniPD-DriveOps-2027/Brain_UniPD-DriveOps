@@ -761,10 +761,14 @@ def get_min_distance_in_filtered_range(lidar_angles, lidar_ranges, start_deg, en
 
     selected_ranges, selected_angles = get_lidar_valid_ranges(lidar_angles, lidar_ranges, start_deg, end_deg)
 
+
     # Convert to Cartesian coordinates
     x = selected_ranges * np.cos(selected_angles)
     y = selected_ranges * np.sin(selected_angles)
     points = np.vstack((x, y)).T
+
+    if len(points) == 0:
+        return 20.0
 
     # Cluster points
     clusters = []

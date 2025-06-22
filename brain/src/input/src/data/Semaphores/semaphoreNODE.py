@@ -43,7 +43,7 @@ class processSemaphores(WorkerProcess):
     """
 
     # ====================================== INIT ==========================================
-    def __init__(self, queueList, logging, debugging = False):
+    def __init__(self, queueList, logging = False, debugging = False):
         self.queuesList = queueList
         self.logging = logging
         self.debugging = debugging
@@ -97,7 +97,9 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     from multiprocessing import Queue
-
+    import rospy
+    from utils.msg import semaphore
+    
     queueList = {
         "Critical": Queue(),
         "Warning": Queue(),
@@ -106,7 +108,7 @@ if __name__ == "__main__":
     }
 
     allProcesses = list()
-    process = processCarsAndSemaphores(queueList)
+    process = processSemaphores(queueList)
     process.start()
 
     rospy.init_node('semaphoreNODE', anonymous=False)

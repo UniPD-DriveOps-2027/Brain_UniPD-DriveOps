@@ -78,10 +78,11 @@ else:
     
     CHECKPOINTS = [140,460,306,150, 140, 121, 92, 109, 130, 147,175, 133, 123, 118, 91, 163,373, 406,444] # TEST WHOLE PATH
     CHECKPOINTS = [390,306,333,150, 140] # TEST DOUBLE NO LANE
-    CHECKPOINTS = [390,150] # TEST DOUBLE NO LANE
     CHECKPOINTS = [468,393,306,150, 140, 121, 92, 109, 130, 147,175, 133, 123, 118, 91, 163,373, 406,444] # TEST WHOLE PATH
     CHECKPOINTS = [150, 140, 121, 92, 109, 130, 147,175, 143, 133, 123, 118, 91, 163,373, 406,444] # TEST INTERSECTIONS
     CHECKPOINTS = [460, 395, 306] # TEST INTERSECTIONS
+    CHECKPOINTS = [386, 303, 400] # TEST DOUBLE NO LANE
+    CHECKPOINTS = [468,393,306,150, 140, 121, 92, 109, 130, 147,175, 133, 123, 118, 91, 163,373, 406,444] # TEST WHOLE PATH
     END_NODE = CHECKPOINTS[-1]
     GPS_FOR_START_ONLY = False
 
@@ -321,7 +322,7 @@ OBSTACLE_IS_ALWAYS_CAR = False
 
 # obstacle classification
 MIN_DIST_BETWEEN_OBSTACLES = 0.5             # dont detect obstacle for this distance after detecting one of them
-OBSTACLE_DISTANCE_THRESHOLD = 0.4            # [m] distance from the obstacle to consider it as an obstacle
+OBSTACLE_DISTANCE_THRESHOLD = 0.55            # [m] distance from the obstacle to consider it as an obstacle
 CAR_DISTANCE_THRESHOLD_ROUND = 0.9           # [m] distance from the upcoming car in the roundabout
 CAR_DISTANCE_THRESHOLD_INTERSECTION = 0.3    # [m] distance from the upcoming car in the intersection
 OBSTACLE_CONTROL_DISTANCE = 0.3              # distance to where to stop wrt the obstacle
@@ -340,7 +341,7 @@ OVERTAKE_STATIC_CAR_SPEED = 0.5  # [m/s]
 OT_STATIC_SWITCH_1 = 0.3
 OT_STATIC_SWITCH_2 = 0.55 # BFMC_2023
 OT_STATIC_SWITCH_2 = 0.40 # good for simulation # BFMC_2024
-OT_STATIC_LANE_FOLLOW = 0.35 #DISTANCE FROM THE STATIC CAR TO OVERTAKE IT
+OT_STATIC_LANE_FOLLOW = 0.45 # DISTANCE FROM THE STATIC CAR TO OVERTAKE IT
 # overtake moving car
 OVERTAKE_MOVING_CAR_SPEED = 0.5  # [m/s]
 OT_MOVING_SWITCH_1 = 0.27  # [m]
@@ -1119,7 +1120,7 @@ class Brain:
             self.go_to_next_event()
         elif getattr(self.second_next_event, 'name', None) == nac.CROSSWALK_TUNNEL_EVENT:
             hf.navigate_intersection_to_crosswalk(self,SHOW_IMGS)
-        elif self.next_event.name.startswith("intersection"):
+        elif self.next_event.name.startswith("intersection") or self.next_event.name.startswith("highway"):
             hf.navigate_intersection(self, SHOW_IMGS)
         elif self.next_event.name.startswith("roundabout"):
             print(f'idx (ARGMIN): {idx_point_ahead}')
@@ -1600,9 +1601,13 @@ class Brain:
         if not (self.flag_seen_pedestrian or central_distance < PEDESTRIAN_CONTROL_DISTANCE) or (time() - self.curr_state.start_time) > 10:
             # 2025 implementation for crosswalk after tunnel
             if self.second_prev_event.name == nac.TUNNEL_EVENT:
+                print("SECOND PREVIOUS EVENT IS THE TUNNEL, WE ARE DOING TRACKING LOCAL PATH 111111")
+                sleep(3)
                 self.switch_to_state(nac.TRACKING_LOCAL_PATH)
                 self.go_to_next_event()
             else:
+                print(" WE ARE DOING LANE FOLLOWING, NORMAL CROSSWALK EVENT 11111")
+                sleep(3)
                 self.car.drive_speed(self.desired_speed)
                 self.switch_to_state(nac.LANE_FOLLOWING)
                 self.go_to_next_event()
@@ -1618,10 +1623,14 @@ class Brain:
             else:
                 # 2025 implementation for crosswalk after tunnel
                 if self.second_prev_event.name == nac.TUNNEL_EVENT:
+                    print("SECOND PREVIOUS EVENT IS THE TUNNEL, WE ARE DOING TRACKING LOCAL PATH")
+                    sleep(3)
                     self.switch_to_state(nac.TRACKING_LOCAL_PATH)
                     self.go_to_next_event()
                 else:
                     self.car.drive_speed(self.desired_speed)
+                    print(" WE ARE DOING LANE FOLLOWING, NORMAL CROSSWALK EVENT")
+                    sleep(3)
                     self.switch_to_state(nac.LANE_FOLLOWING)
                     self.go_to_next_event()
    
