@@ -660,19 +660,19 @@ def navigate_roundabout(brain, idx_point_ahead, max_idx, show):
         print("\nIN IN IN IN IN IN 3\n")
         log_distance_once("IN3")
         e3, _ = brain.detect.detect_roundabout_in(brain.car.frame, show_ROI=show)
-        output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, e3, 1.5 * e3)
-    elif idx_point_ahead < 110:
+        output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, e3, 1.3 * e3)
+    elif idx_point_ahead < 150:
         print("\nABOUT ABOUTABOUT 1\n")
         log_distance_once("ABOUT1")
         e3, _ = brain.detect.detect_roundabout_about(brain.car.frame, show_ROI=show)
         brain.curr_state.var4 = 0.3 * brain.curr_state.var4 + 0.7 * e3
-        output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, 0.0, 0.8*brain.curr_state.var4)
+        output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, 0.0, 0.6*brain.curr_state.var4)
     elif idx_point_ahead < 210:
         print("\nABOUT ABOUTABOUT 2\n")
         log_distance_once("ABOUT2")
         e3, _ = brain.detect.detect_roundabout_about(brain.car.frame, show_ROI=show)
         brain.curr_state.var4 = 0.3 * brain.curr_state.var4 + 0.7 * e3
-        output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, brain.curr_state.var4, 1.8*brain.curr_state.var4)
+        output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, brain.curr_state.var4, 1.5*brain.curr_state.var4)
     else:
         print("\nABOUT ABOUTABOUT 3\n")
         log_distance_once("ABOUT3")

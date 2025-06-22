@@ -28,7 +28,7 @@ import helper_functions as hf
 
 from parkman import Maneuvers
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-SELECTED_EVENT = "round4" # "tunnel", "round","no_lane_left/right", "highway", "crosswalk", "parking" , "test", "tunnel_second_way"
+SELECTED_EVENT = "no_lane"# "tunnel", "round","no_lane_left/right", "highway", "crosswalk", "parking" , "test", "tunnel_second_way"
 base_dir = os.path.dirname(__file__)
 # Based on the path given for the arena challenge
 END_NODE_ARENA = 149
@@ -73,20 +73,12 @@ elif RESUME:
 # DEFAULT START
 else:
     STARTING_COORDS = [-42, -42] # DEFAULT START POSITION
-
-    CHECKPOINTS = [390, 320, 150, 91, 420, 444, 122, 97, 91, 
-        163, 190, 306, 373, 406, 420, 444, 502]
-    CHECKPOINTS = [150, 135, 110, 140, 396, 334, 352, 260, 197, 207, 150, 121, 92, 107,
-        109, 130, 147, 175, 123, 118, 91, 451, 455, 466, 420, 444, 511, 97, 91,
-        163, 190, 236, 306, 319, 373, 382, 407, 420, 444, 502]
-    CHECKPOINTS = [388, 334, 150, 121, 92, 110, 130, 147, 175, 133, 147]
-    CHECKPOINTS = [466,420, 334,260]
-
     CHECKPOINTS = [ 460, 334, 150, 140, 121, 92, 109, 130, 147, 175, 133, 123, 118, 91, 420, 444, 122, 97, 91, 
-        163, 190, 306, 373, 406, 420, 444, 502] #good one
-    CHECKPOINTS = [136, 142, 450]
+        163, 190, 306, 373, 406, 420, 444, 502] #good one don t modify
     CHECKPOINTS = [150, 140, 121, 92, 109, 130, 147,175, 133, 123, 118, 91, 163,373, 406,444] # TEST INTERSECTIONS
-    CHECKPOINTS = [330, 150, 400]
+    CHECKPOINTS = [140,460,306,150, 140, 121, 92, 109, 130, 147,175, 133, 123, 118, 91, 163,373, 406,444] # TEST WHOLE PATH
+    CHECKPOINTS = [390,306,323,150, 140] # TEST WHOLE PATH
+
     END_NODE = CHECKPOINTS[-1]
     GPS_FOR_START_ONLY = False
 
@@ -703,7 +695,7 @@ class Brain:
         #TUNNEL NEW 
         # if next next event is TUNNEL_EVENT switch to TUNNEL state (we use next next because the intersection stop event is not trigered as the croswalk is too close to the entrance)
         elif getattr(self.second_next_event, 'name', None) == nac.TUNNEL_EVENT:   #safe against None values
-            min_distance_lidar_right = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, 85, 95)
+            min_distance_lidar_right = hf.get_min_distance_in_filtered_range(self.car.lidar_angles,self.car.lidar_ranges, 85, 95)
             print("Second next event is tunnel")
             print(f'Right distance to trigger the tunnel:{min_distance_lidar_right}')
             if (min_distance_lidar_right <= 0.35):    
@@ -713,8 +705,8 @@ class Brain:
         
         if not handled:
             if self.next_event.name == nac.TUNNEL_EVENT:
-                min_distance_lidar_right = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, 85, 95) 
-                if (min_distance_lidar_right <= 0.4):    
+                min_distance_lidar_right = hf.get_min_distance_in_filtered_range(self.car.lidar_angles,self.car.lidar_ranges, 85, 95) 
+                if (min_distance_lidar_right <= 0.5):    
                     self.switch_to_state(nac.TUNNEL_SPEED_CURVE)
                     handled = True
 
@@ -2012,12 +2004,12 @@ class Brain:
     # ===================== STATE MACHINE MANAGEMENT ===================== #
     def run(self):
         print('==========================================================================')
-        print(f'CHECKPOINT:     {self.checkpoints[self.checkpoint_idx]}')
+        print(f'CHECKPOINT:     {self.checkpoints[self.checkpoint_idx]} -> {self.checkpoints[min(len(self.checkpoints), self.checkpoint_idx+1)]}')
         print(f'STATE:          {self.curr_state}')
-        print(f'2nd_PREV_EVENT: {self.second_prev_event}')
-        print(f'PREV_EVENT:     {self.prev_event}')
+        # print(f'2nd_PREV_EVENT: {self.second_prev_event}')
         print(f'NEXT_EVENT:     {self.next_event}')
-        print(f'2nd_NEXT_EVENT: {self.second_next_event}')
+        print(f'PREV_EVENT:     {self.prev_event}')
+        # print(f'2nd_NEXT_EVENT: {self.second_next_event}')
         print(f'ROUTINES:       {self.active_routines_names+ALWAYS_ON_ROUTINES}')
         print(f'CONDITIONS:     {self.conditions}')
         print('==========================================================================')
