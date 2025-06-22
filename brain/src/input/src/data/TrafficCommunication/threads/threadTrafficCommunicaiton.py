@@ -30,7 +30,7 @@ class threadTrafficCommunication(ThreadWithStop):
         #self.period_task = periodicTask(5, shrd_mem, self.tcp_factory) # Handles the Queue of errors accumulated so far.
 
         self.reactor = reactor
-        self.reactor.listenUDP(self.listenPort, self.udp_factory,interface="0.0.0.0")
+        self.reactor.listenUDP(self.listenPort, self.udp_factory)
 
 
     # =================================== CONNECTION =======================================
@@ -47,8 +47,6 @@ class threadTrafficCommunication(ThreadWithStop):
         self.reactor.connectTCP(address, port, self.tcp_factory)
         self.udp_factory.stopListening()
         #self.period_task.start()
-
-
 
     # ======================================= RUN ==========================================
     def run(self):

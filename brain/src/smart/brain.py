@@ -685,9 +685,20 @@ class Brain:
             print("PROBLEMATIC STOPLINE")
             travelled_distance = self.car.encoder_distance - self.curr_state.start_distance
             print(f'TRAVELLED DISTANCE {travelled_distance}')
-            if travelled_distance > 2.4:
+            if travelled_distance < 2.4: #deactivate stopline detection
+                self.activate_routines([nac.FOLLOW_LANE,
+                                    nac.CONTROL_FOR_CAR,
+                                    nac.DRIVE_DESIRED_SPEED])
+            elif travelled_distance >= 2.4: # use right followlane for 30 cm
+                print('We are at the stopline')
+                self.activate_routines([])
+                self.car.stop()
+                sleep(2.0)
+                self.car.drive_angle(20.0)
+                self.car.drive_speed(self.desired_speed)
+                sleep(1)
+                self.go_to_next_event()
 
-                self.switch_to_state(nac.WAITING_AT_STOPLINE)
                 #result = self.sign_detection_position()    # detect sign and position Thomas
                 #sign_detect = "Stop"
                 #if result is not None:
@@ -867,7 +878,7 @@ class Brain:
             self.car.publish_led_control(False)  # Turn off LED
 
         if self.curr_state.just_switched:
-            cv.imwrite(f'asl/asl_{int(time() * 1000)}.png', self.car.frame)
+            # cv.imwrite(f'asl/asl_{int(time() * 1000)}.png', self.car.frame)
             self.curr_state.just_switched = False
             #self.curr_sign = "NO_sign"
 
@@ -1118,6 +1129,7 @@ class Brain:
                 print("SWITCHED TO LANE FOLLOWOING IN TRACKING LOCAL PATH!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
                 self.go_to_next_event()
             print(f'idx (DIST_LOC): {idx_point_ahead}')
+            print("GOING TO THE ROUNDABOUT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
             hf.navigate_roundabout(self, idx_point_ahead, max_idx, SHOW_IMGS)
         else:  # we are still on the path
             hf.navigate_open_loop(self, local_path_cf, idx_point_ahead, idx_car_on_path, SHOW_IMGS)

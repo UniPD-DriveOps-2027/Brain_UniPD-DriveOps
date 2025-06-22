@@ -133,10 +133,12 @@ def get_min_distance_in_filtered_range(lidar_angles, lidar_ranges, start_deg, en
     # Convert to Cartesian coordinates
     x = selected_ranges * np.cos(selected_angles)
     y = selected_ranges * np.sin(selected_angles)
+    x= None
+    y =None
     points = np.vstack((x, y)).T
-
     # Cluster points
     clusters = []
+
     current_cluster = [points[0]]
     
     for i in range(1, len(points)):
@@ -171,14 +173,17 @@ def scan_callback(scan_msg):
     angles = angle_min + np.arange(num_points) * angle_increment
 
     # Process only 90° to 270° (rear of robot)
-    min_distance = get_min_distance_in_range(angles, ranges, 85, 95)
+   # min_distance = get_min_distance_in_filtered_range(angles, ranges, 85, 95)
+    dist1 = get_min_distance_in_filtered_range(angles,ranges, 150, 180)
+    dist2 = get_min_distance_in_filtered_range(angles,ranges, -180, -150)
+    dist = min(dist1, dist2)
    #min_distance = get_min_distance_in_filtered_range(angles, ranges,160,180,
     #                                         size_threshold=0.02, 
     #                                         cluster_dist_threshold=0.07,  #0.5
     #                                         min_cluster_size=5)
 
-    rospy.loginfo(f"Min obstacle distance (filtered): {min_distance:.2f} m")
-
+    #rospy.loginfo(f"Min obstacle distance (filtered): {min_distance:.2f} m")
+    rospy.loginfo(f"Min obstacle distance (filtered): {dist:.2f} m")
 
 def main():
     rospy.init_node('laser_scan_filter_node')
