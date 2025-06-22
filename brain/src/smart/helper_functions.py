@@ -512,11 +512,11 @@ def navigate_intersection_to_crosswalk(brain, show):
     if brain.curr_state.var4 == "right":
         print('CROSSWALK RIGHT')
         e3, _ = brain.detect.detect_intersection_right(brain.car.frame, show_ROI=show)
-        e3 = 1.5 * e3 #old value = 0.8; new = 1.
+        e3 = 1.2 * e3 #old value = 0.8; new = 1.
         output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, 0.0, e3)
         # in order to avoid the line of the crosswalk we clamp the steering angle
-        if output_angle < np.deg2rad(15):
-            output_angle = np.deg2rad(15)
+        if output_angle < np.deg2rad(12):
+            output_angle = np.deg2rad(12)
 
         index_point_ahead = np.round(brain.car.dist_loc*100)
         #print(f'crosswalk index point ahead = {index_point_ahead}')
@@ -666,7 +666,7 @@ def navigate_roundabout(brain, idx_point_ahead, max_idx, show):
         log_distance_once("ABOUT1")
         e3, _ = brain.detect.detect_roundabout_about(brain.car.frame, show_ROI=show)
         brain.curr_state.var4 = 0.3 * brain.curr_state.var4 + 0.7 * e3
-        output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, 0.0, brain.curr_state.var4)
+        output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, 0.0, 0.8*brain.curr_state.var4)
     elif idx_point_ahead < 210:
         print("\nABOUT ABOUTABOUT 2\n")
         log_distance_once("ABOUT2")

@@ -25,47 +25,71 @@
 # CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE
-from multiprocessing import Pipe
+
+if __name__ == "__main__":
+    import sys
+    sys.path.insert(0, "../../..")
+
 from src.templates.workerprocess import WorkerProcess
-from src.utils.PCcommunicationDashBoard.threads.threadRemoteHandler import (
-    threadRemoteHandler,
+from src.data.Semaphores.threads.threadSemaphores import (
+    threadSemaphores,
 )
 
-
-class processPCCommunicationDashBoard(WorkerProcess):
-    """This process handle the connection between Dashboard and Raspberry PI.
-
+class processSemaphores(WorkerProcess):
+    """This process will receive the location of the other cars and the location and the state of the semaphores.
     Args:
         queueList (dictionary of multiprocessing.queues.Queue): Dictionary of queues where the ID is the type of messages.
         logging (logging object): Made for debugging.
     """
 
     # ====================================== INIT ==========================================
-    def __init__(self, queueList, logging):
+    def __init__(self, queueList, logging, debugging = False):
         self.queuesList = queueList
         self.logging = logging
-        pipeRecv, pipeSend = Pipe(duplex=False)
-        self.pipeRecv = pipeRecv
-        self.pipeSend = pipeSend
-        super(processPCCommunicationDashBoard, self).__init__(self.queuesList)
+        self.debugging = debugging
+        super(processSemaphores, self).__init__(self.queuesList)
 
     # ===================================== STOP ==========================================
-    def _stop(self):
+    def stop(self):
         """Function for stopping threads and the process."""
+
         for thread in self.threads:
             thread.stop()
             thread.join()
-        super(processPCCommunicationDashBoard, self).stop()
+        super(processSemaphores, self).stop()
 
     # ===================================== RUN ==========================================
     def run(self):
         """Apply the initializing methods and start the threads."""
-        super(processPCCommunicationDashBoard, self).run()
+
+        super(processSemaphores, self).run()
 
     # ===================================== INIT TH ======================================
     def _init_threads(self):
-        """Create the communication thread and add to the list of threads."""
-        PCTh = threadRemoteHandler(
-            self.queuesList, self.logging, self.pipeRecv, self.pipeSend
-        )
-        self.threads.append(PCTh)
+        """Create the thread and add to the list of threads."""
+
+        CarsSemTh = threadSemaphores(self.queuesList, self.logging, self.debugging)
+        self.threads.append(CarsSemTh)
+
+
+# =================================== EXAMPLE =========================================
+
+if __name__ == "__main__":
+    from multiprocessing import Queue
+
+    queueList = {
+        "Critical": Queue(),  # Queue for critical messages
+        "Warning": Queue(),  # Queue for warning messages
+        "General": Queue(),  # Queue for general messages
+        "Config": Queue(),  # Queue for configuration messages
+    }
+
+    allProcesses = list()
+    process = processSemaphores(queueList)
+    process.start()
+
+    x = range(6)
+    for n in x:
+        print(queueList["General"].get())  # Print general messages
+
+    process.stop()

@@ -1,16 +1,9 @@
-# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-# DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-# FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-# SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-# CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-# OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-# OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE
+
+
 from twisted.internet import reactor
 from src.templates.threadwithstop import ThreadWithStop
 from src.data.TrafficCommunication.threads.udpListener import udpListener
 from src.data.TrafficCommunication.threads.tcpClient import tcpClient
-from src.data.TrafficCommunication.threads.tcpLocsys import tcpLocsys
 from src.data.TrafficCommunication.useful.periodicTask import periodicTask
 
 
@@ -25,36 +18,37 @@ class threadTrafficCommunication(ThreadWithStop):
     """
 
     # ====================================== INIT ==========================================
-    def __init__(self, shrd_mem, queueslist, deviceID, decrypt_key):
+    def __init__(self, shrd_mem, queueslist, deviceID, frequency, decrypt_key):
         super(threadTrafficCommunication, self).__init__()
         self.listenPort = 9000
-        self.tcp_factory = tcpClient(
-            self.serverDisconnect, self.locsysConnect, deviceID
-        )
-        self.udp_factory = udpListener(decrypt_key, self.serverFound)
-        self.queue = queueslist["General"]
-        self.period_task = periodicTask(1, shrd_mem, self.tcp_factory)
+        self.queue = queueslist
+
+        self.tcp_factory = tcpClient(self.serverLost, deviceID, frequency, self.queue) # Handles the connection with the server
+
+        self.udp_factory = udpListener(decrypt_key, self.serverFound) #Listens for server broadcast and validates it
+
+        #self.period_task = periodicTask(5, shrd_mem, self.tcp_factory) # Handles the Queue of errors accumulated so far.
+
         self.reactor = reactor
-        self.reactor.listenUDP(self.listenPort, self.udp_factory)
+        self.reactor.listenUDP(self.listenPort, self.udp_factory,interface="0.0.0.0")
+
 
     # =================================== CONNECTION =======================================
-    def serverDisconnect(self):
-        """If the server discconects we stop the factory listening and we start the reactor listening"""
+    def serverLost(self):
+        """If the server disconnects, we stop the factory listening and start the reactor listening"""
+
         self.reactor.listenUDP(self.listenPort, self.udp_factory)
         self.tcp_factory.stopListening()
+        #self.period_task.stop()
 
     def serverFound(self, address, port):
-        """If the server was found we stop the factory listening and we connect the reactor and we start the periodic task"""
+        """If the server was found, we stop the factory listening, connect the reactor, and start the periodic task"""
+        
         self.reactor.connectTCP(address, port, self.tcp_factory)
         self.udp_factory.stopListening()
-        self.period_task.start()
+        #self.period_task.start()
 
-    def locsysConnect(self, deviceID, IPandPORT):
-        """In this method we get the port and ip and we connect the reactor"""
-        ip, port = IPandPORT.split(":")
-        print(ip, port, deviceID)
-        self.tcp_factory_locsys = tcpLocsys(id, self.queue)
-        self.reactor.connectTCP(ip, int(port), self.tcp_factory_locsys)
+
 
     # ======================================= RUN ==========================================
     def run(self):

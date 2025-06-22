@@ -1,4 +1,7 @@
 
+import rospy
+from std_msgs.msg import Float64
+from utils.msg import vehicles, environmental
 
 if __name__ == "__main__":
     import sys
@@ -46,6 +49,7 @@ class processTrafficCommunication(WorkerProcess):
         """Apply the initializing methods and start the threads."""
 
         super(processTrafficCommunication, self).run()
+        rospy.init_node('traffic_communication_node', anonymous=True)  # Initialize ROS node
 
     # ===================================== INIT TH ======================================
     def _init_threads(self):
@@ -73,8 +77,8 @@ if __name__ == "__main__":
         "General": Queue(),
         "Config": Queue(),
     }
-    # filename = "useful/publickey_server.pem"
-    filename = "useful/publickey_server_test.pem"
+    filename = "useful/publickey_server.pem"
+    #filename = "useful/publickey_server_test.pem"
     deviceID = 3
     frequency = 0.4
     traffic_communication = threadTrafficCommunication(
@@ -82,29 +86,43 @@ if __name__ == "__main__":
     )
     traffic_communication.start()    
 
-    start_time = time.time()
-    duration = 10  # specify the duration in seconds
+    # =================================== ROS =========================================
+    rospy.init_node('serverNODE', anonymous=False)
+    # =============================== PUBLISHERS ======================================
+    Vehicles_publisher = rospy.Publisher("/automobile/vehicles", vehicles, queue_size=1)
+    Environment_publisher = rospy.Publisher("/automobile/environment", environmental, queue_size=1)
+    # ============================== SUBSCRIPTIONS  ===================================
 
-    while time.time() - start_time < duration:
-        try:
-            #from utils.msg import environmental
-            #from utils.msg import vehicles
-            # prepare the sign message that cmes from callback "/automobile/environment"
-            msg_sign = {
+    def environment_callback(msg):
+        print(f"Received Obstacle ID: {msg.obstacle_id}, X: {msg.x}, Y: {msg.y}")
+        msg_sign = {
             "reqORinfo": "info",
             "type": "historyData",
-            "value1": 1, #pos x
-            "value2": 2, #pos y                           
-            "value3": 3, #obstacle id
-            }
-            traffic_communication.tcp_factory.send_data_to_server(msg_sign)
+            "value1": msg.x,             # pos x
+            "value2": msg.y,             # pos y
+            "value3": msg.obstacle_id,   # obstacle id
+        }
+        traffic_communication.tcp_factory.send_data_to_server(msg_sign)
 
-            # get data and send to topic "/automobile/vehicles"
-            data = queueList["General"].get(timeout=1)
-            x = data['msgValue']['x']
-            y = data['msgValue']['y']
-            print(f'X = {x} Y = {y}')
 
-        except Exception as e:
-            print("Error:", e)
-    traffic_communication.stop()
+    rospy.Subscriber('/automobile/environment', environmental, environment_callback)
+    veh = vehicles()
+    try:
+        while not rospy.is_shutdown():
+            data = queueList["General"].get()
+            veh.posA  = float(data['msgValue']['x'])
+            veh.posB  = float(data['msgValue']['y'])
+            print(f'X = {veh.posA} Y = {veh.posB}')
+            Vehicles_publisher.publish(veh)
+
+            # Example environment message
+            env_msg = environmental()
+            env_msg.obstacle_id = 1
+            env_msg.x = veh.posA + 0.001
+            env_msg.y = veh.posB + 0.001
+            Environment_publisher.publish(env_msg)
+
+    except rospy.ROSInterruptException:
+        pass
+    finally:
+        traffic_communication.stop()

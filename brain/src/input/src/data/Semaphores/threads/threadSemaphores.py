@@ -25,47 +25,42 @@
 # CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE
-from multiprocessing import Pipe
-from src.templates.workerprocess import WorkerProcess
-from src.utils.PCcommunicationDemo.threads.threadRemoteHandler import (
-    threadRemoteHandler,
-)
+
+from src.templates.threadwithstop import ThreadWithStop
+from twisted.internet import reactor
+from src.data.Semaphores.threads.udpListener import udpListener
 
 
-class processPCCommunicationDemo(WorkerProcess):
-    """This process handle the connection between Demo and Raspberry PI.
+class threadSemaphores(ThreadWithStop):
+    """Thread which will handle processCarsAndSemaphores functionalities
 
     Args:
         queueList (dictionary of multiprocessing.queues.Queue): Dictionary of queues where the ID is the type of messages.
-        logging (logging object): Made for debugging.
+        listenPort (int, optional): Listening port. Defaults to 5007.
     """
 
     # ====================================== INIT ==========================================
-    def __init__(self, queueList, logging):
-        self.queuesList = queueList
-        self.logging = logging
-        pipeRecv, pipeSend = Pipe(duplex=False)
-        self.pipeRecv = pipeRecv
-        self.pipeSend = pipeSend
-        super(processPCCommunicationDemo, self).__init__(self.queuesList)
+    def __init__(self, queueList, logger, debugging, listenPort=5007):
+        super(threadSemaphores, self).__init__()
+        self.listenPort = listenPort
+        self.queueList = queueList
+        self.logger = logger
+        self.debugging = debugging
+        self.udp_factory = udpListener(self.queueList, self.logger, self.debugging)
+        self.reactor = reactor
+        self.reactor.listenUDP(self.listenPort, self.udp_factory)
 
-    # ===================================== STOP ==========================================
-    def _stop(self):
-        """Function for stopping threads and the process."""
-        for thread in self.threads:
-            thread.stop()
-            thread.join()
-        super(processPCCommunicationDemo, self).stop()
-
-    # ===================================== RUN ==========================================
+    # ======================================= RUN ==========================================
     def run(self):
-        """Apply the initializing methods and start the threads."""
-        super(processPCCommunicationDemo, self).run()
+        """
+        Run the thread.
+        """
+        self.reactor.run(installSignalHandlers=False)
 
-    # ===================================== INIT TH ======================================
-    def _init_threads(self):
-        """Create the communication thread and add to the list of threads."""
-        PCTh = threadRemoteHandler(
-            self.queuesList, self.logging, self.pipeRecv, self.pipeSend
-        )
-        self.threads.append(PCTh)
+    # ====================================== STOP ==========================================
+    def stop(self):
+        """
+        Stop the thread.
+        """
+        self.reactor.stop()
+        super(threadSemaphores, self).stop()

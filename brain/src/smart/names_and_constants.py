@@ -30,17 +30,21 @@ EVENT_CONFIGS = {
         "starting_coords": [0.39, 12.2],
         "checkpoints": [999, 143]
     },
-    "tunnel": {
-        "starting_coords": [2.42, 10.62],
-        "checkpoints": [999, 143]
+    "tunnel_one_way": {
+        "starting_coords": [5.670, 5.867], #node 125
+        "checkpoints": [999, 162, 190]
+    },
+    "tunnel_second_way": {
+        "starting_coords": [3.196, 5.459], #node 130
+        "checkpoints": [999, 147, 175, 133, 123]
     },
     "round1": {
-        "starting_coords": [17.3, 6.0],
-        "checkpoints": [999, 397, 200]
+        "starting_coords": [17.3, 6.0], #node 395
+        "checkpoints": [999, 306, 200]
     },
 
     "round2": {
-        "starting_coords": [17.96, 8.81],
+        "starting_coords": [17.96, 8.81], 
         "checkpoints": [999, 333, 200]
     },
     "round3": {

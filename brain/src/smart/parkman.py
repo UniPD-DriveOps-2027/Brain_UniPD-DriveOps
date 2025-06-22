@@ -24,20 +24,20 @@ class Maneuvers():
         # self.park_pl_midpoint_yaw = np.deg2rad(-40.0)# [rad]
 
         # control constants
-        self.park_pl_turn_right = 25.0  # [deg]
-        self.park_pl_turn_left = -25.0  # [deg]
+        self.park_pl_turn_right = 28.0  # [deg]
+        self.park_pl_turn_left = -28.0  # [deg]
         self.park_pl_forward = 0.1      # [m/s]
         self.park_pl_backward = -0.1    # [m/s]
         
-        self.park_pl_align_right = 12.0  # [deg]
-        self.park_pl_align_left = -12.0  # [deg]
+        self.park_pl_align_right = 14.0  # [deg]
+        self.park_pl_align_left = -14.0  # [deg]
 
-        self.distance1 = -0.50
+        self.distance1 = -0.55
         self.distance2 = -0.43  
         self.distance3 = 0.18
         self.distance4 = -0.18 
         self.distance5 = 0.43 
-        self.distance6 = 0.50
+        self.distance6 = 0.55
 
         
     def parallel_parking_on_distance(self, car, side=nac.RIGHT_PARK):

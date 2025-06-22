@@ -397,7 +397,7 @@ class PathPlanning():
             else:
                 print(f"Event type {t} not handled")
                 path_event_path_ahead.append(None)
-            
+        """    
         # Replace your current print statements with this:
         print("\n" + "="*80)
         print("AUGMENTING PATH".center(80))
@@ -410,7 +410,7 @@ class PathPlanning():
         print("-"*80)
         print(f"{'Event Types:':<20} {self.path_event_types}")
         print("="*80 + "\n")
-
+        """
         events = list(zip(self.path_event_types, self.path_event_points_distances, self.path_event_points, path_event_path_ahead))
         return events
 
