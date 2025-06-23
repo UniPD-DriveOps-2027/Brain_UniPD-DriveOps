@@ -26,6 +26,7 @@ class udpListener(protocol.DatagramProtocol):
             if len(dat) != 2:
                 raise Exception("Plaintext or signature not present")
             a = keyDealer.verify_data(self.pub_key, dat[1], dat[0])
+            print(a,dat, address)
             if not a:
                 raise Exception("signature not valid")
             msg = dat[1].decode().split(":")

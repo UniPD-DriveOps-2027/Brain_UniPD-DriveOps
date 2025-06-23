@@ -1,8 +1,4 @@
 
-import rospy
-from std_msgs.msg import Float64
-from utils.msg import vehicles, environmental, localisation, IMU
-
 if __name__ == "__main__":
     import sys
     sys.path.insert(0, "../../..")
@@ -14,22 +10,6 @@ from src.templates.workerprocess import WorkerProcess
 from src.data.TrafficCommunication.threads.threadTrafficCommunicaiton import (
     threadTrafficCommunication,
 )
-
-import os
-import signal
-import subprocess
-
-import subprocess
-
-def kill_process_on_port(port):
-    try:
-        cmd = f"sudo lsof -t -i:{port} | xargs --no-run-if-empty sudo kill -9"
-        subprocess.check_call(cmd, shell=True)
-        print(f"Processes using port {port} have been killed (if any).")
-    except subprocess.CalledProcessError:
-        print(f"No process is using port {port}.")
-
-
 
 class processTrafficCommunication(WorkerProcess):
     """This process receives the location of the car and sends it to the processGateway.
@@ -86,11 +66,22 @@ if __name__ == "__main__":
     from multiprocessing import Queue
     import time
     import signal
+    import subprocess
+    import sys
+    import rospy
+    from std_msgs.msg import Float64
+    from utils.msg import vehicles, environmental, localisation, IMU
+    import queue
 
-    def signal_handler(sig, frame):
-        print('Ctrl+C caught, shutting down...')
-        rospy.signal_shutdown('Ctrl+C pressed')
-    signal.signal(signal.SIGINT, signal_handler)
+    def kill_process_on_port(port):
+        try:
+            cmd = f"sudo lsof -t -i:{port} | xargs --no-run-if-empty sudo kill -9"
+            subprocess.check_call(cmd, shell=True)
+            print(f"Processes using port {port} have been killed (if any).")
+        except subprocess.CalledProcessError:
+            print(f"No process is using port {port}.")
+
+
 
     shared_memory = sharedMem()
     locsysReceivePipe, locsysSendPipe = Pipe(duplex=False)
@@ -100,9 +91,9 @@ if __name__ == "__main__":
         "General": Queue(),
         "Config": Queue(),
     }
-    #filename = "useful/publickey_server.pem"
-    filename = "useful/publickey_server_test.pem"
-    deviceID = 3
+    filename = "useful/publickey_server.pem"
+    #filename = "useful/publickey_server_test.pem"
+    deviceID = 2
     frequency = 0.4
     traffic_communication = threadTrafficCommunication(
         shared_memory, queueList, deviceID, frequency, filename
@@ -121,7 +112,7 @@ if __name__ == "__main__":
     # ROS Subscribers Setup
 
     def environment_callback(msg):
-        print(f"Received Obstacle ID: {msg.obstacle_id}, X: {msg.x}, Y: {msg.y}")
+        #print(f"Received Obstacle ID: {msg.obstacle_id}, X: {msg.x}, Y: {msg.y}")
         msg_sign = {
             "reqORinfo": "info",
             "type": "historyData",
@@ -132,7 +123,7 @@ if __name__ == "__main__":
         traffic_communication.tcp_factory.send_data_to_server(msg_sign)
 
     def car_position_callback(msg):
-        print(f"car_position_callback: X: {msg.x}, Y: {msg.y}")
+        #print(f"car_position_callback: X: {msg.x}, Y: {msg.y}")
         msg_position = {
             "reqORinfo": "info",
             "type": "devicePos",
@@ -142,7 +133,7 @@ if __name__ == "__main__":
         traffic_communication.tcp_factory.send_data_to_server(msg_position)
 
     def car_speed_callback(msg):
-        print(f"car_speed_callback: Speed: {msg.data}")
+        #print(f"car_speed_callback: Speed: {msg.data}")
         msg_speed = {
             "reqORinfo": "info",
             "type": "deviceSpeed",
@@ -151,7 +142,7 @@ if __name__ == "__main__":
         traffic_communication.tcp_factory.send_data_to_server(msg_speed)
 
     def car_yaw_callback(msg):
-        print(f"car_yaw_callback: Yaw: {msg.yaw}")
+        #print(f"car_yaw_callback: Yaw: {msg.yaw}")
         msg_yaw = {
             "reqORinfo": "info",
             "type": "deviceRot",
@@ -168,21 +159,33 @@ if __name__ == "__main__":
 
     try:
         while not rospy.is_shutdown():
-            data = queueList["General"].get()
-            veh.posA = float(data['msgValue']['x'])
-            veh.posB = float(data['msgValue']['y'])
-            print(f'X = {veh.posA} Y = {veh.posB}')
-            Vehicles_publisher.publish(veh)
+            try:
+                data = queueList["General"].get()
+                veh.posA = float(data['msgValue']['x'] / 1000)
+                veh.posB = float(data['msgValue']['y'] / 1000)
+                print(f'X = {veh.posA} Y = {veh.posB}')
+                Vehicles_publisher.publish(veh)
 
-            env_msg = environmental()
-            env_msg.obstacle_id = 1
-            env_msg.x = veh.posA + 0.001
-            env_msg.y = veh.posB + 0.001
-            Environment_publisher.publish(env_msg)
+                #env_msg = environmental()
+                #env_msg.obstacle_id = 1
+                #env_msg.x = veh.posA + 0.001
+                #env_msg.y = veh.posB + 0.001
+                #Environment_publisher.publish(env_msg)
+
+                msg_position = {
+                    "reqORinfo": "info",
+                    "type": "devicePos",
+                    "value1": float(data['msgValue']['x'] / 1000) ,
+                    "value2": float(data['msgValue']['y'] / 1000) ,
+                }
+                traffic_communication.tcp_factory.send_data_to_server(msg_position)
+                
+            except queue.Empty:
+                pass  # no data — just continue, and check is_shutdown again
 
     except (rospy.ROSInterruptException, KeyboardInterrupt):
         print("Shutting down safely hopefully")
     finally:
+        print("Cleaning up...")
         traffic_communication.stop()
         kill_process_on_port(9000)
-

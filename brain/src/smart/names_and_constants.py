@@ -281,6 +281,8 @@ RIGHT_PARK = 'right'
 LEFT_PARK = 'left'
 TH = None
 
+DESIRED_SPEED = 0.35 
+
 
 # ADDITIONAL CONSTANTS
 

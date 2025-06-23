@@ -124,7 +124,7 @@ if __name__ == '__main__':
                                       trig_tof=True)  # <++>
     else:
         car = AutomobileDataPi(trig_cam=False,
-                               trig_gps=False,
+                               trig_gps=True,
                                trig_bno=True, 
                                trig_enc=True,
                                trig_control=True,

@@ -48,7 +48,7 @@ if RANDOM_START:
     # GET THE BEST "FRUITS" PATH FROM RANDOM POSITION     
     else: 
         STARTING_COORDS = [5, 5] # GET FROM GPS 
-        CHECKPOINTS = compute_optimal_path(start_node=472) # GET FROM FRUITS
+        CHECKPOINTS = [472, 451, 393, 306, 150, 140, 121, 92, 109, 130, 147, 175, 133, 123, 118, 91, 163, 373, 406, 444]  # GET FROM FRUITS
         END_NODE = CHECKPOINTS[-1]  #get the last node from the path
         GPS_FOR_START_ONLY = True
 # DEFAULT START
@@ -80,8 +80,11 @@ else:
     CHECKPOINTS = [390,306,333,150, 140] # TEST DOUBLE NO LANE
     CHECKPOINTS = [150, 140, 121, 92, 109, 130, 147,175, 143, 133, 123, 118, 91, 163,373, 406,444] # TEST INTERSECTIONS
     #CHECKPOINTS = [127, 123, 91] # TEST DOUBLE NO LANE
-    CHECKPOINTS = [468,393,306,150, 140, 121, 92, 109, 130, 147,175, 133, 123, 118, 91, 163,373, 406,444] # TEST WHOLE PATH
-    CHECKPOINTS = [147,175, 122, 118, 91, 163,373, 406,444] 
+    CHECKPOINTS = [468, 393, 306, 150, 140, 121, 92, 109, 130, 147, 175, 133, 123, 118, 91, 163, 373, 406, 444] # TEST WHOLE PATH
+    #CHECKPOINTS = [147,175, 122, 118, 91, 163,373, 406,444] 
+    CHECKPOINTS = [125, 163, 336, 150] # TEST WHOLE PATH
+    CHECKPOINTS = [468, 393, 306, 150, 140, 121, 92, 109, 130, 147, 175, 133, 123, 118, 91, 163, 373, 406, 444] # TEST WHOLE PATH
+    #CHECKPOINTS = [125, 163, 373, 406, 444] # TEST WHOLE PATH
     END_NODE = CHECKPOINTS[-1]
     GPS_FOR_START_ONLY = False
 
@@ -224,7 +227,7 @@ SIGN_CLASSIFY_THRESHOLD = 0.8
 
 # sempahores
 #SEMAPHORE_IS_ALWAYS_GREEN = False if not SIMULATOR_FLAG else True
-SEMAPHORE_IS_ALWAYS_GREEN = True
+SEMAPHORE_IS_ALWAYS_GREEN = False
 
 DEQUE_OF_PAST_FRAMES_LENGTH = 50
 DISTANCES_BETWEEN_FRAMES = 0.03
@@ -368,7 +371,7 @@ class Brain:
                  detection: Detection,
                  path_planner: PathPlanning,
                  checkpoints = None,
-                 desired_speed = 0.3,
+                 desired_speed = nac.DESIRED_SPEED,
                  debug=True):
         print("Initialize brain")
         self.car = car
@@ -492,12 +495,14 @@ class Brain:
         if not RANDOM_START and not RESUME:
             print('Waiting for start semaphore...')
             sleep(3.0)
+            """
             while True:
                 semaphore_start_state = self.env.get_semaphore_state(nac.START)
                 if SEMAPHORE_IS_ALWAYS_GREEN:
                     semaphore_start_state = nac.GREEN
                 if semaphore_start_state == nac.GREEN:
                     break
+            """
         sleep(0.1)
 
         # <++>
@@ -509,18 +514,15 @@ class Brain:
             # get closest node
             if not ALWAYS_DISTRUST_GPS or GPS_FOR_START_ONLY:
                 curr_time = time()
-                #curr_pos = np.array([self.car.x_est, self.car.y_est])
-                curr_pos = np.array(STARTING_COORDS) 
+                curr_pos = np.array([self.car.x_est, self.car.y_est])
+                #curr_pos = np.array(STARTING_COORDS) 
                 closest_node, distance = self.path_planner.get_closest_node_start(curr_pos, self.car.yaw+YAW_OFFSET)
                 self.car.publish_closest_node(float(closest_node))
                 #print(f"Closest NODE is: {float(closest_node)} YAW: {self.car.yaw}" )
                 sleep(3.0)
                 if len(self.car.x_buffer) >= 5:    #5 put in real life                       ################ - PUT BACK THE 5 - ####################
                     print(f'Waiting for gps: {(curr_time- start_time):.1f}/{GPS_TIMEOUT}')
-                    self.checkpoints[self.checkpoint_idx] = closest_node
-                    if USE_FRUITS_GENERATED_PATH:
-                        checkpoints = compute_optimal_path(start_node=closest_node)
-                        self.checkpoints = checkpoints
+                    self.checkpoints[self.checkpoint_idx] = int(closest_node)
                     if distance > 5.0:
                         self.error('ERROR: REROUTING: GPS converged, but distance is too large , we are too far from the lane')
                     break
@@ -535,9 +537,6 @@ class Brain:
                     closest_node, distance = self.path_planner.get_closest_node(curr_pos)
                     self.car.publish_closest_node(float(closest_node))     ##
                     self.checkpoints[self.checkpoint_idx] = closest_node
-                    if USE_FRUITS_GENERATED_PATH:
-                        checkpoints = compute_optimal_path(start_node=closest_node)
-                        self.checkpoints = checkpoints
                     self.car.x_est = curr_pos[0]
                     self.car.y_est = curr_pos[1]
                     print(closest_node)
@@ -685,25 +684,25 @@ class Brain:
             print("PROBLEMATIC STOPLINE")
             travelled_distance = self.car.encoder_distance - self.curr_state.start_distance
             print(f'TRAVELLED DISTANCE {travelled_distance}')
-            if travelled_distance < 1.7: #deactivate stopline detection
+            if travelled_distance < 2.35: #deactivate stopline detection
                 self.activate_routines([nac.FOLLOW_LANE,
                                     nac.CONTROL_FOR_CAR,
                                     nac.DRIVE_DESIRED_SPEED])
-            elif travelled_distance >= 1.7: # use right followlane for 30 cm
+            elif travelled_distance >= 2.35: # use right followlane for 30 cm
                 print('We are at the stopline')
                 self.activate_routines([])
                 self.car.stop()
                 sleep(2.0)
-                self.car.drive_angle(20.0)
+                self.car.drive_angle(17.0)
                 self.car.drive_speed(self.desired_speed)
                 sleep(1)
                 self.go_to_next_event()
 
-                #result = self.sign_detection_position()    # detect sign and position Thomas
-                #sign_detect = "Stop"
-                #if result is not None:
-                #    sign_detect, sign_position = result
-                #    print(f"Sign detected: {sign_detect}, position: {sign_position}")
+                result = self.sign_detection_position()    # detect sign and position Thomas and publish 
+                if result is not None:
+                    sign_detect, sign_position = result
+                    print(f"Sign detected: {sign_detect}, position: {sign_position}")
+                    self.car.env.publish_obstacle(sign_detect, sign_position[0], sign_position[1])
 
                 #if self.sign_detect=="Priority":
                 #    self.switch_to_state(nac.TRACKING_LOCAL_PATH)
@@ -727,7 +726,10 @@ class Brain:
             min_distance_lidar_right = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, 85, 95)
             print("Second next event is tunnel")
             print(f'Right distance to trigger the tunnel:{min_distance_lidar_right}')
-            if (min_distance_lidar_right <= 0.35):    
+            print(f'CROSSWALK ON: {self.car.dist_loc}/0.2')
+            if (min_distance_lidar_right <= 0.35 and self.car.dist_loc > 0.2): 
+                print("20 cm")   
+                print(f'CROSSWALK HAS PASSED: {self.car.dist_loc}/0.2') 
                 self.switch_to_state(nac.TUNNEL_SPEED_CURVE)
                 self.go_to_next_event()  
                 handled = True
@@ -735,7 +737,10 @@ class Brain:
         if not handled:
             if self.next_event.name == nac.TUNNEL_EVENT:
                 min_distance_lidar_right = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, 85, 95) 
-                if (min_distance_lidar_right <= 0.35):    
+                print(f'CROSSWALK ON: {self.car.dist_loc}/0.2')
+                if (min_distance_lidar_right <= 0.35 and self.car.dist_loc > 0.2):  
+                    print("20 cm")   
+                    print(f'CROSSWALK HAS PASSED: {self.car.dist_loc}/0.2')  
                     self.switch_to_state(nac.TUNNEL_SPEED_CURVE)
                     handled = True
 
@@ -937,7 +942,7 @@ class Brain:
                 self.error('ERROR: UNEXPECTED STOP LINE FOUND WITH UNKNOWN EVENT AS NEXT EVENT')
             self.activate_routines([])  # deactivate all routines
 
-    
+
     # Substate
     def approaching_stopline_vision(self):
         dist = self.detect.est_dist_to_stopline
@@ -977,35 +982,39 @@ class Brain:
 
     def sign_detection_position(self):
 
-            """
-            Finds a matching sign from a sign file based on the current stopline position.
+        """
+        Finds a matching sign from a sign file based on the current stopline position.
 
-            Returns:
-                tuple: (sign_name, (x, y)) if a match is found, else None.
-            """
-            tolerance = 0.001
-            curr_stopline = self.path_planner.path_event_points[self.stopline_counter]
-            sign_file_path = os.path.join(base_dir, 'data', 'sign_with_position.txt')
-            def is_close(coord1, coord2):
-                return math.isclose(coord1[0], coord2[0], abs_tol=tolerance) and \
-                    math.isclose(coord1[1], coord2[1], abs_tol=tolerance)
+        Returns:
+            tuple: (sign_name, (x, y)) if a match is found, else None.
+        """
+        tolerance = 0.001
+        print(f'stopline_counter: {self.stopline_counter}')
+        curr_stopline = self.next_event.point
+        print(f'cur_stopppline',curr_stopline)
+        sign_file_path = os.path.join(base_dir, 'data', 'sign_with_position.txt')
+        def is_close(coord1, coord2):
+            return math.isclose(coord1[0], coord2[0], abs_tol=tolerance) and \
+                   math.isclose(coord1[1], coord2[1], abs_tol=tolerance)
 
-            # Load signs from file
-            signs = []
-            with open(sign_file_path, 'r') as f:
-                for line in f:
-                    parts = line.strip().split()
-                    if len(parts) >= 3:
-                        name = parts[0]
-                        x, y = map(float, parts[1:3])
-                        signs.append((name, (x, y)))
+        # Load signs from file
+        signs = []
+        with open(sign_file_path, 'r') as f:
+            for line in f:
+                parts = line.strip().split()
+                if len(parts) >= 3:
+                    name = parts[0]
+                    x, y = map(float, parts[1:3])
+                    signs.append((name, (x, y)))
 
-            # Find match
-            for sign_name, sign_pos in signs:
-                if is_close(curr_stopline, sign_pos):
-                    return (sign_name, sign_pos)
+        # Find match
+        for sign_name, sign_pos in signs:
+            if is_close(curr_stopline, sign_pos):
+                return (sign_name, sign_pos)
 
-            return None  # No match found
+        return None  # No match found
+
+
 
     def tracking_local_path(self):
         # var1=local_path_cf, 
@@ -1586,8 +1595,8 @@ class Brain:
         self.go_to_next_event()
 
     def crosswalk_navigation(self):
-        central_distance_right = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, 150, 180)
-        central_distance_left = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, -180, -150)
+        central_distance_right = hf.get_min_distance_in_filtered_range(self.car.lidar_angles,self.car.lidar_ranges, 150, 180)
+        central_distance_left = hf.get_min_distance_in_filtered_range(self.car.lidar_angles,self.car.lidar_ranges, -180, -150)
         central_distance = min(central_distance_left,central_distance_right)
         if nac.TESTING:
             self.activate_routines([nac.CONTROL_FOR_PEDESTRIAN])
@@ -1608,17 +1617,17 @@ class Brain:
             # 2025 implementation for crosswalk after tunnel
             if self.prev_event.name == nac.TUNNEL_EVENT :
                 print("PREVIOUS EVENT IS THE TUNNEL, WE ARE DOING TRACKING LOCAL PATH 111111")
-                sleep(3)
+                #sleep(3)
                 self.switch_to_state(nac.TRACKING_LOCAL_PATH)
                 self.go_to_next_event()
             elif self.second_prev_event.name == nac.TUNNEL_EVENT :
                 print("SECOND PREVIOUS EVENT IS THE TUNNEL, WE ARE DOING TRACKING LOCAL PATH 111111")
-                sleep(3)
+                #sleep(3)
                 self.switch_to_state(nac.TRACKING_LOCAL_PATH)
                 self.go_to_next_event()
             else:
                 print(" WE ARE DOING LANE FOLLOWING, NORMAL CROSSWALK EVENT 11111")
-                sleep(3)
+                #sleep(3)
                 self.car.drive_speed(self.desired_speed)
                 self.switch_to_state(nac.LANE_FOLLOWING)
                 self.go_to_next_event()
@@ -1635,18 +1644,18 @@ class Brain:
                 # 2025 implementation for crosswalk after tunnel
                 if self.prev_event.name == nac.TUNNEL_EVENT:
                     print("PREVIOUS EVENT IS THE TUNNEL, WE ARE DOING TRACKING LOCAL PATH")
-                    sleep(3)
+                    #sleep(3)
                     self.switch_to_state(nac.TRACKING_LOCAL_PATH)
                     self.go_to_next_event()
                 elif self.second_prev_event.name == nac.TUNNEL_EVENT:
                     print("SECOND PREVIOUS EVENT IS THE TUNNEL, WE ARE DOING TRACKING LOCAL PATH")
-                    sleep(3)
+                    #sleep(3)
                     self.switch_to_state(nac.TRACKING_LOCAL_PATH)
                     self.go_to_next_event()
                 else:
                     self.car.drive_speed(self.desired_speed)
                     print(" WE ARE DOING LANE FOLLOWING, NORMAL CROSSWALK EVENT")
-                    sleep(3)
+                    #sleep(3)
                     self.switch_to_state(nac.LANE_FOLLOWING)
                     self.go_to_next_event()
    
@@ -1693,6 +1702,7 @@ class Brain:
             self.tunnel_last_time = None
             # Switch to lane following state
             self.switch_to_state(nac.LANE_FOLLOWING)
+            self.desired_speed = nac.DESIRED_SPEED
             self.go_to_next_event()
 
 
@@ -2013,7 +2023,8 @@ class Brain:
             So this only works in one way of the highway
         '''
         #TODO: implement that it can work on both  ways! Done
-        if ((self.next_event.name == nac.HIGHWAY_ENTRANCE_EVENT) and (self.car.filtered_left_tof_distance <= 0.2)  and (int(self.checkpoints[self.checkpoint_idx]) not in range(152, 176))):
+        #((self.next_event.name == nac.HIGHWAY_ENTRANCE_EVENT) and (self.car.filtered_left_tof_distance <= 0.2)  and (int(self.checkpoints[self.checkpoint_idx]) not in range(152, 176))):
+        if ((self.next_event.name == nac.HIGHWAY_ENTRANCE_EVENT) and (self.car.filtered_left_tof_distance <= 0.2)):
             # self.conditions[nac.HIGHWAY] = str(self.checkpoints[self.checkpoint_idx]) in self.path_planner.highway_nodes and self.car_dist_on_path < 9.5
             self.conditions[nac.HIGHWAY] = True  
         

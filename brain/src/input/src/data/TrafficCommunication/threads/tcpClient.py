@@ -48,7 +48,7 @@ class tcpClient(protocol.ClientFactory):
     def send_data_to_server(self, message):
         if self.connection:
             self.connection.send_data(message)
-            print("sending")
+            #print("sending")
         else:
             print("No TCP connection to server.. We ccannot send message yet")
 
