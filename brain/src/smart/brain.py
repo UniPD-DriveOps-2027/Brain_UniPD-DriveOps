@@ -12,6 +12,8 @@ import names_and_constants as nac
 from extra.giveme_fruits import compute_optimal_path
 import math
 
+from scipy.spatial import cKDTree 
+
 if not SIMULATOR_FLAG:
     from automobile_data_interface import Automobile_Data
 else:
@@ -2082,18 +2084,18 @@ class Brain:
 
             # =============== localisation to send to the server =============== #
             if self.car.flag_localisation:
-                # filter self.car.x,y
-                x = self.car.x_est
-                y = self.car.y_est
-                # TO DO: project x,y to path coordinates
-                projected_x = 0
-                projected_y = 0
+                # project x,y to path coordinates
+                gpsPoint = np.array([self.car.x_est, self.car.y_est])
 
-                self.car.publish_localisation(projected_x,projected_y)
+                # Finds closest point in self.path_planner.path for each gpsPoint
+                tree = cKDTree(path_planner.path)
+                _, closest_idx = tree.query(gpsPoint)
+
+                #filtered_points = path_planner.path[closest_idx]  # Projected points
+                projectedPoint = self.path_planner.path[closest_idx]
+
+                self.car.publish_localisation(projectedPoint[0], projectedPoint[1])
                 self.car.flag_localisation = False
-
-
-            # self.car.x,y filter and publish using self.car.pub_localisation(x,y) (da creare)
 
             # FOR EMERGENCY BRAKE ON STM
             self.car.publish_arena_flag(ARENA)
