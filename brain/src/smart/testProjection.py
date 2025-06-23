@@ -1,6 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+from scipy.spatial import cKDTree
+
 # Parametric curve function
 def curve(t):
     x = 10 + 10 * np.cos(t)
@@ -46,11 +48,16 @@ noise = np.random.normal(loc=0.0, scale=noise_std, size=original_points.shape)
 noisy_points = original_points + noise
 
 # === Project noisy points back onto original (nearest neighbor) ===
-filtered_points = np.zeros_like(noisy_points)
-for i, p in enumerate(noisy_points):
-    dists = np.linalg.norm(original_points - p, axis=1)
-    closest_idx = np.argmin(dists)
-    filtered_points[i] = original_points[closest_idx]
+# filtered_points = np.zeros_like(noisy_points)
+# for i, p in enumerate(noisy_points):
+#     dists = np.linalg.norm(original_points - p, axis=1)
+#     closest_idx = np.argmin(dists)
+#     filtered_points[i] = original_points[closest_idx]
+
+tree = cKDTree(original_points)
+distances, indices = tree.query(noisy_points)
+
+filtered_points = original_points[indices]
 
 # === Plotting ===
 plt.figure(figsize=(10, 8))
