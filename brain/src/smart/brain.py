@@ -86,7 +86,7 @@ else:
     #CHECKPOINTS = [147,175, 122, 118, 91, 163,373, 406,444] 
     CHECKPOINTS = [125, 163, 336, 150] # TEST WHOLE PATH
     CHECKPOINTS = [451, 393, 306, 150, 140, 121, 92, 109, 130, 147, 175, 133, 123, 118, 91, 163, 373, 406, 444] # TEST WHOLE PATH no 468 but 451
-    CHECKPOINTS = [468] # TEST WHOLE PATH
+    CHECKPOINTS = [468, 393, 400] # TEST WHOLE PATH
     END_NODE = CHECKPOINTS[-1]
     GPS_FOR_START_ONLY = False
 
@@ -1168,7 +1168,7 @@ class Brain:
             # publish traffic light
             self.env.publish_obstacle(nac.TRAFFIC_LIGHT, self.car.x_est, self.car.y_est)
             self.curr_state.just_switched = False
-        if tl_state == nac.GREEN or SEMAPHORE_IS_ALWAYS_GREEN:
+        if tl_state == nac.GREEN or SEMAPHORE_IS_ALWAYS_GREEN or (time() - self.curr_state.start_time) > 10:
             self.switch_to_state(nac.TRACKING_LOCAL_PATH)
             self.switch_to_state(nac.TRACKING_LOCAL_PATH)
 
@@ -1929,6 +1929,13 @@ class Brain:
         # check for pedestrian
         frame = self.car.frame
 
+        if frame is None or frame.sum() == 0:
+            print("Frame is empty or not yet set.")
+            return  
+
+        #cv.imshow("Camera", frame)
+        #cv.waitKey(1)
+
         # Resize the frame to match the preview resolution (faster display)
         frame_resized = self.car.frame.copy()
 
@@ -1936,8 +1943,11 @@ class Brain:
         hsv = cv.cvtColor(frame_resized, cv.COLOR_RGB2HSV)
 
         # Define the range of pink in HSV (Hue range for pink: 140-170)
-        upper_pink = np.array([338, 82, 93])  # Upper bound for pink
-        lower_pink = np.array([335, 80, 100])  # Lower bound for pink
+        #upper_pink = np.array([, 50, 70])  # Upper bound for pink
+        #lower_pink = np.array([300, 30, 60])  # Lower bound for pink
+
+        lower_pink = np.array([110, 90, 150])  # Lower bound for pink
+        upper_pink = np.array([168, 255, 255])  # Upper bound for pink
 
         # Create a mask for pink regions
         mask = cv.inRange(hsv, lower_pink, upper_pink)
@@ -1982,7 +1992,7 @@ class Brain:
             else:
                 self.flag_seen_pedestrian =  False
 
-       # print(f"Pedestrian :{self.flag_pedestrian_in_the_way}")
+        print(f"Pedestrian :{self.flag_pedestrian_in_the_way}")
 
         #if flag_seen_pedestrian: 
             # start checking the lidar when we get close to the crosswalk

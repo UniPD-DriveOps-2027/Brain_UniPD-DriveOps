@@ -1153,6 +1153,7 @@ class Brain:
 
 
     def waiting_for_green(self):
+
         event_p = self.next_event.point
         # event_x = self.next_event.point[0]
         # event_y = self.next_event.point[1]
@@ -1166,7 +1167,7 @@ class Brain:
             # publish traffic light
             self.env.publish_obstacle(nac.TRAFFIC_LIGHT, self.car.x_est, self.car.y_est)
             self.curr_state.just_switched = False
-        if tl_state == nac.GREEN or SEMAPHORE_IS_ALWAYS_GREEN:
+        if tl_state == nac.GREEN or SEMAPHORE_IS_ALWAYS_GREEN or (time() - self.curr_state.start_time) > 10:
             self.switch_to_state(nac.TRACKING_LOCAL_PATH)
             self.switch_to_state(nac.TRACKING_LOCAL_PATH)
 

@@ -8,7 +8,7 @@ import time
 # Define shared memory file
 shm_file = "/dev/shm/imu_shared_memory"
 
-YAW_OFFSET = 50.0  # Change this value to your desired offset
+YAW_OFFSET = 0.0  # Change this value to your desired offset
 
 def apply_yaw_offset(yaw_value, offset):
     """
