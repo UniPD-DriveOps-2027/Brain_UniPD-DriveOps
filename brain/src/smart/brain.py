@@ -28,7 +28,7 @@ import helper_functions as hf
 
 from parkman import Maneuvers
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-SELECTED_EVENT = "no_lane"# "tunnel", "round","no_lane_left/right", "highway", "crosswalk", "parking" , "test", "tunnel_second_way"
+SELECTED_EVENT = None # "tunnel", "round","no_lane_left/right", "highway", "crosswalk", "parking" , "test", "tunnel_second_way"
 base_dir = os.path.dirname(__file__)
 # Based on the path given for the arena challenge
 END_NODE_ARENA = 149
@@ -47,7 +47,7 @@ if RANDOM_START:
         USE_FRUITS_GENERATED_PATH = False #we are not using fruits path for when we are testing specific events
     # GET THE BEST "FRUITS" PATH FROM RANDOM POSITION     
     else: 
-        STARTING_COORDS = [3.196, 2.646] # GET FROM GPS 
+        STARTING_COORDS = [5, 5] # GET FROM GPS 
         CHECKPOINTS = compute_optimal_path(start_node=472) # GET FROM FRUITS
         END_NODE = CHECKPOINTS[-1]  #get the last node from the path
         GPS_FOR_START_ONLY = True
@@ -78,11 +78,11 @@ else:
     
     CHECKPOINTS = [140,460,306,150, 140, 121, 92, 109, 130, 147,175, 133, 123, 118, 91, 163,373, 406,444] # TEST WHOLE PATH
     CHECKPOINTS = [390,306,333,150, 140] # TEST DOUBLE NO LANE
-    CHECKPOINTS = [468,393,306,150, 140, 121, 92, 109, 130, 147,175, 133, 123, 118, 91, 163,373, 406,444] # TEST WHOLE PATH
     CHECKPOINTS = [150, 140, 121, 92, 109, 130, 147,175, 143, 133, 123, 118, 91, 163,373, 406,444] # TEST INTERSECTIONS
-    CHECKPOINTS = [460, 395, 306] # TEST INTERSECTIONS
-    CHECKPOINTS = [386, 303, 400] # TEST DOUBLE NO LANE
+    #CHECKPOINTS = [127, 123, 91] # TEST DOUBLE NO LANE
     CHECKPOINTS = [468,393,306,150, 140, 121, 92, 109, 130, 147,175, 133, 123, 118, 91, 163,373, 406,444] # TEST WHOLE PATH
+    CHECKPOINTS = [147,175, 128, 123, 118, 91, 163,373, 406,444]
+    CHECKPOINTS = [125, 163,373, 406,444] # TEST
     END_NODE = CHECKPOINTS[-1]
     GPS_FOR_START_ONLY = False
 
@@ -516,7 +516,7 @@ class Brain:
                 self.car.publish_closest_node(float(closest_node))
                 #print(f"Closest NODE is: {float(closest_node)} YAW: {self.car.yaw}" )
                 sleep(3.0)
-                if len(self.car.x_buffer) >= 0:    #5 put in real life                       ################ - PUT BACK THE 5 - ####################
+                if len(self.car.x_buffer) >= 5:    #5 put in real life                       ################ - PUT BACK THE 5 - ####################
                     print(f'Waiting for gps: {(curr_time- start_time):.1f}/{GPS_TIMEOUT}')
                     self.checkpoints[self.checkpoint_idx] = closest_node
                     if USE_FRUITS_GENERATED_PATH:
@@ -686,11 +686,11 @@ class Brain:
             print("PROBLEMATIC STOPLINE")
             travelled_distance = self.car.encoder_distance - self.curr_state.start_distance
             print(f'TRAVELLED DISTANCE {travelled_distance}')
-            if travelled_distance < 2.4: #deactivate stopline detection
+            if travelled_distance < 1.7: #deactivate stopline detection
                 self.activate_routines([nac.FOLLOW_LANE,
                                     nac.CONTROL_FOR_CAR,
                                     nac.DRIVE_DESIRED_SPEED])
-            elif travelled_distance >= 2.4: # use right followlane for 30 cm
+            elif travelled_distance >= 1.7: # use right followlane for 30 cm
                 print('We are at the stopline')
                 self.activate_routines([])
                 self.car.stop()
@@ -1073,8 +1073,11 @@ class Brain:
             self.car.reset_rel_pose()
             self.curr_state.just_switched = False
 
+            print(f"NEXT EVENT NAME: {self.next_event.name}")
+
             # Determine the direction left right forward
-            if self.next_event.name.startswith('intersection'):
+            if self.next_event.name.startswith('intersection') or self.next_event.name.startswith("highway"):
+                print("DETERMINING THE DIRECTION")
                 hf.determine_intersection_direction(self, local_path_cf)
             else:
                 self.curr_state.var4 = 0
@@ -1096,6 +1099,8 @@ class Brain:
         idx_point_ahead = np.round(self.car.dist_loc*100) # Index ahead using dist_loc
         print(f'idx_point_ahead: {idx_point_ahead} / {len(local_path_cf)}')
         local_path_cf = local_path_cf @ hf.rot_matrix(self.car.yaw_loc)
+
+        
 
         hf.show_local_path(self, car_pos_loc, SHOW_IMGS)
 
@@ -1121,6 +1126,7 @@ class Brain:
         elif getattr(self.second_next_event, 'name', None) == nac.CROSSWALK_TUNNEL_EVENT:
             hf.navigate_intersection_to_crosswalk(self,SHOW_IMGS)
         elif self.next_event.name.startswith("intersection") or self.next_event.name.startswith("highway"):
+            print("NAVIGATING INTERSECTION")
             hf.navigate_intersection(self, SHOW_IMGS)
         elif self.next_event.name.startswith("roundabout"):
             print(f'idx (ARGMIN): {idx_point_ahead}')
@@ -1133,6 +1139,7 @@ class Brain:
             print("GOING TO THE ROUNDABOUT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
             hf.navigate_roundabout(self, idx_point_ahead, max_idx, SHOW_IMGS)
         else:  # we are still on the path
+            print("NAVIGATING OPEN LOOP")
             hf.navigate_open_loop(self, local_path_cf, idx_point_ahead, idx_car_on_path, SHOW_IMGS)
 
 
@@ -1690,7 +1697,6 @@ class Brain:
 
                 self.activate_routines([nac.FOLLOW_LANE,
                                         nac.CONTROL_FOR_CAR,
-                                        nac.DETECT_STOPLINE,
                                         nac.DRIVE_DESIRED_SPEED])
                 self.run_routines()
                 print("IN THE FIRST IF###############################")
@@ -1698,7 +1704,6 @@ class Brain:
             elif travelled_distance < 4.6: #4.7 in simulation
                 self.activate_routines([nac.FOLLOW_LANE_LEFT,
                                 nac.CONTROL_FOR_CAR,
-                                nac.DETECT_STOPLINE,
                                 nac.DRIVE_DESIRED_SPEED])
                 self.run_routines()
                 print("LEFT ||||||||||||||||||||||||||||||||||||||||")
@@ -1706,7 +1711,7 @@ class Brain:
             else:
                 #self.NO_LANE_CAN_BE_ACTIVATED = False
                 #self.conditions[nac.NO_LANE] = False
-                self.switch_to_state(nac.LANE_FOLLOWING)
+                #self.switch_to_state(nac.LANE_FOLLOWING)
                 print("SWITCHING THE STATE****************************")
                 nac.DONT_STOP_AT_NO_LANE_EVENT = True
                 self.go_to_next_event()

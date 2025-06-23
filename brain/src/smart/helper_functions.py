@@ -494,17 +494,20 @@ def determine_intersection_direction(brain, local_path_cf):
 def navigate_intersection(brain, show):
     if brain.curr_state.var4 == "right":
         e3, _ = brain.detect.detect_intersection_right(brain.car.frame, show_ROI=show)
-        e3 = 1.0 * e3 #old value = 0.8; new = 1.25
+        e3 = 0.7 * e3 - 0.15 #old value = 0.8; new = 1.25
+        print("USING RIGHT NETWORK")    
     elif brain.curr_state.var4 == "left":
         e3, _ = brain.detect.detect_intersection_left(brain.car.frame, show_ROI=show)
         e3 = 1.1 * e3 #old value = 0.95; new = 1.8 works for highway to speedcurve
+        print("USING LEFT NETWORK")
     elif brain.curr_state.var4 == "forward":
         e3, _ = brain.detect.detect_intersection_forward(brain.car.frame, show_ROI=show)
         # e3, _ = brain.detect.detect_lane_ahead(brain.car.frame, show_ROI=show)
+        print("USING FORWARD NETWORK")
     else:
         e3, _ = brain.detect.detect_lane_ahead(brain.car.frame, show_ROI=show)
     output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, 0.0, e3)
-    #print(f'output_speed: {output_speed:.2f}, output_angle: {np.rad2deg(output_angle):.2f}')
+    print(f'output_speed: {output_speed:.2f}, output_angle: {np.rad2deg(output_angle):.2f}')
 
     brain.car.drive(speed=output_speed, angle=np.rad2deg(output_angle))
 
