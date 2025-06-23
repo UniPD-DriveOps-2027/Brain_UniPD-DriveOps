@@ -174,13 +174,14 @@ if __name__ == "__main__":
                 #env_msg.y = veh.posB + 0.001
                 #Environment_publisher.publish(env_msg)
 
-                msg_position = {
-                    "reqORinfo": "info",
-                    "type": "devicePos",
-                    "value1": float(data['msgValue']['x']),
-                    "value2": float(data['msgValue']['y']),
-                }
-                traffic_communication.tcp_factory.send_data_to_server(msg_position)
+                # comment since the position send back in is automobile_data_pi.py
+                #msg_position = {
+                #    "reqORinfo": "info",
+                #    "type": "devicePos",
+                #    "value1": float(data['msgValue']['x']),
+                #    "value2": float(data['msgValue']['y']),
+                #}
+                #traffic_communication.tcp_factory.send_data_to_server(msg_position)
                 
             except queue.Empty:
                 pass  # no data — just continue, and check is_shutdown again

@@ -67,7 +67,8 @@ class AutomobileDataPi(Automobile_Data):
 
         self.yaw_true = 0.0
 
-
+        # localization flag for filtering and send back to the server
+        self.flag_localisation = False
 
         # PUBLISHERS AND SUBSCRIBERS
         if trig_control:
@@ -83,6 +84,7 @@ class AutomobileDataPi(Automobile_Data):
             self.pub_conditions    = rospy.Publisher('/automobile/conditions', conditions, queue_size=1)
             self.pub_arena         = rospy.Publisher('/automobile/arena', Bool, queue_size=1)
             self.pub_led           = rospy.Publisher('/automobile/led', Bool, queue_size=1)
+            self.pub_localisation  = rospy.Publisher('/automobile/localisation', localisation, queue_size=1)
             self.sub_position      = rospy.Subscriber("/automobile/feedback/position", Bool, self.feedback_position_callback)
         if trig_bno:
             self.sub_imu       = rospy.Subscriber('/automobile/imu', IMU, self.imu_callback)
@@ -179,6 +181,8 @@ class AutomobileDataPi(Automobile_Data):
         self.y_est = self.y
         self.x_GPS = self.x
         self.y_GPS = self.y
+
+        self.flag_localisation = True
 
     def imu_callback(self, data) -> None:
         """Receive and store rotation from IMU
@@ -301,3 +305,15 @@ class AutomobileDataPi(Automobile_Data):
 
     def publish_led_control(self, data):
         self.pub_led.publish(data)
+
+    # publish position
+    def publish_localisation(self, x, y):
+        """Publish the localisation of the car
+        :param x: [m] x position
+        :param y: [m] y position
+        """
+        msg = conditions(
+            posA = x,
+            posB = y
+        )
+        self.pub_localisation.publish(msg)

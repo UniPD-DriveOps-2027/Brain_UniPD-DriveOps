@@ -2080,6 +2080,21 @@ class Brain:
             self.car.publish_routines(str(routines_str))
             self.car.publish_conditions(self.conditions)
 
+            # =============== localisation to send to the server =============== #
+            if self.car.flag_localisation:
+                # filter self.car.x,y
+                x = self.car.x_est
+                y = self.car.y_est
+                # TO DO: project x,y to path coordinates
+                projected_x = 0
+                projected_y = 0
+
+                self.car.publish_localisation(projected_x,projected_y)
+                self.car.flag_localisation = False
+
+
+            # self.car.x,y filter and publish using self.car.pub_localisation(x,y) (da creare)
+
             # FOR EMERGENCY BRAKE ON STM
             self.car.publish_arena_flag(ARENA)
 
