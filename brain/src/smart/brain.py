@@ -335,7 +335,7 @@ OBSTACLE_IMGS_CAPTURE_START_DISTANCE = 0.48  # dist from where we capture imgs
 OBSTACLE_IMGS_CAPTURE_STOP_DISTANCE = 0.31   # dist up to we capture imgs
 assert OBSTACLE_IMGS_CAPTURE_STOP_DISTANCE > OBSTACLE_CONTROL_DISTANCE
 # pedestrian
-PEDESTRIAN_CONTROL_DISTANCE = 0.5   # [m] distance to keep from the pedestrian
+PEDESTRIAN_CONTROL_DISTANCE = 0.35   # [m] distance to keep from the pedestrian
 PEDESTRIAN_TIMEOUT = 2.0             # [s] time to w8 after the pedestrian cleared the road
 # car
 TAILING_DISTANCE = 0.35   # [m] distance to keep from the vehicle while tailing
@@ -1639,7 +1639,7 @@ class Brain:
             self.car.drive_speed(0.0)
             self.activate_routines([nac.CONTROL_FOR_PEDESTRIAN])
             if not self.pedestrian_on_the_crosswalk:
-                sleep(3)
+                sleep(2)
             if self.flag_pedestrian_in_the_way or central_distance < PEDESTRIAN_CONTROL_DISTANCE:
                 self.car.drive_speed(0.0)
                 self.pedestrian_on_the_crosswalk = True
@@ -2098,14 +2098,23 @@ class Brain:
                 gpsPoint = np.array([self.car.x_est, self.car.y_est])
 
                 # Finds closest point in self.path_planner.path for each gpsPoint
-                tree = cKDTree(path_planner.path)
+                tree = cKDTree(self.path_planner.path)
                 _, closest_idx = tree.query(gpsPoint)
-
-                #filtered_points = path_planner.path[closest_idx]  # Projected points
                 projectedPoint = self.path_planner.path[closest_idx]
-
+                print(f"GPS point {gpsPoint} and Projected Point: {projectedPoint}------------------------------------------------------")
                 self.car.publish_localisation(projectedPoint[0], projectedPoint[1])
                 self.car.flag_localisation = False
+
+                # Draw the projected point
+                #projectedPoint = hf.mR2pix(projectedPoint)
+                #map_img = cv.imread('data/2024_VerySmall.png')
+                #self.path_planner.draw_path()
+
+                #proj_x, proj_y = int(projectedPoint[0]), int(projectedPoint[1])
+                #cv.circle(map_img, (proj_x, proj_y), 20, (0, 0, 255), -1)  # red filled circle
+                #map_img = cv.resize(map_img, (0, 0), fx=0.25, fy=0.25)
+                #cv.imshow('Localisation Map', map_img)
+                #cv.waitKey(1)
 
             # FOR EMERGENCY BRAKE ON STM
             self.car.publish_arena_flag(ARENA)

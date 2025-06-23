@@ -312,7 +312,7 @@ class AutomobileDataPi(Automobile_Data):
         :param x: [m] x position
         :param y: [m] y position
         """
-        msg = conditions(
+        msg = localisation(
             posA = x,
             posB = y
         )
