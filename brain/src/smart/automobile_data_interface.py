@@ -283,6 +283,7 @@ class Automobile_Data():
             zy = self.y
             z = np.array([zx, zy]).reshape(-1, 1)
             # PREDICT and UPDATE STEPS
+            print("CALCULATING EKF ESTIMATION")
             x_est, y_est = self.ekf.estimate_state(sampling_time=DT, input=u,
                                                    output=z)
             # check if x_est and y_est are valid

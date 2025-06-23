@@ -84,7 +84,7 @@ else:
     #CHECKPOINTS = [147,175, 122, 118, 91, 163,373, 406,444] 
     CHECKPOINTS = [125, 163, 336, 150] # TEST WHOLE PATH
     CHECKPOINTS = [468, 393, 306, 150, 140, 121, 92, 109, 130, 147, 175, 133, 123, 118, 91, 163, 373, 406, 444] # TEST WHOLE PATH
-    #CHECKPOINTS = [125, 163, 373, 406, 444] # TEST WHOLE PATH
+    CHECKPOINTS = [125, 163, 373, 406, 444] # TEST WHOLE PATH
     END_NODE = CHECKPOINTS[-1]
     GPS_FOR_START_ONLY = False
 
@@ -515,6 +515,7 @@ class Brain:
             if not ALWAYS_DISTRUST_GPS or GPS_FOR_START_ONLY:
                 curr_time = time()
                 curr_pos = np.array([self.car.x_est, self.car.y_est])
+                print(f"Current position: {curr_pos}")
                 #curr_pos = np.array(STARTING_COORDS) 
                 closest_node, distance = self.path_planner.get_closest_node_start(curr_pos, self.car.yaw+YAW_OFFSET)
                 self.car.publish_closest_node(float(closest_node))
@@ -680,7 +681,7 @@ class Brain:
             self.no_lane()
 
         # PROBLEMATIC STOPLINE
-        if ((self.prev_event.name == nac.CROSSWALK_EVENT) and (norm(self.prev_event.point - np.array([18.83, 2.55])) < 0.03)): # fix this, workaround put a checkpoint in 420
+        if ((self.prev_event.name == nac.CROSSWALK_EVENT) and (norm(self.prev_event.point - np.array([18.83, 2.55])) < 0.03)):
             print("PROBLEMATIC STOPLINE")
             travelled_distance = self.car.encoder_distance - self.curr_state.start_distance
             print(f'TRAVELLED DISTANCE {travelled_distance}')
@@ -722,7 +723,7 @@ class Brain:
 
         #TUNNEL NEW 
         # if next next event is TUNNEL_EVENT switch to TUNNEL state (we use next next because the intersection stop event is not trigered as the croswalk is too close to the entrance)
-        elif getattr(self.second_next_event, 'name', None) == nac.TUNNEL_EVENT:   #safe against None values
+        elif getattr(self.second_next_event, 'name', None) == nac.TUNNEL_EVENT and not getattr(self.next_event, 'name', None) == nac.CROSSWALK_EVENT:   #safe against None values
             min_distance_lidar_right = hf.get_min_distance_in_range(self.car.lidar_angles,self.car.lidar_ranges, 85, 95)
             print("Second next event is tunnel")
             print(f'Right distance to trigger the tunnel:{min_distance_lidar_right}')
