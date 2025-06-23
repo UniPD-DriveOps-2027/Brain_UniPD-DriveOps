@@ -81,8 +81,7 @@ else:
     CHECKPOINTS = [150, 140, 121, 92, 109, 130, 147,175, 143, 133, 123, 118, 91, 163,373, 406,444] # TEST INTERSECTIONS
     #CHECKPOINTS = [127, 123, 91] # TEST DOUBLE NO LANE
     CHECKPOINTS = [468,393,306,150, 140, 121, 92, 109, 130, 147,175, 133, 123, 118, 91, 163,373, 406,444] # TEST WHOLE PATH
-    CHECKPOINTS = [147,175, 128, 123, 118, 91, 163,373, 406,444]
-    CHECKPOINTS = [125, 163,373, 406,444] # TEST
+    CHECKPOINTS = [147,175, 122, 118, 91, 163,373, 406,444] 
     END_NODE = CHECKPOINTS[-1]
     GPS_FOR_START_ONLY = False
 
@@ -1607,7 +1606,12 @@ class Brain:
 
         if not (self.flag_seen_pedestrian or central_distance < PEDESTRIAN_CONTROL_DISTANCE) or (time() - self.curr_state.start_time) > 10:
             # 2025 implementation for crosswalk after tunnel
-            if self.second_prev_event.name == nac.TUNNEL_EVENT:
+            if self.prev_event.name == nac.TUNNEL_EVENT :
+                print("PREVIOUS EVENT IS THE TUNNEL, WE ARE DOING TRACKING LOCAL PATH 111111")
+                sleep(3)
+                self.switch_to_state(nac.TRACKING_LOCAL_PATH)
+                self.go_to_next_event()
+            elif self.second_prev_event.name == nac.TUNNEL_EVENT :
                 print("SECOND PREVIOUS EVENT IS THE TUNNEL, WE ARE DOING TRACKING LOCAL PATH 111111")
                 sleep(3)
                 self.switch_to_state(nac.TRACKING_LOCAL_PATH)
@@ -1629,7 +1633,12 @@ class Brain:
                 self.pedestrian_on_the_crosswalk = True
             else:
                 # 2025 implementation for crosswalk after tunnel
-                if self.second_prev_event.name == nac.TUNNEL_EVENT:
+                if self.prev_event.name == nac.TUNNEL_EVENT:
+                    print("PREVIOUS EVENT IS THE TUNNEL, WE ARE DOING TRACKING LOCAL PATH")
+                    sleep(3)
+                    self.switch_to_state(nac.TRACKING_LOCAL_PATH)
+                    self.go_to_next_event()
+                elif self.second_prev_event.name == nac.TUNNEL_EVENT:
                     print("SECOND PREVIOUS EVENT IS THE TUNNEL, WE ARE DOING TRACKING LOCAL PATH")
                     sleep(3)
                     self.switch_to_state(nac.TRACKING_LOCAL_PATH)

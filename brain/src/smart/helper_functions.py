@@ -494,7 +494,7 @@ def determine_intersection_direction(brain, local_path_cf):
 def navigate_intersection(brain, show):
     if brain.curr_state.var4 == "right":
         e3, _ = brain.detect.detect_intersection_right(brain.car.frame, show_ROI=show)
-        e3 = 0.7 * e3 - 0.15 #old value = 0.8; new = 1.25
+        e3 = 0.8 * e3 - 0.1   #e3 = 0.7 * e3 - 0.15 
         print("USING RIGHT NETWORK")    
     elif brain.curr_state.var4 == "left":
         e3, _ = brain.detect.detect_intersection_left(brain.car.frame, show_ROI=show)
