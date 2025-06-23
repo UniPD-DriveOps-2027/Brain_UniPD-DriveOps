@@ -80,11 +80,11 @@ else:
     CHECKPOINTS = [390,306,333,150, 140] # TEST DOUBLE NO LANE
     CHECKPOINTS = [150, 140, 121, 92, 109, 130, 147,175, 143, 133, 123, 118, 91, 163,373, 406,444] # TEST INTERSECTIONS
     #CHECKPOINTS = [127, 123, 91] # TEST DOUBLE NO LANE
-    CHECKPOINTS = [468, 393, 306, 150, 140, 121, 92, 109, 130, 147, 175, 133, 123, 118, 91, 163, 373, 406, 444] # TEST WHOLE PATH
+    CHECKPOINTS = [451, 393, 306, 150, 140, 121, 92, 109, 130, 147, 175, 133, 123, 118, 91, 163, 373, 406, 444] # TEST WHOLE PATH
     #CHECKPOINTS = [147,175, 122, 118, 91, 163,373, 406,444] 
     CHECKPOINTS = [125, 163, 336, 150] # TEST WHOLE PATH
-    CHECKPOINTS = [468, 393, 306, 150, 140, 121, 92, 109, 130, 147, 175, 133, 123, 118, 91, 163, 373, 406, 444] # TEST WHOLE PATH
-    CHECKPOINTS = [125, 163, 373, 406, 444] # TEST WHOLE PATH
+    CHECKPOINTS = [451, 393, 306, 150, 140, 121, 92, 109, 130, 147, 175, 133, 123, 118, 91, 163, 373, 406, 444] # TEST WHOLE PATH no 468 but 451
+    CHECKPOINTS = [468] # TEST WHOLE PATH
     END_NODE = CHECKPOINTS[-1]
     GPS_FOR_START_ONLY = False
 
@@ -1934,8 +1934,8 @@ class Brain:
         hsv = cv.cvtColor(frame_resized, cv.COLOR_RGB2HSV)
 
         # Define the range of pink in HSV (Hue range for pink: 140-170)
-        lower_pink = np.array([120, 60, 60])  # Lower bound for pink
-        upper_pink = np.array([170, 255, 255])  # Upper bound for pink
+        upper_pink = np.array([338, 82, 93])  # Upper bound for pink
+        lower_pink = np.array([335, 80, 100])  # Lower bound for pink
 
         # Create a mask for pink regions
         mask = cv.inRange(hsv, lower_pink, upper_pink)

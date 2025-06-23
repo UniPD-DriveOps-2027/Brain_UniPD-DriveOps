@@ -14,8 +14,8 @@ class FixedGPSPublisher:
         self.pub = rospy.Publisher('/automobile/vehicles', vehicles, queue_size=1)
 
         # Fixed values to simulate GPS
-        self.fixed_posA = 2.79  # Replace with desired posA (X in local system)
-        self.fixed_posB = 2.49  # Replace with desired posB (Y in local system)
+        self.fixed_posA = 0.818  # Replace with desired posA (X in local system)
+        self.fixed_posB = 2.28  # Replace with desired posB (Y in local system)
 
         self.rate = rospy.Rate(10)  # 10 Hz
 
