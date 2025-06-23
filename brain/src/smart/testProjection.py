@@ -1,16 +1,35 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Set seed for reproducibility
-np.random.seed(0)
+# Parametric curve function
+def curve(t):
+    x = 10 + 10 * np.cos(t)
+    y = 7.5 + 7.5 * np.sin(2 * t)
+    return np.stack((x, y), axis=1)
+
+# Calculate approximate arc length of curve sampled at fine resolution
+def approximate_arc_length(t_samples):
+    points = curve(t_samples)
+    diffs = np.diff(points, axis=0)
+    segment_lengths = np.linalg.norm(diffs, axis=1)
+    return np.sum(segment_lengths)
+
+# Desired point spacing in meters (e.g., 0.2 m between points)
+desired_spacing = 0.01
+
+# Sample t finely to get arc length
+t_fine = np.linspace(0, 2 * np.pi, 1000)
+total_length = approximate_arc_length(t_fine)
+
+# Calculate number of points for desired spacing
+num_points = int(np.ceil(total_length / desired_spacing))
 
 # Generate a 2D trajectory within a 20x15 meter bounding box
-t = np.linspace(0, 2 * np.pi, 100)
-x = 10 + 10 * np.cos(t)        # X in [0, 20]
-y = 7.5 + 7.5 * np.sin(2 * t)  # Y in [0, 15]
-original_points = np.stack((x, y), axis=1)
+t_samples = np.linspace(0, 2*np.pi, num_points)
+original_points = curve(t_samples)
 
 # Add Gaussian noise (mean=0, std=0.15 m) to get noisy points
+np.random.seed(42) # Set seed for reproducibility
 noise_std = 0.15
 noise = np.random.normal(loc=0.0, scale=noise_std, size=original_points.shape)
 noisy_points = original_points + noise
