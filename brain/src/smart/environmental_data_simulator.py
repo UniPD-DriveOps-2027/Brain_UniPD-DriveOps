@@ -181,11 +181,18 @@ class EnvironmentalData():
         # Convert string (e.g. "priority") to constant (e.g. nac.PRIORITY)
         type_const = self.sign_name_map.get(type.lower())
 
-        assert type_const is not None, f"[ERROR] Unknown sign type: {type}"
-        assert type_const in self.obstacle_map, f"[ERROR] Sign constant {type_const} not in obstacle_map"
+        #assert type_const is not None, f"[ERROR] Unknown sign type: {type}"
+        #assert type_const in self.obstacle_map, f"[ERROR] Sign constant {type_const} not in obstacle_map"
+        if type_const is None:
+            rospy.logwarn(f"[WARNING] Unknown sign type: {type}")
+        return
+
+        if type_const not in self.obstacle_map:
+            rospy.logwarn(f"[WARNING] Sign constant {type_const} not in obstacle_map")
+        return
 
         data = environmental()
-        data.obstacle_id = self.obstacle_map[type]
+        data.obstacle_id = self.obstacle_map[type_const]
         pR = np.array([x, y])
         pL = hf.mR2mL(pR)
         data.x = pL[0]

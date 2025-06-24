@@ -10,7 +10,7 @@ class SemaphoreSimulator:
 
         # Shared state machine for simplicity (can be changed per semaphore if needed)
         self.current_state = 0  # 0: RED, 1: YELLOW, 2: GREEN
-        self.state_durations = [2, 3, 1.0]  # Duration for each state
+        self.state_durations = [20, 3, 1.0]  # Duration for each state
         self.last_change_time = rospy.get_time()
 
         # Define all semaphore publishers and their positions
@@ -47,7 +47,7 @@ class SemaphoreSimulator:
             msg.pos_x = sem_data["position"][0]
             msg.pos_y = sem_data["position"][1]
             sem_data["pub"].publish(msg)
-            rospy.loginfo(f"Published {self.get_state_name(msg.state)} to {name} at ({msg.pos_x}, {msg.pos_y})")
+            #rospy.loginfo(f"Published {self.get_state_name(msg.state)} to {name} at ({msg.pos_x}, {msg.pos_y})")
 
     def run(self):
         rospy.loginfo("Starting multi-semaphore simulator...")

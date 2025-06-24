@@ -50,7 +50,7 @@ if RANDOM_START:
     # GET THE BEST "FRUITS" PATH FROM RANDOM POSITION     
     else: 
         STARTING_COORDS = [5, 5] # GET FROM GPS 
-        CHECKPOINTS = [472, 451, 393, 306, 150, 140, 121, 92, 109, 130, 147, 175, 133, 123, 118, 91, 163, 373, 406, 444]  # GET FROM FRUITS
+        CHECKPOINTS = [472, 451, 412, 393, 306, 150, 140, 121, 92, 109, 130, 147, 175, 133, 123, 118, 91, 163, 373, 406, 444]   # GET FROM FRUITS
         END_NODE = CHECKPOINTS[-1]  #get the last node from the path
         GPS_FOR_START_ONLY = True
 # DEFAULT START
@@ -75,18 +75,19 @@ elif RESUME:
 # DEFAULT START
 else:
     STARTING_COORDS = [-42, -42] # DEFAULT START POSITION
-    CHECKPOINTS = [ 460, 334, 150, 140, 121, 92, 109, 130, 147, 175, 133, 123, 118, 91, 420, 444, 122, 97, 91, 
+    CHECKPOINTS = [ 451, 334, 150, 140, 121, 92, 109, 130, 147, 175, 133, 123, 118, 91, 420, 444, 122, 97, 91, 
         163, 190, 306, 373, 406, 420, 444, 502] #good one don t modify
     
-    CHECKPOINTS = [140,460,306,150, 140, 121, 92, 109, 130, 147,175, 133, 123, 118, 91, 163,373, 406,444] # TEST WHOLE PATH
+    CHECKPOINTS = [140,451,306,150, 140, 121, 92, 109, 130, 147,175, 133, 123, 118, 91, 163,373, 406,444] # TEST WHOLE PATH
     CHECKPOINTS = [390,306,333,150, 140] # TEST DOUBLE NO LANE
     CHECKPOINTS = [150, 140, 121, 92, 109, 130, 147,175, 143, 133, 123, 118, 91, 163,373, 406,444] # TEST INTERSECTIONS
     #CHECKPOINTS = [127, 123, 91] # TEST DOUBLE NO LANE
     CHECKPOINTS = [451, 393, 306, 150, 140, 121, 92, 109, 130, 147, 175, 133, 123, 118, 91, 163, 373, 406, 444] # TEST WHOLE PATH
     #CHECKPOINTS = [147,175, 122, 118, 91, 163,373, 406,444] 
     CHECKPOINTS = [125, 163, 336, 150] # TEST WHOLE PATH
-    CHECKPOINTS = [451, 393, 306, 150, 140, 121, 92, 109, 130, 147, 175, 133, 123, 118, 91, 163, 373, 406, 444] # TEST WHOLE PATH no 468 but 451
-    CHECKPOINTS = [468, 393, 400] # TEST WHOLE PATH
+    CHECKPOINTS = [451, 393, 400] # TEST WHOLE PATH
+    CHECKPOINTS = [125, 163, 336, 150] # TEST Thomas semaphores
+    CHECKPOINTS = [451, 412, 393, 306, 150, 140, 121, 92, 109, 130, 147, 175, 133, 123, 118, 91, 163, 373, 406, 444] # TEST WHOLE PATH no 468 but 451
     END_NODE = CHECKPOINTS[-1]
     GPS_FOR_START_ONLY = False
 
@@ -701,11 +702,11 @@ class Brain:
                 sleep(1)
                 self.go_to_next_event()
 
-                result = self.sign_detection_position()    # detect sign and position Thomas and publish 
-                if result is not None:
-                    sign_detect, sign_position = result
-                    print(f"Sign detected: {sign_detect}, position: {sign_position}")
-                    self.car.env.publish_obstacle(sign_detect, sign_position[0], sign_position[1])
+                #result = self.sign_detection_position()    # detect sign and position Thomas and publish 
+                #if result is not None:
+                #    sign_detect, sign_position = result
+                #    print(f"Sign detected: {sign_detect}, position: {sign_position}")
+                #    self.car.env.publish_obstacle(sign_detect, sign_position[0], sign_position[1])
 
                 #if self.sign_detect=="Priority":
                 #    self.switch_to_state(nac.TRACKING_LOCAL_PATH)
@@ -870,10 +871,11 @@ class Brain:
                                     nac.SLOW_DOWN,
                                     nac.DETECT_STOPLINE])
 
-        result = None #self.sign_detection_position()    # detect sign and position Thomas
+        result = self.sign_detection_position()    # detect sign and position Thomas
         if result is not None:
             sign_detect, sign_position = result
             print(f"Sign detected: {sign_detect}, position: {sign_position}")
+            self.env.publish_obstacle(sign_detect, sign_position[0], sign_position[1])
         else:
             print("No sign detected.")
         # Convert current checkpoint to int for comparison
@@ -1401,6 +1403,7 @@ class Brain:
         # Substates
         print(f'just switched: {self.curr_state.just_switched}')
         if self.curr_state.just_switched:
+            self.env.publish_obstacle('park', 9.950578, 0.748355)
             # We just got in the parking state, we came from lane following,
             # we are reasonably close to the parking spot and we are not moving
             # self.curr_state.var1 will hold the parking substate,
@@ -2066,10 +2069,9 @@ class Brain:
         print(f'CONDITIONS:     {self.conditions}')
         print('==========================================================================')
         print(f'stopline_counter: {self.stopline_counter}')
-        print(f'Current sign: {self.curr_sign}, confidence: {self.curr_sign_confidence}')
         self.run_current_state()
         #print(f'car.yaw: {self.car.yaw}')
-       # print(f'car.yaw_loc: {self.car.yaw_loc}')
+        #print(f'car.yaw_loc: {self.car.yaw_loc}')
         #print('==========================================================================')
         #print(f'car x est: {self.car.x_est}')
         #print(f'car y est: {self.car.y_est}')
@@ -2085,6 +2087,7 @@ class Brain:
 
         # =============== Publish to dashboard ==================== #
         if True:
+            self.car.publish_closest_node(int(self.checkpoints[self.checkpoint_idx]))
             self.car.publish_next_event(str(self.next_event))
             self.car.publish_prev_event(str(self.prev_event))
             self.car.publish_current_state(str(self.curr_state))
