@@ -611,7 +611,7 @@ def navigate_roundabout(brain, idx_point_ahead, max_idx, show):
     if max_idx < 200:
         out_idx_len = 70
     elif max_idx < 300:
-        out_idx_len = 80
+        out_idx_len = 40
     elif max_idx < 400:
         out_idx_len = 90
     else:
@@ -649,27 +649,27 @@ def navigate_roundabout(brain, idx_point_ahead, max_idx, show):
         log_distance_once("OUT")
         e3, _ = brain.detect.detect_roundabout_out(brain.car.frame, show_ROI=show)
         output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, e3, 1.4 * e3)
-    elif idx_point_ahead < 40:
+    elif idx_point_ahead < 55:
         print("\nIN IN IN IN IN IN 1\n")
         log_distance_once("IN1")
         e3, _ = brain.detect.detect_roundabout_in(brain.car.frame, show_ROI=show)
         output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, e3, 0.4 * e3)
-    elif idx_point_ahead < 70:
+    elif idx_point_ahead < 100:
         print("\nIN IN IN IN IN IN 2\n")
         log_distance_once("IN2")
         e3, _ = brain.detect.detect_roundabout_in(brain.car.frame, show_ROI=show)
         output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, e3, 1.2*e3)
-    elif idx_point_ahead < 80:
+    elif idx_point_ahead < 105:
         print("\nIN IN IN IN IN IN 3\n")
         log_distance_once("IN3")
         e3, _ = brain.detect.detect_roundabout_in(brain.car.frame, show_ROI=show)
         output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, e3, 1.3 * e3)
-    elif idx_point_ahead < 150:
+    elif idx_point_ahead < 180:
         print("\nABOUT ABOUTABOUT 1\n")
         log_distance_once("ABOUT1")
         e3, _ = brain.detect.detect_roundabout_about(brain.car.frame, show_ROI=show)
         brain.curr_state.var4 = 0.3 * brain.curr_state.var4 + 0.7 * e3
-        output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, 0.0, 0.6*brain.curr_state.var4)
+        output_speed, output_angle = brain.controller_sp.get_control_speed(0.0, 0.0, 1.5*brain.curr_state.var4)
     elif idx_point_ahead < 210:
         print("\nABOUT ABOUTABOUT 2\n")
         log_distance_once("ABOUT2")
