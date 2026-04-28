@@ -1,0 +1,59 @@
+running egg_info
+creating ../../build/input/input.egg-info
+writing ../../build/input/input.egg-info/PKG-INFO
+writing dependency_links to ../../build/input/input.egg-info/dependency_links.txt
+writing entry points to ../../build/input/input.egg-info/entry_points.txt
+writing requirements to ../../build/input/input.egg-info/requires.txt
+writing top-level names to ../../build/input/input.egg-info/top_level.txt
+writing manifest file '../../build/input/input.egg-info/SOURCES.txt'
+reading manifest file '../../build/input/input.egg-info/SOURCES.txt'
+writing manifest file '../../build/input/input.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/hisham/BFMC/Brain_DEI/brain/build/input/build
+creating /home/hisham/BFMC/Brain_DEI/brain/build/input/build/lib
+creating /home/hisham/BFMC/Brain_DEI/brain/build/input/build/lib/gpstracker
+copying src/gpstracker/util.py -> /home/hisham/BFMC/Brain_DEI/brain/build/input/build/lib/gpstracker
+copying src/gpstracker/__init__.py -> /home/hisham/BFMC/Brain_DEI/brain/build/input/build/lib/gpstracker
+copying src/gpstracker/locsys.py -> /home/hisham/BFMC/Brain_DEI/brain/build/input/build/lib/gpstracker
+copying src/gpstracker/position_listener.py -> /home/hisham/BFMC/Brain_DEI/brain/build/input/build/lib/gpstracker
+copying src/gpstracker/server_listener.py -> /home/hisham/BFMC/Brain_DEI/brain/build/input/build/lib/gpstracker
+copying src/gpstracker/gpstrackerNODE.py -> /home/hisham/BFMC/Brain_DEI/brain/build/input/build/lib/gpstracker
+copying src/gpstracker/complexDealer.py -> /home/hisham/BFMC/Brain_DEI/brain/build/input/build/lib/gpstracker
+copying src/gpstracker/server_data.py -> /home/hisham/BFMC/Brain_DEI/brain/build/input/build/lib/gpstracker
+copying src/gpstracker/server_subscriber.py -> /home/hisham/BFMC/Brain_DEI/brain/build/input/build/lib/gpstracker
+running install
+running install_lib
+creating /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages/gpstracker
+copying /home/hisham/BFMC/Brain_DEI/brain/build/input/build/lib/gpstracker/util.py -> /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages/gpstracker
+copying /home/hisham/BFMC/Brain_DEI/brain/build/input/build/lib/gpstracker/__init__.py -> /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages/gpstracker
+copying /home/hisham/BFMC/Brain_DEI/brain/build/input/build/lib/gpstracker/locsys.py -> /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages/gpstracker
+copying /home/hisham/BFMC/Brain_DEI/brain/build/input/build/lib/gpstracker/position_listener.py -> /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages/gpstracker
+copying /home/hisham/BFMC/Brain_DEI/brain/build/input/build/lib/gpstracker/server_listener.py -> /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages/gpstracker
+copying /home/hisham/BFMC/Brain_DEI/brain/build/input/build/lib/gpstracker/gpstrackerNODE.py -> /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages/gpstracker
+copying /home/hisham/BFMC/Brain_DEI/brain/build/input/build/lib/gpstracker/complexDealer.py -> /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages/gpstracker
+copying /home/hisham/BFMC/Brain_DEI/brain/build/input/build/lib/gpstracker/server_data.py -> /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages/gpstracker
+copying /home/hisham/BFMC/Brain_DEI/brain/build/input/build/lib/gpstracker/server_subscriber.py -> /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages/gpstracker
+byte-compiling /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages/gpstracker/util.py to util.cpython-312.pyc
+byte-compiling /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages/gpstracker/__init__.py to __init__.cpython-312.pyc
+byte-compiling /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages/gpstracker/locsys.py to locsys.cpython-312.pyc
+byte-compiling /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages/gpstracker/position_listener.py to position_listener.cpython-312.pyc
+byte-compiling /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages/gpstracker/server_listener.py to server_listener.cpython-312.pyc
+byte-compiling /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages/gpstracker/gpstrackerNODE.py to gpstrackerNODE.cpython-312.pyc
+byte-compiling /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages/gpstracker/complexDealer.py to complexDealer.cpython-312.pyc
+byte-compiling /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages/gpstracker/server_data.py to server_data.cpython-312.pyc
+byte-compiling /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages/gpstracker/server_subscriber.py to server_subscriber.cpython-312.pyc
+running install_data
+creating /home/hisham/BFMC/Brain_DEI/brain/install/input/share/ament_index
+creating /home/hisham/BFMC/Brain_DEI/brain/install/input/share/ament_index/resource_index
+creating /home/hisham/BFMC/Brain_DEI/brain/install/input/share/ament_index/resource_index/packages
+copying resource/input -> /home/hisham/BFMC/Brain_DEI/brain/install/input/share/ament_index/resource_index/packages
+copying package.xml -> /home/hisham/BFMC/Brain_DEI/brain/install/input/share/input
+running install_egg_info
+Copying ../../build/input/input.egg-info to /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages/input-0.0.0-py3.12.egg-info
+running install_scripts
+Installing gpstrackerNODE script to /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/input
+Installing imuNODE script to /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/input
+Installing semaphoreNODE script to /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/input
+Installing sonarNODE script to /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/input
+writing list of installed files to '/home/hisham/BFMC/Brain_DEI/brain/build/input/install.log'

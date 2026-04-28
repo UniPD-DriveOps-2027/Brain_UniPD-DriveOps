@@ -1,0 +1,22 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from utils/msg/Vehicles.msg
+// generated code does not contain a copyright notice
+
+
+module utils {
+  module msg {
+    struct Vehicles {
+      uint8 id;
+
+      float timestamp;
+
+      float pos_a;
+
+      float pos_b;
+
+      float rot_a;
+
+      float rot_b;
+    };
+  };
+};

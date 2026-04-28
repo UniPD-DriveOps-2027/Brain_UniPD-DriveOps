@@ -23,9 +23,9 @@ class FixedGPSPublisher:
         rospy.loginfo("Fixed GPS Override Node Started. Publishing fixed GPS coordinates...")
         while not rospy.is_shutdown():
             msg = vehicles()
-            msg.posA = self.fixed_posA
-            msg.posB = self.fixed_posB
-            rospy.loginfo(f"Publishing fixed GPS: posA = {msg.posA}, posB = {msg.posB}")
+            msg.pos_a = self.fixed_posA
+            msg.pos_b = self.fixed_posB
+            rospy.loginfo(f"Publishing fixed GPS: posA = {msg.pos_a}, posB = {msg.pos_b}")
             self.pub.publish(msg)
             self.rate.sleep()
 

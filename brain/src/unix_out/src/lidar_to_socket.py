@@ -1,65 +1,89 @@
 #!/usr/bin/env python3
-import rospy
+"""
+lidar_to_socket — ROS2 Jazzy version
+Subscribes to /scan, forwards close-range points to a Unix socket.
+"""
+
 import socket
 import json
 import math
 import time
+
+import rclpy
+from rclpy.node import Node
 from sensor_msgs.msg import LaserScan
 
-SOCKET_PATH = "/tmp/lidar_socket.sock"
-MAX_DISTANCE_TO_SEND = 0.65  # meters
-ANGLE_MIN_DEG = 45           # front right
-ANGLE_MAX_DEG = 315          # front left
+SOCKET_PATH       = "/tmp/lidar_socket.sock"
+MAX_DISTANCE      = 0.65   # metres
+ANGLE_MIN_DEG     = 45     # front-right
+ANGLE_MAX_DEG     = 315    # front-left
 
-class LidarToSocket:
+
+class LidarToSocket(Node):
     def __init__(self):
-        rospy.init_node('lidar_to_socket_node', anonymous=True)
-        self.socket = None
-        self.connected = False
-        self.connect_socket()
-        rospy.Subscriber("/scan", LaserScan, self.callback)
-        rospy.loginfo("Lidar to socket node initialized.")
-        rospy.spin()
+        super().__init__('lidar_to_socket_node')
 
-    def connect_socket(self):
-        while not rospy.is_shutdown():
+        self._sock      = None
+        self._connected = False
+        self._connect()
+
+        self.create_subscription(LaserScan, '/scan', self._scan_cb, 10)
+        self.get_logger().info("lidar_to_socket_node started")
+
+    # ------------------------------------------------------------------ #
+    def _connect(self):
+        while rclpy.ok():
             try:
-                self.socket = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-                self.socket.connect(SOCKET_PATH)
-                self.connected = True
-                rospy.loginfo("Connected to Unix socket: %s", SOCKET_PATH)
-                break
+                self._sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+                self._sock.connect(SOCKET_PATH)
+                self._connected = True
+                self.get_logger().info(f"Connected to Unix socket: {SOCKET_PATH}")
+                return
             except socket.error as e:
-                rospy.logwarn("Socket not ready yet, retrying in 2s... (%s)", e)
+                self.get_logger().warn(f"Socket not ready, retrying in 2 s... ({e})")
                 time.sleep(2)
 
-    def callback(self, scan):
-        if not self.connected:
+    def _scan_cb(self, scan: LaserScan):
+        if not self._connected:
             return
 
-        data = []
-        angle = scan.angle_min
+        data   = []
+        angle  = scan.angle_min
         for r in scan.ranges:
-            if scan.range_min < r < min(scan.range_max, MAX_DISTANCE_TO_SEND):
-                angle_deg = math.degrees(angle) % 360
-                if ANGLE_MIN_DEG <= angle_deg <= ANGLE_MAX_DEG:
-                    data.append({
-                        'angle': round(angle_deg, 2),
-                        'distance': round(r, 3)
-                    })
+            if scan.range_min < r < min(scan.range_max, MAX_DISTANCE):
+                deg = math.degrees(angle) % 360
+                if ANGLE_MIN_DEG <= deg <= ANGLE_MAX_DEG:
+                    data.append({'angle': round(deg, 2), 'distance': round(r, 3)})
             angle += scan.angle_increment
 
-        if data:
-            try:
-                self.socket.sendall((json.dumps(data) + '\n').encode())
-            except socket.error as e:
-                rospy.logwarn("Lost socket connection: %s", e)
-                self.connected = False
-                self.socket.close()
-                self.connect_socket()
+        if not data:
+            return
+
+        try:
+            self._sock.sendall((json.dumps(data) + '\n').encode())
+        except socket.error as e:
+            self.get_logger().warn(f"Lost socket connection: {e}")
+            self._connected = False
+            self._sock.close()
+            self._connect()
+
+    def destroy_node(self):
+        if self._sock:
+            self._sock.close()
+        super().destroy_node()
+
+
+def main(args=None):
+    rclpy.init(args=args)
+    node = LidarToSocket()
+    try:
+        rclpy.spin(node)
+    except KeyboardInterrupt:
+        pass
+    finally:
+        node.destroy_node()
+        rclpy.shutdown()
+
 
 if __name__ == '__main__':
-    try:
-        LidarToSocket()
-    except rospy.ROSInterruptException:
-        pass
+    main()

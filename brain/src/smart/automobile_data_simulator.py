@@ -159,7 +159,7 @@ class AutomobileDataSimulator(Automobile_Data):
         """Receive and store global coordinates from GPS
         :acts on: self.x, self.y
         """
-        pL = np.array([data.posA, data.posB])
+        pL = np.array([data.pos_a, data.pos_a])
         pR = hf.mL2mR(pL)
         tmp_x = pR[0] - self.WB/2*np.cos(self.yaw)
         tmp_y = pR[1] - self.WB/2*np.sin(self.yaw)

@@ -1,0 +1,19 @@
+// generated from rosidl_adapter/resource/srv.idl.em
+// with input from utils/srv/RequestParam.srv
+// generated code does not contain a copyright notice
+
+
+module utils {
+  module srv {
+    struct RequestParam_Request {
+      string name;
+    };
+    struct RequestParam_Response {
+      sequence<int32> ints;
+
+      sequence<float> floats;
+
+      sequence<string> strings;
+    };
+  };
+};

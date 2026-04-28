@@ -1,0 +1,23 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from utils/msg/Log.msg
+// generated code does not contain a copyright notice
+
+
+module utils {
+  module msg {
+    module Log_Constants {
+      @verbatim (language="comment", text=
+        "ROS Logging Levels")
+      const uint8 ROSDEBUG = 0;
+      const uint8 INFO = 1;
+      const uint8 WARN = 2;
+      const uint8 ERROR = 3;
+      const uint8 FATAL = 4;
+    };
+    struct Log {
+      uint8 level;
+
+      string msg;
+    };
+  };
+};

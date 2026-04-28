@@ -3,10 +3,11 @@ import names_and_constants as nac
 import os
 import signal
 import cv2 as cv
-import rospy                # type: ignore #suppress warning
+# import rospy                # type: ignore #suppress warning
+import rclpy, threading
 import numpy as np
 from time import sleep, time
-from unix_socket_camera import UnixSocketCamera
+# from unix_socket_camera import UnixSocketCamera
 
 import csv
 from datetime import datetime
@@ -91,8 +92,8 @@ y_orig = 0.0
 #    cap.set(cv.CAP_PROP_FRAME_WIDTH, 320)
 #    cap.set(cv.CAP_PROP_FRAME_HEIGHT, 240)
 #    cap.set(cv.CAP_PROP_FPS, 30)
-if not nac.SIMULATOR_FLAG:
-    cap = UnixSocketCamera(socket_addr="/tmp/bfmc_camera_brain.sock", frame_size=(320, 240))
+# if not nac.SIMULATOR_FLAG:
+    # cap = UnixSocketCamera(socket_addr="/tmp/bfmc_camera_brain.sock", frame_size=(320, 240))
 
 
 # stop the car with ctrl+c
@@ -109,6 +110,7 @@ def handler(signum, frame):
 if __name__ == '__main__':
 
     hf.create_frames(nac.SHOW_IMGS)
+    rclpy.init()
 
     # init the car data
     if nac.SIMULATOR_FLAG:
@@ -165,6 +167,9 @@ if __name__ == '__main__':
     
     
     hf.show_track(track, car, nac.SHOW_IMGS)
+    spin_thread = threading.Thread(target=rclpy.spin, args=(car,), daemon=True)
+    spin_thread.start()
+
 
     try:
         car.stop()
@@ -180,7 +185,7 @@ if __name__ == '__main__':
         log_writer.writerow(['timestamp', 'encoder_distance','yaw_true'])  # CSV header
         
 
-        while not rospy.is_shutdown():
+        while not rclpy.ok():
 
             loop_start_time = time()
             # clear the screen
@@ -196,12 +201,9 @@ if __name__ == '__main__':
             #hf.show_car(track, car, nac.SHOW_IMGS)
 
             if not nac.SIMULATOR_FLAG:
-                ret, frame = cap.read()
-                if not ret:
-                    print("No image from Unix socket camera")
-                    frame = np.zeros((240, 320, 3), np.uint8)
+                if car.frame is None:
+                    print("Waiting for camera frame...")
                     continue
-                brain.car.frame = frame
                 
             brain.run()
 
@@ -239,8 +241,8 @@ if __name__ == '__main__':
         
         sleep(.5)
         cv.destroyAllWindows()
-        exit(0)
-    except rospy.ROSInterruptException:
-        
+        car.destroy_node()
+        rclpy.shutdown()
+        exit(0)        
         log_file.close()
         pass

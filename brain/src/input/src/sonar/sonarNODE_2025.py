@@ -1,106 +1,115 @@
 #!/usr/bin/env python3
+"""
+sonarNODE — ROS2 Jazzy version
+HC-SR04 ultrasonic sensor node using GPIO.
+"""
 
-from turtle import left
-import RPi.GPIO as gpio
-import time
 import sys
-#import signal
-import rospy
+import time
+import threading
+
+import rclpy
+from rclpy.node import Node
 from std_msgs.msg import Float32
 
+try:
+    import RPi.GPIO as gpio
+except ImportError:
+    gpio = None  # allow import on non-Pi for testing
 
-class sonarNODE():
+
+class SonarNode(Node):
     def __init__(self):
-        rospy.init_node('sonarNODE', anonymous=True)
+        super().__init__('sonarNODE')
+
         self.sonars_n = 3
-        self.publishers = [rospy.Publisher('/automobile/sonar/center',Float32, queue_size=1),
-                           rospy.Publisher('/automobile/sonar/right',Float32, queue_size=1),
-                           rospy.Publisher('/automobile/sonar/left',Float32, queue_size=1)]
+        self.publishers = [
+            self.create_publisher(Float32, '/automobile/sonar/center', 1),
+            self.create_publisher(Float32, '/automobile/sonar/right',  1),
+            self.create_publisher(Float32, '/automobile/sonar/left',   1),
+        ]
+        self.sampling_time   = 0.06
+        self.max_fly_time    = 0.02
 
-        # self.r = rospy.Rate(15)
-        self.sampling_time = 0.06 # 1/20.0
-        self.max_train_pulse_time = 0.01
-        self.max_fly_time = 0.01*2
+        self._init_sonar()
 
-    def run(self):
-        rospy.loginfo("starting sonarNODE")
-        self._initSONAR()
-        self._getting()
-    
-    def _initSONAR(self):
+        self._thread = threading.Thread(target=self._getting, daemon=True)
+        self._thread.start()
+        self.get_logger().info("sonarNODE started")
+
+    def _init_sonar(self):
+        if gpio is None:
+            self.get_logger().warn("RPi.GPIO not available — sonar disabled")
+            return
         gpio.setmode(gpio.BCM)
         self.trig_center = 23
-        self.trig_right = 20#5 
-        self.trig_left = 27 
-
-        self.echos = [24, 21, 22] # BFMC_2024 #21 was 6 
+        self.trig_right  = 20
+        self.trig_left   = 27
+        self.echos       = [24, 21, 22]
 
         gpio.setup(self.trig_center, gpio.OUT)
-        gpio.setup(self.trig_right, gpio.OUT)
-        gpio.setup(self.trig_left, gpio.OUT)
-        for echo in self.echos:
-            gpio.setup(echo, gpio.IN)
-
-        print("SONAR Name: HC-SR04")
+        gpio.setup(self.trig_right,  gpio.OUT)
+        gpio.setup(self.trig_left,   gpio.OUT)
+        for e in self.echos:
+            gpio.setup(e, gpio.IN)
 
     def _getting(self):
+        if gpio is None:
+            return
+
         gpio.output(self.trig_center, False)
-        gpio.output(self.trig_right, False)
-        gpio.output(self.trig_left, False)
+        gpio.output(self.trig_right,  False)
+        gpio.output(self.trig_left,   False)
         time.sleep(0.5)
 
-        while not rospy.is_shutdown() :
-            # Send the impulse
+        while rclpy.ok():
             gpio.output(self.trig_center, True)
-            gpio.output(self.trig_right, True)
-            gpio.output(self.trig_left, True)
-            time.sleep(0.00001) # impulse duration to 10us
+            gpio.output(self.trig_right,  True)
+            gpio.output(self.trig_left,   True)
+            time.sleep(0.00001)
             gpio.output(self.trig_center, False)
-            gpio.output(self.trig_right, False)
-            gpio.output(self.trig_left, False)
+            gpio.output(self.trig_right,  False)
+            gpio.output(self.trig_left,   False)
 
-            # sonars = ["center", "right", "left"]
-            echo_flags = [False] * self.sonars_n
-            done_flags = [False] * self.sonars_n
-            distances = [3.0] * self.sonars_n
+            echo_flags  = [False] * self.sonars_n
+            done_flags  = [False] * self.sonars_n
+            distances   = [3.0]   * self.sonars_n
+            start_times = [time.time()] * self.sonars_n
+            t0 = time.time()
 
-            # wait for the comeback impulse
-            start_time = time.time()       
-            curr_time = start_time
-            start_sonar_times = [start_time] * self.sonars_n
-            while curr_time - start_time < self.max_fly_time and not all(done_flags):
-                curr_time = time.time()
+            while time.time() - t0 < self.max_fly_time and not all(done_flags):
+                now = time.time()
                 for i in range(self.sonars_n):
                     if gpio.input(self.echos[i]) == 1 and not echo_flags[i]:
-                        # print(f'{sonars[i]} is 1')
-                        echo_flags[i] = True
-                        start_sonar_times[i] = curr_time
-                for i in range(self.sonars_n):
+                        echo_flags[i]  = True
+                        start_times[i] = now
                     if gpio.input(self.echos[i]) == 0 and echo_flags[i] and not done_flags[i]:
-                        pulse_duration = curr_time - start_sonar_times[i]
-                        distances[i] = pulse_duration * 343.0 / 2
+                        distances[i]  = (now - start_times[i]) * 343.0 / 2
                         done_flags[i] = True
-            
+
             for i in range(self.sonars_n):
-                if echo_flags[i]:
-                    self.publishers[i].publish(distances[i])
-                else:
-                    self.publishers[i].publish(-2)
+                val = distances[i] if echo_flags[i] else -2.0
+                self.publishers[i].publish(Float32(data=float(val)))
 
             time.sleep(self.sampling_time)
 
-if __name__ == "__main__":
+    def destroy_node(self):
+        if gpio:
+            gpio.cleanup()
+        super().destroy_node()
+
+
+def main(args=None):
+    rclpy.init(args=args)
+    node = SonarNode()
     try:
-        sonarNod = sonarNODE()
-        sonarNod.run()
-    except (KeyboardInterrupt, SystemExit):
-        print("Exception from KeyboardInterrupt or SystemExit")
-        gpio.cleanup()
-        sys.exit(0)
-    except Exception as e:
-        print('Finally *************++')
-        print(e)
-        gpio.cleanup()
-        sys.exit(0)
-        
-        
+        rclpy.spin(node)
+    except KeyboardInterrupt:
+        pass
+    finally:
+        node.destroy_node()
+        rclpy.shutdown()
+
+
+if __name__ == '__main__':
+    main()

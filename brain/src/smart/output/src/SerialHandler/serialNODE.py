@@ -1,154 +1,138 @@
 #!/usr/bin/env python3
+"""
+serialNODE — ROS2 Jazzy version
+Forwards commands from /automobile/command to the serial port,
+and re-publishes responses to per-command topics on demand.
 
-# Copyright (c) 2019, Bosch Engineering Center Cluj and BFMC organizers
-# All rights reserved.
+Service: command_feedback_en (utils/srv/Subscribing)
+"""
 
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions are met:
-
-# 1. Redistributions of source code must retain the above copyright notice, this
-#    list of conditions and the following disclaimer.
-
-# 2. Redistributions in binary form must reproduce the above copyright notice,
-#    this list of conditions and the following disclaimer in the documentation
-#    and/or other materials provided with the distribution.
-
-# 3. Neither the name of the copyright holder nor the names of its
-#    contributors may be used to endorse or promote products derived from
-#    this software without specific prior written permission.
-
-# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-# AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-# DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-# FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-# SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-# CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-# OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-# OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE
-
+import json
 import serial
+import threading
+
+import rclpy
+from rclpy.node import Node
+from std_msgs.msg import String
+from utils.srv import Subscribing  # was: subscribing, subscribingResponse
+
 from filehandler      import FileHandler
 from messageconverter import MessageConverter
-import json
 
-import rospy
 
-from std_msgs.msg      import String
-from utils.srv        import subscribing, subscribingResponse
-
-class serialNODE():
+class SerialNode(Node):
     def __init__(self):
-        """It forwards the control messages received from socket to the serial handling node. 
-        """
-        devFile = '/dev/ttyACM0'
-        logFile = 'historyFile.txt'
-        
-        # comm init       
-        self.serialCom = serial.Serial(devFile,19200,timeout=0.1)
-        self.serialCom.flushInput()
-        self.serialCom.flushOutput()
+        super().__init__('serialNODE')
 
-        # log file init
-        self.historyFile = FileHandler(logFile)
-        
-        # message converted init
-        self.messageConverter = MessageConverter()
-        
-        self.buff=""
-        self.isResponse=False
-        self.__subscribers={}
-        
-        rospy.init_node('serialNODE', anonymous=False)
-        
-        self.command_subscriber = rospy.Subscriber("/automobile/command", String, self._write)
-        
-        self.subscribe = rospy.Service("command_feedback_en", subscribing, self._subscribe)        
-    
-     # ===================================== RUN ==========================================
-    def run(self):
-        """Apply the initializing methods and start the threads
-        """
-        rospy.loginfo("starting serialNODE")
-        self._read()    
-        
-    # ===================================== READ ==========================================
-    def _read(self):
-        """ It's represent the reading activity on the the serial.
-        """
-        while not rospy.is_shutdown():
-            read_chr=self.serialCom.read()
+        dev_file = '/dev/ttyACM0'
+        log_file = 'historyFile.txt'
+
+        self._serial = serial.Serial(dev_file, 19200, timeout=0.1)
+        self._serial.flushInput()
+        self._serial.flushOutput()
+
+        self._history       = FileHandler(log_file)
+        self._converter     = MessageConverter()
+        self._buff          = ""
+        self._is_response   = False
+        self._subscribers   = {}           # code → list[Publisher]
+        self._sub_lock      = threading.Lock()
+
+        self.create_subscription(String, '/automobile/command', self._write_cb, 10)
+        self.create_service(Subscribing, 'command_feedback_en', self._subscribe_cb)
+
+        # Read serial in a daemon thread
+        self._thread = threading.Thread(target=self._read_loop, daemon=True)
+        self._thread.start()
+        self.get_logger().info("serialNODE started")
+
+    # ------------------------------------------------------------------ #
+    #  Serial read loop
+    # ------------------------------------------------------------------ #
+    def _read_loop(self):
+        while rclpy.ok():
+            ch = self._serial.read()
             try:
-                read_chr=(read_chr.decode("ascii"))
-                if read_chr=='@':# begin of message from serial
-                    self.isResponse=True
-                    if len(self.buff)!=0:
-                        self.__checkSubscriber(self.buff)
-                    self.buff=""
-                elif read_chr=='\r':# end of message from serial   
-                    self.isResponse=False
-                    if len(self.buff)!=0:
-                        # print(self.buff)
-                        self.__checkSubscriber(self.buff)
-                    self.buff=""
-                if self.isResponse:
-                    self.buff+=read_chr
-                self.historyFile.write(read_chr)
-                 
+                ch = ch.decode('ascii')
             except UnicodeDecodeError:
-                pass
-    
-    def __checkSubscriber(self,f_response):
-        """ Checking the list of the waiting object to redirectionate the message to them. 
-        """
-        l_key=f_response[1:5]
-        if l_key in self.__subscribers:
-            subscribers = self.__subscribers[l_key]
-            for sub in subscribers:
-                sub.publish(f_response)
-    
-    def _subscribe(self, msg):
-        """Enable the feedback from from a type of command to ensure receiving from embedded.
-        To avoid topic names collision, specify the node name and code in the topic itself. 
-        """
-        if msg.subscribing:
-            if msg.code in self.__subscribers:
-                for sub in self.__subscribers[msg.code]:
-                    if (msg.topic == sub.name):
-                        return subscribingResponse(False)
-                    else:
-                        command_publisher = rospy.Publisher(msg.topic, String, queue_size=1)
-                        self.__subscribers[msg.code].append(command_publisher)
-                        return subscribingResponse(True)
+                continue
+
+            if ch == '@':
+                self._is_response = True
+                if self._buff:
+                    self._dispatch(self._buff)
+                self._buff = ""
+            elif ch == '\r':
+                self._is_response = False
+                if self._buff:
+                    self._dispatch(self._buff)
+                self._buff = ""
+
+            if self._is_response:
+                self._buff += ch
+            self._history.write(ch)
+
+    def _dispatch(self, response: str):
+        key = response[1:5]
+        with self._sub_lock:
+            pubs = self._subscribers.get(key, [])
+        for pub in pubs:
+            pub.publish(String(data=response))
+
+    # ------------------------------------------------------------------ #
+    #  Write callback
+    # ------------------------------------------------------------------ #
+    def _write_cb(self, msg: String):
+        command     = json.loads(msg.data)
+        command_msg = self._converter.get_command(**command)
+        self._serial.write(command_msg.encode('ascii'))
+        self._history.write(command_msg)
+
+    # ------------------------------------------------------------------ #
+    #  Subscribe service
+    # ------------------------------------------------------------------ #
+    def _subscribe_cb(self, request: Subscribing.Request,
+                           response: Subscribing.Response) -> Subscribing.Response:
+        with self._sub_lock:
+            if request.subscribing:
+                if request.code in self._subscribers:
+                    for pub in self._subscribers[request.code]:
+                        if pub.topic == request.topic:
+                            response.topic = False
+                            return response
+                    pub = self.create_publisher(String, request.topic, 1)
+                    self._subscribers[request.code].append(pub)
+                else:
+                    pub = self.create_publisher(String, request.topic, 1)
+                    self._subscribers[request.code] = [pub]
+                response.topic = True
             else:
-                command_publisher = rospy.Publisher(msg.topic, String, queue_size=1)
-                self.__subscribers[msg.code] = [command_publisher]
-                return subscribingResponse(True)
-        else:
-            if msg.code in self.__subscribers:     
-                for sub in self.__subscribers[msg.code]:
-                    if (msg.topic == sub.name):
-                        sub.unregister()
-                        self.__subscribers[msg.code].remove(sub)
-                        subscribingResponse(True)
-                    else:
-                        return subscribingResponse(False)
-            else:
-                raise subscribingResponse(False)
-        
-        
-    # ===================================== WRITE ==========================================
-    def _write(self, msg):
-        """ Represents the writing activity on the the serial.
-        """
-        command = json.loads(msg.data)
-        # Unpacking the dictionary into action and values
-        command_msg = self.messageConverter.get_command(**command)
-        self.serialCom.write(command_msg.encode('ascii'))
-        self.historyFile.write(command_msg)
-            
-            
-if __name__ == "__main__":
-    serNod = serialNODE()
-    serNod.run()
+                if request.code in self._subscribers:
+                    for pub in list(self._subscribers[request.code]):
+                        if pub.topic == request.topic:
+                            self.destroy_publisher(pub)
+                            self._subscribers[request.code].remove(pub)
+                            response.topic = True
+                            return response
+                response.topic = False
+        return response
+
+    def destroy_node(self):
+        self._serial.close()
+        super().destroy_node()
+
+
+def main(args=None):
+    rclpy.init(args=args)
+    node = SerialNode()
+    try:
+        rclpy.spin(node)
+    except KeyboardInterrupt:
+        pass
+    finally:
+        node.destroy_node()
+        rclpy.shutdown()
+
+
+if __name__ == '__main__':
+    main()

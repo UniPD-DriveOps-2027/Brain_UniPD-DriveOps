@@ -1,0 +1,19 @@
+// generated from rosidl_adapter/resource/srv.idl.em
+// with input from utils/srv/Subscribing.srv
+// generated code does not contain a copyright notice
+
+
+module utils {
+  module srv {
+    struct Subscribing_Request {
+      boolean subscribing;
+
+      string code;
+
+      string topic;
+    };
+    struct Subscribing_Response {
+      boolean topic;
+    };
+  };
+};
