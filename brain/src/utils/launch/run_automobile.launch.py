@@ -43,18 +43,18 @@ def generate_launch_description():
         # ),
 
         # ── Input sensors ──────────────────────────────────────────────── #
-        Node(
-            package='input',
-            executable='imuNODE',
-            name='imuNODE',
-            output='screen',
-        ),
-        Node(
-            package='input',
-            executable='semaphoreNODE',
-            name='semaphoreNODE',
-            output='screen',
-        ),
+        # Node(
+        #     package='input',
+        #     executable='imuNODE',
+        #     name='imuNODE',
+        #     output='screen',
+        # ),
+        # Node(
+        #     package='input',
+        #     executable='semaphoreNODE',
+        #     name='semaphoreNODE',
+        #     output='screen',
+        # ),
 
         # ── Unix socket outputs ────────────────────────────────────────── #
         Node(

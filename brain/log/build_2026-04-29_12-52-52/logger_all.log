@@ -1,0 +1,492 @@
+[0.268s] DEBUG:colcon:Command line arguments: ['/usr/bin/colcon', 'build']
+[0.269s] DEBUG:colcon:Parsed command line arguments: Namespace(log_base=None, log_level=None, verb_name='build', build_base='build', install_base='install', merge_install=False, symlink_install=False, test_result_base=None, continue_on_error=False, executor='parallel', parallel_workers=6, event_handlers=None, ignore_user_meta=False, metas=['./colcon.meta'], base_paths=['.'], packages_ignore=None, packages_ignore_regex=None, paths=None, packages_up_to=None, packages_up_to_regex=None, packages_above=None, packages_above_and_dependencies=None, packages_above_depth=None, packages_select_by_dep=None, packages_skip_by_dep=None, packages_skip_up_to=None, packages_select_build_failed=False, packages_skip_build_finished=False, packages_select_test_failures=False, packages_skip_test_passed=False, packages_select=None, packages_skip=None, packages_select_regex=None, packages_skip_regex=None, packages_start=None, packages_end=None, allow_overriding=[], cmake_args=None, cmake_target=None, cmake_target_skip_unavailable=False, cmake_clean_cache=False, cmake_clean_first=False, cmake_force_configure=False, ament_cmake_args=None, catkin_cmake_args=None, catkin_skip_building_tests=False, verb_parser=<colcon_defaults.argument_parser.defaults.DefaultArgumentsDecorator object at 0xffff8ba73fe0>, verb_extension=<colcon_core.verb.build.BuildVerb object at 0xffff8ba73290>, main=<bound method BuildVerb.main of <colcon_core.verb.build.BuildVerb object at 0xffff8ba73290>>)
+[0.382s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) check parameters
+[0.383s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) check parameters
+[0.383s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) check parameters
+[0.383s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) check parameters
+[0.383s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) discover
+[0.383s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) discover
+[0.383s] INFO:colcon.colcon_core.package_discovery:Crawling recursively for packages in '/uros_ws/Brain_DEI/brain'
+[0.383s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ignore', 'ignore_ament_install']
+[0.384s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore'
+[0.384s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore_ament_install'
+[0.384s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_pkg']
+[0.384s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_pkg'
+[0.384s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_meta']
+[0.384s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_meta'
+[0.384s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ros']
+[0.384s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ros'
+[0.467s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['cmake', 'python']
+[0.468s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'cmake'
+[0.468s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python'
+[0.468s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['python_setup_py']
+[0.468s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python_setup_py'
+[0.471s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extensions ['ignore', 'ignore_ament_install']
+[0.471s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extension 'ignore'
+[0.471s] Level 1:colcon.colcon_core.package_identification:_identify(build) ignored
+[0.472s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extensions ['ignore', 'ignore_ament_install']
+[0.472s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extension 'ignore'
+[0.472s] Level 1:colcon.colcon_core.package_identification:_identify(install) ignored
+[0.473s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extensions ['ignore', 'ignore_ament_install']
+[0.473s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extension 'ignore'
+[0.473s] Level 1:colcon.colcon_core.package_identification:_identify(log) ignored
+[0.473s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['ignore', 'ignore_ament_install']
+[0.473s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ignore'
+[0.473s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ignore_ament_install'
+[0.473s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['colcon_pkg']
+[0.474s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'colcon_pkg'
+[0.474s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['colcon_meta']
+[0.474s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'colcon_meta'
+[0.474s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['ros']
+[0.474s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ros'
+[0.474s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['cmake', 'python']
+[0.475s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'cmake'
+[0.475s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'python'
+[0.475s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['python_setup_py']
+[0.475s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'python_setup_py'
+[0.475s] Level 1:colcon.colcon_core.package_identification:_identify(src/control) by extensions ['ignore', 'ignore_ament_install']
+[0.475s] Level 1:colcon.colcon_core.package_identification:_identify(src/control) by extension 'ignore'
+[0.476s] Level 1:colcon.colcon_core.package_identification:_identify(src/control) by extension 'ignore_ament_install'
+[0.476s] Level 1:colcon.colcon_core.package_identification:_identify(src/control) by extensions ['colcon_pkg']
+[0.476s] Level 1:colcon.colcon_core.package_identification:_identify(src/control) by extension 'colcon_pkg'
+[0.476s] Level 1:colcon.colcon_core.package_identification:_identify(src/control) by extensions ['colcon_meta']
+[0.476s] Level 1:colcon.colcon_core.package_identification:_identify(src/control) by extension 'colcon_meta'
+[0.476s] Level 1:colcon.colcon_core.package_identification:_identify(src/control) by extensions ['ros']
+[0.476s] Level 1:colcon.colcon_core.package_identification:_identify(src/control) by extension 'ros'
+[0.476s] Level 1:colcon.colcon_core.package_identification:_identify(src/control) by extensions ['cmake', 'python']
+[0.476s] Level 1:colcon.colcon_core.package_identification:_identify(src/control) by extension 'cmake'
+[0.477s] Level 1:colcon.colcon_core.package_identification:_identify(src/control) by extension 'python'
+[0.477s] Level 1:colcon.colcon_core.package_identification:_identify(src/control) by extensions ['python_setup_py']
+[0.477s] Level 1:colcon.colcon_core.package_identification:_identify(src/control) by extension 'python_setup_py'
+[0.477s] Level 1:colcon.colcon_core.package_identification:_identify(src/control/src) by extensions ['ignore', 'ignore_ament_install']
+[0.477s] Level 1:colcon.colcon_core.package_identification:_identify(src/control/src) by extension 'ignore'
+[0.477s] Level 1:colcon.colcon_core.package_identification:_identify(src/control/src) by extension 'ignore_ament_install'
+[0.478s] Level 1:colcon.colcon_core.package_identification:_identify(src/control/src) by extensions ['colcon_pkg']
+[0.478s] Level 1:colcon.colcon_core.package_identification:_identify(src/control/src) by extension 'colcon_pkg'
+[0.478s] Level 1:colcon.colcon_core.package_identification:_identify(src/control/src) by extensions ['colcon_meta']
+[0.478s] Level 1:colcon.colcon_core.package_identification:_identify(src/control/src) by extension 'colcon_meta'
+[0.478s] Level 1:colcon.colcon_core.package_identification:_identify(src/control/src) by extensions ['ros']
+[0.478s] Level 1:colcon.colcon_core.package_identification:_identify(src/control/src) by extension 'ros'
+[0.478s] Level 1:colcon.colcon_core.package_identification:_identify(src/control/src) by extensions ['cmake', 'python']
+[0.478s] Level 1:colcon.colcon_core.package_identification:_identify(src/control/src) by extension 'cmake'
+[0.478s] Level 1:colcon.colcon_core.package_identification:_identify(src/control/src) by extension 'python'
+[0.479s] Level 1:colcon.colcon_core.package_identification:_identify(src/control/src) by extensions ['python_setup_py']
+[0.479s] Level 1:colcon.colcon_core.package_identification:_identify(src/control/src) by extension 'python_setup_py'
+[0.479s] Level 1:colcon.colcon_core.package_identification:_identify(src/input) by extensions ['ignore', 'ignore_ament_install']
+[0.479s] Level 1:colcon.colcon_core.package_identification:_identify(src/input) by extension 'ignore'
+[0.479s] Level 1:colcon.colcon_core.package_identification:_identify(src/input) by extension 'ignore_ament_install'
+[0.479s] Level 1:colcon.colcon_core.package_identification:_identify(src/input) by extensions ['colcon_pkg']
+[0.479s] Level 1:colcon.colcon_core.package_identification:_identify(src/input) by extension 'colcon_pkg'
+[0.479s] Level 1:colcon.colcon_core.package_identification:_identify(src/input) by extensions ['colcon_meta']
+[0.479s] Level 1:colcon.colcon_core.package_identification:_identify(src/input) by extension 'colcon_meta'
+[0.480s] Level 1:colcon.colcon_core.package_identification:_identify(src/input) by extensions ['ros']
+[0.480s] Level 1:colcon.colcon_core.package_identification:_identify(src/input) by extension 'ros'
+[0.489s] DEBUG:colcon.colcon_core.package_identification:Package 'src/input' with type 'ros.ament_python' and name 'input'
+[0.490s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart) by extensions ['ignore', 'ignore_ament_install']
+[0.490s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart) by extension 'ignore'
+[0.491s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart) by extension 'ignore_ament_install'
+[0.491s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart) by extensions ['colcon_pkg']
+[0.491s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart) by extension 'colcon_pkg'
+[0.491s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart) by extensions ['colcon_meta']
+[0.491s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart) by extension 'colcon_meta'
+[0.491s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart) by extensions ['ros']
+[0.491s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart) by extension 'ros'
+[0.491s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart) by extensions ['cmake', 'python']
+[0.491s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart) by extension 'cmake'
+[0.491s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart) by extension 'python'
+[0.492s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart) by extensions ['python_setup_py']
+[0.492s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart) by extension 'python_setup_py'
+[0.492s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/data) by extensions ['ignore', 'ignore_ament_install']
+[0.492s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/data) by extension 'ignore'
+[0.492s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/data) by extension 'ignore_ament_install'
+[0.492s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/data) by extensions ['colcon_pkg']
+[0.492s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/data) by extension 'colcon_pkg'
+[0.493s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/data) by extensions ['colcon_meta']
+[0.493s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/data) by extension 'colcon_meta'
+[0.493s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/data) by extensions ['ros']
+[0.493s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/data) by extension 'ros'
+[0.493s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/data) by extensions ['cmake', 'python']
+[0.493s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/data) by extension 'cmake'
+[0.493s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/data) by extension 'python'
+[0.493s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/data) by extensions ['python_setup_py']
+[0.493s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/data) by extension 'python_setup_py'
+[0.494s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/extra) by extensions ['ignore', 'ignore_ament_install']
+[0.494s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/extra) by extension 'ignore'
+[0.494s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/extra) by extension 'ignore_ament_install'
+[0.494s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/extra) by extensions ['colcon_pkg']
+[0.494s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/extra) by extension 'colcon_pkg'
+[0.495s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/extra) by extensions ['colcon_meta']
+[0.495s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/extra) by extension 'colcon_meta'
+[0.495s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/extra) by extensions ['ros']
+[0.495s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/extra) by extension 'ros'
+[0.495s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/extra) by extensions ['cmake', 'python']
+[0.495s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/extra) by extension 'cmake'
+[0.495s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/extra) by extension 'python'
+[0.495s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/extra) by extensions ['python_setup_py']
+[0.495s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/extra) by extension 'python_setup_py'
+[0.496s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/extra/traffic_sign_camera) by extensions ['ignore', 'ignore_ament_install']
+[0.496s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/extra/traffic_sign_camera) by extension 'ignore'
+[0.496s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/extra/traffic_sign_camera) by extension 'ignore_ament_install'
+[0.496s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/extra/traffic_sign_camera) by extensions ['colcon_pkg']
+[0.496s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/extra/traffic_sign_camera) by extension 'colcon_pkg'
+[0.496s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/extra/traffic_sign_camera) by extensions ['colcon_meta']
+[0.496s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/extra/traffic_sign_camera) by extension 'colcon_meta'
+[0.497s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/extra/traffic_sign_camera) by extensions ['ros']
+[0.497s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/extra/traffic_sign_camera) by extension 'ros'
+[0.497s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/extra/traffic_sign_camera) by extensions ['cmake', 'python']
+[0.497s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/extra/traffic_sign_camera) by extension 'cmake'
+[0.497s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/extra/traffic_sign_camera) by extension 'python'
+[0.497s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/extra/traffic_sign_camera) by extensions ['python_setup_py']
+[0.497s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/extra/traffic_sign_camera) by extension 'python_setup_py'
+[0.498s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models) by extensions ['ignore', 'ignore_ament_install']
+[0.498s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models) by extension 'ignore'
+[0.498s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models) by extension 'ignore_ament_install'
+[0.499s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models) by extensions ['colcon_pkg']
+[0.499s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models) by extension 'colcon_pkg'
+[0.499s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models) by extensions ['colcon_meta']
+[0.499s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models) by extension 'colcon_meta'
+[0.499s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models) by extensions ['ros']
+[0.499s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models) by extension 'ros'
+[0.499s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models) by extensions ['cmake', 'python']
+[0.499s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models) by extension 'cmake'
+[0.500s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models) by extension 'python'
+[0.500s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models) by extensions ['python_setup_py']
+[0.500s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models) by extension 'python_setup_py'
+[0.500s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models/obstacle_models) by extensions ['ignore', 'ignore_ament_install']
+[0.500s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models/obstacle_models) by extension 'ignore'
+[0.500s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models/obstacle_models) by extension 'ignore_ament_install'
+[0.500s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models/obstacle_models) by extensions ['colcon_pkg']
+[0.501s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models/obstacle_models) by extension 'colcon_pkg'
+[0.501s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models/obstacle_models) by extensions ['colcon_meta']
+[0.501s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models/obstacle_models) by extension 'colcon_meta'
+[0.501s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models/obstacle_models) by extensions ['ros']
+[0.501s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models/obstacle_models) by extension 'ros'
+[0.501s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models/obstacle_models) by extensions ['cmake', 'python']
+[0.501s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models/obstacle_models) by extension 'cmake'
+[0.501s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models/obstacle_models) by extension 'python'
+[0.501s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models/obstacle_models) by extensions ['python_setup_py']
+[0.501s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models/obstacle_models) by extension 'python_setup_py'
+[0.502s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models/templates) by extensions ['ignore', 'ignore_ament_install']
+[0.502s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models/templates) by extension 'ignore'
+[0.502s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models/templates) by extension 'ignore_ament_install'
+[0.502s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models/templates) by extensions ['colcon_pkg']
+[0.502s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models/templates) by extension 'colcon_pkg'
+[0.502s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models/templates) by extensions ['colcon_meta']
+[0.502s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models/templates) by extension 'colcon_meta'
+[0.503s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models/templates) by extensions ['ros']
+[0.503s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models/templates) by extension 'ros'
+[0.503s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models/templates) by extensions ['cmake', 'python']
+[0.503s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models/templates) by extension 'cmake'
+[0.503s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models/templates) by extension 'python'
+[0.503s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models/templates) by extensions ['python_setup_py']
+[0.503s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models/templates) by extension 'python_setup_py'
+[0.503s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models/traffic_signs_models) by extensions ['ignore', 'ignore_ament_install']
+[0.504s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models/traffic_signs_models) by extension 'ignore'
+[0.504s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models/traffic_signs_models) by extension 'ignore_ament_install'
+[0.504s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models/traffic_signs_models) by extensions ['colcon_pkg']
+[0.504s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models/traffic_signs_models) by extension 'colcon_pkg'
+[0.504s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models/traffic_signs_models) by extensions ['colcon_meta']
+[0.504s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models/traffic_signs_models) by extension 'colcon_meta'
+[0.504s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models/traffic_signs_models) by extensions ['ros']
+[0.504s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models/traffic_signs_models) by extension 'ros'
+[0.505s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models/traffic_signs_models) by extensions ['cmake', 'python']
+[0.505s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models/traffic_signs_models) by extension 'cmake'
+[0.505s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models/traffic_signs_models) by extension 'python'
+[0.505s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models/traffic_signs_models) by extensions ['python_setup_py']
+[0.505s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/models/traffic_signs_models) by extension 'python_setup_py'
+[0.505s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/output) by extensions ['ignore', 'ignore_ament_install']
+[0.505s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/output) by extension 'ignore'
+[0.506s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/output) by extension 'ignore_ament_install'
+[0.506s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/output) by extensions ['colcon_pkg']
+[0.506s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/output) by extension 'colcon_pkg'
+[0.506s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/output) by extensions ['colcon_meta']
+[0.506s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/output) by extension 'colcon_meta'
+[0.506s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/output) by extensions ['ros']
+[0.507s] Level 1:colcon.colcon_core.package_identification:_identify(src/smart/output) by extension 'ros'
+[0.509s] DEBUG:colcon.colcon_core.package_identification:Package 'src/smart/output' with type 'ros.ament_python' and name 'output'
+[0.509s] Level 1:colcon.colcon_core.package_identification:_identify(src/train) by extensions ['ignore', 'ignore_ament_install']
+[0.509s] Level 1:colcon.colcon_core.package_identification:_identify(src/train) by extension 'ignore'
+[0.509s] Level 1:colcon.colcon_core.package_identification:_identify(src/train) by extension 'ignore_ament_install'
+[0.509s] Level 1:colcon.colcon_core.package_identification:_identify(src/train) by extensions ['colcon_pkg']
+[0.509s] Level 1:colcon.colcon_core.package_identification:_identify(src/train) by extension 'colcon_pkg'
+[0.510s] Level 1:colcon.colcon_core.package_identification:_identify(src/train) by extensions ['colcon_meta']
+[0.510s] Level 1:colcon.colcon_core.package_identification:_identify(src/train) by extension 'colcon_meta'
+[0.510s] Level 1:colcon.colcon_core.package_identification:_identify(src/train) by extensions ['ros']
+[0.510s] Level 1:colcon.colcon_core.package_identification:_identify(src/train) by extension 'ros'
+[0.510s] Level 1:colcon.colcon_core.package_identification:_identify(src/train) by extensions ['cmake', 'python']
+[0.510s] Level 1:colcon.colcon_core.package_identification:_identify(src/train) by extension 'cmake'
+[0.510s] Level 1:colcon.colcon_core.package_identification:_identify(src/train) by extension 'python'
+[0.510s] Level 1:colcon.colcon_core.package_identification:_identify(src/train) by extensions ['python_setup_py']
+[0.510s] Level 1:colcon.colcon_core.package_identification:_identify(src/train) by extension 'python_setup_py'
+[0.511s] Level 1:colcon.colcon_core.package_identification:_identify(src/train/sparcs) by extensions ['ignore', 'ignore_ament_install']
+[0.511s] Level 1:colcon.colcon_core.package_identification:_identify(src/train/sparcs) by extension 'ignore'
+[0.511s] Level 1:colcon.colcon_core.package_identification:_identify(src/train/sparcs) by extension 'ignore_ament_install'
+[0.511s] Level 1:colcon.colcon_core.package_identification:_identify(src/train/sparcs) by extensions ['colcon_pkg']
+[0.511s] Level 1:colcon.colcon_core.package_identification:_identify(src/train/sparcs) by extension 'colcon_pkg'
+[0.511s] Level 1:colcon.colcon_core.package_identification:_identify(src/train/sparcs) by extensions ['colcon_meta']
+[0.511s] Level 1:colcon.colcon_core.package_identification:_identify(src/train/sparcs) by extension 'colcon_meta'
+[0.512s] Level 1:colcon.colcon_core.package_identification:_identify(src/train/sparcs) by extensions ['ros']
+[0.512s] Level 1:colcon.colcon_core.package_identification:_identify(src/train/sparcs) by extension 'ros'
+[0.512s] Level 1:colcon.colcon_core.package_identification:_identify(src/train/sparcs) by extensions ['cmake', 'python']
+[0.512s] Level 1:colcon.colcon_core.package_identification:_identify(src/train/sparcs) by extension 'cmake'
+[0.512s] Level 1:colcon.colcon_core.package_identification:_identify(src/train/sparcs) by extension 'python'
+[0.512s] Level 1:colcon.colcon_core.package_identification:_identify(src/train/sparcs) by extensions ['python_setup_py']
+[0.512s] Level 1:colcon.colcon_core.package_identification:_identify(src/train/sparcs) by extension 'python_setup_py'
+[0.512s] Level 1:colcon.colcon_core.package_identification:_identify(src/train/stuff) by extensions ['ignore', 'ignore_ament_install']
+[0.513s] Level 1:colcon.colcon_core.package_identification:_identify(src/train/stuff) by extension 'ignore'
+[0.513s] Level 1:colcon.colcon_core.package_identification:_identify(src/train/stuff) by extension 'ignore_ament_install'
+[0.513s] Level 1:colcon.colcon_core.package_identification:_identify(src/train/stuff) by extensions ['colcon_pkg']
+[0.513s] Level 1:colcon.colcon_core.package_identification:_identify(src/train/stuff) by extension 'colcon_pkg'
+[0.513s] Level 1:colcon.colcon_core.package_identification:_identify(src/train/stuff) by extensions ['colcon_meta']
+[0.513s] Level 1:colcon.colcon_core.package_identification:_identify(src/train/stuff) by extension 'colcon_meta'
+[0.514s] Level 1:colcon.colcon_core.package_identification:_identify(src/train/stuff) by extensions ['ros']
+[0.514s] Level 1:colcon.colcon_core.package_identification:_identify(src/train/stuff) by extension 'ros'
+[0.514s] Level 1:colcon.colcon_core.package_identification:_identify(src/train/stuff) by extensions ['cmake', 'python']
+[0.514s] Level 1:colcon.colcon_core.package_identification:_identify(src/train/stuff) by extension 'cmake'
+[0.514s] Level 1:colcon.colcon_core.package_identification:_identify(src/train/stuff) by extension 'python'
+[0.514s] Level 1:colcon.colcon_core.package_identification:_identify(src/train/stuff) by extensions ['python_setup_py']
+[0.514s] Level 1:colcon.colcon_core.package_identification:_identify(src/train/stuff) by extension 'python_setup_py'
+[0.514s] Level 1:colcon.colcon_core.package_identification:_identify(src/unix_out) by extensions ['ignore', 'ignore_ament_install']
+[0.515s] Level 1:colcon.colcon_core.package_identification:_identify(src/unix_out) by extension 'ignore'
+[0.515s] Level 1:colcon.colcon_core.package_identification:_identify(src/unix_out) by extension 'ignore_ament_install'
+[0.515s] Level 1:colcon.colcon_core.package_identification:_identify(src/unix_out) by extensions ['colcon_pkg']
+[0.515s] Level 1:colcon.colcon_core.package_identification:_identify(src/unix_out) by extension 'colcon_pkg'
+[0.515s] Level 1:colcon.colcon_core.package_identification:_identify(src/unix_out) by extensions ['colcon_meta']
+[0.515s] Level 1:colcon.colcon_core.package_identification:_identify(src/unix_out) by extension 'colcon_meta'
+[0.515s] Level 1:colcon.colcon_core.package_identification:_identify(src/unix_out) by extensions ['ros']
+[0.515s] Level 1:colcon.colcon_core.package_identification:_identify(src/unix_out) by extension 'ros'
+[0.517s] DEBUG:colcon.colcon_core.package_identification:Package 'src/unix_out' with type 'ros.ament_python' and name 'unix_out'
+[0.517s] Level 1:colcon.colcon_core.package_identification:_identify(src/utils) by extensions ['ignore', 'ignore_ament_install']
+[0.517s] Level 1:colcon.colcon_core.package_identification:_identify(src/utils) by extension 'ignore'
+[0.517s] Level 1:colcon.colcon_core.package_identification:_identify(src/utils) by extension 'ignore_ament_install'
+[0.517s] Level 1:colcon.colcon_core.package_identification:_identify(src/utils) by extensions ['colcon_pkg']
+[0.517s] Level 1:colcon.colcon_core.package_identification:_identify(src/utils) by extension 'colcon_pkg'
+[0.518s] Level 1:colcon.colcon_core.package_identification:_identify(src/utils) by extensions ['colcon_meta']
+[0.518s] Level 1:colcon.colcon_core.package_identification:_identify(src/utils) by extension 'colcon_meta'
+[0.518s] Level 1:colcon.colcon_core.package_identification:_identify(src/utils) by extensions ['ros']
+[0.518s] Level 1:colcon.colcon_core.package_identification:_identify(src/utils) by extension 'ros'
+[0.519s] DEBUG:colcon.colcon_core.package_identification:Package 'src/utils' with type 'ros.ament_cmake' and name 'utils'
+[0.520s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) using defaults
+[0.520s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) discover
+[0.520s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) using defaults
+[0.520s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) discover
+[0.520s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) using defaults
+[0.584s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) check parameters
+[0.584s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) discover
+[0.595s] DEBUG:colcon.colcon_installed_package_information.package_discovery:Found 4 installed packages in /uros_ws/Brain_DEI/brain/install
+[0.596s] DEBUG:colcon.colcon_installed_package_information.package_discovery:Found 2 installed packages in /uros_ws/install
+[0.598s] DEBUG:colcon.colcon_installed_package_information.package_discovery:Found 214 installed packages in /opt/ros/jazzy
+[0.599s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) using defaults
+[0.665s] Level 5:colcon.colcon_core.verb:set package 'utils' build argument 'cmake_args' from command line to 'None'
+[0.666s] Level 5:colcon.colcon_core.verb:set package 'utils' build argument 'cmake_target' from command line to 'None'
+[0.666s] Level 5:colcon.colcon_core.verb:set package 'utils' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.666s] Level 5:colcon.colcon_core.verb:set package 'utils' build argument 'cmake_clean_cache' from command line to 'False'
+[0.666s] Level 5:colcon.colcon_core.verb:set package 'utils' build argument 'cmake_clean_first' from command line to 'False'
+[0.666s] Level 5:colcon.colcon_core.verb:set package 'utils' build argument 'cmake_force_configure' from command line to 'False'
+[0.666s] Level 5:colcon.colcon_core.verb:set package 'utils' build argument 'ament_cmake_args' from command line to 'None'
+[0.666s] Level 5:colcon.colcon_core.verb:set package 'utils' build argument 'catkin_cmake_args' from command line to 'None'
+[0.666s] Level 5:colcon.colcon_core.verb:set package 'utils' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.666s] DEBUG:colcon.colcon_core.verb:Building package 'utils' with the following arguments: {'ament_cmake_args': None, 'build_base': '/uros_ws/Brain_DEI/brain/build/utils', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/uros_ws/Brain_DEI/brain/install/utils', 'merge_install': False, 'path': '/uros_ws/Brain_DEI/brain/src/utils', 'symlink_install': False, 'test_result_base': None}
+[0.667s] Level 5:colcon.colcon_core.verb:set package 'input' build argument 'cmake_args' from command line to 'None'
+[0.667s] Level 5:colcon.colcon_core.verb:set package 'input' build argument 'cmake_target' from command line to 'None'
+[0.667s] Level 5:colcon.colcon_core.verb:set package 'input' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.667s] Level 5:colcon.colcon_core.verb:set package 'input' build argument 'cmake_clean_cache' from command line to 'False'
+[0.667s] Level 5:colcon.colcon_core.verb:set package 'input' build argument 'cmake_clean_first' from command line to 'False'
+[0.667s] Level 5:colcon.colcon_core.verb:set package 'input' build argument 'cmake_force_configure' from command line to 'False'
+[0.667s] Level 5:colcon.colcon_core.verb:set package 'input' build argument 'ament_cmake_args' from command line to 'None'
+[0.667s] Level 5:colcon.colcon_core.verb:set package 'input' build argument 'catkin_cmake_args' from command line to 'None'
+[0.667s] Level 5:colcon.colcon_core.verb:set package 'input' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.667s] DEBUG:colcon.colcon_core.verb:Building package 'input' with the following arguments: {'ament_cmake_args': None, 'build_base': '/uros_ws/Brain_DEI/brain/build/input', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/uros_ws/Brain_DEI/brain/install/input', 'merge_install': False, 'path': '/uros_ws/Brain_DEI/brain/src/input', 'symlink_install': False, 'test_result_base': None}
+[0.668s] Level 5:colcon.colcon_core.verb:set package 'output' build argument 'cmake_args' from command line to 'None'
+[0.668s] Level 5:colcon.colcon_core.verb:set package 'output' build argument 'cmake_target' from command line to 'None'
+[0.668s] Level 5:colcon.colcon_core.verb:set package 'output' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.668s] Level 5:colcon.colcon_core.verb:set package 'output' build argument 'cmake_clean_cache' from command line to 'False'
+[0.668s] Level 5:colcon.colcon_core.verb:set package 'output' build argument 'cmake_clean_first' from command line to 'False'
+[0.668s] Level 5:colcon.colcon_core.verb:set package 'output' build argument 'cmake_force_configure' from command line to 'False'
+[0.668s] Level 5:colcon.colcon_core.verb:set package 'output' build argument 'ament_cmake_args' from command line to 'None'
+[0.668s] Level 5:colcon.colcon_core.verb:set package 'output' build argument 'catkin_cmake_args' from command line to 'None'
+[0.668s] Level 5:colcon.colcon_core.verb:set package 'output' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.668s] DEBUG:colcon.colcon_core.verb:Building package 'output' with the following arguments: {'ament_cmake_args': None, 'build_base': '/uros_ws/Brain_DEI/brain/build/output', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/uros_ws/Brain_DEI/brain/install/output', 'merge_install': False, 'path': '/uros_ws/Brain_DEI/brain/src/smart/output', 'symlink_install': False, 'test_result_base': None}
+[0.669s] Level 5:colcon.colcon_core.verb:set package 'unix_out' build argument 'cmake_args' from command line to 'None'
+[0.669s] Level 5:colcon.colcon_core.verb:set package 'unix_out' build argument 'cmake_target' from command line to 'None'
+[0.669s] Level 5:colcon.colcon_core.verb:set package 'unix_out' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.669s] Level 5:colcon.colcon_core.verb:set package 'unix_out' build argument 'cmake_clean_cache' from command line to 'False'
+[0.669s] Level 5:colcon.colcon_core.verb:set package 'unix_out' build argument 'cmake_clean_first' from command line to 'False'
+[0.669s] Level 5:colcon.colcon_core.verb:set package 'unix_out' build argument 'cmake_force_configure' from command line to 'False'
+[0.669s] Level 5:colcon.colcon_core.verb:set package 'unix_out' build argument 'ament_cmake_args' from command line to 'None'
+[0.669s] Level 5:colcon.colcon_core.verb:set package 'unix_out' build argument 'catkin_cmake_args' from command line to 'None'
+[0.669s] Level 5:colcon.colcon_core.verb:set package 'unix_out' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.669s] DEBUG:colcon.colcon_core.verb:Building package 'unix_out' with the following arguments: {'ament_cmake_args': None, 'build_base': '/uros_ws/Brain_DEI/brain/build/unix_out', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/uros_ws/Brain_DEI/brain/install/unix_out', 'merge_install': False, 'path': '/uros_ws/Brain_DEI/brain/src/unix_out', 'symlink_install': False, 'test_result_base': None}
+[0.669s] INFO:colcon.colcon_core.executor:Executing jobs using 'parallel' executor
+[0.672s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete
+[0.673s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/uros_ws/Brain_DEI/brain/src/utils' with build type 'ament_cmake'
+[0.674s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/uros_ws/Brain_DEI/brain/src/utils'
+[0.682s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_core.shell.bat': Not used on non-Windows systems
+[0.682s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.682s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.709s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/uros_ws/Brain_DEI/brain/build/utils': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/uros_ws/Brain_DEI/brain/install/unix_out:/uros_ws/Brain_DEI/brain/install/output:/uros_ws/Brain_DEI/brain/install/input:/opt/ros/jazzy /usr/bin/cmake --build /uros_ws/Brain_DEI/brain/build/utils -- -j6 -l6
+[1.733s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/uros_ws/Brain_DEI/brain/build/utils' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/uros_ws/Brain_DEI/brain/install/unix_out:/uros_ws/Brain_DEI/brain/install/output:/uros_ws/Brain_DEI/brain/install/input:/opt/ros/jazzy /usr/bin/cmake --build /uros_ws/Brain_DEI/brain/build/utils -- -j6 -l6
+[1.763s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/uros_ws/Brain_DEI/brain/build/utils': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/uros_ws/Brain_DEI/brain/install/unix_out:/uros_ws/Brain_DEI/brain/install/output:/uros_ws/Brain_DEI/brain/install/input:/opt/ros/jazzy /usr/bin/cmake --install /uros_ws/Brain_DEI/brain/build/utils
+[1.959s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(utils)
+[1.966s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/uros_ws/Brain_DEI/brain/build/utils' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/uros_ws/Brain_DEI/brain/install/unix_out:/uros_ws/Brain_DEI/brain/install/output:/uros_ws/Brain_DEI/brain/install/input:/opt/ros/jazzy /usr/bin/cmake --install /uros_ws/Brain_DEI/brain/build/utils
+[1.973s] Level 1:colcon.colcon_core.environment:checking '/uros_ws/Brain_DEI/brain/install/utils' for CMake module files
+[1.976s] Level 1:colcon.colcon_core.environment:checking '/uros_ws/Brain_DEI/brain/install/utils' for CMake config files
+[1.978s] Level 1:colcon.colcon_core.shell:create_environment_hook('utils', 'cmake_prefix_path')
+[1.978s] INFO:colcon.colcon_core.shell:Creating environment hook '/uros_ws/Brain_DEI/brain/install/utils/share/utils/hook/cmake_prefix_path.ps1'
+[1.980s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/uros_ws/Brain_DEI/brain/install/utils/share/utils/hook/cmake_prefix_path.dsv'
+[1.981s] INFO:colcon.colcon_core.shell:Creating environment hook '/uros_ws/Brain_DEI/brain/install/utils/share/utils/hook/cmake_prefix_path.sh'
+[1.983s] Level 1:colcon.colcon_core.environment:checking '/uros_ws/Brain_DEI/brain/install/utils/lib'
+[1.984s] Level 1:colcon.colcon_core.shell:create_environment_hook('utils', 'ld_library_path_lib')
+[1.984s] INFO:colcon.colcon_core.shell:Creating environment hook '/uros_ws/Brain_DEI/brain/install/utils/share/utils/hook/ld_library_path_lib.ps1'
+[1.985s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/uros_ws/Brain_DEI/brain/install/utils/share/utils/hook/ld_library_path_lib.dsv'
+[1.986s] INFO:colcon.colcon_core.shell:Creating environment hook '/uros_ws/Brain_DEI/brain/install/utils/share/utils/hook/ld_library_path_lib.sh'
+[1.987s] Level 1:colcon.colcon_core.environment:checking '/uros_ws/Brain_DEI/brain/install/utils/bin'
+[1.988s] Level 1:colcon.colcon_core.environment:checking '/uros_ws/Brain_DEI/brain/install/utils/lib/pkgconfig/utils.pc'
+[1.989s] Level 1:colcon.colcon_core.environment:checking '/uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages'
+[1.989s] Level 1:colcon.colcon_core.shell:create_environment_hook('utils', 'pythonpath')
+[1.990s] INFO:colcon.colcon_core.shell:Creating environment hook '/uros_ws/Brain_DEI/brain/install/utils/share/utils/hook/pythonpath.ps1'
+[1.991s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/uros_ws/Brain_DEI/brain/install/utils/share/utils/hook/pythonpath.dsv'
+[1.992s] INFO:colcon.colcon_core.shell:Creating environment hook '/uros_ws/Brain_DEI/brain/install/utils/share/utils/hook/pythonpath.sh'
+[1.993s] Level 1:colcon.colcon_core.environment:checking '/uros_ws/Brain_DEI/brain/install/utils/bin'
+[1.994s] INFO:colcon.colcon_core.shell:Creating package script '/uros_ws/Brain_DEI/brain/install/utils/share/utils/package.ps1'
+[1.997s] INFO:colcon.colcon_core.shell:Creating package descriptor '/uros_ws/Brain_DEI/brain/install/utils/share/utils/package.dsv'
+[1.998s] INFO:colcon.colcon_core.shell:Creating package script '/uros_ws/Brain_DEI/brain/install/utils/share/utils/package.sh'
+[2.000s] INFO:colcon.colcon_core.shell:Creating package script '/uros_ws/Brain_DEI/brain/install/utils/share/utils/package.bash'
+[2.001s] INFO:colcon.colcon_core.shell:Creating package script '/uros_ws/Brain_DEI/brain/install/utils/share/utils/package.zsh'
+[2.003s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/uros_ws/Brain_DEI/brain/install/utils/share/colcon-core/packages/utils)
+[2.005s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(utils)
+[2.006s] Level 1:colcon.colcon_core.environment:checking '/uros_ws/Brain_DEI/brain/install/utils' for CMake module files
+[2.009s] Level 1:colcon.colcon_core.environment:checking '/uros_ws/Brain_DEI/brain/install/utils' for CMake config files
+[2.011s] Level 1:colcon.colcon_core.shell:create_environment_hook('utils', 'cmake_prefix_path')
+[2.011s] INFO:colcon.colcon_core.shell:Creating environment hook '/uros_ws/Brain_DEI/brain/install/utils/share/utils/hook/cmake_prefix_path.ps1'
+[2.012s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/uros_ws/Brain_DEI/brain/install/utils/share/utils/hook/cmake_prefix_path.dsv'
+[2.013s] INFO:colcon.colcon_core.shell:Creating environment hook '/uros_ws/Brain_DEI/brain/install/utils/share/utils/hook/cmake_prefix_path.sh'
+[2.015s] Level 1:colcon.colcon_core.environment:checking '/uros_ws/Brain_DEI/brain/install/utils/lib'
+[2.015s] Level 1:colcon.colcon_core.shell:create_environment_hook('utils', 'ld_library_path_lib')
+[2.015s] INFO:colcon.colcon_core.shell:Creating environment hook '/uros_ws/Brain_DEI/brain/install/utils/share/utils/hook/ld_library_path_lib.ps1'
+[2.016s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/uros_ws/Brain_DEI/brain/install/utils/share/utils/hook/ld_library_path_lib.dsv'
+[2.017s] INFO:colcon.colcon_core.shell:Creating environment hook '/uros_ws/Brain_DEI/brain/install/utils/share/utils/hook/ld_library_path_lib.sh'
+[2.018s] Level 1:colcon.colcon_core.environment:checking '/uros_ws/Brain_DEI/brain/install/utils/bin'
+[2.018s] Level 1:colcon.colcon_core.environment:checking '/uros_ws/Brain_DEI/brain/install/utils/lib/pkgconfig/utils.pc'
+[2.018s] Level 1:colcon.colcon_core.environment:checking '/uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages'
+[2.018s] Level 1:colcon.colcon_core.shell:create_environment_hook('utils', 'pythonpath')
+[2.019s] INFO:colcon.colcon_core.shell:Creating environment hook '/uros_ws/Brain_DEI/brain/install/utils/share/utils/hook/pythonpath.ps1'
+[2.020s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/uros_ws/Brain_DEI/brain/install/utils/share/utils/hook/pythonpath.dsv'
+[2.021s] INFO:colcon.colcon_core.shell:Creating environment hook '/uros_ws/Brain_DEI/brain/install/utils/share/utils/hook/pythonpath.sh'
+[2.022s] Level 1:colcon.colcon_core.environment:checking '/uros_ws/Brain_DEI/brain/install/utils/bin'
+[2.023s] INFO:colcon.colcon_core.shell:Creating package script '/uros_ws/Brain_DEI/brain/install/utils/share/utils/package.ps1'
+[2.025s] INFO:colcon.colcon_core.shell:Creating package descriptor '/uros_ws/Brain_DEI/brain/install/utils/share/utils/package.dsv'
+[2.028s] INFO:colcon.colcon_core.shell:Creating package script '/uros_ws/Brain_DEI/brain/install/utils/share/utils/package.sh'
+[2.029s] INFO:colcon.colcon_core.shell:Creating package script '/uros_ws/Brain_DEI/brain/install/utils/share/utils/package.bash'
+[2.031s] INFO:colcon.colcon_core.shell:Creating package script '/uros_ws/Brain_DEI/brain/install/utils/share/utils/package.zsh'
+[2.032s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/uros_ws/Brain_DEI/brain/install/utils/share/colcon-core/packages/utils)
+[2.033s] INFO:colcon.colcon_ros.task.ament_python.build:Building ROS package in '/uros_ws/Brain_DEI/brain/src/input' with build type 'ament_python'
+[2.033s] Level 1:colcon.colcon_core.shell:create_environment_hook('input', 'ament_prefix_path')
+[2.033s] INFO:colcon.colcon_core.shell:Creating environment hook '/uros_ws/Brain_DEI/brain/install/input/share/input/hook/ament_prefix_path.ps1'
+[2.034s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/uros_ws/Brain_DEI/brain/install/input/share/input/hook/ament_prefix_path.dsv'
+[2.035s] INFO:colcon.colcon_core.shell:Creating environment hook '/uros_ws/Brain_DEI/brain/install/input/share/input/hook/ament_prefix_path.sh'
+[2.036s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[2.037s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[2.046s] INFO:colcon.colcon_ros.task.ament_python.build:Building ROS package in '/uros_ws/Brain_DEI/brain/src/smart/output' with build type 'ament_python'
+[2.046s] Level 1:colcon.colcon_core.shell:create_environment_hook('output', 'ament_prefix_path')
+[2.047s] INFO:colcon.colcon_core.shell:Creating environment hook '/uros_ws/Brain_DEI/brain/install/output/share/output/hook/ament_prefix_path.ps1'
+[2.052s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/uros_ws/Brain_DEI/brain/install/output/share/output/hook/ament_prefix_path.dsv'
+[2.054s] INFO:colcon.colcon_core.shell:Creating environment hook '/uros_ws/Brain_DEI/brain/install/output/share/output/hook/ament_prefix_path.sh'
+[2.055s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[2.055s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[2.062s] INFO:colcon.colcon_ros.task.ament_python.build:Building ROS package in '/uros_ws/Brain_DEI/brain/src/unix_out' with build type 'ament_python'
+[2.062s] Level 1:colcon.colcon_core.shell:create_environment_hook('unix_out', 'ament_prefix_path')
+[2.063s] INFO:colcon.colcon_core.shell:Creating environment hook '/uros_ws/Brain_DEI/brain/install/unix_out/share/unix_out/hook/ament_prefix_path.ps1'
+[2.064s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/uros_ws/Brain_DEI/brain/install/unix_out/share/unix_out/hook/ament_prefix_path.dsv'
+[2.064s] INFO:colcon.colcon_core.shell:Creating environment hook '/uros_ws/Brain_DEI/brain/install/unix_out/share/unix_out/hook/ament_prefix_path.sh'
+[2.065s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[2.065s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[2.551s] INFO:colcon.colcon_core.task.python.build:Building Python package in '/uros_ws/Brain_DEI/brain/src/input'
+[2.551s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[2.551s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[2.989s] INFO:colcon.colcon_core.task.python.build:Building Python package in '/uros_ws/Brain_DEI/brain/src/smart/output'
+[2.990s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[2.990s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[3.476s] INFO:colcon.colcon_core.task.python.build:Building Python package in '/uros_ws/Brain_DEI/brain/src/unix_out'
+[3.477s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[3.477s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[4.751s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/uros_ws/Brain_DEI/brain/src/smart/output': PYTHONPATH=/uros_ws/Brain_DEI/brain/build/output/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/uros_ws/Brain_DEI/brain/install/output/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/unix_out/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/output/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages:/uros_ws/install/micro_ros_msgs/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../../build/output build --build-base /uros_ws/Brain_DEI/brain/build/output/build install --record /uros_ws/Brain_DEI/brain/build/output/install.log --single-version-externally-managed install_data
+[4.792s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/uros_ws/Brain_DEI/brain/src/unix_out': PYTHONPATH=/uros_ws/Brain_DEI/brain/build/unix_out/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/uros_ws/Brain_DEI/brain/install/unix_out/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/unix_out/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/output/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages:/uros_ws/install/micro_ros_msgs/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/unix_out build --build-base /uros_ws/Brain_DEI/brain/build/unix_out/build install --record /uros_ws/Brain_DEI/brain/build/unix_out/install.log --single-version-externally-managed install_data
+[4.817s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/uros_ws/Brain_DEI/brain/src/input': PYTHONPATH=/uros_ws/Brain_DEI/brain/build/input/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/unix_out/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/output/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages:/uros_ws/install/micro_ros_msgs/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/input build --build-base /uros_ws/Brain_DEI/brain/build/input/build install --record /uros_ws/Brain_DEI/brain/build/input/install.log --single-version-externally-managed install_data
+[5.714s] Level 1:colcon.colcon_core.environment:checking '/uros_ws/Brain_DEI/brain/install/output' for CMake module files
+[5.715s] Level 1:colcon.colcon_core.environment:checking '/uros_ws/Brain_DEI/brain/install/output' for CMake config files
+[5.718s] Level 1:colcon.colcon_core.environment:checking '/uros_ws/Brain_DEI/brain/install/output/lib'
+[5.719s] Level 1:colcon.colcon_core.environment:checking '/uros_ws/Brain_DEI/brain/install/output/bin'
+[5.719s] Level 1:colcon.colcon_core.environment:checking '/uros_ws/Brain_DEI/brain/install/output/lib/pkgconfig/output.pc'
+[5.720s] Level 1:colcon.colcon_core.environment:checking '/uros_ws/Brain_DEI/brain/install/output/lib/python3.12/site-packages'
+[5.720s] Level 1:colcon.colcon_core.shell:create_environment_hook('output', 'pythonpath')
+[5.721s] INFO:colcon.colcon_core.shell:Creating environment hook '/uros_ws/Brain_DEI/brain/install/output/share/output/hook/pythonpath.ps1'
+[5.724s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/uros_ws/Brain_DEI/brain/install/output/share/output/hook/pythonpath.dsv'
+[5.725s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/uros_ws/Brain_DEI/brain/src/smart/output' returned '0': PYTHONPATH=/uros_ws/Brain_DEI/brain/build/output/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/uros_ws/Brain_DEI/brain/install/output/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/unix_out/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/output/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages:/uros_ws/install/micro_ros_msgs/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../../build/output build --build-base /uros_ws/Brain_DEI/brain/build/output/build install --record /uros_ws/Brain_DEI/brain/build/output/install.log --single-version-externally-managed install_data
+[5.727s] INFO:colcon.colcon_core.shell:Creating environment hook '/uros_ws/Brain_DEI/brain/install/output/share/output/hook/pythonpath.sh'
+[5.730s] Level 1:colcon.colcon_core.environment:checking '/uros_ws/Brain_DEI/brain/install/output/bin'
+[5.730s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(output)
+[5.731s] INFO:colcon.colcon_core.shell:Creating package script '/uros_ws/Brain_DEI/brain/install/output/share/output/package.ps1'
+[5.732s] INFO:colcon.colcon_core.shell:Creating package descriptor '/uros_ws/Brain_DEI/brain/install/output/share/output/package.dsv'
+[5.733s] INFO:colcon.colcon_core.shell:Creating package script '/uros_ws/Brain_DEI/brain/install/output/share/output/package.sh'
+[5.734s] INFO:colcon.colcon_core.shell:Creating package script '/uros_ws/Brain_DEI/brain/install/output/share/output/package.bash'
+[5.735s] INFO:colcon.colcon_core.shell:Creating package script '/uros_ws/Brain_DEI/brain/install/output/share/output/package.zsh'
+[5.736s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/uros_ws/Brain_DEI/brain/install/output/share/colcon-core/packages/output)
+[5.860s] Level 1:colcon.colcon_core.environment:checking '/uros_ws/Brain_DEI/brain/install/input' for CMake module files
+[5.863s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/uros_ws/Brain_DEI/brain/src/input' returned '0': PYTHONPATH=/uros_ws/Brain_DEI/brain/build/input/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/unix_out/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/output/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages:/uros_ws/install/micro_ros_msgs/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/input build --build-base /uros_ws/Brain_DEI/brain/build/input/build install --record /uros_ws/Brain_DEI/brain/build/input/install.log --single-version-externally-managed install_data
+[5.865s] Level 1:colcon.colcon_core.environment:checking '/uros_ws/Brain_DEI/brain/install/input' for CMake config files
+[5.867s] Level 1:colcon.colcon_core.environment:checking '/uros_ws/Brain_DEI/brain/install/input/lib'
+[5.867s] Level 1:colcon.colcon_core.environment:checking '/uros_ws/Brain_DEI/brain/install/input/bin'
+[5.868s] Level 1:colcon.colcon_core.environment:checking '/uros_ws/Brain_DEI/brain/install/input/lib/pkgconfig/input.pc'
+[5.868s] Level 1:colcon.colcon_core.environment:checking '/uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages'
+[5.868s] Level 1:colcon.colcon_core.shell:create_environment_hook('input', 'pythonpath')
+[5.869s] INFO:colcon.colcon_core.shell:Creating environment hook '/uros_ws/Brain_DEI/brain/install/input/share/input/hook/pythonpath.ps1'
+[5.870s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/uros_ws/Brain_DEI/brain/install/input/share/input/hook/pythonpath.dsv'
+[5.871s] INFO:colcon.colcon_core.shell:Creating environment hook '/uros_ws/Brain_DEI/brain/install/input/share/input/hook/pythonpath.sh'
+[5.872s] Level 1:colcon.colcon_core.environment:checking '/uros_ws/Brain_DEI/brain/install/input/bin'
+[5.873s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(input)
+[5.873s] INFO:colcon.colcon_core.shell:Creating package script '/uros_ws/Brain_DEI/brain/install/input/share/input/package.ps1'
+[5.875s] INFO:colcon.colcon_core.shell:Creating package descriptor '/uros_ws/Brain_DEI/brain/install/input/share/input/package.dsv'
+[5.876s] INFO:colcon.colcon_core.shell:Creating package script '/uros_ws/Brain_DEI/brain/install/input/share/input/package.sh'
+[5.877s] INFO:colcon.colcon_core.shell:Creating package script '/uros_ws/Brain_DEI/brain/install/input/share/input/package.bash'
+[5.879s] INFO:colcon.colcon_core.shell:Creating package script '/uros_ws/Brain_DEI/brain/install/input/share/input/package.zsh'
+[5.880s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/uros_ws/Brain_DEI/brain/install/input/share/colcon-core/packages/input)
+[5.940s] Level 1:colcon.colcon_core.environment:checking '/uros_ws/Brain_DEI/brain/install/unix_out' for CMake module files
+[5.940s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/uros_ws/Brain_DEI/brain/src/unix_out' returned '0': PYTHONPATH=/uros_ws/Brain_DEI/brain/build/unix_out/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/uros_ws/Brain_DEI/brain/install/unix_out/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/unix_out/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/output/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages:/uros_ws/install/micro_ros_msgs/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/unix_out build --build-base /uros_ws/Brain_DEI/brain/build/unix_out/build install --record /uros_ws/Brain_DEI/brain/build/unix_out/install.log --single-version-externally-managed install_data
+[5.941s] Level 1:colcon.colcon_core.environment:checking '/uros_ws/Brain_DEI/brain/install/unix_out' for CMake config files
+[5.943s] Level 1:colcon.colcon_core.environment:checking '/uros_ws/Brain_DEI/brain/install/unix_out/lib'
+[5.943s] Level 1:colcon.colcon_core.environment:checking '/uros_ws/Brain_DEI/brain/install/unix_out/bin'
+[5.943s] Level 1:colcon.colcon_core.environment:checking '/uros_ws/Brain_DEI/brain/install/unix_out/lib/pkgconfig/unix_out.pc'
+[5.943s] Level 1:colcon.colcon_core.environment:checking '/uros_ws/Brain_DEI/brain/install/unix_out/lib/python3.12/site-packages'
+[5.944s] Level 1:colcon.colcon_core.shell:create_environment_hook('unix_out', 'pythonpath')
+[5.944s] INFO:colcon.colcon_core.shell:Creating environment hook '/uros_ws/Brain_DEI/brain/install/unix_out/share/unix_out/hook/pythonpath.ps1'
+[5.945s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/uros_ws/Brain_DEI/brain/install/unix_out/share/unix_out/hook/pythonpath.dsv'
+[5.946s] INFO:colcon.colcon_core.shell:Creating environment hook '/uros_ws/Brain_DEI/brain/install/unix_out/share/unix_out/hook/pythonpath.sh'
+[5.947s] Level 1:colcon.colcon_core.environment:checking '/uros_ws/Brain_DEI/brain/install/unix_out/bin'
+[5.948s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(unix_out)
+[5.948s] INFO:colcon.colcon_core.shell:Creating package script '/uros_ws/Brain_DEI/brain/install/unix_out/share/unix_out/package.ps1'
+[5.950s] INFO:colcon.colcon_core.shell:Creating package descriptor '/uros_ws/Brain_DEI/brain/install/unix_out/share/unix_out/package.dsv'
+[5.951s] INFO:colcon.colcon_core.shell:Creating package script '/uros_ws/Brain_DEI/brain/install/unix_out/share/unix_out/package.sh'
+[5.952s] INFO:colcon.colcon_core.shell:Creating package script '/uros_ws/Brain_DEI/brain/install/unix_out/share/unix_out/package.bash'
+[5.953s] INFO:colcon.colcon_core.shell:Creating package script '/uros_ws/Brain_DEI/brain/install/unix_out/share/unix_out/package.zsh'
+[5.954s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/uros_ws/Brain_DEI/brain/install/unix_out/share/colcon-core/packages/unix_out)
+[5.955s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:closing loop
+[5.956s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:loop closed
+[5.956s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete finished with '0'
+[5.958s] DEBUG:colcon.colcon_core.event_reactor:joining thread
+[5.977s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.notify_send': Could not find 'notify-send'
+[5.978s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.terminal_notifier': Not used on non-Darwin systems
+[5.978s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.win32': Not used on non-Windows systems
+[5.978s] INFO:colcon.colcon_notification.desktop_notification:Sending desktop notification using 'notify2'
+[5.988s] DEBUG:colcon.colcon_notification.desktop_notification.notify2:Failed to initialize notify2: org.freedesktop.DBus.Error.Spawn.ExecFailed: /usr/bin/dbus-launch terminated abnormally without any error message
+[5.990s] DEBUG:colcon.colcon_core.event_reactor:joined thread
+[5.991s] INFO:colcon.colcon_core.shell:Creating prefix script '/uros_ws/Brain_DEI/brain/install/local_setup.ps1'
+[5.994s] INFO:colcon.colcon_core.shell:Creating prefix util module '/uros_ws/Brain_DEI/brain/install/_local_setup_util_ps1.py'
+[5.997s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/uros_ws/Brain_DEI/brain/install/setup.ps1'
+[6.001s] INFO:colcon.colcon_core.shell:Creating prefix script '/uros_ws/Brain_DEI/brain/install/local_setup.sh'
+[6.002s] INFO:colcon.colcon_core.shell:Creating prefix util module '/uros_ws/Brain_DEI/brain/install/_local_setup_util_sh.py'
+[6.004s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/uros_ws/Brain_DEI/brain/install/setup.sh'
+[6.008s] INFO:colcon.colcon_core.shell:Creating prefix script '/uros_ws/Brain_DEI/brain/install/local_setup.bash'
+[6.009s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/uros_ws/Brain_DEI/brain/install/setup.bash'
+[6.014s] INFO:colcon.colcon_core.shell:Creating prefix script '/uros_ws/Brain_DEI/brain/install/local_setup.zsh'
+[6.015s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/uros_ws/Brain_DEI/brain/install/setup.zsh'
