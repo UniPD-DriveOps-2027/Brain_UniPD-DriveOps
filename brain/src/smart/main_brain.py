@@ -125,7 +125,7 @@ if __name__ == '__main__':
                                       trig_lidar=True,
                                       trig_tof=True)  # <++>
     else:
-        car = AutomobileDataPi(trig_cam=False,
+        car = AutomobileDataPi(trig_cam=True,
                                trig_gps=True,
                                trig_bno=True, 
                                trig_enc=True,
@@ -185,7 +185,7 @@ if __name__ == '__main__':
         log_writer.writerow(['timestamp', 'encoder_distance','yaw_true'])  # CSV header
         
 
-        while not rclpy.ok():
+        while rclpy.ok():
 
             loop_start_time = time()
             # clear the screen
@@ -244,5 +244,4 @@ if __name__ == '__main__':
         car.destroy_node()
         rclpy.shutdown()
         exit(0)        
-        log_file.close()
         pass

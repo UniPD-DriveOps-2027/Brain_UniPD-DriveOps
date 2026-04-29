@@ -1,0 +1,38 @@
+running egg_info
+creating ../../../build/output/output.egg-info
+writing ../../../build/output/output.egg-info/PKG-INFO
+writing dependency_links to ../../../build/output/output.egg-info/dependency_links.txt
+writing requirements to ../../../build/output/output.egg-info/requires.txt
+writing top-level names to ../../../build/output/output.egg-info/top_level.txt
+writing manifest file '../../../build/output/output.egg-info/SOURCES.txt'
+reading manifest file '../../../build/output/output.egg-info/SOURCES.txt'
+writing manifest file '../../../build/output/output.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /uros_ws/Brain_DEI/brain/build/output/build
+creating /uros_ws/Brain_DEI/brain/build/output/build/lib
+creating /uros_ws/Brain_DEI/brain/build/output/build/lib/environmentalserver
+copying src/environmentalserver/__init__.py -> /uros_ws/Brain_DEI/brain/build/output/build/lib/environmentalserver
+copying src/environmentalserver/server_subscriber.py -> /uros_ws/Brain_DEI/brain/build/output/build/lib/environmentalserver
+copying src/environmentalserver/environmentalNODE.py -> /uros_ws/Brain_DEI/brain/build/output/build/lib/environmentalserver
+copying src/environmentalserver/environmental_streamer.py -> /uros_ws/Brain_DEI/brain/build/output/build/lib/environmentalserver
+copying src/environmentalserver/server_listener.py -> /uros_ws/Brain_DEI/brain/build/output/build/lib/environmentalserver
+copying src/environmentalserver/server_data.py -> /uros_ws/Brain_DEI/brain/build/output/build/lib/environmentalserver
+copying src/environmentalserver/util.py -> /uros_ws/Brain_DEI/brain/build/output/build/lib/environmentalserver
+copying src/environmentalserver/environmental.py -> /uros_ws/Brain_DEI/brain/build/output/build/lib/environmentalserver
+running install
+running install_lib
+byte-compiling /uros_ws/Brain_DEI/brain/install/output/lib/python3.12/site-packages/environmentalserver/__init__.py to __init__.cpython-312.pyc
+byte-compiling /uros_ws/Brain_DEI/brain/install/output/lib/python3.12/site-packages/environmentalserver/server_subscriber.py to server_subscriber.cpython-312.pyc
+byte-compiling /uros_ws/Brain_DEI/brain/install/output/lib/python3.12/site-packages/environmentalserver/environmentalNODE.py to environmentalNODE.cpython-312.pyc
+byte-compiling /uros_ws/Brain_DEI/brain/install/output/lib/python3.12/site-packages/environmentalserver/environmental_streamer.py to environmental_streamer.cpython-312.pyc
+byte-compiling /uros_ws/Brain_DEI/brain/install/output/lib/python3.12/site-packages/environmentalserver/server_listener.py to server_listener.cpython-312.pyc
+byte-compiling /uros_ws/Brain_DEI/brain/install/output/lib/python3.12/site-packages/environmentalserver/server_data.py to server_data.cpython-312.pyc
+byte-compiling /uros_ws/Brain_DEI/brain/install/output/lib/python3.12/site-packages/environmentalserver/util.py to util.cpython-312.pyc
+byte-compiling /uros_ws/Brain_DEI/brain/install/output/lib/python3.12/site-packages/environmentalserver/environmental.py to environmental.cpython-312.pyc
+running install_data
+running install_egg_info
+removing '/uros_ws/Brain_DEI/brain/install/output/lib/python3.12/site-packages/output-0.0.0-py3.12.egg-info' (and everything under it)
+Copying ../../../build/output/output.egg-info to /uros_ws/Brain_DEI/brain/install/output/lib/python3.12/site-packages/output-0.0.0-py3.12.egg-info
+running install_scripts
+writing list of installed files to '/uros_ws/Brain_DEI/brain/build/output/install.log'

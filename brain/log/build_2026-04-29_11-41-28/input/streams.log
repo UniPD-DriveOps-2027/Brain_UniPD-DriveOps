@@ -1,0 +1,47 @@
+[2.469s] Invoking command in '/uros_ws/Brain_DEI/brain/src/input': AMENT_PREFIX_PATH=/uros_ws/Brain_DEI/brain/install/utils:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/uros_ws/Brain_DEI/brain/install/utils:${CMAKE_PREFIX_PATH} LD_LIBRARY_PATH=/uros_ws/Brain_DEI/brain/install/utils/lib:${LD_LIBRARY_PATH} PYTHONPATH=/uros_ws/Brain_DEI/brain/build/input/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/input build --build-base /uros_ws/Brain_DEI/brain/build/input/build install --record /uros_ws/Brain_DEI/brain/build/input/install.log --single-version-externally-managed install_data
+[2.919s] running egg_info
+[2.920s] creating ../../build/input/input.egg-info
+[2.946s] writing ../../build/input/input.egg-info/PKG-INFO
+[2.947s] writing dependency_links to ../../build/input/input.egg-info/dependency_links.txt
+[2.947s] writing entry points to ../../build/input/input.egg-info/entry_points.txt
+[2.947s] writing requirements to ../../build/input/input.egg-info/requires.txt
+[2.948s] writing top-level names to ../../build/input/input.egg-info/top_level.txt
+[2.948s] writing manifest file '../../build/input/input.egg-info/SOURCES.txt'
+[3.004s] reading manifest file '../../build/input/input.egg-info/SOURCES.txt'
+[3.005s] writing manifest file '../../build/input/input.egg-info/SOURCES.txt'
+[3.006s] running build
+[3.006s] running build_py
+[3.006s] creating /uros_ws/Brain_DEI/brain/build/input/build
+[3.007s] creating /uros_ws/Brain_DEI/brain/build/input/build/lib
+[3.007s] creating /uros_ws/Brain_DEI/brain/build/input/build/lib/gpstracker
+[3.007s] copying src/gpstracker/__init__.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/gpstracker
+[3.007s] copying src/gpstracker/complexDealer.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/gpstracker
+[3.008s] copying src/gpstracker/locsys.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/gpstracker
+[3.008s] copying src/gpstracker/server_subscriber.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/gpstracker
+[3.008s] copying src/gpstracker/server_listener.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/gpstracker
+[3.009s] copying src/gpstracker/gpstrackerNODE.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/gpstracker
+[3.009s] copying src/gpstracker/server_data.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/gpstracker
+[3.009s] copying src/gpstracker/position_listener.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/gpstracker
+[3.009s] copying src/gpstracker/util.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/gpstracker
+[3.010s] running install
+[3.022s] running install_lib
+[3.052s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/gpstracker/__init__.py to __init__.cpython-312.pyc
+[3.052s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/gpstracker/complexDealer.py to complexDealer.cpython-312.pyc
+[3.054s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/gpstracker/locsys.py to locsys.cpython-312.pyc
+[3.056s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/gpstracker/server_subscriber.py to server_subscriber.cpython-312.pyc
+[3.057s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/gpstracker/server_listener.py to server_listener.cpython-312.pyc
+[3.058s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/gpstracker/gpstrackerNODE.py to gpstrackerNODE.cpython-312.pyc
+[3.059s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/gpstracker/server_data.py to server_data.cpython-312.pyc
+[3.060s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/gpstracker/position_listener.py to position_listener.cpython-312.pyc
+[3.061s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/gpstracker/util.py to util.cpython-312.pyc
+[3.063s] running install_data
+[3.063s] running install_egg_info
+[3.094s] removing '/uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/input-0.0.0-py3.12.egg-info' (and everything under it)
+[3.094s] Copying ../../build/input/input.egg-info to /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/input-0.0.0-py3.12.egg-info
+[3.097s] running install_scripts
+[3.321s] Installing gpstrackerNODE script to /uros_ws/Brain_DEI/brain/install/input/lib/input
+[3.321s] Installing imuNODE script to /uros_ws/Brain_DEI/brain/install/input/lib/input
+[3.322s] Installing semaphoreNODE script to /uros_ws/Brain_DEI/brain/install/input/lib/input
+[3.322s] Installing sonarNODE script to /uros_ws/Brain_DEI/brain/install/input/lib/input
+[3.323s] writing list of installed files to '/uros_ws/Brain_DEI/brain/build/input/install.log'
+[3.424s] Invoked command in '/uros_ws/Brain_DEI/brain/src/input' returned '0': AMENT_PREFIX_PATH=/uros_ws/Brain_DEI/brain/install/utils:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/uros_ws/Brain_DEI/brain/install/utils:${CMAKE_PREFIX_PATH} LD_LIBRARY_PATH=/uros_ws/Brain_DEI/brain/install/utils/lib:${LD_LIBRARY_PATH} PYTHONPATH=/uros_ws/Brain_DEI/brain/build/input/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/input build --build-base /uros_ws/Brain_DEI/brain/build/input/build install --record /uros_ws/Brain_DEI/brain/build/input/install.log --single-version-externally-managed install_data

@@ -1,0 +1,19 @@
+[2.346s] Invoking command in '/uros_ws/Brain_DEI/brain/src/smart/output': PYTHONPATH=/uros_ws/Brain_DEI/brain/build/output/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/uros_ws/Brain_DEI/brain/install/output/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/unix_out/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/output/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages:/uros_ws/install/micro_ros_msgs/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../../build/output build --build-base /uros_ws/Brain_DEI/brain/build/output/build install --record /uros_ws/Brain_DEI/brain/build/output/install.log --single-version-externally-managed install_data
+[2.837s] running egg_info
+[2.865s] writing ../../../build/output/output.egg-info/PKG-INFO
+[2.866s] writing dependency_links to ../../../build/output/output.egg-info/dependency_links.txt
+[2.867s] writing requirements to ../../../build/output/output.egg-info/requires.txt
+[2.867s] writing top-level names to ../../../build/output/output.egg-info/top_level.txt
+[2.924s] reading manifest file '../../../build/output/output.egg-info/SOURCES.txt'
+[2.926s] writing manifest file '../../../build/output/output.egg-info/SOURCES.txt'
+[2.927s] running build
+[2.927s] running build_py
+[2.928s] running install
+[2.941s] running install_lib
+[2.972s] running install_data
+[2.973s] running install_egg_info
+[3.006s] removing '/uros_ws/Brain_DEI/brain/install/output/lib/python3.12/site-packages/output-0.0.0-py3.12.egg-info' (and everything under it)
+[3.007s] Copying ../../../build/output/output.egg-info to /uros_ws/Brain_DEI/brain/install/output/lib/python3.12/site-packages/output-0.0.0-py3.12.egg-info
+[3.007s] running install_scripts
+[3.226s] writing list of installed files to '/uros_ws/Brain_DEI/brain/build/output/install.log'
+[3.338s] Invoked command in '/uros_ws/Brain_DEI/brain/src/smart/output' returned '0': PYTHONPATH=/uros_ws/Brain_DEI/brain/build/output/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/uros_ws/Brain_DEI/brain/install/output/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/unix_out/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/output/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages:/uros_ws/install/micro_ros_msgs/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../../build/output build --build-base /uros_ws/Brain_DEI/brain/build/output/build install --record /uros_ws/Brain_DEI/brain/build/output/install.log --single-version-externally-managed install_data

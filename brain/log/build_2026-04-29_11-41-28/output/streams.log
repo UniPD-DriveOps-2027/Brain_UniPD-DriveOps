@@ -1,0 +1,40 @@
+[2.382s] Invoking command in '/uros_ws/Brain_DEI/brain/src/smart/output': AMENT_PREFIX_PATH=/uros_ws/Brain_DEI/brain/install/utils:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/uros_ws/Brain_DEI/brain/install/utils:${CMAKE_PREFIX_PATH} LD_LIBRARY_PATH=/uros_ws/Brain_DEI/brain/install/utils/lib:${LD_LIBRARY_PATH} PYTHONPATH=/uros_ws/Brain_DEI/brain/build/output/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/uros_ws/Brain_DEI/brain/install/output/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../../build/output build --build-base /uros_ws/Brain_DEI/brain/build/output/build install --record /uros_ws/Brain_DEI/brain/build/output/install.log --single-version-externally-managed install_data
+[2.825s] running egg_info
+[2.825s] creating ../../../build/output/output.egg-info
+[2.851s] writing ../../../build/output/output.egg-info/PKG-INFO
+[2.852s] writing dependency_links to ../../../build/output/output.egg-info/dependency_links.txt
+[2.852s] writing requirements to ../../../build/output/output.egg-info/requires.txt
+[2.853s] writing top-level names to ../../../build/output/output.egg-info/top_level.txt
+[2.853s] writing manifest file '../../../build/output/output.egg-info/SOURCES.txt'
+[2.909s] reading manifest file '../../../build/output/output.egg-info/SOURCES.txt'
+[2.910s] writing manifest file '../../../build/output/output.egg-info/SOURCES.txt'
+[2.911s] running build
+[2.911s] running build_py
+[2.911s] creating /uros_ws/Brain_DEI/brain/build/output/build
+[2.911s] creating /uros_ws/Brain_DEI/brain/build/output/build/lib
+[2.911s] creating /uros_ws/Brain_DEI/brain/build/output/build/lib/environmentalserver
+[2.911s] copying src/environmentalserver/__init__.py -> /uros_ws/Brain_DEI/brain/build/output/build/lib/environmentalserver
+[2.912s] copying src/environmentalserver/server_subscriber.py -> /uros_ws/Brain_DEI/brain/build/output/build/lib/environmentalserver
+[2.913s] copying src/environmentalserver/environmentalNODE.py -> /uros_ws/Brain_DEI/brain/build/output/build/lib/environmentalserver
+[2.913s] copying src/environmentalserver/environmental_streamer.py -> /uros_ws/Brain_DEI/brain/build/output/build/lib/environmentalserver
+[2.913s] copying src/environmentalserver/server_listener.py -> /uros_ws/Brain_DEI/brain/build/output/build/lib/environmentalserver
+[2.913s] copying src/environmentalserver/server_data.py -> /uros_ws/Brain_DEI/brain/build/output/build/lib/environmentalserver
+[2.913s] copying src/environmentalserver/util.py -> /uros_ws/Brain_DEI/brain/build/output/build/lib/environmentalserver
+[2.914s] copying src/environmentalserver/environmental.py -> /uros_ws/Brain_DEI/brain/build/output/build/lib/environmentalserver
+[2.914s] running install
+[2.926s] running install_lib
+[2.955s] byte-compiling /uros_ws/Brain_DEI/brain/install/output/lib/python3.12/site-packages/environmentalserver/__init__.py to __init__.cpython-312.pyc
+[2.956s] byte-compiling /uros_ws/Brain_DEI/brain/install/output/lib/python3.12/site-packages/environmentalserver/server_subscriber.py to server_subscriber.cpython-312.pyc
+[2.958s] byte-compiling /uros_ws/Brain_DEI/brain/install/output/lib/python3.12/site-packages/environmentalserver/environmentalNODE.py to environmentalNODE.cpython-312.pyc
+[2.959s] byte-compiling /uros_ws/Brain_DEI/brain/install/output/lib/python3.12/site-packages/environmentalserver/environmental_streamer.py to environmental_streamer.cpython-312.pyc
+[2.960s] byte-compiling /uros_ws/Brain_DEI/brain/install/output/lib/python3.12/site-packages/environmentalserver/server_listener.py to server_listener.cpython-312.pyc
+[2.961s] byte-compiling /uros_ws/Brain_DEI/brain/install/output/lib/python3.12/site-packages/environmentalserver/server_data.py to server_data.cpython-312.pyc
+[2.962s] byte-compiling /uros_ws/Brain_DEI/brain/install/output/lib/python3.12/site-packages/environmentalserver/util.py to util.cpython-312.pyc
+[2.963s] byte-compiling /uros_ws/Brain_DEI/brain/install/output/lib/python3.12/site-packages/environmentalserver/environmental.py to environmental.cpython-312.pyc
+[2.966s] running install_data
+[2.967s] running install_egg_info
+[2.995s] removing '/uros_ws/Brain_DEI/brain/install/output/lib/python3.12/site-packages/output-0.0.0-py3.12.egg-info' (and everything under it)
+[2.996s] Copying ../../../build/output/output.egg-info to /uros_ws/Brain_DEI/brain/install/output/lib/python3.12/site-packages/output-0.0.0-py3.12.egg-info
+[2.998s] running install_scripts
+[3.207s] writing list of installed files to '/uros_ws/Brain_DEI/brain/build/output/install.log'
+[3.308s] Invoked command in '/uros_ws/Brain_DEI/brain/src/smart/output' returned '0': AMENT_PREFIX_PATH=/uros_ws/Brain_DEI/brain/install/utils:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/uros_ws/Brain_DEI/brain/install/utils:${CMAKE_PREFIX_PATH} LD_LIBRARY_PATH=/uros_ws/Brain_DEI/brain/install/utils/lib:${LD_LIBRARY_PATH} PYTHONPATH=/uros_ws/Brain_DEI/brain/build/output/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/uros_ws/Brain_DEI/brain/install/output/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../../build/output build --build-base /uros_ws/Brain_DEI/brain/build/output/build install --record /uros_ws/Brain_DEI/brain/build/output/install.log --single-version-externally-managed install_data
