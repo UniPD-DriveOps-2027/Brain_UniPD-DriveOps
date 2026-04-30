@@ -3,7 +3,7 @@
 import names_and_constants as nac
 
 # Functional libraries
-import rospy
+# import rospy
 import numpy as np
 from automobile_ekf import AutomobileEKF
 import time
@@ -200,7 +200,7 @@ class Automobile_Data():
         self.STARTED_WITH_IMU = False
 
         # I/O interface
-        rospy.init_node('automobile_data', anonymous=False)
+        # rospy.init_node('automobile_data', anonymous=False)
 
         # SUBSCRIBERS AND PUBLISHERS
         # to be implemented in the specific class

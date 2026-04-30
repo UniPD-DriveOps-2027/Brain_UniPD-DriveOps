@@ -141,8 +141,7 @@ if __name__ == '__main__':
     path_planner = PathPlanning(track)
 
     # init env
-    env = EnvironmentalData(trig_v2v=True, trig_v2x=True, trig_semaphore=True)
-
+    env = EnvironmentalData(car=car, trig_v2v=True, trig_v2x=True, trig_semaphore=True) 
     # init controller
     controller = Controller(k1=k1, k2=k2, k3=k3, k3_NL=k3_NL, k3D=k3D,
                             dist_point_ahead=dist_point_ahead,

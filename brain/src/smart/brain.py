@@ -24,7 +24,6 @@ from controller3 import Controller
 from controllerSP import ControllerSpeed
 from controllerAG import ControllerSpeed as ControllerBL
 from detection import Detection
-from environmental_data_simulator import EnvironmentalData
 from obstacle2 import Obstacle
 import helper_functions as hf
 
@@ -372,7 +371,7 @@ class Brain:
                  controller: Controller,
                  controller_sp: ControllerSpeed,
                  controller_ag: ControllerBL,
-                 env: EnvironmentalData,
+                 env: "EnvironmentalData",
                  detection: Detection,
                  path_planner: PathPlanning,
                  checkpoints = None,

@@ -1,271 +1,192 @@
 #!/usr/bin/python3
-
-from names_and_constants import SIMULATOR_FLAG
-
-# Functional libraries
-import rospy
+"""
+environmental_data_pi.py — ROS2 Jazzy
+Replaces environmental_data_simulator.py.
+Subscriptions are created on the car node (already a rclpy Node).
+"""
 import numpy as np
 import json
 import names_and_constants as nac
-
-from std_msgs.msg import Byte
-from utils.msg import environmental
-from utils.msg import vehicles
-from utils.msg import semaphore
-
-if SIMULATOR_FLAG:
-    import helper_functions as hf
-else:
-    import helper_functions as hf
-
-
-class NumpyEncoder(json.JSONEncoder):
-    """ Special json encoder for numpy types """
-
-    def default(self, obj):
-        if isinstance(obj, np.integer):
-            return int(obj)
-        elif isinstance(obj, np.floating):
-            return float(obj)
-        elif isinstance(obj, np.ndarray):
-            return obj.tolist()
-        return json.JSONEncoder.default(self, obj)
-
+import helper_functions as hf
+from utils.msg import Semaphore
 
 VEHICLE_CLOSE_RADIUS = 0.5  # [m]
 
-# SEMAPHORE_POSITIONS = {
-#         nac.ANTIMASTER: np.array([2.01, 4.16]),
-#         nac.SLAVE:      np.array([3.69, 4.54]),
-#         nac.MASTER:     np.array([3.06, 3.5]),
-#         nac.START:      np.array([0.84, 0.64])
-#         }
+
+class NumpyEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, np.integer):   return int(obj)
+        if isinstance(obj, np.floating):  return float(obj)
+        if isinstance(obj, np.ndarray):   return obj.tolist()
+        return super().default(obj)
 
 
-class EnvironmentalData():
+class EnvironmentalData:
     def __init__(self,
+                 car,               # AutomobileDataPi node — subscriptions go here
                  trig_v2v=False,
                  trig_v2x=False,
-                 trig_semaphore=False
-                 ) -> None:
-        """Manage flow of data with the environmental server
+                 trig_semaphore=False) -> None:
 
-        :param trig_control: trigger on commands, defaults to True
-        :type trig_control: bool, optional
-        """
-        # ==================== VARIABLES ====================
-        # VEHICLE-TO-VEHICLE (V2V)
+        self._node = car
+
+        # V2V
         self.other_vehicles = {}
-        # VEHICLE-TO-EVERYTHING (V2X)
+
+        # V2X
         self.obstacle_list = []
         self.obstacle_map = {
-                                nac.STOP:                    1,
-                                nac.PRIORITY:                2,
-                                nac.PARK:                    3,
-                                nac.CROSSWALK:               4,
-                                nac.HW_ENTER:                5,
-                                nac.HW_EXIT:                 6,
-                                nac.ROUNDABOUT:              7,
-                                nac.ONE_WAY:                 8,
-                                nac.TRAFFIC_LIGHT:           9,
-                                nac.STATIC_CAR_ON_ROAD:      10,
-                                nac.STATIC_CAR_PARKING:      11,
-                                nac.PEDESTRIAN_ON_CROSSWALK: 12,
-                                nac.PEDESTRIAN_ON_ROAD:      13,
-                                nac.NO_SIGN:                 14,
-                            }
+            nac.STOP:                    1,
+            nac.PRIORITY:                2,
+            nac.PARK:                    3,
+            nac.CROSSWALK:               4,
+            nac.HW_ENTER:                5,
+            nac.HW_EXIT:                 6,
+            nac.ROUNDABOUT:              7,
+            nac.ONE_WAY:                 8,
+            nac.TRAFFIC_LIGHT:           9,
+            nac.STATIC_CAR_ON_ROAD:      10,
+            nac.STATIC_CAR_PARKING:      11,
+            nac.PEDESTRIAN_ON_CROSSWALK: 12,
+            nac.PEDESTRIAN_ON_ROAD:      13,
+            nac.NO_SIGN:                 14,
+        }
         self.sign_name_map = {
-                                'stop': nac.STOP,
-                                'priority': nac.PRIORITY,
-                                'parking': nac.PARK,
-                                'crosswalk': nac.CROSSWALK,
-                                'highway_entry': nac.HW_ENTER,
-                                'highway_end': nac.HW_EXIT,
-                                'roundabout': nac.ROUNDABOUT,
-                                'one_way': nac.ONE_WAY,
-                                'traffic_light': nac.TRAFFIC_LIGHT,
-                                'static_car_on_road': nac.STATIC_CAR_ON_ROAD,
-                                'static_car_parking': nac.STATIC_CAR_PARKING,
-                                'pedestrian_on_crosswalk': nac.PEDESTRIAN_ON_CROSSWALK,
-                                'pedestrian_on_road': nac.PEDESTRIAN_ON_ROAD,
-                                'no_sign': nac.NO_SIGN
-                            }
+            'stop':                   nac.STOP,
+            'priority':               nac.PRIORITY,
+            'parking':                nac.PARK,
+            'crosswalk':              nac.CROSSWALK,
+            'highway_entry':          nac.HW_ENTER,
+            'highway_end':            nac.HW_EXIT,
+            'roundabout':             nac.ROUNDABOUT,
+            'one_way':                nac.ONE_WAY,
+            'traffic_light':          nac.TRAFFIC_LIGHT,
+            'static_car_on_road':     nac.STATIC_CAR_ON_ROAD,
+            'static_car_parking':     nac.STATIC_CAR_PARKING,
+            'pedestrian_on_crosswalk':nac.PEDESTRIAN_ON_CROSSWALK,
+            'pedestrian_on_road':     nac.PEDESTRIAN_ON_ROAD,
+            'no_sign':                nac.NO_SIGN,
+        }
+
         # SEMAPHORE
         self.semaphore_states = {
-                nac.MASTER:     0,
-                nac.SLAVE:      0,
-                nac.ANTIMASTER: 0,
-                nac.START:      0,
-                nac.ANTISLAVE:  0
-                }  # can be changed to 1,2,3,4
-        
+            nac.MASTER:     0,
+            nac.SLAVE:      0,
+            nac.ANTIMASTER: 0,
+            nac.START:      0,
+            nac.ANTISLAVE:  0,
+        }
         self.semaphore_positions = {
-                nac.ANTIMASTER: np.array([0.00, 0.00]),
-                nac.SLAVE:      np.array([0.00, 0.00]),
-                nac.MASTER:     np.array([0.00, 0.00]),
-                nac.START:      np.array([0.00, 0.00]),
-                nac.ANTISLAVE:  np.array([0.00, 0.00])
-                } # it will be read in the topics
+            nac.MASTER:     np.array([0.0, 0.0]),
+            nac.SLAVE:      np.array([0.0, 0.0]),
+            nac.ANTIMASTER: np.array([0.0, 0.0]),
+            nac.START:      np.array([0.0, 0.0]),
+            nac.ANTISLAVE:  np.array([0.0, 0.0]),
+        }
 
-        # ==================== SUBSCRIBERS AND PUBLISHERS ====================
-        # VEHICLE-TO-VEHICLE (V2V)
+        # ── Subscribers (created on the car node) ──────────────────── #
         if trig_v2v:
-            self.sub_v2v = rospy.Subscriber('/automobile/vehicles', vehicles, self.v2v_callback)
-        # VEHICLE-TO-EVERYTHING (V2X)
+            from utils.msg import Vehicles
+            self._node.create_subscription(
+                Vehicles, '/automobile/vehicles', self.v2v_callback, 1)
+
         if trig_v2x:
-            self.pub_v2x = rospy.Publisher('/automobile/environment', environmental, queue_size=1)
-        # SEMAPHORE
+            from utils.msg import Environmental
+            self._pub_v2x = self._node.create_publisher(
+                Environmental, '/automobile/environment', 1)
+        else:
+            self._pub_v2x = None
+
         if trig_semaphore:
-            if SIMULATOR_FLAG:
-                pass
-                # self.sub_semaphoremaster =     rospy.Subscriber("/automobile/trafficlight/master", semaphore, self.semaphore_master_callback)
-                # self.sub_semaphoreslave =      rospy.Subscriber("/automobile/trafficlight/slave", semaphore, self.semaphore_slave_callback)
-                # self.sub_semaphoreantimaster = rospy.Subscriber("/automobile/trafficlight/antimaster", semaphore, self.semaphore_antimaster_callback)
-                # self.sub_semaphorestart =      rospy.Subscriber("/automobile/trafficlight/start", semaphore, self.semaphore_start_callback)
-            else:
-                self.sub_semaphoremaster =     rospy.Subscriber("/automobile/semaphore/master", semaphore, self.semaphore_master_callback)
-                self.sub_semaphoreslave =      rospy.Subscriber("/automobile/semaphore/slave", semaphore, self.semaphore_slave_callback)
-                self.sub_semaphoreantimaster = rospy.Subscriber("/automobile/semaphore/antimaster", semaphore, self.semaphore_antimaster_callback)
-                self.sub_semaphorestart =      rospy.Subscriber("/automobile/semaphore/start", semaphore, self.semaphore_start_callback)
-                self.sub_semaphoreantislave =  rospy.Subscriber("/automobile/semaphore/antislave", semaphore, self.semaphore_antislave_callback)
+            self._node.create_subscription(
+                Semaphore, '/automobile/semaphore/master',
+                self.semaphore_master_callback, 1)
+            self._node.create_subscription(
+                Semaphore, '/automobile/semaphore/slave',
+                self.semaphore_slave_callback, 1)
+            self._node.create_subscription(
+                Semaphore, '/automobile/semaphore/antimaster',
+                self.semaphore_antimaster_callback, 1)
+            self._node.create_subscription(
+                Semaphore, '/automobile/semaphore/start',
+                self.semaphore_start_callback, 1)
+            self._node.create_subscription(
+                Semaphore, '/automobile/semaphore/antislave',
+                self.semaphore_antislave_callback, 1)
 
-
-    # V2V CALLBACKS AND FUNCTIONS
+    # ── V2V ───────────────────────────────────────────────────────── #
     def v2v_callback(self, data) -> None:
-        """Receive and store positions of other moving vehicles
-        :acts on: self.other_vehicles
-        """
-        ID = data.ID
-        self.other_vehicles[ID] = np.array([data.posA, data.posB])
+        self.other_vehicles[data.ID] = np.array([data.pos_a, data.pos_b])
 
     def get_closest_moving_vehicle(self, car_x, car_y):
-        """Gives the ID and position of the closest vehicle
-
-        :param car_x: [m] x coordinate of the car
-        :type car_x: float
-        :param car_y: [m] y coordinate of the car
-        :type car_y: float
-        :return: ID and position of the closest vehicle if there are, else -1
-                 and the car position
-        :rtype: (int, nd-array)
-        """
         if self.other_vehicles:
             ID, pos = min(self.other_vehicles.items(),
-                          key=lambda x: np.linalg.norm(
-                              np.array([car_x, car_y]) - x[1]))
+                          key=lambda x: np.linalg.norm(np.array([car_x, car_y]) - x[1]))
             return ID, pos
-        else:
-            # dictionary is empty
-            rospy.loginfo("No moving vehicles detected")
-            return -1, np.array([car_x, car_y])
+        print("No moving vehicles detected")
+        return -1, np.array([car_x, car_y])
 
     def is_other_vehicle_close(self, car_x, car_y):
-        """checks if there are moving vehicles near the car
-
-        :param car_x: [m] x coordinate of the car
-        :type car_x: float
-        :param car_y: [m] y coordinate of the car
-        :type car_y: float
-        :return: True if there are moving vehicles near the car, else False
-        :rtype: bool
-        """
         ID, pos = self.get_closest_moving_vehicle(car_x, car_y)
         if ID < 0:
             return False
-        else:
-            return np.linalg.norm(
-                    np.array([car_x, car_y]) - pos) < VEHICLE_CLOSE_RADIUS
+        return np.linalg.norm(np.array([car_x, car_y]) - pos) < VEHICLE_CLOSE_RADIUS
 
-    # V2X CALLBACKS AND FUNCTIONS
+    # ── V2X ───────────────────────────────────────────────────────── #
     def publish_obstacle(self, type, x, y):
-        # Convert string (e.g. "priority") to constant (e.g. nac.PRIORITY)
-        type_const = self.sign_name_map.get(type.lower())
-
-        #assert type_const is not None, f"[ERROR] Unknown sign type: {type}"
-        #assert type_const in self.obstacle_map, f"[ERROR] Sign constant {type_const} not in obstacle_map"
+        type_const = self.sign_name_map.get(str(type).lower())
         if type_const is None:
-            rospy.logwarn(f"[WARNING] Unknown sign type: {type}")
-        return
-
+            print(f"[WARNING] Unknown sign type: {type}")
+            return
         if type_const not in self.obstacle_map:
-            rospy.logwarn(f"[WARNING] Sign constant {type_const} not in obstacle_map")
-        return
+            print(f"[WARNING] Sign constant {type_const} not in obstacle_map")
+            return
+        if self._pub_v2x is None:
+            return
 
-        data = environmental()
-        data.obstacle_id = self.obstacle_map[type_const]
-        pR = np.array([x, y])
-        pL = hf.mR2mL(pR)
-        data.x = pL[0]
-        data.y = pL[1]
-        self.pub_v2x.publish(data)
-        self.obstacle_list.append(f'{type} found at position ({x},{y}) m')
+        from utils.msg import Environmental
+        msg = Environmental()
+        msg.obstacle_id = self.obstacle_map[type_const]
+        pL = hf.mR2mL(np.array([x, y]))
+        msg.x = float(pL[0])
+        msg.y = float(pL[1])
+        self._pub_v2x.publish(msg)
+        self.obstacle_list.append(f'{type} at ({x:.2f},{y:.2f}) m')
 
-    # SEMAPHORE CALLBACKS AND FUNCTIONS
+    # ── SEMAPHORE ─────────────────────────────────────────────────── #
     def semaphore_master_callback(self, data):
-        self.semaphore_states['master'] = data.state
-        self.semaphore_positions['master'] = np.array([data.pos_x, data.pos_y])
+        self.semaphore_states[nac.MASTER]    = data.state
+        self.semaphore_positions[nac.MASTER] = np.array([data.pos_x, data.pos_y])
 
     def semaphore_slave_callback(self, data):
-        self.semaphore_states['slave'] = data.state
-        self.semaphore_positions['slave'] = np.array([data.pos_x, data.pos_y])
+        self.semaphore_states[nac.SLAVE]    = data.state
+        self.semaphore_positions[nac.SLAVE] = np.array([data.pos_x, data.pos_y])
 
     def semaphore_antimaster_callback(self, data):
-        self.semaphore_states['antimaster'] = data.state
-        self.semaphore_positions['antimaster'] = np.array([data.pos_x, data.pos_y])
+        self.semaphore_states[nac.ANTIMASTER]    = data.state
+        self.semaphore_positions[nac.ANTIMASTER] = np.array([data.pos_x, data.pos_y])
 
     def semaphore_start_callback(self, data):
-        self.semaphore_states['start'] = data.state
-        self.semaphore_positions['start'] = np.array([data.pos_x, data.pos_y])
+        self.semaphore_states[nac.START]    = data.state
+        self.semaphore_positions[nac.START] = np.array([data.pos_x, data.pos_y])
 
     def semaphore_antislave_callback(self, data):
-        self.semaphore_states['antislave'] = data.state
-        self.semaphore_positions['antislave'] = np.array([data.pos_x, data.pos_y])
+        self.semaphore_states[nac.ANTISLAVE]    = data.state
+        self.semaphore_positions[nac.ANTISLAVE] = np.array([data.pos_x, data.pos_y])
 
     def get_semaphore_state(self, semaphore_key):
-        """
-        :param semaphore_key: key of the semaphore
-        :type semaphore_key: string
-        :return: state of the semaphore: 0:RED, 1:YELLOW, 2:GREEN
-        :rtype: byte
-        """
-        assert semaphore_key in self.semaphore_states.keys(), "Semaphore key not recognized"
+        assert semaphore_key in self.semaphore_states, f"Semaphore key not recognized: {semaphore_key}"
         return self.semaphore_states[semaphore_key]
 
     def get_closest_semaphore_state(self, car_position):
-        """
-        :param car_position: position of the car
-        :type car_position: nd-array
-        :return: closest semaphre name and state of the closest semaphore:
-                 0:RED, 1:YELLOW, 2:GREEN
-        :rtype: byte
-        """
-        closest_semaphore = min(self.semaphore_positions.items(), key=lambda x: np.linalg.norm(car_position - x[1]))
-        print(f'Closest semaphore: {closest_semaphore[0]}')
-        print(f'Closest semaphore state: {self.get_semaphore_state(closest_semaphore[0])}')
-        return closest_semaphore[0], self.get_semaphore_state(closest_semaphore[0])
-
-    # STATIC METHODS
+        closest = min(self.semaphore_positions.items(),
+                      key=lambda x: np.linalg.norm(car_position - x[1]))
+        print(f'Closest semaphore: {closest[0]}, state: {self.get_semaphore_state(closest[0])}')
+        return closest[0], self.get_semaphore_state(closest[0])
 
     def __str__(self):
-        description = '''
-{:#^65s}
-other_vehicles:
-{:s}
-{:#^65s}
-obstacle_list:
-{:s}
-{:#^65s}
-semaphore_states:
-{:s}
-'''
-        return description.format(' V2V ',
-                                  json.dumps(self.other_vehicles,
-                                             sort_keys=True,
-                                             indent=2,
-                                             cls=NumpyEncoder),
-                                  ' V2X ',
-                                  str(self.obstacle_list),
-                                  ' SEMAPHORES ',
-                                  json.dumps(self.semaphore_states,
-                                             sort_keys=True,
-                                             indent=1))
+        return json.dumps({
+            'other_vehicles': self.other_vehicles,
+            'obstacle_list':  self.obstacle_list,
+            'semaphore_states': self.semaphore_states,
+        }, indent=2, cls=NumpyEncoder)
