@@ -69,6 +69,13 @@ def generate_launch_description():
             name='lidar_to_socket_NODE',
             output='screen',
         ),
+        Node(
+            package='unix_out', 
+            executable='camera_to_socket',
+            name='camera_to_socket_NODE', 
+            output='screen',
+        ),
+
 
         # ── Optionally enable other nodes ──────────────────────────────── #
         # Node(package='input',  executable='sonarNODE',         name='sonarNODE'),

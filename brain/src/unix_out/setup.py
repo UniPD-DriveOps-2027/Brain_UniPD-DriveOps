@@ -7,7 +7,7 @@ setup(
     name=package_name,
     version='0.0.0',
     packages=[],
-    py_modules=['lidar_to_socket', 'metrics_to_socket'],  # ← standalone .py files
+    py_modules=['lidar_to_socket', 'metrics_to_socket', 'camera_to_socket'],  # ← standalone .py files
     package_dir={'': 'src'},
     data_files=[
         ('share/ament_index/resource_index/packages', ['resource/' + package_name]),
@@ -18,5 +18,6 @@ setup(
     entry_points={'console_scripts': [
         'lidar_to_socket   = lidar_to_socket:main',
         'metrics_to_socket = metrics_to_socket:main',
+        'camera_to_socket  = camera_to_socket:main',
     ]},
 )
