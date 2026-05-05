@@ -32,7 +32,7 @@ from std_msgs.msg import Float32
 from utils.msg import Localisation, IMU, Environmental
 
 # ── Engine imports (Bosch code, untouched) ────────────────────────────── #
-from data.TrafficCommunication.threads.threadTrafficCommunicaiton import threadTrafficCommunication
+from data.TrafficCommunication.threads.threadTrafficCommunication import threadTrafficCommunication
 from data.TrafficCommunication.useful.sharedMem import sharedMem
 
 # ── Config ───────────────────────────────────────────────────────────── #
