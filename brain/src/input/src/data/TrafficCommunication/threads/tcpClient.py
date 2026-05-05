@@ -85,7 +85,7 @@ class SingleConnection(protocol.Protocol):
             dat = tmp_dat[-1]
         da = json.loads(dat)
 
-        if da["type"] == "location":
+        if da.get("type") == "location":
             da["id"] = self.factory.locsysID # type: ignore
             # fixed infinite loop on hooks (hopefully)
             self.factory.sendLocation.send(da) # type: ignore

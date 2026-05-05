@@ -1,0 +1,46 @@
+running egg_info
+creating ../../../build/output/output.egg-info
+writing ../../../build/output/output.egg-info/PKG-INFO
+writing dependency_links to ../../../build/output/output.egg-info/dependency_links.txt
+writing requirements to ../../../build/output/output.egg-info/requires.txt
+writing top-level names to ../../../build/output/output.egg-info/top_level.txt
+writing manifest file '../../../build/output/output.egg-info/SOURCES.txt'
+reading manifest file '../../../build/output/output.egg-info/SOURCES.txt'
+writing manifest file '../../../build/output/output.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/hisham/BFMC/Brain_DEI/brain/build/output/build
+creating /home/hisham/BFMC/Brain_DEI/brain/build/output/build/lib
+creating /home/hisham/BFMC/Brain_DEI/brain/build/output/build/lib/environmentalserver
+copying src/environmentalserver/util.py -> /home/hisham/BFMC/Brain_DEI/brain/build/output/build/lib/environmentalserver
+copying src/environmentalserver/environmentalNODE.py -> /home/hisham/BFMC/Brain_DEI/brain/build/output/build/lib/environmentalserver
+copying src/environmentalserver/__init__.py -> /home/hisham/BFMC/Brain_DEI/brain/build/output/build/lib/environmentalserver
+copying src/environmentalserver/server_listener.py -> /home/hisham/BFMC/Brain_DEI/brain/build/output/build/lib/environmentalserver
+copying src/environmentalserver/server_data.py -> /home/hisham/BFMC/Brain_DEI/brain/build/output/build/lib/environmentalserver
+copying src/environmentalserver/server_subscriber.py -> /home/hisham/BFMC/Brain_DEI/brain/build/output/build/lib/environmentalserver
+copying src/environmentalserver/environmental_streamer.py -> /home/hisham/BFMC/Brain_DEI/brain/build/output/build/lib/environmentalserver
+copying src/environmentalserver/environmental.py -> /home/hisham/BFMC/Brain_DEI/brain/build/output/build/lib/environmentalserver
+running install
+running install_lib
+creating /home/hisham/BFMC/Brain_DEI/brain/install/output/lib/python3.12/site-packages/environmentalserver
+copying /home/hisham/BFMC/Brain_DEI/brain/build/output/build/lib/environmentalserver/util.py -> /home/hisham/BFMC/Brain_DEI/brain/install/output/lib/python3.12/site-packages/environmentalserver
+copying /home/hisham/BFMC/Brain_DEI/brain/build/output/build/lib/environmentalserver/environmentalNODE.py -> /home/hisham/BFMC/Brain_DEI/brain/install/output/lib/python3.12/site-packages/environmentalserver
+copying /home/hisham/BFMC/Brain_DEI/brain/build/output/build/lib/environmentalserver/__init__.py -> /home/hisham/BFMC/Brain_DEI/brain/install/output/lib/python3.12/site-packages/environmentalserver
+copying /home/hisham/BFMC/Brain_DEI/brain/build/output/build/lib/environmentalserver/server_listener.py -> /home/hisham/BFMC/Brain_DEI/brain/install/output/lib/python3.12/site-packages/environmentalserver
+copying /home/hisham/BFMC/Brain_DEI/brain/build/output/build/lib/environmentalserver/server_data.py -> /home/hisham/BFMC/Brain_DEI/brain/install/output/lib/python3.12/site-packages/environmentalserver
+copying /home/hisham/BFMC/Brain_DEI/brain/build/output/build/lib/environmentalserver/server_subscriber.py -> /home/hisham/BFMC/Brain_DEI/brain/install/output/lib/python3.12/site-packages/environmentalserver
+copying /home/hisham/BFMC/Brain_DEI/brain/build/output/build/lib/environmentalserver/environmental_streamer.py -> /home/hisham/BFMC/Brain_DEI/brain/install/output/lib/python3.12/site-packages/environmentalserver
+copying /home/hisham/BFMC/Brain_DEI/brain/build/output/build/lib/environmentalserver/environmental.py -> /home/hisham/BFMC/Brain_DEI/brain/install/output/lib/python3.12/site-packages/environmentalserver
+byte-compiling /home/hisham/BFMC/Brain_DEI/brain/install/output/lib/python3.12/site-packages/environmentalserver/util.py to util.cpython-312.pyc
+byte-compiling /home/hisham/BFMC/Brain_DEI/brain/install/output/lib/python3.12/site-packages/environmentalserver/environmentalNODE.py to environmentalNODE.cpython-312.pyc
+byte-compiling /home/hisham/BFMC/Brain_DEI/brain/install/output/lib/python3.12/site-packages/environmentalserver/__init__.py to __init__.cpython-312.pyc
+byte-compiling /home/hisham/BFMC/Brain_DEI/brain/install/output/lib/python3.12/site-packages/environmentalserver/server_listener.py to server_listener.cpython-312.pyc
+byte-compiling /home/hisham/BFMC/Brain_DEI/brain/install/output/lib/python3.12/site-packages/environmentalserver/server_data.py to server_data.cpython-312.pyc
+byte-compiling /home/hisham/BFMC/Brain_DEI/brain/install/output/lib/python3.12/site-packages/environmentalserver/server_subscriber.py to server_subscriber.cpython-312.pyc
+byte-compiling /home/hisham/BFMC/Brain_DEI/brain/install/output/lib/python3.12/site-packages/environmentalserver/environmental_streamer.py to environmental_streamer.cpython-312.pyc
+byte-compiling /home/hisham/BFMC/Brain_DEI/brain/install/output/lib/python3.12/site-packages/environmentalserver/environmental.py to environmental.cpython-312.pyc
+running install_data
+running install_egg_info
+Copying ../../../build/output/output.egg-info to /home/hisham/BFMC/Brain_DEI/brain/install/output/lib/python3.12/site-packages/output-0.0.0-py3.12.egg-info
+running install_scripts
+writing list of installed files to '/home/hisham/BFMC/Brain_DEI/brain/build/output/install.log'

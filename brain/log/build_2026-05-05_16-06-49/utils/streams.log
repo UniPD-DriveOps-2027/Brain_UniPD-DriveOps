@@ -1,0 +1,27 @@
+[0.015s] Invoking command in '/home/hisham/BFMC/Brain_DEI/brain/build/utils': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake /home/hisham/BFMC/Brain_DEI/brain/src/utils -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/hisham/BFMC/Brain_DEI/brain/install/utils
+[0.112s] -- Found ament_cmake: 2.5.4 (/opt/ros/jazzy/share/ament_cmake/cmake)
+[0.140s] -- Found Python3: /usr/bin/python3 (found version "3.12.3") found components: Interpreter 
+[0.210s] -- Override CMake install command with custom implementation using symlinks instead of copying resources
+[0.235s] -- Found rosidl_default_generators: 1.6.0 (/opt/ros/jazzy/share/rosidl_default_generators/cmake)
+[0.241s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.312s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.353s] -- Found rosidl_adapter: 4.6.6 (/opt/ros/jazzy/share/rosidl_adapter/cmake)
+[0.359s] -- Found std_msgs: 5.3.6 (/opt/ros/jazzy/share/std_msgs/cmake)
+[0.699s] -- Found ament_cmake_ros: 0.12.0 (/opt/ros/jazzy/share/ament_cmake_ros/cmake)
+[0.828s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.982s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.984s] -- Found python_cmake_module: 0.11.1 (/opt/ros/jazzy/share/python_cmake_module/cmake)
+[1.390s] -- Found Python3: /usr/bin/python3 (found version "3.12.3") found components: Interpreter Development NumPy Development.Module Development.Embed 
+[1.440s] -- Configuring done (1.4s)
+[1.553s] -- Generating done (0.1s)
+[1.568s] -- Build files have been written to: /home/hisham/BFMC/Brain_DEI/brain/build/utils
+[1.575s] Invoked command in '/home/hisham/BFMC/Brain_DEI/brain/build/utils' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake /home/hisham/BFMC/Brain_DEI/brain/src/utils -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/hisham/BFMC/Brain_DEI/brain/install/utils
+[1.576s] Invoking command in '/home/hisham/BFMC/Brain_DEI/brain/build/utils': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/hisham/BFMC/Brain_DEI/brain/build/utils -- -j12 -l12
+[1.625s] failed to create symbolic link '/home/hisham/BFMC/Brain_DEI/brain/build/utils/ament_cmake_python/utils/utils' because existing path cannot be removed: Is a directory
+[1.625s] [  1%] Built target utils__rosidl_generator_type_description
+[1.626s] gmake[2]: *** [CMakeFiles/ament_cmake_python_symlink_utils.dir/build.make:70: CMakeFiles/ament_cmake_python_symlink_utils] Error 1
+[1.626s] gmake[1]: *** [CMakeFiles/Makefile2:452: CMakeFiles/ament_cmake_python_symlink_utils.dir/all] Error 2
+[1.626s] gmake[1]: *** Waiting for unfinished jobs....
+[1.674s] [ 27%] Built target utils__rosidl_generator_c
+[1.675s] gmake: *** [Makefile:146: all] Error 2
+[1.677s] Invoked command in '/home/hisham/BFMC/Brain_DEI/brain/build/utils' returned '2': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/hisham/BFMC/Brain_DEI/brain/build/utils -- -j12 -l12

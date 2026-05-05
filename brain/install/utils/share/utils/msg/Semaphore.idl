@@ -1,16 +1,1 @@
-// generated from rosidl_adapter/resource/msg.idl.em
-// with input from utils/msg/Semaphore.msg
-// generated code does not contain a copyright notice
-
-
-module utils {
-  module msg {
-    struct Semaphore {
-      uint8 state;
-
-      float pos_x;
-
-      float pos_y;
-    };
-  };
-};
+/home/hisham/BFMC/Brain_DEI/brain/build/utils/rosidl_adapter/utils/msg/Semaphore.idl

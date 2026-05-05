@@ -21,10 +21,12 @@ setup(
     # Maps CLI executable names to Python entry points
     entry_points={
         'console_scripts': [
-            'imuNODE         = imu.imuNODE:main',
-            'semaphoreNODE   = semaphore.semaphoreNODE:main',
-            'sonarNODE       = sonar.sonarNODE_2025:main',
-            'gpstrackerNODE  = gpstracker.gpstrackerNODE:main',
+            'imuNODE           = imu.imuNODE:main',
+            'semaphoreNODE     = semaphore.semaphoreNODE:main',
+            'sonarNODE         = sonar.sonarNODE_2025:main',
+            'gpstrackerNODE    = gpstracker.gpstrackerNODE:main',
+            'trafficBridgeNODE  = data.trafficBridge:main',
+            'semaphoreBridgeNODE = data.semaphoreBridge:main',
             # Un-comment as needed:
             # 'vehicletovehicleNODE = vehicletovehicle.vehicletovehicleNODE:main',
             # 'semaphoreNODE2025 = server.semaphoreNODE2025:main',

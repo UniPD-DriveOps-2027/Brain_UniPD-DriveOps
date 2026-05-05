@@ -1,0 +1,20 @@
+running develop
+running egg_info
+writing src/input.egg-info/PKG-INFO
+writing dependency_links to src/input.egg-info/dependency_links.txt
+writing entry points to src/input.egg-info/entry_points.txt
+writing requirements to src/input.egg-info/requires.txt
+writing top-level names to src/input.egg-info/top_level.txt
+reading manifest file 'src/input.egg-info/SOURCES.txt'
+writing manifest file 'src/input.egg-info/SOURCES.txt'
+running build_ext
+Creating /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages/input.egg-link (link to src)
+Installing gpstrackerNODE script to /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/input
+Installing imuNODE script to /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/input
+Installing semaphoreBridgeNODE script to /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/input
+Installing semaphoreNODE script to /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/input
+Installing sonarNODE script to /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/input
+Installing trafficBridgeNODE script to /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/input
+
+Installed /home/hisham/BFMC/Brain_DEI/brain/build/input/src
+running symlink_data

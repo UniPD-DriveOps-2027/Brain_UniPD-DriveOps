@@ -1,3 +1,1 @@
-uint8 state
-float32 pos_x
-float32 pos_y
+/home/hisham/BFMC/Brain_DEI/brain/src/utils/msg/Semaphore.msg

@@ -1,0 +1,16 @@
+[1.253s] Invoking command in '/home/hisham/BFMC/Brain_DEI/brain/build/output': AMENT_PREFIX_PATH=/home/hisham/BFMC/Brain_DEI/brain/install/utils:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/hisham/BFMC/Brain_DEI/brain/install/utils:${CMAKE_PREFIX_PATH} DEBUGINFOD_URLS=https://debuginfod.ubuntu.com LD_LIBRARY_PATH=/home/hisham/BFMC/Brain_DEI/brain/install/utils/lib:/opt/ros/jazzy/opt/zenoh_cpp_vendor/lib:/opt/ros/jazzy/opt/gz_sim_vendor/lib:/opt/ros/jazzy/opt/gz_sensors_vendor/lib:/opt/ros/jazzy/opt/gz_physics_vendor/lib:/opt/ros/jazzy/opt/sdformat_vendor/lib:/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/x86_64-linux-gnu:/opt/ros/jazzy/opt/gz_gui_vendor/lib:/opt/ros/jazzy/opt/gz_transport_vendor/lib:/opt/ros/jazzy/opt/gz_rendering_vendor/lib:/opt/ros/jazzy/opt/gz_plugin_vendor/lib:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/lib:/opt/ros/jazzy/opt/gz_msgs_vendor/lib:/opt/ros/jazzy/opt/gz_common_vendor/lib:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_tools_vendor/lib:/opt/ros/jazzy/opt/gz_ogre_next_vendor/lib:/opt/ros/jazzy/opt/gz_dartsim_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib:/home/hisham/acados_ws/acados/lib PYTHONPATH=/home/hisham/BFMC/Brain_DEI/brain/build/output/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/hisham/BFMC/Brain_DEI/brain/install/output/lib/python3.12/site-packages:/home/hisham/BFMC/Brain_DEI/brain/install/utils/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/hisham/BFMC/Brain_DEI/brain/build/output/build --no-deps symlink_data
+[1.595s] running develop
+[1.827s] running egg_info
+[1.827s] creating src/output.egg-info
+[1.850s] writing src/output.egg-info/PKG-INFO
+[1.851s] writing dependency_links to src/output.egg-info/dependency_links.txt
+[1.851s] writing requirements to src/output.egg-info/requires.txt
+[1.851s] writing top-level names to src/output.egg-info/top_level.txt
+[1.851s] writing manifest file 'src/output.egg-info/SOURCES.txt'
+[1.898s] reading manifest file 'src/output.egg-info/SOURCES.txt'
+[1.898s] writing manifest file 'src/output.egg-info/SOURCES.txt'
+[1.922s] running build_ext
+[1.922s] Creating /home/hisham/BFMC/Brain_DEI/brain/install/output/lib/python3.12/site-packages/output.egg-link (link to src)
+[1.922s] 
+[1.922s] Installed /home/hisham/BFMC/Brain_DEI/brain/build/output/src
+[1.922s] running symlink_data

@@ -77,6 +77,20 @@ def generate_launch_description():
         ),
 
 
+        # ── V2X bridges ───────────────────────────────────────────────── #
+        Node(
+            package='input',
+            executable='trafficBridgeNODE',
+            name='trafficBridgeNODE',
+            output='screen',
+        ),
+        Node(
+            package='input',
+            executable='semaphoreBridgeNODE',
+            name='semaphoreBridgeNODE',
+            output='screen',
+        ),
+
         # ── Optionally enable other nodes ──────────────────────────────── #
         # Node(package='input',  executable='sonarNODE',         name='sonarNODE'),
         # Node(package='input',  executable='gpstrackerNODE',    name='gpstrackerNODE'),

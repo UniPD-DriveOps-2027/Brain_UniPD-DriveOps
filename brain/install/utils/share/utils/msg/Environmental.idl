@@ -1,16 +1,1 @@
-// generated from rosidl_adapter/resource/msg.idl.em
-// with input from utils/msg/Environmental.msg
-// generated code does not contain a copyright notice
-
-
-module utils {
-  module msg {
-    struct Environmental {
-      uint8 obstacle_id;
-
-      float x;
-
-      float y;
-    };
-  };
-};
+/home/hisham/BFMC/Brain_DEI/brain/build/utils/rosidl_adapter/utils/msg/Environmental.idl

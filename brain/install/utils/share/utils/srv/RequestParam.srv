@@ -1,7 +1,1 @@
-string name
-
----
-
-int32[]   ints
-float32[] floats
-string[]  strings
+/home/hisham/BFMC/Brain_DEI/brain/src/utils/srv/RequestParam.srv

@@ -1,14 +1,1 @@
-// generated from rosidl_adapter/resource/msg.idl.em
-// with input from utils/msg/Trafficsignprediction.msg
-// generated code does not contain a copyright notice
-
-
-module utils {
-  module msg {
-    struct Trafficsignprediction {
-      string prediction;
-
-      float conf;
-    };
-  };
-};
+/home/hisham/BFMC/Brain_DEI/brain/build/utils/rosidl_adapter/utils/msg/Trafficsignprediction.idl

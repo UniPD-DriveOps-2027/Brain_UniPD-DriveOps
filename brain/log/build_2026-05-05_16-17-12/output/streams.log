@@ -1,0 +1,48 @@
+[1.264s] Invoking command in '/home/hisham/BFMC/Brain_DEI/brain/src/smart/output': AMENT_PREFIX_PATH=/home/hisham/BFMC/Brain_DEI/brain/install/utils:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/hisham/BFMC/Brain_DEI/brain/install/utils:${CMAKE_PREFIX_PATH} DEBUGINFOD_URLS=https://debuginfod.ubuntu.com LD_LIBRARY_PATH=/home/hisham/BFMC/Brain_DEI/brain/install/utils/lib:/opt/ros/jazzy/opt/zenoh_cpp_vendor/lib:/opt/ros/jazzy/opt/gz_sim_vendor/lib:/opt/ros/jazzy/opt/gz_sensors_vendor/lib:/opt/ros/jazzy/opt/gz_physics_vendor/lib:/opt/ros/jazzy/opt/sdformat_vendor/lib:/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/x86_64-linux-gnu:/opt/ros/jazzy/opt/gz_gui_vendor/lib:/opt/ros/jazzy/opt/gz_transport_vendor/lib:/opt/ros/jazzy/opt/gz_rendering_vendor/lib:/opt/ros/jazzy/opt/gz_plugin_vendor/lib:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/lib:/opt/ros/jazzy/opt/gz_msgs_vendor/lib:/opt/ros/jazzy/opt/gz_common_vendor/lib:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_tools_vendor/lib:/opt/ros/jazzy/opt/gz_ogre_next_vendor/lib:/opt/ros/jazzy/opt/gz_dartsim_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib:/home/hisham/acados_ws/acados/lib PYTHONPATH=/home/hisham/BFMC/Brain_DEI/brain/build/output/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/hisham/BFMC/Brain_DEI/brain/install/output/lib/python3.12/site-packages:/home/hisham/BFMC/Brain_DEI/brain/install/utils/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../../build/output build --build-base /home/hisham/BFMC/Brain_DEI/brain/build/output/build install --record /home/hisham/BFMC/Brain_DEI/brain/build/output/install.log --single-version-externally-managed install_data
+[1.546s] running egg_info
+[1.547s] creating ../../../build/output/output.egg-info
+[1.569s] writing ../../../build/output/output.egg-info/PKG-INFO
+[1.570s] writing dependency_links to ../../../build/output/output.egg-info/dependency_links.txt
+[1.570s] writing requirements to ../../../build/output/output.egg-info/requires.txt
+[1.570s] writing top-level names to ../../../build/output/output.egg-info/top_level.txt
+[1.570s] writing manifest file '../../../build/output/output.egg-info/SOURCES.txt'
+[1.617s] reading manifest file '../../../build/output/output.egg-info/SOURCES.txt'
+[1.618s] writing manifest file '../../../build/output/output.egg-info/SOURCES.txt'
+[1.618s] running build
+[1.618s] running build_py
+[1.618s] creating /home/hisham/BFMC/Brain_DEI/brain/build/output/build
+[1.618s] creating /home/hisham/BFMC/Brain_DEI/brain/build/output/build/lib
+[1.618s] creating /home/hisham/BFMC/Brain_DEI/brain/build/output/build/lib/environmentalserver
+[1.619s] copying src/environmentalserver/util.py -> /home/hisham/BFMC/Brain_DEI/brain/build/output/build/lib/environmentalserver
+[1.619s] copying src/environmentalserver/environmentalNODE.py -> /home/hisham/BFMC/Brain_DEI/brain/build/output/build/lib/environmentalserver
+[1.619s] copying src/environmentalserver/__init__.py -> /home/hisham/BFMC/Brain_DEI/brain/build/output/build/lib/environmentalserver
+[1.619s] copying src/environmentalserver/server_listener.py -> /home/hisham/BFMC/Brain_DEI/brain/build/output/build/lib/environmentalserver
+[1.619s] copying src/environmentalserver/server_data.py -> /home/hisham/BFMC/Brain_DEI/brain/build/output/build/lib/environmentalserver
+[1.619s] copying src/environmentalserver/server_subscriber.py -> /home/hisham/BFMC/Brain_DEI/brain/build/output/build/lib/environmentalserver
+[1.619s] copying src/environmentalserver/environmental_streamer.py -> /home/hisham/BFMC/Brain_DEI/brain/build/output/build/lib/environmentalserver
+[1.619s] copying src/environmentalserver/environmental.py -> /home/hisham/BFMC/Brain_DEI/brain/build/output/build/lib/environmentalserver
+[1.619s] running install
+[1.625s] running install_lib
+[1.649s] creating /home/hisham/BFMC/Brain_DEI/brain/install/output/lib/python3.12/site-packages/environmentalserver
+[1.649s] copying /home/hisham/BFMC/Brain_DEI/brain/build/output/build/lib/environmentalserver/util.py -> /home/hisham/BFMC/Brain_DEI/brain/install/output/lib/python3.12/site-packages/environmentalserver
+[1.650s] copying /home/hisham/BFMC/Brain_DEI/brain/build/output/build/lib/environmentalserver/environmentalNODE.py -> /home/hisham/BFMC/Brain_DEI/brain/install/output/lib/python3.12/site-packages/environmentalserver
+[1.650s] copying /home/hisham/BFMC/Brain_DEI/brain/build/output/build/lib/environmentalserver/__init__.py -> /home/hisham/BFMC/Brain_DEI/brain/install/output/lib/python3.12/site-packages/environmentalserver
+[1.650s] copying /home/hisham/BFMC/Brain_DEI/brain/build/output/build/lib/environmentalserver/server_listener.py -> /home/hisham/BFMC/Brain_DEI/brain/install/output/lib/python3.12/site-packages/environmentalserver
+[1.650s] copying /home/hisham/BFMC/Brain_DEI/brain/build/output/build/lib/environmentalserver/server_data.py -> /home/hisham/BFMC/Brain_DEI/brain/install/output/lib/python3.12/site-packages/environmentalserver
+[1.650s] copying /home/hisham/BFMC/Brain_DEI/brain/build/output/build/lib/environmentalserver/server_subscriber.py -> /home/hisham/BFMC/Brain_DEI/brain/install/output/lib/python3.12/site-packages/environmentalserver
+[1.650s] copying /home/hisham/BFMC/Brain_DEI/brain/build/output/build/lib/environmentalserver/environmental_streamer.py -> /home/hisham/BFMC/Brain_DEI/brain/install/output/lib/python3.12/site-packages/environmentalserver
+[1.650s] copying /home/hisham/BFMC/Brain_DEI/brain/build/output/build/lib/environmentalserver/environmental.py -> /home/hisham/BFMC/Brain_DEI/brain/install/output/lib/python3.12/site-packages/environmentalserver
+[1.650s] byte-compiling /home/hisham/BFMC/Brain_DEI/brain/install/output/lib/python3.12/site-packages/environmentalserver/util.py to util.cpython-312.pyc
+[1.651s] byte-compiling /home/hisham/BFMC/Brain_DEI/brain/install/output/lib/python3.12/site-packages/environmentalserver/environmentalNODE.py to environmentalNODE.cpython-312.pyc
+[1.652s] byte-compiling /home/hisham/BFMC/Brain_DEI/brain/install/output/lib/python3.12/site-packages/environmentalserver/__init__.py to __init__.cpython-312.pyc
+[1.652s] byte-compiling /home/hisham/BFMC/Brain_DEI/brain/install/output/lib/python3.12/site-packages/environmentalserver/server_listener.py to server_listener.cpython-312.pyc
+[1.652s] byte-compiling /home/hisham/BFMC/Brain_DEI/brain/install/output/lib/python3.12/site-packages/environmentalserver/server_data.py to server_data.cpython-312.pyc
+[1.653s] byte-compiling /home/hisham/BFMC/Brain_DEI/brain/install/output/lib/python3.12/site-packages/environmentalserver/server_subscriber.py to server_subscriber.cpython-312.pyc
+[1.653s] byte-compiling /home/hisham/BFMC/Brain_DEI/brain/install/output/lib/python3.12/site-packages/environmentalserver/environmental_streamer.py to environmental_streamer.cpython-312.pyc
+[1.654s] byte-compiling /home/hisham/BFMC/Brain_DEI/brain/install/output/lib/python3.12/site-packages/environmentalserver/environmental.py to environmental.cpython-312.pyc
+[1.654s] running install_data
+[1.654s] running install_egg_info
+[1.679s] Copying ../../../build/output/output.egg-info to /home/hisham/BFMC/Brain_DEI/brain/install/output/lib/python3.12/site-packages/output-0.0.0-py3.12.egg-info
+[1.680s] running install_scripts
+[1.828s] writing list of installed files to '/home/hisham/BFMC/Brain_DEI/brain/build/output/install.log'
+[1.857s] Invoked command in '/home/hisham/BFMC/Brain_DEI/brain/src/smart/output' returned '0': AMENT_PREFIX_PATH=/home/hisham/BFMC/Brain_DEI/brain/install/utils:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/hisham/BFMC/Brain_DEI/brain/install/utils:${CMAKE_PREFIX_PATH} DEBUGINFOD_URLS=https://debuginfod.ubuntu.com LD_LIBRARY_PATH=/home/hisham/BFMC/Brain_DEI/brain/install/utils/lib:/opt/ros/jazzy/opt/zenoh_cpp_vendor/lib:/opt/ros/jazzy/opt/gz_sim_vendor/lib:/opt/ros/jazzy/opt/gz_sensors_vendor/lib:/opt/ros/jazzy/opt/gz_physics_vendor/lib:/opt/ros/jazzy/opt/sdformat_vendor/lib:/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/x86_64-linux-gnu:/opt/ros/jazzy/opt/gz_gui_vendor/lib:/opt/ros/jazzy/opt/gz_transport_vendor/lib:/opt/ros/jazzy/opt/gz_rendering_vendor/lib:/opt/ros/jazzy/opt/gz_plugin_vendor/lib:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/lib:/opt/ros/jazzy/opt/gz_msgs_vendor/lib:/opt/ros/jazzy/opt/gz_common_vendor/lib:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_tools_vendor/lib:/opt/ros/jazzy/opt/gz_ogre_next_vendor/lib:/opt/ros/jazzy/opt/gz_dartsim_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib:/home/hisham/acados_ws/acados/lib PYTHONPATH=/home/hisham/BFMC/Brain_DEI/brain/build/output/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/hisham/BFMC/Brain_DEI/brain/install/output/lib/python3.12/site-packages:/home/hisham/BFMC/Brain_DEI/brain/install/utils/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../../build/output build --build-base /home/hisham/BFMC/Brain_DEI/brain/build/output/build install --record /home/hisham/BFMC/Brain_DEI/brain/build/output/install.log --single-version-externally-managed install_data

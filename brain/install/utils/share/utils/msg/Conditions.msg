@@ -1,5 +1,1 @@
-bool can_overtake
-bool highway
-bool car_on_path
-bool rerouting
-bool tunnel
+/home/hisham/BFMC/Brain_DEI/brain/src/utils/msg/Conditions.msg
