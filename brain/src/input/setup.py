@@ -5,8 +5,8 @@ package_name = 'input'
 setup(
     name=package_name,
     version='0.0.0',
-    packages=find_packages(where='src'),
-    package_dir={'': 'src'},
+    packages=find_packages(where='src') + ['src'] + ['src.' + p for p in find_packages(where='src')],
+    package_dir={'': 'src', 'src': 'src'},
     data_files=[
         # Required for ament resource index
         ('share/ament_index/resource_index/packages', ['resource/' + package_name]),
