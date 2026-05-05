@@ -1,3 +1,30 @@
+# Copyright (c) 2019, Bosch Engineering Center Cluj and BFMC organizers
+# All rights reserved.
+
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are met:
+
+# 1. Redistributions of source code must retain the above copyright notice, this
+#    list of conditions and the following disclaimer.
+
+# 2. Redistributions in binary form must reproduce the above copyright notice,
+#    this list of conditions and the following disclaimer in the documentation
+#    and/or other materials provided with the distribution.
+
+# 3. Neither the name of the copyright holder nor the names of its
+#    contributors may be used to endorse or promote products derived from
+#    this software without specific prior written permission.
+
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+# AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+# DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+# FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+# SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+# CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+# OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+# OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE
 
 from twisted.internet import protocol
 import src.data.TrafficCommunication.useful.keyDealer as keyDealer
@@ -16,7 +43,7 @@ class udpListener(protocol.DatagramProtocol):
         self.serverfoundCllback = serverfound
 
     def startProtocol(self):
-        print("Looking for Traffic Communicaiton Server")
+        print("\033[1;97m[ Traffic Communication ] :\033[0m \033[1;92mINFO\033[0m - Looking for Server...")
 
     def datagramReceived(self, datagram, address):
         """In this function we split the receive data and we call the callbackfunction"""
@@ -26,15 +53,13 @@ class udpListener(protocol.DatagramProtocol):
             if len(dat) != 2:
                 raise Exception("Plaintext or signature not present")
             a = keyDealer.verify_data(self.pub_key, dat[1], dat[0])
-            print(a,dat, address)
             if not a:
                 raise Exception("signature not valid")
             msg = dat[1].decode().split(":")
             port = int(msg[1])
             self.serverfoundCllback(address[0], port)
         except Exception as e:
-            print("TrafficCommunication -> udpListener -> datagramReceived:")
-            print(e)
+            print("\033[1;97m[ Traffic Communication ] :\033[0m \033[1;93mWARNING\033[0m - Error in datagramReceived: {e}")
 
     def stopListening(self):
-        self.transport.stopListening()
+        self.transport.stopListening() # type: ignore

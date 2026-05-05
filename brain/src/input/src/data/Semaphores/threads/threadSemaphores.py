@@ -48,19 +48,21 @@ class threadSemaphores(ThreadWithStop):
         self.debugging = debugging
         self.udp_factory = udpListener(self.queueList, self.logger, self.debugging)
         self.reactor = reactor
-        self.reactor.listenUDP(self.listenPort, self.udp_factory)
+        self.reactor.listenUDP(self.listenPort, self.udp_factory) # type: ignore
 
     # ======================================= RUN ==========================================
-    def run(self):
+    def thread_work(self):
         """
         Run the thread.
         """
-        self.reactor.run(installSignalHandlers=False)
+        self.reactor.run(installSignalHandlers=False) # type: ignore
+        # after the reactor is stopped, we set the blocker to exit the parent's run loop.
+        self._blocker.set()
 
     # ====================================== STOP ==========================================
     def stop(self):
         """
         Stop the thread.
         """
-        self.reactor.stop()
+        self.reactor.callFromThread(self.reactor.stop) # type: ignore
         super(threadSemaphores, self).stop()

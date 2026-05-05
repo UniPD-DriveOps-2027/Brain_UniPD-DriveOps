@@ -1,4 +1,30 @@
+# Copyright (c) 2019, Bosch Engineering Center Cluj and BFMC organizers
+# All rights reserved.
 
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are met:
+
+# 1. Redistributions of source code must retain the above copyright notice, this
+#    list of conditions and the following disclaimer.
+
+# 2. Redistributions in binary form must reproduce the above copyright notice,
+#    this list of conditions and the following disclaimer in the documentation
+#    and/or other materials provided with the distribution.
+
+# 3. Neither the name of the copyright holder nor the names of its
+#    contributors may be used to endorse or promote products derived from
+#    this software without specific prior written permission.
+
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+# AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+# DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+# FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+# SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+# CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+# OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+# OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE
 
 if __name__ == "__main__":
     import sys
@@ -8,9 +34,8 @@ if __name__ == "__main__":
 from multiprocessing import Pipe
 from src.data.TrafficCommunication.useful.sharedMem import sharedMem
 from src.templates.workerprocess import WorkerProcess
-from src.data.TrafficCommunication.threads.threadTrafficCommunicaiton import (
-    threadTrafficCommunication,
-)
+from src.data.TrafficCommunication.threads.threadTrafficCommunication import threadTrafficCommunication
+
 class processTrafficCommunication(WorkerProcess):
     """This process receives the location of the car and sends it to the processGateway.
     
@@ -22,30 +47,15 @@ class processTrafficCommunication(WorkerProcess):
     """
 
     # ====================================== INIT ==========================================
-    def __init__(self, queueList, logging, deviceID, debugging, frequency=1):
+    def __init__(self, queueList, logging, deviceID, ready_event=None, debugging=False, frequency=1):
         self.queuesList = queueList
         self.logging = logging
         self.shared_memory = sharedMem()
-        self.filename = "src/data/TrafficCommunication/useful/publickey_server.pem"
+        self.filename = "src/data/TrafficCommunication/useful/publickey_server_test.pem"
         self.deviceID = deviceID
         self.frequency = frequency
         self.debugging = debugging
-        super(processTrafficCommunication, self).__init__(self.queuesList)
-
-    # ===================================== STOP ==========================================
-    def stop(self):
-        """Function for stopping threads and the process."""
-        
-        for thread in self.threads:
-            thread.stop()
-            thread.join()
-        super(processTrafficCommunication, self).stop()
-
-    # ===================================== RUN ==========================================
-    def run(self):
-        """Apply the initializing methods and start the threads."""
-
-        super(processTrafficCommunication, self).run()
+        super(processTrafficCommunication, self).__init__(self.queuesList, ready_event)
 
     # ===================================== INIT TH ======================================
     def _init_threads(self):
@@ -73,7 +83,7 @@ if __name__ == "__main__":
         "General": Queue(),
         "Config": Queue(),
     }
-    filename = "useful/publickey_server.pem"
+    # filename = "useful/publickey_server.pem"
     filename = "useful/publickey_server_test.pem"
     deviceID = 3
     frequency = 0.4
@@ -84,27 +94,14 @@ if __name__ == "__main__":
 
     start_time = time.time()
     duration = 10  # specify the duration in seconds
+    
+    shared_memory.insert("devicePos", [1.2, 2.3]) # send a position to the server
+    shared_memory.insert("deviceRot", [3.4]) # send a rotation to the server
+    shared_memory.insert("deviceSpeed", [4.5]) # send a speed to the server
+    shared_memory.insert("historyData", [5.6, 6.7, 8]) # send a history data point to the server
 
     while time.time() - start_time < duration:
         try:
-            #from utils.msg import environmental
-            #from utils.msg import vehicles
-            # prepare the sign message that cmes from callback "/automobile/environment"
-            msg_sign = {
-            "reqORinfo": "info",
-            "type": "historyData",
-            "value1": 1, #pos x
-            "value2": 2, #pos y                           
-            "value3": 3, #obstacle id
-            }
-            traffic_communication.tcp_factory.send_data_to_server(msg_sign)
-
-            # get data and send to topic "/automobile/vehicles"
-            data = queueList["General"].get(timeout=1)
-            x = data['msgValue']['x']
-            y = data['msgValue']['y']
-            print(f'X = {x} Y = {y}')
-
-        except Exception as e:
-            print("Error:", e)
+            print(queueList["General"].get(timeout=1))
+        except:pass
     traffic_communication.stop()

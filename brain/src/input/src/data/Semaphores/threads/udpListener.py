@@ -62,4 +62,4 @@ class udpListener(protocol.DatagramProtocol):
         self.semaphoresSender.send(tmp)
 
     def stopListening(self):
-        super().stopListening()
+        super().stopListening() # type: ignore
