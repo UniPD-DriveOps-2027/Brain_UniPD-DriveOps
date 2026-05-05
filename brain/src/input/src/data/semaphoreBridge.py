@@ -18,7 +18,6 @@ Semaphore ID → role mapping:
   Check the competition documentation / udpStreamSIM output to confirm.
 """
 
-import sys
 import threading
 import logging
 from multiprocessing import Queue
@@ -29,8 +28,7 @@ from rclpy.node import Node
 from utils.msg import Semaphore, Vehicles
 
 # ── Engine imports (Bosch code, untouched) ────────────────────────────── #
-sys.path.insert(0, 'src/input')
-from src.data.Semaphores.threads.threadSemaphores import threadSemaphores
+from data.Semaphores.threads.threadSemaphores import threadSemaphores
 
 # ── Semaphore ID → ROS2 topic suffix ─────────────────────────────────── #
 # Keys are the integer IDs the server broadcasts. Adjust if needed.

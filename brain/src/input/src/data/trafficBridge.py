@@ -21,7 +21,6 @@ CONFIG:
   KEY_PATH    — path to the server public key PEM file
 """
 
-import sys
 import threading
 import logging
 from multiprocessing import Queue
@@ -33,9 +32,8 @@ from std_msgs.msg import Float32
 from utils.msg import Localisation, IMU, Environmental
 
 # ── Engine imports (Bosch code, untouched) ────────────────────────────── #
-sys.path.insert(0, 'src/input')
-from src.data.TrafficCommunication.threads.threadTrafficCommunicaiton import threadTrafficCommunication
-from src.data.TrafficCommunication.useful.sharedMem import sharedMem
+from data.TrafficCommunication.threads.threadTrafficCommunicaiton import threadTrafficCommunication
+from data.TrafficCommunication.useful.sharedMem import sharedMem
 
 # ── Config ───────────────────────────────────────────────────────────── #
 DEVICE_ID = 1          # Change to your car's ID (shown on the localization device)
