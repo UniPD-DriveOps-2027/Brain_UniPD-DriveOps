@@ -2,10 +2,14 @@ from setuptools import setup, find_packages
 
 package_name = 'input'
 
+_all_src = find_packages(where='src')
+_flat = [p for p in _all_src if p != 'utils' and not p.startswith('utils.')]
+_src_prefixed = ['src'] + ['src.' + p for p in _all_src]
+
 setup(
     name=package_name,
     version='0.0.0',
-    packages=find_packages(where='src') + ['src'] + ['src.' + p for p in find_packages(where='src')],
+    packages=_flat + _src_prefixed,
     package_dir={'': 'src', 'src': 'src'},
     data_files=[
         # Required for ament resource index
