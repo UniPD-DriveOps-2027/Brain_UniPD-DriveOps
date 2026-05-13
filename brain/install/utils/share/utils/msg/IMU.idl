@@ -1,1 +1,28 @@
-/home/hisham/BFMC/Brain_DEI/brain/build/utils/rosidl_adapter/utils/msg/IMU.idl
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from utils/msg/IMU.msg
+// generated code does not contain a copyright notice
+
+
+module utils {
+  module msg {
+    struct IMU {
+      float roll;
+
+      float pitch;
+
+      float yaw;
+
+      float accelx;
+
+      float accely;
+
+      float accelz;
+
+      float gyrox;
+
+      float gyroy;
+
+      float gyroz;
+    };
+  };
+};

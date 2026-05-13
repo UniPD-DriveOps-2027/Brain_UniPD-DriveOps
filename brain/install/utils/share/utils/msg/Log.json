@@ -1,1 +1,36 @@
-/home/hisham/BFMC/Brain_DEI/brain/build/utils/rosidl_generator_type_description/utils/msg/Log.json
+{
+  "type_description_msg": {
+    "type_description": {
+      "type_name": "utils/msg/Log",
+      "fields": [
+        {
+          "name": "level",
+          "type": {
+            "type_id": 3,
+            "capacity": 0,
+            "string_capacity": 0,
+            "nested_type_name": ""
+          },
+          "default_value": ""
+        },
+        {
+          "name": "msg",
+          "type": {
+            "type_id": 17,
+            "capacity": 0,
+            "string_capacity": 0,
+            "nested_type_name": ""
+          },
+          "default_value": ""
+        }
+      ]
+    },
+    "referenced_type_descriptions": []
+  },
+  "type_hashes": [
+    {
+      "type_name": "utils/msg/Log",
+      "hash_string": "RIHS01_ba3c03afe7d97209c894727be8f52882ab450cd3e69ce217e0fad4e471e90fb1"
+    }
+  ]
+}

@@ -87,8 +87,8 @@ else:
     CHECKPOINTS = [451, 393, 400] # TEST WHOLE PATH
     CHECKPOINTS = [125, 163, 336, 150] # TEST Thomas semaphores
     CHECKPOINTS = [451, 412, 393, 306, 150, 140, 121, 92, 109, 130, 147, 175, 133, 123, 118, 91, 163, 373, 406, 444] # TEST WHOLE PATH no 468 but 451
-    CHECKPOINTS = [451,512,390] #crosswalk, parking and intersection
-    CHECKPOINTS = [355,212,150] #roundabout and highway
+    CHECKPOINTS = [451,421,390] #crosswalk, parking and intersection
+    # CHECKPOINTS = [355,212,150] #roundabout and highway
     END_NODE = CHECKPOINTS[-1]
     GPS_FOR_START_ONLY = False
 
@@ -1933,6 +1933,7 @@ class Brain:
         # check for pedestrian
         frame = self.car.frame
 
+
         if frame is None or frame.sum() == 0:
             print("Frame is empty or not yet set.")
             return  
@@ -1942,7 +1943,7 @@ class Brain:
 
         # Resize the frame to match the preview resolution (faster display)
         frame_resized = self.car.frame.copy()
-
+        frame_resized = cv.resize(frame_resized, (320, 240))
         # Convert the frame to HSV color space
         hsv = cv.cvtColor(frame_resized, cv.COLOR_RGB2HSV)
 

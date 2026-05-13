@@ -1,0 +1,278 @@
+[3.484s] Invoking command in '/uros_ws/Brain_DEI/brain/src/input': PYTHONPATH=/uros_ws/Brain_DEI/brain/build/input/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/unix_out/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/output/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages:/uros_ws/install/micro_ros_msgs/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/input build --build-base /uros_ws/Brain_DEI/brain/build/input/build install --record /uros_ws/Brain_DEI/brain/build/input/install.log --single-version-externally-managed install_data
+[4.175s] running egg_info
+[4.176s] creating ../../build/input/input.egg-info
+[4.225s] writing ../../build/input/input.egg-info/PKG-INFO
+[4.226s] writing dependency_links to ../../build/input/input.egg-info/dependency_links.txt
+[4.227s] writing entry points to ../../build/input/input.egg-info/entry_points.txt
+[4.227s] writing requirements to ../../build/input/input.egg-info/requires.txt
+[4.228s] writing top-level names to ../../build/input/input.egg-info/top_level.txt
+[4.228s] writing manifest file '../../build/input/input.egg-info/SOURCES.txt'
+[4.335s] reading manifest file '../../build/input/input.egg-info/SOURCES.txt'
+[4.337s] writing manifest file '../../build/input/input.egg-info/SOURCES.txt'
+[4.338s] running build
+[4.339s] running build_py
+[4.340s] creating /uros_ws/Brain_DEI/brain/build/input/build
+[4.341s] creating /uros_ws/Brain_DEI/brain/build/input/build/lib
+[4.342s] creating /uros_ws/Brain_DEI/brain/build/input/build/lib/gpstracker
+[4.343s] copying src/gpstracker/complexDealer.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/gpstracker
+[4.344s] copying src/gpstracker/__init__.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/gpstracker
+[4.345s] copying src/gpstracker/gpstrackerNODE.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/gpstracker
+[4.346s] copying src/gpstracker/server_listener.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/gpstracker
+[4.347s] copying src/gpstracker/locsys.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/gpstracker
+[4.349s] copying src/gpstracker/server_subscriber.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/gpstracker
+[4.350s] copying src/gpstracker/server_data.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/gpstracker
+[4.351s] copying src/gpstracker/util.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/gpstracker
+[4.353s] copying src/gpstracker/position_listener.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/gpstracker
+[4.353s] creating /uros_ws/Brain_DEI/brain/build/input/build/lib/templates
+[4.354s] copying src/templates/threadwithstop.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/templates
+[4.358s] copying src/templates/workerprocess.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/templates
+[4.359s] copying src/templates/__init__.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/templates
+[4.366s] creating /uros_ws/Brain_DEI/brain/build/input/build/lib/data
+[4.367s] copying src/data/__init__.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/data
+[4.369s] copying src/data/trafficBridge.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/data
+[4.370s] copying src/data/semaphoreBridge.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/data
+[4.372s] creating /uros_ws/Brain_DEI/brain/build/input/build/lib/data/Semaphores
+[4.373s] copying src/data/Semaphores/__init__.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/data/Semaphores
+[4.373s] copying src/data/Semaphores/processSemaphores.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/data/Semaphores
+[4.374s] creating /uros_ws/Brain_DEI/brain/build/input/build/lib/data/TrafficCommunication
+[4.374s] copying src/data/TrafficCommunication/processTrafficCommunication.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/data/TrafficCommunication
+[4.374s] copying src/data/TrafficCommunication/__init__.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/data/TrafficCommunication
+[4.374s] creating /uros_ws/Brain_DEI/brain/build/input/build/lib/data/Semaphores/threads
+[4.375s] copying src/data/Semaphores/threads/threadSemaphores.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/data/Semaphores/threads
+[4.375s] copying src/data/Semaphores/threads/udpListener.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/data/Semaphores/threads
+[4.375s] copying src/data/Semaphores/threads/__init__.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/data/Semaphores/threads
+[4.376s] creating /uros_ws/Brain_DEI/brain/build/input/build/lib/data/TrafficCommunication/useful
+[4.376s] copying src/data/TrafficCommunication/useful/sharedMem.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/data/TrafficCommunication/useful
+[4.376s] copying src/data/TrafficCommunication/useful/periodicTask.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/data/TrafficCommunication/useful
+[4.376s] copying src/data/TrafficCommunication/useful/keyDealer.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/data/TrafficCommunication/useful
+[4.377s] copying src/data/TrafficCommunication/useful/__init__.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/data/TrafficCommunication/useful
+[4.377s] creating /uros_ws/Brain_DEI/brain/build/input/build/lib/data/TrafficCommunication/threads
+[4.377s] copying src/data/TrafficCommunication/threads/udpListener.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/data/TrafficCommunication/threads
+[4.378s] copying src/data/TrafficCommunication/threads/tcpClient.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/data/TrafficCommunication/threads
+[4.378s] copying src/data/TrafficCommunication/threads/__init__.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/data/TrafficCommunication/threads
+[4.378s] copying src/data/TrafficCommunication/threads/threadTrafficCommunication.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/data/TrafficCommunication/threads
+[4.378s] creating /uros_ws/Brain_DEI/brain/build/input/build/lib/src
+[4.379s] copying src/__init__.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/src
+[4.379s] creating /uros_ws/Brain_DEI/brain/build/input/build/lib/src/gpstracker
+[4.379s] copying src/gpstracker/complexDealer.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/src/gpstracker
+[4.380s] copying src/gpstracker/__init__.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/src/gpstracker
+[4.380s] copying src/gpstracker/gpstrackerNODE.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/src/gpstracker
+[4.380s] copying src/gpstracker/server_listener.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/src/gpstracker
+[4.381s] copying src/gpstracker/locsys.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/src/gpstracker
+[4.381s] copying src/gpstracker/server_subscriber.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/src/gpstracker
+[4.381s] copying src/gpstracker/server_data.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/src/gpstracker
+[4.381s] copying src/gpstracker/util.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/src/gpstracker
+[4.382s] copying src/gpstracker/position_listener.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/src/gpstracker
+[4.382s] creating /uros_ws/Brain_DEI/brain/build/input/build/lib/src/templates
+[4.382s] copying src/templates/threadwithstop.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/src/templates
+[4.383s] copying src/templates/workerprocess.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/src/templates
+[4.383s] copying src/templates/__init__.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/src/templates
+[4.383s] creating /uros_ws/Brain_DEI/brain/build/input/build/lib/src/utils
+[4.383s] copying src/utils/__init__.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/src/utils
+[4.383s] creating /uros_ws/Brain_DEI/brain/build/input/build/lib/src/data
+[4.384s] copying src/data/__init__.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/src/data
+[4.384s] copying src/data/trafficBridge.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/src/data
+[4.384s] copying src/data/semaphoreBridge.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/src/data
+[4.384s] creating /uros_ws/Brain_DEI/brain/build/input/build/lib/src/utils/messages
+[4.385s] copying src/utils/messages/allMessages.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/src/utils/messages
+[4.385s] copying src/utils/messages/messageHandlerSender.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/src/utils/messages
+[4.385s] copying src/utils/messages/messageHandlerSubscriber.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/src/utils/messages
+[4.385s] copying src/utils/messages/__init__.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/src/utils/messages
+[4.385s] creating /uros_ws/Brain_DEI/brain/build/input/build/lib/src/utils/ipManager
+[4.386s] copying src/utils/ipManager/IpReplacement.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/src/utils/ipManager
+[4.386s] copying src/utils/ipManager/__init__.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/src/utils/ipManager
+[4.386s] creating /uros_ws/Brain_DEI/brain/build/input/build/lib/src/data/Semaphores
+[4.387s] copying src/data/Semaphores/__init__.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/src/data/Semaphores
+[4.387s] copying src/data/Semaphores/processSemaphores.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/src/data/Semaphores
+[4.387s] creating /uros_ws/Brain_DEI/brain/build/input/build/lib/src/data/TrafficCommunication
+[4.387s] copying src/data/TrafficCommunication/processTrafficCommunication.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/src/data/TrafficCommunication
+[4.388s] copying src/data/TrafficCommunication/__init__.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/src/data/TrafficCommunication
+[4.388s] creating /uros_ws/Brain_DEI/brain/build/input/build/lib/src/data/Semaphores/threads
+[4.388s] copying src/data/Semaphores/threads/threadSemaphores.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/src/data/Semaphores/threads
+[4.388s] copying src/data/Semaphores/threads/udpListener.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/src/data/Semaphores/threads
+[4.388s] copying src/data/Semaphores/threads/__init__.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/src/data/Semaphores/threads
+[4.389s] creating /uros_ws/Brain_DEI/brain/build/input/build/lib/src/data/TrafficCommunication/useful
+[4.389s] copying src/data/TrafficCommunication/useful/sharedMem.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/src/data/TrafficCommunication/useful
+[4.389s] copying src/data/TrafficCommunication/useful/periodicTask.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/src/data/TrafficCommunication/useful
+[4.389s] copying src/data/TrafficCommunication/useful/keyDealer.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/src/data/TrafficCommunication/useful
+[4.389s] copying src/data/TrafficCommunication/useful/__init__.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/src/data/TrafficCommunication/useful
+[4.390s] creating /uros_ws/Brain_DEI/brain/build/input/build/lib/src/data/TrafficCommunication/threads
+[4.390s] copying src/data/TrafficCommunication/threads/udpListener.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/src/data/TrafficCommunication/threads
+[4.392s] copying src/data/TrafficCommunication/threads/tcpClient.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/src/data/TrafficCommunication/threads
+[4.392s] copying src/data/TrafficCommunication/threads/__init__.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/src/data/TrafficCommunication/threads
+[4.393s] copying src/data/TrafficCommunication/threads/threadTrafficCommunication.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/src/data/TrafficCommunication/threads
+[4.393s] running install
+[4.402s] running install_lib
+[4.448s] creating /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/gpstracker
+[4.449s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/gpstracker/complexDealer.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/gpstracker
+[4.449s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/gpstracker/__init__.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/gpstracker
+[4.449s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/gpstracker/gpstrackerNODE.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/gpstracker
+[4.449s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/gpstracker/server_listener.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/gpstracker
+[4.450s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/gpstracker/locsys.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/gpstracker
+[4.450s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/gpstracker/server_subscriber.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/gpstracker
+[4.451s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/gpstracker/server_data.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/gpstracker
+[4.451s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/gpstracker/util.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/gpstracker
+[4.452s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/gpstracker/position_listener.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/gpstracker
+[4.452s] creating /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/templates
+[4.453s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/templates/__init__.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/templates
+[4.453s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/templates/threadwithstop.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/templates
+[4.454s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/templates/workerprocess.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/templates
+[4.454s] creating /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data
+[4.460s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/data/__init__.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data
+[4.461s] creating /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data/Semaphores
+[4.461s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/data/Semaphores/__init__.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data/Semaphores
+[4.461s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/data/Semaphores/processSemaphores.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data/Semaphores
+[4.462s] creating /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data/Semaphores/threads
+[4.462s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/data/Semaphores/threads/__init__.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data/Semaphores/threads
+[4.462s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/data/Semaphores/threads/threadSemaphores.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data/Semaphores/threads
+[4.463s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/data/Semaphores/threads/udpListener.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data/Semaphores/threads
+[4.463s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/data/trafficBridge.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data
+[4.463s] creating /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data/TrafficCommunication
+[4.464s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/data/TrafficCommunication/__init__.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data/TrafficCommunication
+[4.464s] creating /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data/TrafficCommunication/useful
+[4.464s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/data/TrafficCommunication/useful/__init__.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data/TrafficCommunication/useful
+[4.464s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/data/TrafficCommunication/useful/sharedMem.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data/TrafficCommunication/useful
+[4.466s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/data/TrafficCommunication/useful/periodicTask.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data/TrafficCommunication/useful
+[4.467s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/data/TrafficCommunication/useful/keyDealer.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data/TrafficCommunication/useful
+[4.467s] creating /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data/TrafficCommunication/threads
+[4.468s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/data/TrafficCommunication/threads/__init__.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data/TrafficCommunication/threads
+[4.468s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/data/TrafficCommunication/threads/threadTrafficCommunication.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data/TrafficCommunication/threads
+[4.469s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/data/TrafficCommunication/threads/udpListener.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data/TrafficCommunication/threads
+[4.469s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/data/TrafficCommunication/threads/tcpClient.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data/TrafficCommunication/threads
+[4.470s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/data/TrafficCommunication/processTrafficCommunication.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data/TrafficCommunication
+[4.470s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/data/semaphoreBridge.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data
+[4.470s] creating /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src
+[4.473s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/src/__init__.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src
+[4.473s] creating /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/gpstracker
+[4.474s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/src/gpstracker/complexDealer.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/gpstracker
+[4.474s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/src/gpstracker/__init__.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/gpstracker
+[4.474s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/src/gpstracker/gpstrackerNODE.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/gpstracker
+[4.475s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/src/gpstracker/server_listener.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/gpstracker
+[4.476s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/src/gpstracker/locsys.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/gpstracker
+[4.476s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/src/gpstracker/server_subscriber.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/gpstracker
+[4.476s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/src/gpstracker/server_data.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/gpstracker
+[4.477s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/src/gpstracker/util.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/gpstracker
+[4.477s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/src/gpstracker/position_listener.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/gpstracker
+[4.478s] creating /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/templates
+[4.478s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/src/templates/__init__.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/templates
+[4.478s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/src/templates/threadwithstop.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/templates
+[4.479s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/src/templates/workerprocess.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/templates
+[4.479s] creating /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/utils
+[4.480s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/src/utils/__init__.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/utils
+[4.480s] creating /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/utils/messages
+[4.481s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/src/utils/messages/__init__.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/utils/messages
+[4.481s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/src/utils/messages/allMessages.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/utils/messages
+[4.482s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/src/utils/messages/messageHandlerSender.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/utils/messages
+[4.482s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/src/utils/messages/messageHandlerSubscriber.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/utils/messages
+[4.482s] creating /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/utils/ipManager
+[4.483s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/src/utils/ipManager/__init__.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/utils/ipManager
+[4.483s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/src/utils/ipManager/IpReplacement.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/utils/ipManager
+[4.484s] creating /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data
+[4.484s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/src/data/__init__.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data
+[4.485s] creating /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data/Semaphores
+[4.485s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/src/data/Semaphores/__init__.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data/Semaphores
+[4.485s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/src/data/Semaphores/processSemaphores.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data/Semaphores
+[4.486s] creating /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data/Semaphores/threads
+[4.486s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/src/data/Semaphores/threads/__init__.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data/Semaphores/threads
+[4.487s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/src/data/Semaphores/threads/threadSemaphores.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data/Semaphores/threads
+[4.487s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/src/data/Semaphores/threads/udpListener.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data/Semaphores/threads
+[4.488s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/src/data/trafficBridge.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data
+[4.488s] creating /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data/TrafficCommunication
+[4.489s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/src/data/TrafficCommunication/__init__.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data/TrafficCommunication
+[4.489s] creating /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data/TrafficCommunication/useful
+[4.489s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/src/data/TrafficCommunication/useful/__init__.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data/TrafficCommunication/useful
+[4.489s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/src/data/TrafficCommunication/useful/sharedMem.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data/TrafficCommunication/useful
+[4.490s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/src/data/TrafficCommunication/useful/periodicTask.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data/TrafficCommunication/useful
+[4.490s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/src/data/TrafficCommunication/useful/keyDealer.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data/TrafficCommunication/useful
+[4.490s] creating /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data/TrafficCommunication/threads
+[4.491s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/src/data/TrafficCommunication/threads/__init__.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data/TrafficCommunication/threads
+[4.493s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/src/data/TrafficCommunication/threads/threadTrafficCommunication.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data/TrafficCommunication/threads
+[4.493s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/src/data/TrafficCommunication/threads/udpListener.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data/TrafficCommunication/threads
+[4.493s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/src/data/TrafficCommunication/threads/tcpClient.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data/TrafficCommunication/threads
+[4.494s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/src/data/TrafficCommunication/processTrafficCommunication.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data/TrafficCommunication
+[4.494s] copying /uros_ws/Brain_DEI/brain/build/input/build/lib/src/data/semaphoreBridge.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data
+[4.495s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/gpstracker/complexDealer.py to complexDealer.cpython-312.pyc
+[4.495s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/gpstracker/__init__.py to __init__.cpython-312.pyc
+[4.496s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/gpstracker/gpstrackerNODE.py to gpstrackerNODE.cpython-312.pyc
+[4.496s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/gpstracker/server_listener.py to server_listener.cpython-312.pyc
+[4.496s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/gpstracker/locsys.py to locsys.cpython-312.pyc
+[4.497s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/gpstracker/server_subscriber.py to server_subscriber.cpython-312.pyc
+[4.497s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/gpstracker/server_data.py to server_data.cpython-312.pyc
+[4.498s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/gpstracker/util.py to util.cpython-312.pyc
+[4.498s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/gpstracker/position_listener.py to position_listener.cpython-312.pyc
+[4.499s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/templates/__init__.py to __init__.cpython-312.pyc
+[4.499s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/templates/threadwithstop.py to threadwithstop.cpython-312.pyc
+[4.500s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/templates/workerprocess.py to workerprocess.cpython-312.pyc
+[4.501s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data/__init__.py to __init__.cpython-312.pyc
+[4.502s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data/Semaphores/__init__.py to __init__.cpython-312.pyc
+[4.503s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data/Semaphores/processSemaphores.py to processSemaphores.cpython-312.pyc
+[4.504s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data/Semaphores/threads/__init__.py to __init__.cpython-312.pyc
+[4.505s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data/Semaphores/threads/threadSemaphores.py to threadSemaphores.cpython-312.pyc
+[4.506s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data/Semaphores/threads/udpListener.py to udpListener.cpython-312.pyc
+[4.507s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data/trafficBridge.py to trafficBridge.cpython-312.pyc
+[4.511s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data/TrafficCommunication/__init__.py to __init__.cpython-312.pyc
+[4.512s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data/TrafficCommunication/useful/__init__.py to __init__.cpython-312.pyc
+[4.512s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data/TrafficCommunication/useful/sharedMem.py to sharedMem.cpython-312.pyc
+[4.513s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data/TrafficCommunication/useful/periodicTask.py to periodicTask.cpython-312.pyc
+[4.514s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data/TrafficCommunication/useful/keyDealer.py to keyDealer.cpython-312.pyc
+[4.517s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data/TrafficCommunication/threads/__init__.py to __init__.cpython-312.pyc
+[4.518s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data/TrafficCommunication/threads/threadTrafficCommunication.py to threadTrafficCommunication.cpython-312.pyc
+[4.518s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data/TrafficCommunication/threads/udpListener.py to udpListener.cpython-312.pyc
+[4.520s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data/TrafficCommunication/threads/tcpClient.py to tcpClient.cpython-312.pyc
+[4.524s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data/TrafficCommunication/processTrafficCommunication.py to processTrafficCommunication.cpython-312.pyc
+[4.530s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data/semaphoreBridge.py to semaphoreBridge.cpython-312.pyc
+[4.530s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/__init__.py to __init__.cpython-312.pyc
+[4.531s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/gpstracker/complexDealer.py to complexDealer.cpython-312.pyc
+[4.531s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/gpstracker/__init__.py to __init__.cpython-312.pyc
+[4.532s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/gpstracker/gpstrackerNODE.py to gpstrackerNODE.cpython-312.pyc
+[4.532s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/gpstracker/server_listener.py to server_listener.cpython-312.pyc
+[4.533s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/gpstracker/locsys.py to locsys.cpython-312.pyc
+[4.534s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/gpstracker/server_subscriber.py to server_subscriber.cpython-312.pyc
+[4.536s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/gpstracker/server_data.py to server_data.cpython-312.pyc
+[4.537s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/gpstracker/util.py to util.cpython-312.pyc
+[4.539s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/gpstracker/position_listener.py to position_listener.cpython-312.pyc
+[4.540s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/templates/__init__.py to __init__.cpython-312.pyc
+[4.541s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/templates/threadwithstop.py to threadwithstop.cpython-312.pyc
+[4.542s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/templates/workerprocess.py to workerprocess.cpython-312.pyc
+[4.545s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/utils/__init__.py to __init__.cpython-312.pyc
+[4.549s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/utils/messages/__init__.py to __init__.cpython-312.pyc
+[4.549s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/utils/messages/allMessages.py to allMessages.cpython-312.pyc
+[4.550s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/utils/messages/messageHandlerSender.py to messageHandlerSender.cpython-312.pyc
+[4.550s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/utils/messages/messageHandlerSubscriber.py to messageHandlerSubscriber.cpython-312.pyc
+[4.551s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/utils/ipManager/__init__.py to __init__.cpython-312.pyc
+[4.552s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/utils/ipManager/IpReplacement.py to IpReplacement.cpython-312.pyc
+[4.553s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data/__init__.py to __init__.cpython-312.pyc
+[4.554s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data/Semaphores/__init__.py to __init__.cpython-312.pyc
+[4.554s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data/Semaphores/processSemaphores.py to processSemaphores.cpython-312.pyc
+[4.557s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data/Semaphores/threads/__init__.py to __init__.cpython-312.pyc
+[4.562s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data/Semaphores/threads/threadSemaphores.py to threadSemaphores.cpython-312.pyc
+[4.563s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data/Semaphores/threads/udpListener.py to udpListener.cpython-312.pyc
+[4.563s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data/trafficBridge.py to trafficBridge.cpython-312.pyc
+[4.563s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data/TrafficCommunication/__init__.py to __init__.cpython-312.pyc
+[4.564s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data/TrafficCommunication/useful/__init__.py to __init__.cpython-312.pyc
+[4.565s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data/TrafficCommunication/useful/sharedMem.py to sharedMem.cpython-312.pyc
+[4.567s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data/TrafficCommunication/useful/periodicTask.py to periodicTask.cpython-312.pyc
+[4.569s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data/TrafficCommunication/useful/keyDealer.py to keyDealer.cpython-312.pyc
+[4.570s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data/TrafficCommunication/threads/__init__.py to __init__.cpython-312.pyc
+[4.571s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data/TrafficCommunication/threads/threadTrafficCommunication.py to threadTrafficCommunication.cpython-312.pyc
+[4.572s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data/TrafficCommunication/threads/udpListener.py to udpListener.cpython-312.pyc
+[4.574s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data/TrafficCommunication/threads/tcpClient.py to tcpClient.cpython-312.pyc
+[4.576s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data/TrafficCommunication/processTrafficCommunication.py to processTrafficCommunication.cpython-312.pyc
+[4.578s] byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data/semaphoreBridge.py to semaphoreBridge.cpython-312.pyc
+[4.581s] running install_data
+[4.581s] creating /uros_ws/Brain_DEI/brain/install/input/share/ament_index
+[4.581s] creating /uros_ws/Brain_DEI/brain/install/input/share/ament_index/resource_index
+[4.581s] creating /uros_ws/Brain_DEI/brain/install/input/share/ament_index/resource_index/packages
+[4.582s] copying resource/input -> /uros_ws/Brain_DEI/brain/install/input/share/ament_index/resource_index/packages
+[4.582s] copying package.xml -> /uros_ws/Brain_DEI/brain/install/input/share/input
+[4.582s] running install_egg_info
+[4.633s] Copying ../../build/input/input.egg-info to /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/input-0.0.0-py3.12.egg-info
+[4.636s] running install_scripts
+[4.982s] Installing gpstrackerNODE script to /uros_ws/Brain_DEI/brain/install/input/lib/input
+[4.983s] Installing imuNODE script to /uros_ws/Brain_DEI/brain/install/input/lib/input
+[4.983s] Installing semaphoreBridgeNODE script to /uros_ws/Brain_DEI/brain/install/input/lib/input
+[4.985s] Installing semaphoreNODE script to /uros_ws/Brain_DEI/brain/install/input/lib/input
+[4.987s] Installing sonarNODE script to /uros_ws/Brain_DEI/brain/install/input/lib/input
+[4.989s] Installing trafficBridgeNODE script to /uros_ws/Brain_DEI/brain/install/input/lib/input
+[4.989s] writing list of installed files to '/uros_ws/Brain_DEI/brain/build/input/install.log'
+[5.099s] Invoked command in '/uros_ws/Brain_DEI/brain/src/input' returned '0': PYTHONPATH=/uros_ws/Brain_DEI/brain/build/input/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/unix_out/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/output/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages:/uros_ws/install/micro_ros_msgs/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/input build --build-base /uros_ws/Brain_DEI/brain/build/input/build install --record /uros_ws/Brain_DEI/brain/build/input/install.log --single-version-externally-managed install_data

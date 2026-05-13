@@ -1,1 +1,6 @@
-/home/hisham/BFMC/Brain_DEI/brain/src/utils/msg/Vehicles.msg
+uint8 id
+float32 timestamp
+float32 pos_a
+float32 pos_b
+float32 rot_a
+float32 rot_b

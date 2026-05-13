@@ -1,1 +1,36 @@
-/home/hisham/BFMC/Brain_DEI/brain/build/utils/rosidl_generator_c/utils/msg/detail/localisation__type_support.h
+// generated from rosidl_generator_c/resource/idl__type_support.h.em
+// with input from utils:msg/Localisation.idl
+// generated code does not contain a copyright notice
+
+// IWYU pragma: private, include "utils/msg/localisation.h"
+
+
+#ifndef UTILS__MSG__DETAIL__LOCALISATION__TYPE_SUPPORT_H_
+#define UTILS__MSG__DETAIL__LOCALISATION__TYPE_SUPPORT_H_
+
+#include "rosidl_typesupport_interface/macros.h"
+
+#include "utils/msg/rosidl_generator_c__visibility_control.h"
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
+#include "rosidl_runtime_c/message_type_support_struct.h"
+
+// Forward declare the get type support functions for this type.
+ROSIDL_GENERATOR_C_PUBLIC_utils
+const rosidl_message_type_support_t *
+ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(
+  rosidl_typesupport_c,
+  utils,
+  msg,
+  Localisation
+)(void);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif  // UTILS__MSG__DETAIL__LOCALISATION__TYPE_SUPPORT_H_

@@ -22,7 +22,6 @@ CONFIG:
 """
 
 import threading
-import logging
 from multiprocessing import Queue
 
 import rclpy
@@ -130,13 +129,17 @@ def main(args=None):
         'Config':   Queue(),
     }
     shared_memory = sharedMem()
-    logger        = logging.getLogger('trafficBridge')
 
-    # Start the unmodified Bosch engine thread
+    # threadTrafficCommunication inherits ThreadWithStop which never calls thread_work(),
+    # so the Twisted reactor must be started explicitly in a daemon thread.
     engine = threadTrafficCommunication(
         shared_memory, queue_list, DEVICE_ID, FREQUENCY, KEY_PATH
     )
-    engine.start()
+    reactor_thread = threading.Thread(
+        target=lambda: engine.reactor.run(installSignalHandlers=False),
+        daemon=True
+    )
+    reactor_thread.start()
 
     rclpy.init(args=args)
     node = TrafficBridge(queue_list, shared_memory)
@@ -148,7 +151,7 @@ def main(args=None):
     finally:
         node.destroy_node()
         engine.stop()
-        engine.join()
+        reactor_thread.join(timeout=2.0)
         rclpy.shutdown()
 
 

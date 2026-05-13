@@ -124,9 +124,14 @@ def main(args=None):
 
     logger = logging.getLogger('semaphoreBridge')
 
-    # Start the unmodified Bosch engine thread
+    # threadSemaphores inherits ThreadWithStop which never calls thread_work(),
+    # so the Twisted reactor must be started explicitly in a daemon thread.
     engine = threadSemaphores(queue_list, logger, debugging=False)
-    engine.start()
+    reactor_thread = threading.Thread(
+        target=lambda: engine.reactor.run(installSignalHandlers=False),
+        daemon=True
+    )
+    reactor_thread.start()
 
     rclpy.init(args=args)
     node = SemaphoreBridge(queue_list)
@@ -138,7 +143,7 @@ def main(args=None):
     finally:
         node.destroy_node()
         engine.stop()
-        engine.join()
+        reactor_thread.join(timeout=2.0)
         rclpy.shutdown()
 
 

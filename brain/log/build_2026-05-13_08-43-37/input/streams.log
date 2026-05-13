@@ -1,0 +1,26 @@
+[3.328s] Invoking command in '/uros_ws/Brain_DEI/brain/src/input': AMENT_PREFIX_PATH=/uros_ws/Brain_DEI/brain/install/utils:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/uros_ws/Brain_DEI/brain/install/utils:${CMAKE_PREFIX_PATH} LD_LIBRARY_PATH=/uros_ws/Brain_DEI/brain/install/utils/lib:${LD_LIBRARY_PATH} PYTHONPATH=/uros_ws/Brain_DEI/brain/build/input/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/input build --build-base /uros_ws/Brain_DEI/brain/build/input/build install --record /uros_ws/Brain_DEI/brain/build/input/install.log --single-version-externally-managed install_data
+[4.009s] running egg_info
+[4.053s] writing ../../build/input/input.egg-info/PKG-INFO
+[4.053s] writing dependency_links to ../../build/input/input.egg-info/dependency_links.txt
+[4.054s] writing entry points to ../../build/input/input.egg-info/entry_points.txt
+[4.054s] writing requirements to ../../build/input/input.egg-info/requires.txt
+[4.055s] writing top-level names to ../../build/input/input.egg-info/top_level.txt
+[4.150s] reading manifest file '../../build/input/input.egg-info/SOURCES.txt'
+[4.154s] writing manifest file '../../build/input/input.egg-info/SOURCES.txt'
+[4.154s] running build
+[4.155s] running build_py
+[4.168s] running install
+[4.183s] running install_lib
+[4.238s] running install_data
+[4.238s] running install_egg_info
+[4.286s] removing '/uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/input-0.0.0-py3.12.egg-info' (and everything under it)
+[4.287s] Copying ../../build/input/input.egg-info to /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/input-0.0.0-py3.12.egg-info
+[4.290s] running install_scripts
+[4.601s] Installing gpstrackerNODE script to /uros_ws/Brain_DEI/brain/install/input/lib/input
+[4.602s] Installing imuNODE script to /uros_ws/Brain_DEI/brain/install/input/lib/input
+[4.602s] Installing semaphoreBridgeNODE script to /uros_ws/Brain_DEI/brain/install/input/lib/input
+[4.603s] Installing semaphoreNODE script to /uros_ws/Brain_DEI/brain/install/input/lib/input
+[4.603s] Installing sonarNODE script to /uros_ws/Brain_DEI/brain/install/input/lib/input
+[4.604s] Installing trafficBridgeNODE script to /uros_ws/Brain_DEI/brain/install/input/lib/input
+[4.609s] writing list of installed files to '/uros_ws/Brain_DEI/brain/build/input/install.log'
+[4.720s] Invoked command in '/uros_ws/Brain_DEI/brain/src/input' returned '0': AMENT_PREFIX_PATH=/uros_ws/Brain_DEI/brain/install/utils:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/uros_ws/Brain_DEI/brain/install/utils:${CMAKE_PREFIX_PATH} LD_LIBRARY_PATH=/uros_ws/Brain_DEI/brain/install/utils/lib:${LD_LIBRARY_PATH} PYTHONPATH=/uros_ws/Brain_DEI/brain/build/input/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/input build --build-base /uros_ws/Brain_DEI/brain/build/input/build install --record /uros_ws/Brain_DEI/brain/build/input/install.log --single-version-externally-managed install_data

@@ -1,0 +1,23 @@
+[2.614s] Invoking command in '/uros_ws/Brain_DEI/brain/src/unix_out': PYTHONPATH=/uros_ws/Brain_DEI/brain/build/unix_out/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/uros_ws/Brain_DEI/brain/install/unix_out/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/unix_out/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/output/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages:/uros_ws/install/micro_ros_msgs/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/unix_out build --build-base /uros_ws/Brain_DEI/brain/build/unix_out/build install --record /uros_ws/Brain_DEI/brain/build/unix_out/install.log --single-version-externally-managed install_data
+[3.199s] running egg_info
+[3.241s] writing ../../build/unix_out/unix_out.egg-info/PKG-INFO
+[3.242s] writing dependency_links to ../../build/unix_out/unix_out.egg-info/dependency_links.txt
+[3.242s] writing entry points to ../../build/unix_out/unix_out.egg-info/entry_points.txt
+[3.242s] writing requirements to ../../build/unix_out/unix_out.egg-info/requires.txt
+[3.243s] writing top-level names to ../../build/unix_out/unix_out.egg-info/top_level.txt
+[3.324s] reading manifest file '../../build/unix_out/unix_out.egg-info/SOURCES.txt'
+[3.326s] writing manifest file '../../build/unix_out/unix_out.egg-info/SOURCES.txt'
+[3.326s] running build
+[3.326s] running build_py
+[3.327s] running install
+[3.339s] running install_lib
+[3.378s] running install_data
+[3.378s] running install_egg_info
+[3.425s] removing '/uros_ws/Brain_DEI/brain/install/unix_out/lib/python3.12/site-packages/unix_out-0.0.0-py3.12.egg-info' (and everything under it)
+[3.426s] Copying ../../build/unix_out/unix_out.egg-info to /uros_ws/Brain_DEI/brain/install/unix_out/lib/python3.12/site-packages/unix_out-0.0.0-py3.12.egg-info
+[3.428s] running install_scripts
+[3.715s] Installing camera_to_socket script to /uros_ws/Brain_DEI/brain/install/unix_out/lib/unix_out
+[3.715s] Installing lidar_to_socket script to /uros_ws/Brain_DEI/brain/install/unix_out/lib/unix_out
+[3.715s] Installing metrics_to_socket script to /uros_ws/Brain_DEI/brain/install/unix_out/lib/unix_out
+[3.716s] writing list of installed files to '/uros_ws/Brain_DEI/brain/build/unix_out/install.log'
+[3.831s] Invoked command in '/uros_ws/Brain_DEI/brain/src/unix_out' returned '0': PYTHONPATH=/uros_ws/Brain_DEI/brain/build/unix_out/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/uros_ws/Brain_DEI/brain/install/unix_out/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/unix_out/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/output/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages:/uros_ws/install/micro_ros_msgs/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/unix_out build --build-base /uros_ws/Brain_DEI/brain/build/unix_out/build install --record /uros_ws/Brain_DEI/brain/build/unix_out/install.log --single-version-externally-managed install_data

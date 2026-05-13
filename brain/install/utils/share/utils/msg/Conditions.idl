@@ -1,1 +1,20 @@
-/home/hisham/BFMC/Brain_DEI/brain/build/utils/rosidl_adapter/utils/msg/Conditions.idl
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from utils/msg/Conditions.msg
+// generated code does not contain a copyright notice
+
+
+module utils {
+  module msg {
+    struct Conditions {
+      boolean can_overtake;
+
+      boolean highway;
+
+      boolean car_on_path;
+
+      boolean rerouting;
+
+      boolean tunnel;
+    };
+  };
+};

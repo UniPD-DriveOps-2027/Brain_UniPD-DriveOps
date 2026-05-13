@@ -1,0 +1,19 @@
+[3.112s] Invoking command in '/uros_ws/Brain_DEI/brain/src/smart/output': AMENT_PREFIX_PATH=/uros_ws/Brain_DEI/brain/install/utils:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/uros_ws/Brain_DEI/brain/install/utils:${CMAKE_PREFIX_PATH} LD_LIBRARY_PATH=/uros_ws/Brain_DEI/brain/install/utils/lib:${LD_LIBRARY_PATH} PYTHONPATH=/uros_ws/Brain_DEI/brain/build/output/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/uros_ws/Brain_DEI/brain/install/output/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../../build/output build --build-base /uros_ws/Brain_DEI/brain/build/output/build install --record /uros_ws/Brain_DEI/brain/build/output/install.log --single-version-externally-managed install_data
+[3.749s] running egg_info
+[3.792s] writing ../../../build/output/output.egg-info/PKG-INFO
+[3.793s] writing dependency_links to ../../../build/output/output.egg-info/dependency_links.txt
+[3.794s] writing requirements to ../../../build/output/output.egg-info/requires.txt
+[3.795s] writing top-level names to ../../../build/output/output.egg-info/top_level.txt
+[3.887s] reading manifest file '../../../build/output/output.egg-info/SOURCES.txt'
+[3.889s] writing manifest file '../../../build/output/output.egg-info/SOURCES.txt'
+[3.889s] running build
+[3.889s] running build_py
+[3.892s] running install
+[3.907s] running install_lib
+[3.956s] running install_data
+[3.956s] running install_egg_info
+[4.005s] removing '/uros_ws/Brain_DEI/brain/install/output/lib/python3.12/site-packages/output-0.0.0-py3.12.egg-info' (and everything under it)
+[4.006s] Copying ../../../build/output/output.egg-info to /uros_ws/Brain_DEI/brain/install/output/lib/python3.12/site-packages/output-0.0.0-py3.12.egg-info
+[4.009s] running install_scripts
+[4.326s] writing list of installed files to '/uros_ws/Brain_DEI/brain/build/output/install.log'
+[4.438s] Invoked command in '/uros_ws/Brain_DEI/brain/src/smart/output' returned '0': AMENT_PREFIX_PATH=/uros_ws/Brain_DEI/brain/install/utils:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/uros_ws/Brain_DEI/brain/install/utils:${CMAKE_PREFIX_PATH} LD_LIBRARY_PATH=/uros_ws/Brain_DEI/brain/install/utils/lib:${LD_LIBRARY_PATH} PYTHONPATH=/uros_ws/Brain_DEI/brain/build/output/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/uros_ws/Brain_DEI/brain/install/output/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../../build/output build --build-base /uros_ws/Brain_DEI/brain/build/output/build install --record /uros_ws/Brain_DEI/brain/build/output/install.log --single-version-externally-managed install_data

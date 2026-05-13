@@ -1,1 +1,66 @@
-/home/hisham/BFMC/Brain_DEI/brain/build/utils/rosidl_generator_type_description/utils/msg/TopicInfo.json
+{
+  "type_description_msg": {
+    "type_description": {
+      "type_name": "utils/msg/TopicInfo",
+      "fields": [
+        {
+          "name": "topic_id",
+          "type": {
+            "type_id": 5,
+            "capacity": 0,
+            "string_capacity": 0,
+            "nested_type_name": ""
+          },
+          "default_value": ""
+        },
+        {
+          "name": "topic_name",
+          "type": {
+            "type_id": 17,
+            "capacity": 0,
+            "string_capacity": 0,
+            "nested_type_name": ""
+          },
+          "default_value": ""
+        },
+        {
+          "name": "message_type",
+          "type": {
+            "type_id": 17,
+            "capacity": 0,
+            "string_capacity": 0,
+            "nested_type_name": ""
+          },
+          "default_value": ""
+        },
+        {
+          "name": "md5sum",
+          "type": {
+            "type_id": 17,
+            "capacity": 0,
+            "string_capacity": 0,
+            "nested_type_name": ""
+          },
+          "default_value": ""
+        },
+        {
+          "name": "buffer_size",
+          "type": {
+            "type_id": 6,
+            "capacity": 0,
+            "string_capacity": 0,
+            "nested_type_name": ""
+          },
+          "default_value": ""
+        }
+      ]
+    },
+    "referenced_type_descriptions": []
+  },
+  "type_hashes": [
+    {
+      "type_name": "utils/msg/TopicInfo",
+      "hash_string": "RIHS01_e65f05e222ae3c222f5b22d83a14d0c2e5b6dabf17f6058cb9b940f692d68670"
+    }
+  ]
+}

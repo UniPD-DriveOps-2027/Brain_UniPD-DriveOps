@@ -1,1 +1,12 @@
-/home/hisham/BFMC/Brain_DEI/brain/build/utils/rosidl_generator_cpp/utils/msg/semaphore.hpp
+// generated from rosidl_generator_cpp/resource/idl.hpp.em
+// generated code does not contain a copyright notice
+
+#ifndef UTILS__MSG__SEMAPHORE_HPP_
+#define UTILS__MSG__SEMAPHORE_HPP_
+
+#include "utils/msg/detail/semaphore__struct.hpp"
+#include "utils/msg/detail/semaphore__builder.hpp"
+#include "utils/msg/detail/semaphore__traits.hpp"
+#include "utils/msg/detail/semaphore__type_support.hpp"
+
+#endif  // UTILS__MSG__SEMAPHORE_HPP_

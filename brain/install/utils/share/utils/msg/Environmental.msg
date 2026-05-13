@@ -1,1 +1,3 @@
-/home/hisham/BFMC/Brain_DEI/brain/src/utils/msg/Environmental.msg
+uint8 obstacle_id
+float32 x
+float32 y

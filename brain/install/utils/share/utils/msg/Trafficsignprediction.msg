@@ -1,1 +1,2 @@
-/home/hisham/BFMC/Brain_DEI/brain/src/utils/msg/Trafficsignprediction.msg
+string prediction
+float32 conf
