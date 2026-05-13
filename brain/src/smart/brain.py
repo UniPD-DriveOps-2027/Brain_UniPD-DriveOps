@@ -1930,7 +1930,7 @@ class Brain:
             if self.curr_sign != prev_sign and self.curr_sign != nac.NO_SIGN:
                 self.env.publish_obstacle(
                     self.curr_sign, self.car.x_est, self.car.y_est)
-                print(f'SIGN: {self.curr_sign}')
+                print(f'SIGN LESGOOO DRIVEOPS: {self.curr_sign}')
     """
     def control_for_signs(self): # we dont do, either do it or delete it 
         prev_sign = self.curr_sign
