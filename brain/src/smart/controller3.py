@@ -16,7 +16,7 @@ NOISE_RESET_STD = 8  # frames max "deviation"
 
 
 class Controller():
-    def _init_(self, k1=1.0, k2=1.0, k3=1.0, k3_NL=1.0, k3D=0.01, dist_point_ahead=0.35,
+    def __init__(self, k1=1.0, k2=1.0, k3=1.0, k3_NL=1.0, k3D=0.01, dist_point_ahead=0.35,
                  ff=0.2, cm_ahead=35, folder='training_imgs',
                  training=False, noise_std=np.deg2rad(20)):
 

@@ -14,11 +14,11 @@ class Maneuvers():
 
         # PARALLEL PARKING
         # parking spot dimensions
-        self.park_pl_length = 0.7
+        self.park_pl_length = 0.6
 
         # midpoint coords in the local reference frame
         # self.park_pl_midpoint_dist = 0.4106
-        self.park_pl_midpoint_dist = 0.45
+        self.park_pl_midpoint_dist = 0.3
         # self.park_pl_midpoint_x = 0.169# [m]
         # self.park_pl_midpoint_y = -0.40# [m]
         # self.park_pl_midpoint_yaw = np.deg2rad(-40.0)# [rad]
@@ -32,12 +32,12 @@ class Maneuvers():
         self.park_pl_align_right = 14.0  # [deg]
         self.park_pl_align_left = -14.0  # [deg]
 
-        self.distance1 = -0.55
-        self.distance2 = -0.43  
-        self.distance3 = 0.18
+        self.distance1 = -0.5
+        self.distance2 = -0.53  
+        self.distance3 = 0.05
         self.distance4 = -0.18 
-        self.distance5 = 0.43 
-        self.distance6 = 0.55
+        self.distance5 = 0.3 
+        self.distance6 = 0.3
 
         
     def parallel_parking_on_distance(self, car, side=nac.RIGHT_PARK):
