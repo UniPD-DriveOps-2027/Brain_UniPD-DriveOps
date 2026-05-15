@@ -56,6 +56,20 @@ def generate_launch_description():
         #     output='screen',
         # ),
 
+        # ── OAK camera pipeline ────────────────────────────────────────── #
+        Node(
+            package='smart',
+            executable='oak_camera_node',
+            name='oak_camera_node',
+            output='screen',
+        ),
+        Node(
+            package='smart',
+            executable='panorama_gray_node',
+            name='panorama_gray_node',
+            output='screen',
+        ),
+
         # ── Unix socket outputs ────────────────────────────────────────── #
         Node(
             package='unix_out',

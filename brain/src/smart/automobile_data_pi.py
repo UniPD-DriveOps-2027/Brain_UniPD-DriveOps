@@ -4,6 +4,7 @@ automobile_data_pi.py — ROS2 Jazzy
 All publishers, subscribers, and callbacks for the physical car.
 """
 
+import json
 import rclpy
 from rclpy.node import Node
 import collections
@@ -54,6 +55,10 @@ class AutomobileDataPi(Automobile_Data, Node):
         self.reachedPosition                = False
         self.obstacle_buffer                = collections.deque(maxlen=CLASSIFY_DEQUE_LENGTH)
         self.sign_buffer                    = collections.deque(maxlen=CLASSIFY_DEQUE_LENGTH)
+        # Traffic sign detection from OAK camera node (/traffic/detection)
+        self.traffic_sign            = 'NO_sign'
+        self.traffic_sign_confidence = 0.0
+        self.traffic_sign_distance_m = -1.0
         self.is_position_reliable           = True
         self.estimation_last_encoder_distance = 0.0
         self.estimation_last_yaw_est        = 0.0
@@ -123,6 +128,12 @@ class AutomobileDataPi(Automobile_Data, Node):
                 UInt8, '/automobile/tof/front', self.center_tof_callback, 1)
             self.sub_tof_left   = self.create_subscription(
                 UInt8, '/automobile/tof/left',  self.left_tof_callback,   1)
+
+        # OAK camera traffic sign detection — always subscribe
+        self.sub_traffic_det  = self.create_subscription(
+            String,  '/traffic/detection', self._traffic_detection_cb, 10)
+        self.sub_traffic_dist = self.create_subscription(
+            Float32, '/traffic/distance',  self._traffic_distance_cb,  10)
 
     # ═══════════════════════════════════════════════════════════════════ #
     #  SENSOR CALLBACKS                                                   #
@@ -199,6 +210,24 @@ class AutomobileDataPi(Automobile_Data, Node):
         self.obstacle = data.data
         self.obstacle_buffer.append(self.obstacle)
         self.filtered_obstacle = np.median(self.obstacle_buffer)
+
+    def _traffic_detection_cb(self, msg: String) -> None:
+        """Sign detected — update from oak_camera_node /traffic/detection JSON."""
+        try:
+            payload = json.loads(msg.data)
+            self.traffic_sign            = payload.get('sign', 'NO_sign')
+            self.traffic_sign_confidence = float(payload.get('confidence', 0.0))
+            self.traffic_sign_distance_m = float(payload.get('distance_m') or -1.0)
+            print(f'[SIGN] detected: {self.traffic_sign}  conf={self.traffic_sign_confidence:.2f}  dist={self.traffic_sign_distance_m:.2f}m')
+        except Exception as e:
+            print(f'[TRAFFIC DET] parse error: {e}')
+
+    def _traffic_distance_cb(self, msg: Float32) -> None:
+        """Published at 20 Hz by oak_camera_node — -1.0 when no sign in frame."""
+        if msg.data < 0:
+            self.traffic_sign            = 'NO_sign'
+            self.traffic_sign_confidence = 0.0
+            self.traffic_sign_distance_m = -1.0
 
     def sign_callback(self, data) -> None:
         self.sign = data.data

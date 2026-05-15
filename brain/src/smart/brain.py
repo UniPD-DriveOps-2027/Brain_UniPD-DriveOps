@@ -1867,27 +1867,21 @@ class Brain:
 
     def control_for_signs(self):
         prev_sign = self.curr_sign
-        return
         if not self.conditions[nac.REROUTING]:
-            # Use signs    
-            # TODO remove it and use better detection
-            sign, confidence = self.detect.detect_sign(self.car.frame,
-                                              show_ROI=SHOW_IMGS,
-                                              show_kp=SHOW_IMGS)
+            sign       = self.car.traffic_sign
+            confidence = self.car.traffic_sign_confidence
+
             if sign != nac.NO_SIGN and sign != self.curr_sign:
                 self.curr_sign = sign
                 self.curr_sign_confidence = confidence
-            
-            if self.curr_sign == 'stop' or self.curr_sign == 'priority':
-                if self.curr_sign_confidence < 0.80:
-                    self.curr_sign = nac.NO_SIGN
 
-            #print(f'Current sign: {self.curr_sign}, confidence: {self.curr_sign_confidence}')
+            if self.curr_sign in ('stop', 'priority') and self.curr_sign_confidence < 0.80:
+                self.curr_sign = nac.NO_SIGN
 
-            # publish sign
-            if self.curr_sign != prev_sign and self.curr_sign != nac.NO_SIGN:
-                self.env.publish_obstacle(self.curr_sign, self.car.x_est, self.car.y_est)
-                print(f'SIGN: {self.curr_sign}')
+            if self.curr_sign != prev_sign:
+                print(f'[SIGN] curr_sign changed: {prev_sign} -> {self.curr_sign}  (conf={self.curr_sign_confidence:.2f})')
+                if self.curr_sign != nac.NO_SIGN:
+                    self.env.publish_obstacle(self.curr_sign, self.car.x_est, self.car.y_est)
     """
     def control_for_signs(self): # we dont do, either do it or delete it 
         prev_sign = self.curr_sign

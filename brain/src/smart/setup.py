@@ -8,7 +8,7 @@ setup(
     name=package_name,
     version='0.0.0',
     packages=[],
-    py_modules=['oak_camera_node'],   # expose top-level scripts as importable modules
+    py_modules=['oak_camera_node', 'panorama_gray_node'],
     data_files=[
         ('share/ament_index/resource_index/packages', ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
@@ -23,6 +23,7 @@ setup(
     entry_points={
         'console_scripts': [
             'oak_camera_node = oak_camera_node:main',
+            'panorama_gray_node = panorama_gray_node:main',
         ],
     },
 )
