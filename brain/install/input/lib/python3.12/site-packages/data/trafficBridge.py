@@ -37,7 +37,7 @@ from data.TrafficCommunication.useful.sharedMem import sharedMem
 # ── Config ───────────────────────────────────────────────────────────── #
 DEVICE_ID = 1          # Change to your car's ID (shown on the localization device)
 FREQUENCY = 1.0        # Position update frequency in seconds (0.1–5.0)
-KEY_PATH  = 'src/input/src/data/TrafficCommunication/useful/publickey_server_test.pem'
+KEY_PATH  = 'src/input/src/data/TrafficCommunication/useful/publickey_server.pem'
 # At competition use: 'src/input/src/data/TrafficCommunication/useful/publickey_server.pem'
 
 # msgID from allMessages.py
