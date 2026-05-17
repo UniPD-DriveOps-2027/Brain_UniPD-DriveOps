@@ -257,7 +257,7 @@ WHEEL_LEN = 0.03
 
 # STOPLINES
 STOPLINE_APPROACH_DISTANCE = 0.4   # 0.4
-STOPLINE_STOP_DISTANCE = 0.05      # 0.15 simulation       # 0.1 #in the true map
+STOPLINE_STOP_DISTANCE = 0.3      # 0.15 simulation       # 0.1 #in the true map
 assert STOPLINE_STOP_DISTANCE <= STOPLINE_APPROACH_DISTANCE
 
 # <++>
