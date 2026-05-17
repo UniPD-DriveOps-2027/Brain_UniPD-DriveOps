@@ -545,7 +545,7 @@ class Detection:
         Subscriber is created lazily on the first call.
         """
         # --- Lazy subscriber init (only runs once) ---
-        sensor_weight=0.6
+        sensor_weight=1
         if not hasattr(self, '_distance_sub'):
             self._sensor_distance = None
             self._distance_sub = self.create_subscription(
