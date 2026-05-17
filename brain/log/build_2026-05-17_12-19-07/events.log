@@ -1,0 +1,540 @@
+[0.000000] (-) TimerEvent: {}
+[0.000703] (smart) JobQueued: {'identifier': 'smart', 'dependencies': OrderedDict()}
+[0.001255] (utils) JobQueued: {'identifier': 'utils', 'dependencies': OrderedDict()}
+[0.001522] (input) JobQueued: {'identifier': 'input', 'dependencies': OrderedDict({'utils': '/uros_ws/Brain_DEI/brain/install/utils'})}
+[0.001831] (unix_out) JobQueued: {'identifier': 'unix_out', 'dependencies': OrderedDict({'utils': '/uros_ws/Brain_DEI/brain/install/utils'})}
+[0.001945] (utils) JobStarted: {'identifier': 'utils'}
+[0.015634] (smart) JobStarted: {'identifier': 'smart'}
+[0.031688] (utils) JobProgress: {'identifier': 'utils', 'progress': 'cmake'}
+[0.033054] (utils) JobProgress: {'identifier': 'utils', 'progress': 'build'}
+[0.034252] (utils) Command: {'cmd': ['/usr/bin/cmake', '--build', '/uros_ws/Brain_DEI/brain/build/utils', '--', '-j6', '-l6'], 'cwd': '/uros_ws/Brain_DEI/brain/build/utils', 'env': OrderedDict({'LESSOPEN': '| /usr/bin/lesspipe %s', 'HOSTNAME': 'ubuntu', 'SHLVL': '1', 'LD_LIBRARY_PATH': '/uros_ws/Brain_DEI/brain/install/utils/lib:/uros_ws/install/micro_ros_agent/lib:/uros_ws/install/micro_ros_msgs/lib:/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/aarch64-linux-gnu:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib', 'HOME': '/root', 'OLDPWD': '/uros_ws', 'MICROROS_DISABLE_SHM': '1', 'ROS_PYTHON_VERSION': '3', 'COLCON_PREFIX_PATH': '/uros_ws/Brain_DEI/brain/install:/uros_ws/install', 'ROS_DISTRO': 'jazzy', 'IGN_GAZEBO_MODEL_PATH': '/opt/ros/jazzy/share', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'TERM': 'xterm', 'GAZEBO_MODEL_PATH': '/opt/ros/jazzy/share', 'PATH': '/opt/ros/jazzy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin', 'LANG': 'C.UTF-8', 'RMW_IMPLEMENTATION': 'rmw_fastrtps_cpp', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:', 'AMENT_PREFIX_PATH': '/uros_ws/Brain_DEI/brain/install/unix_out:/uros_ws/Brain_DEI/brain/install/input:/uros_ws/Brain_DEI/brain/install/utils:/uros_ws/Brain_DEI/brain/install/smart:/uros_ws/install/micro_ros_agent:/uros_ws/install/micro_ros_msgs:/opt/ros/jazzy', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'IGN_GAZEBO_RESOURCE_PATH': '/opt/ros/jazzy/share', 'GAZEBO_RESOURCE_PATH': '/opt/ros/jazzy/share', 'ROS_AUTOMATIC_DISCOVERY_RANGE': 'SUBNET', 'PWD': '/uros_ws/Brain_DEI/brain/build/utils', 'LC_ALL': 'C.UTF-8', 'PYTHONPATH': '/uros_ws/Brain_DEI/brain/install/unix_out/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/smart/lib/python3.12/site-packages:/uros_ws/install/micro_ros_msgs/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages', 'COLCON': '1', 'CMAKE_PREFIX_PATH': '/uros_ws/Brain_DEI/brain/install/utils:/uros_ws/install/micro_ros_agent:/uros_ws/install/micro_ros_msgs:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor:/uros_ws/Brain_DEI/brain/install/unix_out:/uros_ws/Brain_DEI/brain/install/input:/uros_ws/Brain_DEI/brain/install/smart:/opt/ros/jazzy'}), 'shell': False}
+[0.099293] (-) TimerEvent: {}
+[0.168305] (utils) StdoutLine: {'line': b'[  1%] Built target utils__rosidl_generator_type_description\n'}
+[0.199581] (-) TimerEvent: {}
+[0.204187] (utils) StdoutLine: {'line': b'[  1%] Built target ament_cmake_python_copy_utils\n'}
+[0.229841] (utils) StdoutLine: {'line': b'[  1%] Built target utils__cpp\n'}
+[0.262417] (utils) StdoutLine: {'line': b'[ 27%] Built target utils__rosidl_generator_c\n'}
+[0.299746] (-) TimerEvent: {}
+[0.400338] (-) TimerEvent: {}
+[0.463092] (utils) StdoutLine: {'line': b'[ 37%] Built target utils__rosidl_typesupport_c\n'}
+[0.464952] (utils) StdoutLine: {'line': b'[ 47%] Built target utils__rosidl_typesupport_introspection_cpp\n'}
+[0.493222] (utils) StdoutLine: {'line': b'[ 57%] Built target utils__rosidl_typesupport_fastrtps_cpp\n'}
+[0.500542] (-) TimerEvent: {}
+[0.514363] (utils) StdoutLine: {'line': b'[ 67%] Built target utils__rosidl_typesupport_fastrtps_c\n'}
+[0.519448] (utils) StdoutLine: {'line': b'[ 76%] Built target utils__rosidl_typesupport_cpp\n'}
+[0.540459] (utils) StdoutLine: {'line': b'[ 85%] Built target utils__rosidl_typesupport_introspection_c\n'}
+[0.587448] (utils) StdoutLine: {'line': b'[ 85%] Built target utils\n'}
+[0.600727] (-) TimerEvent: {}
+[0.645606] (utils) StdoutLine: {'line': b'[ 86%] Built target utils__py\n'}
+[0.701281] (-) TimerEvent: {}
+[0.720049] (utils) StdoutLine: {'line': b'[ 95%] Built target utils__rosidl_generator_py\n'}
+[0.794185] (utils) StdoutLine: {'line': b'[ 97%] Built target utils_s__rosidl_typesupport_c\n'}
+[0.795624] (utils) StdoutLine: {'line': b'[ 99%] Built target utils_s__rosidl_typesupport_introspection_c\n'}
+[0.801434] (-) TimerEvent: {}
+[0.813752] (utils) StdoutLine: {'line': b'[100%] Built target utils_s__rosidl_typesupport_fastrtps_c\n'}
+[0.900026] (utils) StdoutLine: {'line': b'running egg_info\n'}
+[0.901548] (-) TimerEvent: {}
+[0.945720] (utils) StdoutLine: {'line': b'writing utils.egg-info/PKG-INFO\n'}
+[0.946607] (utils) StdoutLine: {'line': b'writing dependency_links to utils.egg-info/dependency_links.txt\n'}
+[0.947118] (utils) StdoutLine: {'line': b'writing top-level names to utils.egg-info/top_level.txt\n'}
+[1.001790] (-) TimerEvent: {}
+[1.073507] (utils) StdoutLine: {'line': b"reading manifest file 'utils.egg-info/SOURCES.txt'\n"}
+[1.075162] (utils) StdoutLine: {'line': b"writing manifest file 'utils.egg-info/SOURCES.txt'\n"}
+[1.102387] (-) TimerEvent: {}
+[1.172421] (utils) StdoutLine: {'line': b'[100%] Built target ament_cmake_python_build_utils_egg\n'}
+[1.204364] (-) TimerEvent: {}
+[1.208752] (utils) CommandEnded: {'returncode': 0}
+[1.209821] (utils) JobProgress: {'identifier': 'utils', 'progress': 'install'}
+[1.228668] (utils) Command: {'cmd': ['/usr/bin/cmake', '--install', '/uros_ws/Brain_DEI/brain/build/utils'], 'cwd': '/uros_ws/Brain_DEI/brain/build/utils', 'env': OrderedDict({'LESSOPEN': '| /usr/bin/lesspipe %s', 'HOSTNAME': 'ubuntu', 'SHLVL': '1', 'LD_LIBRARY_PATH': '/uros_ws/Brain_DEI/brain/install/utils/lib:/uros_ws/install/micro_ros_agent/lib:/uros_ws/install/micro_ros_msgs/lib:/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/aarch64-linux-gnu:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib', 'HOME': '/root', 'OLDPWD': '/uros_ws', 'MICROROS_DISABLE_SHM': '1', 'ROS_PYTHON_VERSION': '3', 'COLCON_PREFIX_PATH': '/uros_ws/Brain_DEI/brain/install:/uros_ws/install', 'ROS_DISTRO': 'jazzy', 'IGN_GAZEBO_MODEL_PATH': '/opt/ros/jazzy/share', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'TERM': 'xterm', 'GAZEBO_MODEL_PATH': '/opt/ros/jazzy/share', 'PATH': '/opt/ros/jazzy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin', 'LANG': 'C.UTF-8', 'RMW_IMPLEMENTATION': 'rmw_fastrtps_cpp', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:', 'AMENT_PREFIX_PATH': '/uros_ws/Brain_DEI/brain/install/unix_out:/uros_ws/Brain_DEI/brain/install/input:/uros_ws/Brain_DEI/brain/install/utils:/uros_ws/Brain_DEI/brain/install/smart:/uros_ws/install/micro_ros_agent:/uros_ws/install/micro_ros_msgs:/opt/ros/jazzy', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'IGN_GAZEBO_RESOURCE_PATH': '/opt/ros/jazzy/share', 'GAZEBO_RESOURCE_PATH': '/opt/ros/jazzy/share', 'ROS_AUTOMATIC_DISCOVERY_RANGE': 'SUBNET', 'PWD': '/uros_ws/Brain_DEI/brain/build/utils', 'LC_ALL': 'C.UTF-8', 'PYTHONPATH': '/uros_ws/Brain_DEI/brain/install/unix_out/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/smart/lib/python3.12/site-packages:/uros_ws/install/micro_ros_msgs/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages', 'COLCON': '1', 'CMAKE_PREFIX_PATH': '/uros_ws/Brain_DEI/brain/install/utils:/uros_ws/install/micro_ros_agent:/uros_ws/install/micro_ros_msgs:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor:/uros_ws/Brain_DEI/brain/install/unix_out:/uros_ws/Brain_DEI/brain/install/input:/uros_ws/Brain_DEI/brain/install/smart:/opt/ros/jazzy'}), 'shell': False}
+[1.261713] (utils) StdoutLine: {'line': b'-- Install configuration: ""\n'}
+[1.263089] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/ament_index/resource_index/rosidl_interfaces/utils\n'}
+[1.263494] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/IMU.json\n'}
+[1.263848] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/Localisation.json\n'}
+[1.264226] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/Vehicles.json\n'}
+[1.264562] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/Environmental.json\n'}
+[1.264893] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/Log.json\n'}
+[1.265219] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/TopicInfo.json\n'}
+[1.265544] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/Semaphore.json\n'}
+[1.265861] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/Conditions.json\n'}
+[1.266176] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/Trafficsignprediction.json\n'}
+[1.271224] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/srv/Subscribing.json\n'}
+[1.275764] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/srv/RequestParam.json\n'}
+[1.276746] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils\n'}
+[1.277597] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv\n'}
+[1.278294] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/subscribing.h\n'}
+[1.279104] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/request_param.h\n'}
+[1.283252] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail\n'}
+[1.283697] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/subscribing__description.c\n'}
+[1.284135] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/subscribing__functions.c\n'}
+[1.284763] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/request_param__functions.h\n'}
+[1.285083] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/subscribing__functions.h\n'}
+[1.285489] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/request_param__functions.c\n'}
+[1.291277] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/subscribing__type_support.h\n'}
+[1.291790] (utils) StdoutLine: {'line': b'-- Installing: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/subscribing__type_support.c\n'}
+[1.292089] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/subscribing__struct.h\n'}
+[1.292366] (utils) StdoutLine: {'line': b'-- Installing: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/request_param__type_support.c\n'}
+[1.292627] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/request_param__description.c\n'}
+[1.292883] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/request_param__type_support.h\n'}
+[1.293133] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/request_param__struct.h\n'}
+[1.293378] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg\n'}
+[1.293624] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/vehicles.h\n'}
+[1.294114] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/semaphore.h\n'}
+[1.294467] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/trafficsignprediction.h\n'}
+[1.294735] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/localisation.h\n'}
+[1.295031] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail\n'}
+[1.295281] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/trafficsignprediction__functions.c\n'}
+[1.295547] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/localisation__functions.c\n'}
+[1.295799] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/imu__functions.c\n'}
+[1.296050] (utils) StdoutLine: {'line': b'-- Installing: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/imu__type_support.c\n'}
+[1.296299] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/conditions__functions.h\n'}
+[1.301158] (utils) StdoutLine: {'line': b'-- Installing: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/trafficsignprediction__type_support.c\n'}
+[1.301880] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/conditions__description.c\n'}
+[1.302163] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/imu__struct.h\n'}
+[1.302465] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/vehicles__description.c\n'}
+[1.302730] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/topic_info__type_support.h\n'}
+[1.302973] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/vehicles__struct.h\n'}
+[1.305940] (-) TimerEvent: {}
+[1.306273] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/localisation__description.c\n'}
+[1.307945] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/semaphore__description.c\n'}
+[1.308626] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/topic_info__functions.c\n'}
+[1.310098] (utils) StdoutLine: {'line': b'-- Installing: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/semaphore__type_support.c\n'}
+[1.311420] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/semaphore__functions.h\n'}
+[1.311686] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/log__functions.c\n'}
+[1.311915] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/imu__functions.h\n'}
+[1.312139] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/localisation__functions.h\n'}
+[1.312538] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/trafficsignprediction__type_support.h\n'}
+[1.312774] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/vehicles__type_support.h\n'}
+[1.313036] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/log__functions.h\n'}
+[1.313257] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/semaphore__functions.c\n'}
+[1.313489] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/imu__description.c\n'}
+[1.313699] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/conditions__type_support.h\n'}
+[1.314074] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/topic_info__description.c\n'}
+[1.314315] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/conditions__functions.c\n'}
+[1.320220] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/vehicles__functions.c\n'}
+[1.320531] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/trafficsignprediction__functions.h\n'}
+[1.320772] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/semaphore__type_support.h\n'}
+[1.321003] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/vehicles__functions.h\n'}
+[1.321229] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/log__type_support.h\n'}
+[1.321450] (utils) StdoutLine: {'line': b'-- Installing: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/environmental__type_support.c\n'}
+[1.321667] (utils) StdoutLine: {'line': b'-- Installing: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/log__type_support.c\n'}
+[1.321924] (utils) StdoutLine: {'line': b'-- Installing: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/conditions__type_support.c\n'}
+[1.322139] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/conditions__struct.h\n'}
+[1.322353] (utils) StdoutLine: {'line': b'-- Installing: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/localisation__type_support.c\n'}
+[1.322678] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/trafficsignprediction__description.c\n'}
+[1.322887] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/environmental__type_support.h\n'}
+[1.323124] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/topic_info__struct.h\n'}
+[1.323331] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/topic_info__functions.h\n'}
+[1.323537] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/environmental__functions.h\n'}
+[1.323736] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/localisation__struct.h\n'}
+[1.323932] (utils) StdoutLine: {'line': b'-- Installing: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/topic_info__type_support.c\n'}
+[1.324121] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/environmental__struct.h\n'}
+[1.324318] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/semaphore__struct.h\n'}
+[1.324511] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/imu__type_support.h\n'}
+[1.324722] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/log__struct.h\n'}
+[1.324923] (utils) StdoutLine: {'line': b'-- Installing: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/vehicles__type_support.c\n'}
+[1.325185] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/localisation__type_support.h\n'}
+[1.325507] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/environmental__functions.c\n'}
+[1.325782] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/log__description.c\n'}
+[1.326047] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/trafficsignprediction__struct.h\n'}
+[1.326313] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/environmental__description.c\n'}
+[1.326628] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/environmental.h\n'}
+[1.326909] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/conditions.h\n'}
+[1.327177] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/rosidl_generator_c__visibility_control.h\n'}
+[1.327449] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/imu.h\n'}
+[1.327716] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/topic_info.h\n'}
+[1.327983] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/log.h\n'}
+[1.328244] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/environment/library_path.sh\n'}
+[1.328501] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/environment/library_path.dsv\n'}
+[1.328766] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/libutils__rosidl_generator_c.so\n'}
+[1.329027] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils\n'}
+[1.329283] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv\n'}
+[1.329543] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail\n'}
+[1.329796] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/subscribing__rosidl_typesupport_fastrtps_c.h\n'}
+[1.330056] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/request_param__rosidl_typesupport_fastrtps_c.h\n'}
+[1.330310] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg\n'}
+[1.330609] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/rosidl_typesupport_fastrtps_c__visibility_control.h\n'}
+[1.330919] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail\n'}
+[1.331175] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/vehicles__rosidl_typesupport_fastrtps_c.h\n'}
+[1.331453] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/imu__rosidl_typesupport_fastrtps_c.h\n'}
+[1.331750] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/topic_info__rosidl_typesupport_fastrtps_c.h\n'}
+[1.332006] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/trafficsignprediction__rosidl_typesupport_fastrtps_c.h\n'}
+[1.332254] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/conditions__rosidl_typesupport_fastrtps_c.h\n'}
+[1.332518] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/log__rosidl_typesupport_fastrtps_c.h\n'}
+[1.332748] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/localisation__rosidl_typesupport_fastrtps_c.h\n'}
+[1.332973] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/environmental__rosidl_typesupport_fastrtps_c.h\n'}
+[1.333196] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/semaphore__rosidl_typesupport_fastrtps_c.h\n'}
+[1.333424] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/libutils__rosidl_typesupport_fastrtps_c.so\n'}
+[1.333650] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils\n'}
+[1.333874] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv\n'}
+[1.334094] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail\n'}
+[1.334319] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/request_param__rosidl_typesupport_introspection_c.h\n'}
+[1.334891] (utils) StdoutLine: {'line': b'-- Installing: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/subscribing__type_support.c\n'}
+[1.335548] (utils) StdoutLine: {'line': b'-- Installing: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/request_param__type_support.c\n'}
+[1.335875] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/subscribing__rosidl_typesupport_introspection_c.h\n'}
+[1.336153] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg\n'}
+[1.336428] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/rosidl_typesupport_introspection_c__visibility_control.h\n'}
+[1.336671] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail\n'}
+[1.336905] (utils) StdoutLine: {'line': b'-- Installing: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/imu__type_support.c\n'}
+[1.337138] (utils) StdoutLine: {'line': b'-- Installing: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/trafficsignprediction__type_support.c\n'}
+[1.337485] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/topic_info__rosidl_typesupport_introspection_c.h\n'}
+[1.337810] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/trafficsignprediction__rosidl_typesupport_introspection_c.h\n'}
+[1.338121] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/localisation__rosidl_typesupport_introspection_c.h\n'}
+[1.338463] (utils) StdoutLine: {'line': b'-- Installing: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/semaphore__type_support.c\n'}
+[1.338771] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/imu__rosidl_typesupport_introspection_c.h\n'}
+[1.339106] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/conditions__rosidl_typesupport_introspection_c.h\n'}
+[1.339381] (utils) StdoutLine: {'line': b'-- Installing: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/environmental__type_support.c\n'}
+[1.339616] (utils) StdoutLine: {'line': b'-- Installing: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/log__type_support.c\n'}
+[1.339858] (utils) StdoutLine: {'line': b'-- Installing: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/conditions__type_support.c\n'}
+[1.340126] (utils) StdoutLine: {'line': b'-- Installing: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/localisation__type_support.c\n'}
+[1.340345] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/environmental__rosidl_typesupport_introspection_c.h\n'}
+[1.340836] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/semaphore__rosidl_typesupport_introspection_c.h\n'}
+[1.341126] (utils) StdoutLine: {'line': b'-- Installing: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/topic_info__type_support.c\n'}
+[1.341351] (utils) StdoutLine: {'line': b'-- Installing: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/vehicles__type_support.c\n'}
+[1.341700] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/vehicles__rosidl_typesupport_introspection_c.h\n'}
+[1.341987] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/log__rosidl_typesupport_introspection_c.h\n'}
+[1.342243] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/libutils__rosidl_typesupport_introspection_c.so\n'}
+[1.342498] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/libutils__rosidl_typesupport_c.so\n'}
+[1.342984] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils\n'}
+[1.343228] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv\n'}
+[1.343456] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/subscribing.hpp\n'}
+[1.343686] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/request_param.hpp\n'}
+[1.343919] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail\n'}
+[1.344139] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/request_param__type_support.hpp\n'}
+[1.344366] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/subscribing__traits.hpp\n'}
+[1.344584] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/request_param__traits.hpp\n'}
+[1.344810] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/subscribing__struct.hpp\n'}
+[1.345026] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/request_param__builder.hpp\n'}
+[1.345228] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/subscribing__type_support.hpp\n'}
+[1.345432] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/request_param__struct.hpp\n'}
+[1.345655] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/subscribing__builder.hpp\n'}
+[1.345855] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg\n'}
+[1.346054] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/conditions.hpp\n'}
+[1.346268] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/trafficsignprediction.hpp\n'}
+[1.346593] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/localisation.hpp\n'}
+[1.346820] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/imu.hpp\n'}
+[1.347080] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/vehicles.hpp\n'}
+[1.347283] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/log.hpp\n'}
+[1.347477] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/topic_info.hpp\n'}
+[1.347771] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/rosidl_generator_cpp__visibility_control.hpp\n'}
+[1.347974] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail\n'}
+[1.348171] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/vehicles__type_support.hpp\n'}
+[1.348364] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/vehicles__struct.hpp\n'}
+[1.348613] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/semaphore__builder.hpp\n'}
+[1.348852] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/log__type_support.hpp\n'}
+[1.349050] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/trafficsignprediction__struct.hpp\n'}
+[1.349249] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/conditions__builder.hpp\n'}
+[1.349442] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/topic_info__traits.hpp\n'}
+[1.349774] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/log__builder.hpp\n'}
+[1.349981] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/localisation__builder.hpp\n'}
+[1.350181] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/environmental__traits.hpp\n'}
+[1.350369] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/semaphore__struct.hpp\n'}
+[1.350621] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/imu__type_support.hpp\n'}
+[1.350894] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/imu__builder.hpp\n'}
+[1.351109] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/environmental__builder.hpp\n'}
+[1.351351] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/trafficsignprediction__type_support.hpp\n'}
+[1.351556] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/semaphore__type_support.hpp\n'}
+[1.351805] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/localisation__type_support.hpp\n'}
+[1.352034] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/environmental__struct.hpp\n'}
+[1.352235] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/environmental__type_support.hpp\n'}
+[1.352435] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/conditions__traits.hpp\n'}
+[1.352638] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/localisation__struct.hpp\n'}
+[1.352832] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/trafficsignprediction__traits.hpp\n'}
+[1.353047] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/log__struct.hpp\n'}
+[1.353249] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/conditions__struct.hpp\n'}
+[1.353456] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/conditions__type_support.hpp\n'}
+[1.353655] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/imu__traits.hpp\n'}
+[1.353851] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/imu__struct.hpp\n'}
+[1.354048] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/semaphore__traits.hpp\n'}
+[1.354239] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/topic_info__struct.hpp\n'}
+[1.354440] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/vehicles__traits.hpp\n'}
+[1.354865] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/log__traits.hpp\n'}
+[1.355069] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/topic_info__type_support.hpp\n'}
+[1.355262] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/vehicles__builder.hpp\n'}
+[1.355447] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/topic_info__builder.hpp\n'}
+[1.355726] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/localisation__traits.hpp\n'}
+[1.355926] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/trafficsignprediction__builder.hpp\n'}
+[1.356199] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/semaphore.hpp\n'}
+[1.356486] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/environmental.hpp\n'}
+[1.356949] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils\n'}
+[1.357258] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv\n'}
+[1.357469] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail\n'}
+[1.357662] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/subscribing__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[1.357849] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/dds_fastrtps\n'}
+[1.358042] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/request_param__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[1.358246] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg\n'}
+[1.358501] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h\n'}
+[1.358687] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail\n'}
+[1.358901] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/environmental__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[1.359107] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/vehicles__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[1.359322] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/localisation__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[1.359506] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/log__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[1.359735] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/conditions__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[1.359924] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/semaphore__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[1.360110] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/dds_fastrtps\n'}
+[1.360295] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/trafficsignprediction__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[1.360483] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/imu__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[1.360986] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/topic_info__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[1.363587] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/libutils__rosidl_typesupport_fastrtps_cpp.so\n'}
+[1.364690] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils\n'}
+[1.364955] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv\n'}
+[1.365162] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail\n'}
+[1.365363] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/request_param__type_support.cpp\n'}
+[1.365559] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/subscribing__type_support.cpp\n'}
+[1.365745] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/request_param__rosidl_typesupport_introspection_cpp.hpp\n'}
+[1.365934] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/subscribing__rosidl_typesupport_introspection_cpp.hpp\n'}
+[1.366120] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg\n'}
+[1.366303] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail\n'}
+[1.366511] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/semaphore__type_support.cpp\n'}
+[1.366705] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/localisation__type_support.cpp\n'}
+[1.366898] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/conditions__rosidl_typesupport_introspection_cpp.hpp\n'}
+[1.367088] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/imu__type_support.cpp\n'}
+[1.367273] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/vehicles__rosidl_typesupport_introspection_cpp.hpp\n'}
+[1.367456] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/conditions__type_support.cpp\n'}
+[1.367643] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/vehicles__type_support.cpp\n'}
+[1.367846] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/topic_info__type_support.cpp\n'}
+[1.368032] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/environmental__type_support.cpp\n'}
+[1.368218] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/environmental__rosidl_typesupport_introspection_cpp.hpp\n'}
+[1.368402] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/log__rosidl_typesupport_introspection_cpp.hpp\n'}
+[1.368586] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/imu__rosidl_typesupport_introspection_cpp.hpp\n'}
+[1.368765] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/localisation__rosidl_typesupport_introspection_cpp.hpp\n'}
+[1.368947] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/topic_info__rosidl_typesupport_introspection_cpp.hpp\n'}
+[1.369127] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/semaphore__rosidl_typesupport_introspection_cpp.hpp\n'}
+[1.369305] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/log__type_support.cpp\n'}
+[1.369486] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/trafficsignprediction__type_support.cpp\n'}
+[1.369668] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/trafficsignprediction__rosidl_typesupport_introspection_cpp.hpp\n'}
+[1.369849] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/libutils__rosidl_typesupport_introspection_cpp.so\n'}
+[1.370060] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/libutils__rosidl_typesupport_cpp.so\n'}
+[1.370246] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/environment/pythonpath.sh\n'}
+[1.370441] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/environment/pythonpath.dsv\n'}
+[1.370630] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils-0.0.0-py3.12.egg-info\n'}
+[1.370811] (utils) StdoutLine: {'line': b'-- Installing: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils-0.0.0-py3.12.egg-info/top_level.txt\n'}
+[1.371005] (utils) StdoutLine: {'line': b'-- Installing: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils-0.0.0-py3.12.egg-info/PKG-INFO\n'}
+[1.371193] (utils) StdoutLine: {'line': b'-- Installing: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils-0.0.0-py3.12.egg-info/dependency_links.txt\n'}
+[1.371377] (utils) StdoutLine: {'line': b'-- Installing: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils-0.0.0-py3.12.egg-info/SOURCES.txt\n'}
+[1.371558] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils\n'}
+[1.371743] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/utils_s__rosidl_typesupport_fastrtps_c.so\n'}
+[1.371923] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/__init__.py\n'}
+[1.372105] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/srv\n'}
+[1.372288] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/srv/_subscribing_s.c\n'}
+[1.372476] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/srv/__init__.py\n'}
+[1.372659] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/srv/_request_param.py\n'}
+[1.372839] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/srv/_subscribing.py\n'}
+[1.373018] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/srv/_request_param_s.c\n'}
+[1.373202] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/msg\n'}
+[1.373386] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/msg/__init__.py\n'}
+[1.373567] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/msg/_log.py\n'}
+[1.373751] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/msg/_environmental_s.c\n'}
+[1.373931] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/msg/_vehicles_s.c\n'}
+[1.374114] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/msg/_imu_s.c\n'}
+[1.374293] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/msg/_trafficsignprediction_s.c\n'}
+[1.374501] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/msg/_environmental.py\n'}
+[1.374684] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/msg/_imu.py\n'}
+[1.374871] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/msg/_semaphore.py\n'}
+[1.375059] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/msg/_trafficsignprediction.py\n'}
+[1.375241] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/msg/_conditions_s.c\n'}
+[1.375429] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/msg/_log_s.c\n'}
+[1.375608] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/msg/_topic_info_s.c\n'}
+[1.375786] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/msg/_conditions.py\n'}
+[1.375970] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/msg/_localisation.py\n'}
+[1.376147] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/msg/_topic_info.py\n'}
+[1.376325] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/msg/_semaphore_s.c\n'}
+[1.376505] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/msg/_vehicles.py\n'}
+[1.376687] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/msg/_localisation_s.c\n'}
+[1.376868] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/_utils_s.ep.rosidl_typesupport_c.c\n'}
+[1.377065] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/utils_s__rosidl_typesupport_c.so\n'}
+[1.377246] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/utils_s__rosidl_typesupport_introspection_c.so\n'}
+[1.377433] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/_utils_s.ep.rosidl_typesupport_introspection_c.c\n'}
+[1.377611] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/_utils_s.ep.rosidl_typesupport_fastrtps_c.c\n'}
+[1.388225] (utils) StdoutLine: {'line': b"Listing '/uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils'...\n"}
+[1.388615] (utils) StdoutLine: {'line': b"Listing '/uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/msg'...\n"}
+[1.388836] (utils) StdoutLine: {'line': b"Listing '/uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/srv'...\n"}
+[1.406185] (-) TimerEvent: {}
+[1.408305] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/utils_s__rosidl_typesupport_fastrtps_c.so\n'}
+[1.408987] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/utils_s__rosidl_typesupport_introspection_c.so\n'}
+[1.410549] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/utils_s__rosidl_typesupport_c.so\n'}
+[1.411534] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/libutils__rosidl_generator_py.so\n'}
+[1.412433] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/IMU.idl\n'}
+[1.412848] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/Localisation.idl\n'}
+[1.413214] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/Vehicles.idl\n'}
+[1.413633] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/Environmental.idl\n'}
+[1.414091] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/Log.idl\n'}
+[1.415056] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/TopicInfo.idl\n'}
+[1.415548] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/Semaphore.idl\n'}
+[1.415955] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/Conditions.idl\n'}
+[1.416436] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/Trafficsignprediction.idl\n'}
+[1.416805] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/srv/Subscribing.idl\n'}
+[1.417056] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/srv/RequestParam.idl\n'}
+[1.417541] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/IMU.msg\n'}
+[1.417930] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/Localisation.msg\n'}
+[1.418300] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/Vehicles.msg\n'}
+[1.418680] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/Environmental.msg\n'}
+[1.419223] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/Log.msg\n'}
+[1.419625] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/TopicInfo.msg\n'}
+[1.419988] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/Semaphore.msg\n'}
+[1.420334] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/Conditions.msg\n'}
+[1.420764] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/Trafficsignprediction.msg\n'}
+[1.421134] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/srv/Subscribing.srv\n'}
+[1.421514] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/srv/RequestParam.srv\n'}
+[1.421827] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/launch\n'}
+[1.422147] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/launch/run_automobile.launch.py\n'}
+[1.422511] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/ament_index/resource_index/package_run_dependencies/utils\n'}
+[1.422846] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/ament_index/resource_index/parent_prefix_path/utils\n'}
+[1.423165] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/environment/ament_prefix_path.sh\n'}
+[1.423475] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/environment/ament_prefix_path.dsv\n'}
+[1.423806] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/environment/path.sh\n'}
+[1.424125] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/environment/path.dsv\n'}
+[1.424452] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/local_setup.bash\n'}
+[1.424805] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/local_setup.sh\n'}
+[1.425134] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/local_setup.zsh\n'}
+[1.425446] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/local_setup.dsv\n'}
+[1.425759] (utils) StdoutLine: {'line': b'-- Installing: /uros_ws/Brain_DEI/brain/install/utils/share/utils/package.dsv\n'}
+[1.426158] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/ament_index/resource_index/packages/utils\n'}
+[1.426797] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/export_utils__rosidl_generator_cExport.cmake\n'}
+[1.428168] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/export_utils__rosidl_generator_cExport-noconfig.cmake\n'}
+[1.428571] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/export_utils__rosidl_typesupport_fastrtps_cExport.cmake\n'}
+[1.429002] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/export_utils__rosidl_typesupport_fastrtps_cExport-noconfig.cmake\n'}
+[1.429446] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/utils__rosidl_typesupport_introspection_cExport.cmake\n'}
+[1.429952] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/utils__rosidl_typesupport_introspection_cExport-noconfig.cmake\n'}
+[1.430450] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/utils__rosidl_typesupport_cExport.cmake\n'}
+[1.430840] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/utils__rosidl_typesupport_cExport-noconfig.cmake\n'}
+[1.431080] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/export_utils__rosidl_generator_cppExport.cmake\n'}
+[1.431414] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/export_utils__rosidl_typesupport_fastrtps_cppExport.cmake\n'}
+[1.432073] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/export_utils__rosidl_typesupport_fastrtps_cppExport-noconfig.cmake\n'}
+[1.432349] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/utils__rosidl_typesupport_introspection_cppExport.cmake\n'}
+[1.432633] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/utils__rosidl_typesupport_introspection_cppExport-noconfig.cmake\n'}
+[1.432908] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/utils__rosidl_typesupport_cppExport.cmake\n'}
+[1.433147] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/utils__rosidl_typesupport_cppExport-noconfig.cmake\n'}
+[1.433465] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/export_utils__rosidl_generator_pyExport.cmake\n'}
+[1.433714] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/export_utils__rosidl_generator_pyExport-noconfig.cmake\n'}
+[1.434003] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/rosidl_cmake-extras.cmake\n'}
+[1.434297] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/ament_cmake_export_dependencies-extras.cmake\n'}
+[1.434568] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/ament_cmake_export_include_directories-extras.cmake\n'}
+[1.434888] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/ament_cmake_export_libraries-extras.cmake\n'}
+[1.436931] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/ament_cmake_export_targets-extras.cmake\n'}
+[1.438338] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake\n'}
+[1.438991] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake\n'}
+[1.439413] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/utilsConfig.cmake\n'}
+[1.440030] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/utilsConfig-version.cmake\n'}
+[1.440309] (utils) StdoutLine: {'line': b'-- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/package.xml\n'}
+[1.440703] (utils) CommandEnded: {'returncode': 0}
+[1.497143] (utils) JobEnded: {'identifier': 'utils', 'rc': 0}
+[1.502826] (input) JobStarted: {'identifier': 'input'}
+[1.506298] (-) TimerEvent: {}
+[1.520607] (unix_out) JobStarted: {'identifier': 'unix_out'}
+[1.606504] (-) TimerEvent: {}
+[1.707083] (-) TimerEvent: {}
+[1.807677] (-) TimerEvent: {}
+[1.908860] (-) TimerEvent: {}
+[2.009426] (-) TimerEvent: {}
+[2.110012] (-) TimerEvent: {}
+[2.210831] (-) TimerEvent: {}
+[2.311601] (-) TimerEvent: {}
+[2.412514] (-) TimerEvent: {}
+[2.513274] (-) TimerEvent: {}
+[2.613467] (smart) Command: {'cmd': ['/usr/bin/python3', '-W', 'ignore:setup.py install is deprecated', '-W', 'ignore:easy_install command is deprecated', 'setup.py', 'egg_info', '--egg-base', '../../build/smart', 'build', '--build-base', '/uros_ws/Brain_DEI/brain/build/smart/build', 'install', '--record', '/uros_ws/Brain_DEI/brain/build/smart/install.log', '--single-version-externally-managed', 'install_data'], 'cwd': '/uros_ws/Brain_DEI/brain/src/smart', 'env': {'LESSOPEN': '| /usr/bin/lesspipe %s', 'HOSTNAME': 'ubuntu', 'SHLVL': '1', 'LD_LIBRARY_PATH': '/uros_ws/Brain_DEI/brain/install/utils/lib:/uros_ws/install/micro_ros_agent/lib:/uros_ws/install/micro_ros_msgs/lib:/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/aarch64-linux-gnu:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib', 'HOME': '/root', 'OLDPWD': '/uros_ws', 'MICROROS_DISABLE_SHM': '1', 'ROS_PYTHON_VERSION': '3', 'COLCON_PREFIX_PATH': '/uros_ws/Brain_DEI/brain/install:/uros_ws/install', 'ROS_DISTRO': 'jazzy', 'IGN_GAZEBO_MODEL_PATH': '/opt/ros/jazzy/share', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'TERM': 'xterm', 'GAZEBO_MODEL_PATH': '/opt/ros/jazzy/share', 'PATH': '/opt/ros/jazzy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin', 'LANG': 'C.UTF-8', 'RMW_IMPLEMENTATION': 'rmw_fastrtps_cpp', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:', 'AMENT_PREFIX_PATH': '/uros_ws/Brain_DEI/brain/install/unix_out:/uros_ws/Brain_DEI/brain/install/input:/uros_ws/Brain_DEI/brain/install/utils:/uros_ws/Brain_DEI/brain/install/smart:/uros_ws/install/micro_ros_agent:/uros_ws/install/micro_ros_msgs:/opt/ros/jazzy', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'IGN_GAZEBO_RESOURCE_PATH': '/opt/ros/jazzy/share', 'GAZEBO_RESOURCE_PATH': '/opt/ros/jazzy/share', 'ROS_AUTOMATIC_DISCOVERY_RANGE': 'SUBNET', 'PWD': '/uros_ws/Brain_DEI/brain/build/smart', 'LC_ALL': 'C.UTF-8', 'PYTHONPATH': '/uros_ws/Brain_DEI/brain/build/smart/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/uros_ws/Brain_DEI/brain/install/smart/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/unix_out/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/smart/lib/python3.12/site-packages:/uros_ws/install/micro_ros_msgs/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages', 'COLCON': '1', 'CMAKE_PREFIX_PATH': '/uros_ws/Brain_DEI/brain/install/utils:/uros_ws/install/micro_ros_agent:/uros_ws/install/micro_ros_msgs:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor'}, 'shell': False}
+[2.617016] (-) TimerEvent: {}
+[2.717833] (-) TimerEvent: {}
+[2.820480] (-) TimerEvent: {}
+[2.921651] (-) TimerEvent: {}
+[3.022732] (-) TimerEvent: {}
+[3.123319] (-) TimerEvent: {}
+[3.224961] (-) TimerEvent: {}
+[3.252573] (smart) StdoutLine: {'line': b'running egg_info\n'}
+[3.294212] (smart) StdoutLine: {'line': b'writing ../../build/smart/smart.egg-info/PKG-INFO\n'}
+[3.295124] (smart) StdoutLine: {'line': b'writing dependency_links to ../../build/smart/smart.egg-info/dependency_links.txt\n'}
+[3.295613] (smart) StdoutLine: {'line': b'writing entry points to ../../build/smart/smart.egg-info/entry_points.txt\n'}
+[3.296173] (smart) StdoutLine: {'line': b'writing requirements to ../../build/smart/smart.egg-info/requires.txt\n'}
+[3.296377] (smart) StdoutLine: {'line': b'writing top-level names to ../../build/smart/smart.egg-info/top_level.txt\n'}
+[3.326645] (-) TimerEvent: {}
+[3.382911] (smart) StdoutLine: {'line': b"reading manifest file '../../build/smart/smart.egg-info/SOURCES.txt'\n"}
+[3.385148] (smart) StdoutLine: {'line': b"writing manifest file '../../build/smart/smart.egg-info/SOURCES.txt'\n"}
+[3.385663] (smart) StdoutLine: {'line': b'running build\n'}
+[3.385933] (smart) StdoutLine: {'line': b'running build_py\n'}
+[3.386189] (smart) StdoutLine: {'line': b'running install\n'}
+[3.400315] (smart) StdoutLine: {'line': b'running install_lib\n'}
+[3.426795] (-) TimerEvent: {}
+[3.444572] (smart) StdoutLine: {'line': b'running install_data\n'}
+[3.445537] (smart) StdoutLine: {'line': b'running install_egg_info\n'}
+[3.491657] (smart) StdoutLine: {'line': b"removing '/uros_ws/Brain_DEI/brain/install/smart/lib/python3.12/site-packages/smart-0.0.0-py3.12.egg-info' (and everything under it)\n"}
+[3.492722] (smart) StdoutLine: {'line': b'Copying ../../build/smart/smart.egg-info to /uros_ws/Brain_DEI/brain/install/smart/lib/python3.12/site-packages/smart-0.0.0-py3.12.egg-info\n'}
+[3.495317] (smart) StdoutLine: {'line': b'running install_scripts\n'}
+[3.526929] (-) TimerEvent: {}
+[3.628219] (-) TimerEvent: {}
+[3.728927] (-) TimerEvent: {}
+[3.793809] (smart) StdoutLine: {'line': b'Installing oak_camera_node script to /uros_ws/Brain_DEI/brain/install/smart/lib/smart\n'}
+[3.794758] (smart) StdoutLine: {'line': b"writing list of installed files to '/uros_ws/Brain_DEI/brain/build/smart/install.log'\n"}
+[3.829104] (-) TimerEvent: {}
+[3.916726] (smart) CommandEnded: {'returncode': 0}
+[3.930553] (-) TimerEvent: {}
+[3.936230] (smart) JobEnded: {'identifier': 'smart', 'rc': 0}
+[3.939820] (unix_out) Command: {'cmd': ['/usr/bin/python3', '-W', 'ignore:setup.py install is deprecated', '-W', 'ignore:easy_install command is deprecated', 'setup.py', 'egg_info', '--egg-base', '../../build/unix_out', 'build', '--build-base', '/uros_ws/Brain_DEI/brain/build/unix_out/build', 'install', '--record', '/uros_ws/Brain_DEI/brain/build/unix_out/install.log', '--single-version-externally-managed', 'install_data'], 'cwd': '/uros_ws/Brain_DEI/brain/src/unix_out', 'env': {'LESSOPEN': '| /usr/bin/lesspipe %s', 'HOSTNAME': 'ubuntu', 'SHLVL': '1', 'LD_LIBRARY_PATH': '/uros_ws/Brain_DEI/brain/install/utils/lib:/uros_ws/install/micro_ros_agent/lib:/uros_ws/install/micro_ros_msgs/lib:/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/aarch64-linux-gnu:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib', 'HOME': '/root', 'OLDPWD': '/uros_ws', 'MICROROS_DISABLE_SHM': '1', 'ROS_PYTHON_VERSION': '3', 'COLCON_PREFIX_PATH': '/uros_ws/Brain_DEI/brain/install:/uros_ws/install', 'ROS_DISTRO': 'jazzy', 'IGN_GAZEBO_MODEL_PATH': '/opt/ros/jazzy/share', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'TERM': 'xterm', 'GAZEBO_MODEL_PATH': '/opt/ros/jazzy/share', 'PATH': '/opt/ros/jazzy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin', 'LANG': 'C.UTF-8', 'RMW_IMPLEMENTATION': 'rmw_fastrtps_cpp', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:', 'AMENT_PREFIX_PATH': '/uros_ws/Brain_DEI/brain/install/unix_out:/uros_ws/Brain_DEI/brain/install/input:/uros_ws/Brain_DEI/brain/install/utils:/uros_ws/Brain_DEI/brain/install/smart:/uros_ws/install/micro_ros_agent:/uros_ws/install/micro_ros_msgs:/opt/ros/jazzy', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'IGN_GAZEBO_RESOURCE_PATH': '/opt/ros/jazzy/share', 'GAZEBO_RESOURCE_PATH': '/opt/ros/jazzy/share', 'ROS_AUTOMATIC_DISCOVERY_RANGE': 'SUBNET', 'PWD': '/uros_ws/Brain_DEI/brain/build/unix_out', 'LC_ALL': 'C.UTF-8', 'PYTHONPATH': '/uros_ws/Brain_DEI/brain/build/unix_out/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/uros_ws/Brain_DEI/brain/install/unix_out/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/unix_out/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/smart/lib/python3.12/site-packages:/uros_ws/install/micro_ros_msgs/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages', 'COLCON': '1', 'CMAKE_PREFIX_PATH': '/uros_ws/Brain_DEI/brain/install/utils:/uros_ws/install/micro_ros_agent:/uros_ws/install/micro_ros_msgs:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor'}, 'shell': False}
+[3.989355] (input) Command: {'cmd': ['/usr/bin/python3', '-W', 'ignore:setup.py install is deprecated', '-W', 'ignore:easy_install command is deprecated', 'setup.py', 'egg_info', '--egg-base', '../../build/input', 'build', '--build-base', '/uros_ws/Brain_DEI/brain/build/input/build', 'install', '--record', '/uros_ws/Brain_DEI/brain/build/input/install.log', '--single-version-externally-managed', 'install_data'], 'cwd': '/uros_ws/Brain_DEI/brain/src/input', 'env': {'LESSOPEN': '| /usr/bin/lesspipe %s', 'HOSTNAME': 'ubuntu', 'SHLVL': '1', 'LD_LIBRARY_PATH': '/uros_ws/Brain_DEI/brain/install/utils/lib:/uros_ws/install/micro_ros_agent/lib:/uros_ws/install/micro_ros_msgs/lib:/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/aarch64-linux-gnu:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib', 'HOME': '/root', 'OLDPWD': '/uros_ws', 'MICROROS_DISABLE_SHM': '1', 'ROS_PYTHON_VERSION': '3', 'COLCON_PREFIX_PATH': '/uros_ws/Brain_DEI/brain/install:/uros_ws/install', 'ROS_DISTRO': 'jazzy', 'IGN_GAZEBO_MODEL_PATH': '/opt/ros/jazzy/share', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'TERM': 'xterm', 'GAZEBO_MODEL_PATH': '/opt/ros/jazzy/share', 'PATH': '/opt/ros/jazzy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin', 'LANG': 'C.UTF-8', 'RMW_IMPLEMENTATION': 'rmw_fastrtps_cpp', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:', 'AMENT_PREFIX_PATH': '/uros_ws/Brain_DEI/brain/install/unix_out:/uros_ws/Brain_DEI/brain/install/input:/uros_ws/Brain_DEI/brain/install/utils:/uros_ws/Brain_DEI/brain/install/smart:/uros_ws/install/micro_ros_agent:/uros_ws/install/micro_ros_msgs:/opt/ros/jazzy', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'IGN_GAZEBO_RESOURCE_PATH': '/opt/ros/jazzy/share', 'GAZEBO_RESOURCE_PATH': '/opt/ros/jazzy/share', 'ROS_AUTOMATIC_DISCOVERY_RANGE': 'SUBNET', 'PWD': '/uros_ws/Brain_DEI/brain/build/input', 'LC_ALL': 'C.UTF-8', 'PYTHONPATH': '/uros_ws/Brain_DEI/brain/build/input/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/unix_out/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages:/uros_ws/Brain_DEI/brain/install/smart/lib/python3.12/site-packages:/uros_ws/install/micro_ros_msgs/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages', 'COLCON': '1', 'CMAKE_PREFIX_PATH': '/uros_ws/Brain_DEI/brain/install/utils:/uros_ws/install/micro_ros_agent:/uros_ws/install/micro_ros_msgs:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor'}, 'shell': False}
+[4.030704] (-) TimerEvent: {}
+[4.131254] (-) TimerEvent: {}
+[4.231814] (-) TimerEvent: {}
+[4.332367] (-) TimerEvent: {}
+[4.432936] (-) TimerEvent: {}
+[4.533484] (-) TimerEvent: {}
+[4.578638] (unix_out) StdoutLine: {'line': b'running egg_info\n'}
+[4.593981] (input) StdoutLine: {'line': b'running egg_info\n'}
+[4.620924] (unix_out) StdoutLine: {'line': b'writing ../../build/unix_out/unix_out.egg-info/PKG-INFO\n'}
+[4.621996] (unix_out) StdoutLine: {'line': b'writing dependency_links to ../../build/unix_out/unix_out.egg-info/dependency_links.txt\n'}
+[4.622587] (unix_out) StdoutLine: {'line': b'writing entry points to ../../build/unix_out/unix_out.egg-info/entry_points.txt\n'}
+[4.622928] (unix_out) StdoutLine: {'line': b'writing requirements to ../../build/unix_out/unix_out.egg-info/requires.txt\n'}
+[4.623198] (unix_out) StdoutLine: {'line': b'writing top-level names to ../../build/unix_out/unix_out.egg-info/top_level.txt\n'}
+[4.633566] (-) TimerEvent: {}
+[4.634855] (input) StdoutLine: {'line': b'writing ../../build/input/input.egg-info/PKG-INFO\n'}
+[4.635539] (input) StdoutLine: {'line': b'writing dependency_links to ../../build/input/input.egg-info/dependency_links.txt\n'}
+[4.636085] (input) StdoutLine: {'line': b'writing entry points to ../../build/input/input.egg-info/entry_points.txt\n'}
+[4.636439] (input) StdoutLine: {'line': b'writing requirements to ../../build/input/input.egg-info/requires.txt\n'}
+[4.636743] (input) StdoutLine: {'line': b'writing top-level names to ../../build/input/input.egg-info/top_level.txt\n'}
+[4.710945] (unix_out) StdoutLine: {'line': b"reading manifest file '../../build/unix_out/unix_out.egg-info/SOURCES.txt'\n"}
+[4.713142] (unix_out) StdoutLine: {'line': b"writing manifest file '../../build/unix_out/unix_out.egg-info/SOURCES.txt'\n"}
+[4.714092] (unix_out) StdoutLine: {'line': b'running build\n'}
+[4.714348] (unix_out) StdoutLine: {'line': b'running build_py\n'}
+[4.714736] (unix_out) StdoutLine: {'line': b'running install\n'}
+[4.724318] (input) StdoutLine: {'line': b"reading manifest file '../../build/input/input.egg-info/SOURCES.txt'\n"}
+[4.727148] (input) StdoutLine: {'line': b"writing manifest file '../../build/input/input.egg-info/SOURCES.txt'\n"}
+[4.727563] (input) StdoutLine: {'line': b'running build\n'}
+[4.727823] (input) StdoutLine: {'line': b'running build_py\n'}
+[4.728375] (unix_out) StdoutLine: {'line': b'running install_lib\n'}
+[4.729353] (input) StdoutLine: {'line': b'copying src/data/trafficBridge.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/data\n'}
+[4.733639] (-) TimerEvent: {}
+[4.734013] (input) StdoutLine: {'line': b'copying src/data/trafficBridge.py -> /uros_ws/Brain_DEI/brain/build/input/build/lib/src/data\n'}
+[4.740202] (input) StdoutLine: {'line': b'running install\n'}
+[4.753639] (input) StdoutLine: {'line': b'running install_lib\n'}
+[4.778193] (unix_out) StdoutLine: {'line': b'running install_data\n'}
+[4.778781] (unix_out) StdoutLine: {'line': b'running install_egg_info\n'}
+[4.796839] (input) StdoutLine: {'line': b'copying /uros_ws/Brain_DEI/brain/build/input/build/lib/data/trafficBridge.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data\n'}
+[4.800640] (input) StdoutLine: {'line': b'copying /uros_ws/Brain_DEI/brain/build/input/build/lib/src/data/trafficBridge.py -> /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data\n'}
+[4.803854] (input) StdoutLine: {'line': b'byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data/trafficBridge.py to trafficBridge.cpython-312.pyc\n'}
+[4.808502] (input) StdoutLine: {'line': b'byte-compiling /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data/trafficBridge.py to trafficBridge.cpython-312.pyc\n'}
+[4.811793] (input) StdoutLine: {'line': b'running install_data\n'}
+[4.812361] (input) StdoutLine: {'line': b'running install_egg_info\n'}
+[4.821717] (unix_out) StdoutLine: {'line': b"removing '/uros_ws/Brain_DEI/brain/install/unix_out/lib/python3.12/site-packages/unix_out-0.0.0-py3.12.egg-info' (and everything under it)\n"}
+[4.822651] (unix_out) StdoutLine: {'line': b'Copying ../../build/unix_out/unix_out.egg-info to /uros_ws/Brain_DEI/brain/install/unix_out/lib/python3.12/site-packages/unix_out-0.0.0-py3.12.egg-info\n'}
+[4.825210] (unix_out) StdoutLine: {'line': b'running install_scripts\n'}
+[4.833731] (-) TimerEvent: {}
+[4.856891] (input) StdoutLine: {'line': b"removing '/uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/input-0.0.0-py3.12.egg-info' (and everything under it)\n"}
+[4.857808] (input) StdoutLine: {'line': b'Copying ../../build/input/input.egg-info to /uros_ws/Brain_DEI/brain/install/input/lib/python3.12/site-packages/input-0.0.0-py3.12.egg-info\n'}
+[4.861685] (input) StdoutLine: {'line': b'running install_scripts\n'}
+[4.933900] (-) TimerEvent: {}
+[5.034483] (-) TimerEvent: {}
+[5.123878] (unix_out) StdoutLine: {'line': b'Installing camera_to_socket script to /uros_ws/Brain_DEI/brain/install/unix_out/lib/unix_out\n'}
+[5.124794] (unix_out) StdoutLine: {'line': b'Installing lidar_to_socket script to /uros_ws/Brain_DEI/brain/install/unix_out/lib/unix_out\n'}
+[5.125638] (unix_out) StdoutLine: {'line': b'Installing metrics_to_socket script to /uros_ws/Brain_DEI/brain/install/unix_out/lib/unix_out\n'}
+[5.125921] (unix_out) StdoutLine: {'line': b"writing list of installed files to '/uros_ws/Brain_DEI/brain/build/unix_out/install.log'\n"}
+[5.134656] (-) TimerEvent: {}
+[5.145495] (input) StdoutLine: {'line': b'Installing gpstrackerNODE script to /uros_ws/Brain_DEI/brain/install/input/lib/input\n'}
+[5.146092] (input) StdoutLine: {'line': b'Installing imuNODE script to /uros_ws/Brain_DEI/brain/install/input/lib/input\n'}
+[5.146378] (input) StdoutLine: {'line': b'Installing semaphoreBridgeNODE script to /uros_ws/Brain_DEI/brain/install/input/lib/input\n'}
+[5.146742] (input) StdoutLine: {'line': b'Installing semaphoreNODE script to /uros_ws/Brain_DEI/brain/install/input/lib/input\n'}
+[5.147116] (input) StdoutLine: {'line': b'Installing sonarNODE script to /uros_ws/Brain_DEI/brain/install/input/lib/input\n'}
+[5.147395] (input) StdoutLine: {'line': b'Installing trafficBridgeNODE script to /uros_ws/Brain_DEI/brain/install/input/lib/input\n'}
+[5.152266] (input) StdoutLine: {'line': b"writing list of installed files to '/uros_ws/Brain_DEI/brain/build/input/install.log'\n"}
+[5.232815] (unix_out) CommandEnded: {'returncode': 0}
+[5.234793] (-) TimerEvent: {}
+[5.256280] (unix_out) JobEnded: {'identifier': 'unix_out', 'rc': 0}
+[5.260319] (input) CommandEnded: {'returncode': 0}
+[5.282659] (input) JobEnded: {'identifier': 'input', 'rc': 0}
+[5.285366] (-) EventReactorShutdown: {}
