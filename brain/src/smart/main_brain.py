@@ -76,7 +76,7 @@ k2 = 0.0  # 0.0 perpenddicular error gain
 k3_NL = 1.3 # for no_lane part #BFMC_2024
 k3 = 1.0 # rest of the map #BFMC_2024
 k3D = 0.08  # 0.08 derivative gain of yaw error
-dist_point_ahead = 0.35  # distance of the point ahead in m
+dist_point_ahead = 0.35 # distance of the point ahead in m
 
 # dt_ahead = 0.5 # [s] how far into the future the curvature is estimated,
 # feedforwarded to yaw controller

@@ -1,0 +1,467 @@
+[0.048s] Invoking command in '/uros_ws/Brain_DEI/brain/build/utils': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/uros_ws/Brain_DEI/brain/install/unix_out:/uros_ws/Brain_DEI/brain/install/input:/uros_ws/Brain_DEI/brain/install/smart:/opt/ros/jazzy /usr/bin/cmake --build /uros_ws/Brain_DEI/brain/build/utils -- -j6 -l6
+[0.137s] gmake: Warning: File 'Makefile' has modification time 1778996155 s in the future
+[0.218s] gmake[1]: Warning: File 'CMakeFiles/Makefile2' has modification time 1778996155 s in the future
+[0.222s] gmake[2]: Warning: File 'CMakeFiles/utils__rosidl_generator_type_description.dir/progress.make' has modification time 1778996155 s in the future
+[0.223s] gmake[2]: Warning: File 'CMakeFiles/ament_cmake_python_copy_utils.dir/progress.make' has modification time 1778996155 s in the future
+[0.251s] gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[0.257s] gmake[2]: Warning: File 'CMakeFiles/ament_cmake_python_copy_utils.dir/progress.make' has modification time 1778996155 s in the future
+[0.261s] gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[0.264s] gmake[2]: Warning: File 'CMakeFiles/utils__rosidl_generator_type_description.dir/progress.make' has modification time 1778996155 s in the future
+[0.266s] gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[0.294s] [  1%] Built target utils__rosidl_generator_type_description
+[0.302s] gmake[2]: Warning: File 'CMakeFiles/utils__cpp.dir/progress.make' has modification time 1778996155 s in the future
+[0.308s] gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[0.309s] gmake[2]: Warning: File 'CMakeFiles/utils__rosidl_generator_c.dir/flags.make' has modification time 1778996155 s in the future
+[0.329s] gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[0.332s] [  1%] Built target ament_cmake_python_copy_utils
+[0.333s] gmake[2]: Warning: File 'CMakeFiles/utils__cpp.dir/progress.make' has modification time 1778996155 s in the future
+[0.336s] gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[0.352s] gmake[2]: Warning: File 'CMakeFiles/ament_cmake_python_build_utils_egg.dir/progress.make' has modification time 1778996155 s in the future
+[0.361s] gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[0.364s] [  1%] Built target utils__cpp
+[0.374s] gmake[2]: Warning: File 'CMakeFiles/utils__rosidl_generator_c.dir/flags.make' has modification time 1778996155 s in the future
+[0.376s] gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[0.381s] gmake[2]: Warning: File 'CMakeFiles/ament_cmake_python_build_utils_egg.dir/progress.make' has modification time 1778996155 s in the future
+[0.391s] gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[0.417s] [ 27%] Built target utils__rosidl_generator_c
+[0.430s] gmake[2]: Warning: File 'CMakeFiles/utils__rosidl_typesupport_c.dir/flags.make' has modification time 1778996155 s in the future
+[0.438s] gmake[2]: Warning: File 'CMakeFiles/utils__rosidl_typesupport_introspection_cpp.dir/flags.make' has modification time 1778996154 s in the future
+[0.439s] gmake[2]: Warning: File 'CMakeFiles/utils__rosidl_typesupport_fastrtps_cpp.dir/flags.make' has modification time 1778996154 s in the future
+[0.451s] gmake[2]: Warning: File 'CMakeFiles/utils__rosidl_typesupport_cpp.dir/flags.make' has modification time 1778996154 s in the future
+[0.460s] gmake[2]: Warning: File 'CMakeFiles/utils__rosidl_typesupport_fastrtps_c.dir/flags.make' has modification time 1778996154 s in the future
+[0.481s] gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[0.487s] gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[0.493s] gmake[2]: Warning: File 'CMakeFiles/utils__rosidl_typesupport_cpp.dir/flags.make' has modification time 1778996154 s in the future
+[0.500s] gmake[2]: Warning: File 'CMakeFiles/utils__rosidl_typesupport_c.dir/flags.make' has modification time 1778996154 s in the future
+[0.504s] gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[0.510s] gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[0.511s] gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[0.519s] gmake[2]: Warning: File 'CMakeFiles/utils__rosidl_typesupport_introspection_cpp.dir/flags.make' has modification time 1778996154 s in the future
+[0.526s] gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[0.528s] gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[0.536s] gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[0.555s] gmake[2]: Warning: File 'CMakeFiles/utils__rosidl_typesupport_fastrtps_cpp.dir/flags.make' has modification time 1778996154 s in the future
+[0.560s] gmake[2]: Warning: File 'CMakeFiles/utils__rosidl_typesupport_fastrtps_c.dir/flags.make' has modification time 1778996154 s in the future
+[0.562s] [ 36%] Built target utils__rosidl_typesupport_cpp
+[0.573s] gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[0.576s] [ 46%] Built target utils__rosidl_typesupport_c
+[0.578s] gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[0.592s] gmake[2]: Warning: File 'CMakeFiles/utils__rosidl_typesupport_introspection_c.dir/flags.make' has modification time 1778996154 s in the future
+[0.603s] [ 56%] Built target utils__rosidl_typesupport_introspection_cpp
+[0.619s] [ 66%] Built target utils__rosidl_typesupport_fastrtps_c
+[0.649s] [ 76%] Built target utils__rosidl_typesupport_fastrtps_cpp
+[0.662s] gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[0.668s] gmake[2]: Warning: File 'CMakeFiles/utils__rosidl_typesupport_introspection_c.dir/flags.make' has modification time 1778996154 s in the future
+[0.670s] gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[0.713s] [ 85%] Built target utils__rosidl_typesupport_introspection_c
+[0.722s] gmake[2]: Warning: File 'CMakeFiles/utils.dir/progress.make' has modification time 1778996154 s in the future
+[0.743s] gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[0.752s] gmake[2]: Warning: File 'CMakeFiles/utils.dir/progress.make' has modification time 1778996154 s in the future
+[0.752s] gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[0.773s] [ 85%] Built target utils
+[0.785s] gmake[2]: Warning: File '/uros_ws/Brain_DEI/brain/build/utils/utils__py/CMakeFiles/utils__py.dir/progress.make' has modification time 1778996154 s in the future
+[0.824s] gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[0.828s] gmake[2]: Warning: File '/uros_ws/Brain_DEI/brain/build/utils/utils__py/CMakeFiles/utils__py.dir/progress.make' has modification time 1778996154 s in the future
+[0.830s] gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[0.858s] [ 86%] Built target utils__py
+[0.875s] gmake[2]: Warning: File 'CMakeFiles/utils__rosidl_generator_py.dir/flags.make' has modification time 1778996154 s in the future
+[0.906s] gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[0.938s] gmake[2]: Warning: File 'CMakeFiles/utils__rosidl_generator_py.dir/flags.make' has modification time 1778996154 s in the future
+[0.958s] gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[0.988s] [ 95%] Built target utils__rosidl_generator_py
+[0.998s] gmake[2]: Warning: File 'CMakeFiles/utils_s__rosidl_typesupport_introspection_c.dir/flags.make' has modification time 1778996154 s in the future
+[1.002s] gmake[2]: Warning: File 'CMakeFiles/utils_s__rosidl_typesupport_fastrtps_c.dir/flags.make' has modification time 1778996154 s in the future
+[1.014s] gmake[2]: Warning: File 'CMakeFiles/utils_s__rosidl_typesupport_c.dir/flags.make' has modification time 1778996154 s in the future
+[1.037s] gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[1.042s] gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[1.050s] gmake[2]: Warning: File 'CMakeFiles/utils_s__rosidl_typesupport_introspection_c.dir/flags.make' has modification time 1778996154 s in the future
+[1.053s] gmake[2]: Warning: File 'CMakeFiles/utils_s__rosidl_typesupport_fastrtps_c.dir/flags.make' has modification time 1778996154 s in the future
+[1.055s] gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[1.056s] gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[1.062s] gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[1.074s] gmake[2]: Warning: File 'CMakeFiles/utils_s__rosidl_typesupport_c.dir/flags.make' has modification time 1778996154 s in the future
+[1.081s] gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[1.091s] [ 97%] Built target utils_s__rosidl_typesupport_fastrtps_c
+[1.091s] [ 98%] Built target utils_s__rosidl_typesupport_introspection_c
+[1.117s] [100%] Built target utils_s__rosidl_typesupport_c
+[1.167s] running egg_info
+[1.211s] writing utils.egg-info/PKG-INFO
+[1.212s] writing dependency_links to utils.egg-info/dependency_links.txt
+[1.212s] writing top-level names to utils.egg-info/top_level.txt
+[1.340s] reading manifest file 'utils.egg-info/SOURCES.txt'
+[1.342s] writing manifest file 'utils.egg-info/SOURCES.txt'
+[1.406s] gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[1.422s] [100%] Built target ament_cmake_python_build_utils_egg
+[1.425s] gmake[1]: warning:  Clock skew detected.  Your build may be incomplete.
+[1.449s] gmake: warning:  Clock skew detected.  Your build may be incomplete.
+[1.454s] Invoked command in '/uros_ws/Brain_DEI/brain/build/utils' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/uros_ws/Brain_DEI/brain/install/unix_out:/uros_ws/Brain_DEI/brain/install/input:/uros_ws/Brain_DEI/brain/install/smart:/opt/ros/jazzy /usr/bin/cmake --build /uros_ws/Brain_DEI/brain/build/utils -- -j6 -l6
+[1.478s] Invoking command in '/uros_ws/Brain_DEI/brain/build/utils': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/uros_ws/Brain_DEI/brain/install/unix_out:/uros_ws/Brain_DEI/brain/install/input:/uros_ws/Brain_DEI/brain/install/smart:/opt/ros/jazzy /usr/bin/cmake --install /uros_ws/Brain_DEI/brain/build/utils
+[1.499s] -- Install configuration: ""
+[1.499s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/ament_index/resource_index/rosidl_interfaces/utils
+[1.500s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/IMU.json
+[1.500s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/Localisation.json
+[1.500s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/Vehicles.json
+[1.500s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/Environmental.json
+[1.500s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/Log.json
+[1.501s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/TopicInfo.json
+[1.501s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/Semaphore.json
+[1.501s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/Conditions.json
+[1.501s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/Trafficsignprediction.json
+[1.502s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/srv/Subscribing.json
+[1.502s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/srv/RequestParam.json
+[1.502s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils
+[1.502s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv
+[1.503s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/subscribing.h
+[1.503s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/request_param.h
+[1.503s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail
+[1.503s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/subscribing__description.c
+[1.503s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/subscribing__functions.c
+[1.504s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/request_param__functions.h
+[1.504s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/subscribing__functions.h
+[1.504s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/request_param__functions.c
+[1.504s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/subscribing__type_support.h
+[1.504s] -- Installing: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/subscribing__type_support.c
+[1.505s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/subscribing__struct.h
+[1.505s] -- Installing: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/request_param__type_support.c
+[1.505s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/request_param__description.c
+[1.506s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/request_param__type_support.h
+[1.506s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/request_param__struct.h
+[1.506s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg
+[1.506s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/vehicles.h
+[1.507s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/semaphore.h
+[1.507s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/trafficsignprediction.h
+[1.507s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/localisation.h
+[1.507s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail
+[1.509s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/trafficsignprediction__functions.c
+[1.509s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/localisation__functions.c
+[1.509s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/imu__functions.c
+[1.509s] -- Installing: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/imu__type_support.c
+[1.510s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/conditions__functions.h
+[1.510s] -- Installing: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/trafficsignprediction__type_support.c
+[1.510s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/conditions__description.c
+[1.511s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/imu__struct.h
+[1.511s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/vehicles__description.c
+[1.511s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/topic_info__type_support.h
+[1.511s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/vehicles__struct.h
+[1.512s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/localisation__description.c
+[1.512s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/semaphore__description.c
+[1.513s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/topic_info__functions.c
+[1.513s] -- Installing: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/semaphore__type_support.c
+[1.513s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/semaphore__functions.h
+[1.513s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/log__functions.c
+[1.513s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/imu__functions.h
+[1.515s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/localisation__functions.h
+[1.516s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/trafficsignprediction__type_support.h
+[1.516s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/vehicles__type_support.h
+[1.517s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/log__functions.h
+[1.517s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/semaphore__functions.c
+[1.517s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/imu__description.c
+[1.517s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/conditions__type_support.h
+[1.518s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/topic_info__description.c
+[1.518s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/conditions__functions.c
+[1.518s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/vehicles__functions.c
+[1.518s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/trafficsignprediction__functions.h
+[1.519s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/semaphore__type_support.h
+[1.519s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/vehicles__functions.h
+[1.519s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/log__type_support.h
+[1.519s] -- Installing: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/environmental__type_support.c
+[1.519s] -- Installing: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/log__type_support.c
+[1.520s] -- Installing: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/conditions__type_support.c
+[1.520s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/conditions__struct.h
+[1.520s] -- Installing: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/localisation__type_support.c
+[1.520s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/trafficsignprediction__description.c
+[1.521s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/environmental__type_support.h
+[1.521s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/topic_info__struct.h
+[1.521s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/topic_info__functions.h
+[1.521s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/environmental__functions.h
+[1.522s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/localisation__struct.h
+[1.522s] -- Installing: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/topic_info__type_support.c
+[1.522s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/environmental__struct.h
+[1.522s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/semaphore__struct.h
+[1.522s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/imu__type_support.h
+[1.523s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/log__struct.h
+[1.523s] -- Installing: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/vehicles__type_support.c
+[1.523s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/localisation__type_support.h
+[1.523s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/environmental__functions.c
+[1.524s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/log__description.c
+[1.524s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/trafficsignprediction__struct.h
+[1.524s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/environmental__description.c
+[1.524s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/environmental.h
+[1.524s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/conditions.h
+[1.525s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/rosidl_generator_c__visibility_control.h
+[1.525s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/imu.h
+[1.525s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/topic_info.h
+[1.525s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/log.h
+[1.525s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/environment/library_path.sh
+[1.526s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/environment/library_path.dsv
+[1.526s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/libutils__rosidl_generator_c.so
+[1.526s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils
+[1.526s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv
+[1.527s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail
+[1.527s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/subscribing__rosidl_typesupport_fastrtps_c.h
+[1.528s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/request_param__rosidl_typesupport_fastrtps_c.h
+[1.528s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg
+[1.528s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/rosidl_typesupport_fastrtps_c__visibility_control.h
+[1.528s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail
+[1.528s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/vehicles__rosidl_typesupport_fastrtps_c.h
+[1.529s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/imu__rosidl_typesupport_fastrtps_c.h
+[1.529s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/topic_info__rosidl_typesupport_fastrtps_c.h
+[1.529s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/trafficsignprediction__rosidl_typesupport_fastrtps_c.h
+[1.530s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/conditions__rosidl_typesupport_fastrtps_c.h
+[1.530s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/log__rosidl_typesupport_fastrtps_c.h
+[1.531s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/localisation__rosidl_typesupport_fastrtps_c.h
+[1.532s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/environmental__rosidl_typesupport_fastrtps_c.h
+[1.534s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/semaphore__rosidl_typesupport_fastrtps_c.h
+[1.534s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/libutils__rosidl_typesupport_fastrtps_c.so
+[1.534s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils
+[1.534s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv
+[1.535s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail
+[1.535s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/request_param__rosidl_typesupport_introspection_c.h
+[1.535s] -- Installing: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/subscribing__type_support.c
+[1.536s] -- Installing: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/request_param__type_support.c
+[1.536s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/subscribing__rosidl_typesupport_introspection_c.h
+[1.536s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg
+[1.536s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/rosidl_typesupport_introspection_c__visibility_control.h
+[1.537s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail
+[1.537s] -- Installing: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/imu__type_support.c
+[1.537s] -- Installing: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/trafficsignprediction__type_support.c
+[1.537s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/topic_info__rosidl_typesupport_introspection_c.h
+[1.537s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/trafficsignprediction__rosidl_typesupport_introspection_c.h
+[1.538s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/localisation__rosidl_typesupport_introspection_c.h
+[1.538s] -- Installing: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/semaphore__type_support.c
+[1.538s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/imu__rosidl_typesupport_introspection_c.h
+[1.538s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/conditions__rosidl_typesupport_introspection_c.h
+[1.539s] -- Installing: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/environmental__type_support.c
+[1.539s] -- Installing: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/log__type_support.c
+[1.539s] -- Installing: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/conditions__type_support.c
+[1.539s] -- Installing: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/localisation__type_support.c
+[1.540s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/environmental__rosidl_typesupport_introspection_c.h
+[1.540s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/semaphore__rosidl_typesupport_introspection_c.h
+[1.540s] -- Installing: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/topic_info__type_support.c
+[1.540s] -- Installing: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/vehicles__type_support.c
+[1.540s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/vehicles__rosidl_typesupport_introspection_c.h
+[1.541s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/log__rosidl_typesupport_introspection_c.h
+[1.541s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/libutils__rosidl_typesupport_introspection_c.so
+[1.541s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/libutils__rosidl_typesupport_c.so
+[1.541s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils
+[1.541s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv
+[1.542s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/subscribing.hpp
+[1.542s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/request_param.hpp
+[1.543s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail
+[1.543s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/request_param__type_support.hpp
+[1.543s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/subscribing__traits.hpp
+[1.544s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/request_param__traits.hpp
+[1.544s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/subscribing__struct.hpp
+[1.544s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/request_param__builder.hpp
+[1.545s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/subscribing__type_support.hpp
+[1.545s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/request_param__struct.hpp
+[1.545s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/subscribing__builder.hpp
+[1.545s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg
+[1.545s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/conditions.hpp
+[1.546s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/trafficsignprediction.hpp
+[1.546s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/localisation.hpp
+[1.546s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/imu.hpp
+[1.546s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/vehicles.hpp
+[1.546s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/log.hpp
+[1.547s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/topic_info.hpp
+[1.547s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/rosidl_generator_cpp__visibility_control.hpp
+[1.547s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail
+[1.547s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/vehicles__type_support.hpp
+[1.547s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/vehicles__struct.hpp
+[1.548s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/semaphore__builder.hpp
+[1.548s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/log__type_support.hpp
+[1.548s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/trafficsignprediction__struct.hpp
+[1.548s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/conditions__builder.hpp
+[1.548s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/topic_info__traits.hpp
+[1.549s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/log__builder.hpp
+[1.549s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/localisation__builder.hpp
+[1.549s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/environmental__traits.hpp
+[1.549s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/semaphore__struct.hpp
+[1.549s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/imu__type_support.hpp
+[1.550s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/imu__builder.hpp
+[1.550s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/environmental__builder.hpp
+[1.550s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/trafficsignprediction__type_support.hpp
+[1.550s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/semaphore__type_support.hpp
+[1.550s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/localisation__type_support.hpp
+[1.551s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/environmental__struct.hpp
+[1.551s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/environmental__type_support.hpp
+[1.551s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/conditions__traits.hpp
+[1.551s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/localisation__struct.hpp
+[1.551s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/trafficsignprediction__traits.hpp
+[1.551s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/log__struct.hpp
+[1.552s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/conditions__struct.hpp
+[1.552s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/conditions__type_support.hpp
+[1.552s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/imu__traits.hpp
+[1.552s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/imu__struct.hpp
+[1.553s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/semaphore__traits.hpp
+[1.553s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/topic_info__struct.hpp
+[1.553s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/vehicles__traits.hpp
+[1.553s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/log__traits.hpp
+[1.553s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/topic_info__type_support.hpp
+[1.554s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/vehicles__builder.hpp
+[1.554s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/topic_info__builder.hpp
+[1.554s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/localisation__traits.hpp
+[1.554s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/trafficsignprediction__builder.hpp
+[1.554s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/semaphore.hpp
+[1.554s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/environmental.hpp
+[1.555s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils
+[1.555s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv
+[1.555s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail
+[1.555s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/subscribing__rosidl_typesupport_fastrtps_cpp.hpp
+[1.556s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/dds_fastrtps
+[1.556s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/request_param__rosidl_typesupport_fastrtps_cpp.hpp
+[1.556s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg
+[1.556s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h
+[1.556s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail
+[1.556s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/environmental__rosidl_typesupport_fastrtps_cpp.hpp
+[1.557s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/vehicles__rosidl_typesupport_fastrtps_cpp.hpp
+[1.557s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/localisation__rosidl_typesupport_fastrtps_cpp.hpp
+[1.557s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/log__rosidl_typesupport_fastrtps_cpp.hpp
+[1.557s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/conditions__rosidl_typesupport_fastrtps_cpp.hpp
+[1.558s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/semaphore__rosidl_typesupport_fastrtps_cpp.hpp
+[1.558s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/dds_fastrtps
+[1.558s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/trafficsignprediction__rosidl_typesupport_fastrtps_cpp.hpp
+[1.558s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/imu__rosidl_typesupport_fastrtps_cpp.hpp
+[1.559s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/topic_info__rosidl_typesupport_fastrtps_cpp.hpp
+[1.559s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/libutils__rosidl_typesupport_fastrtps_cpp.so
+[1.559s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils
+[1.560s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv
+[1.560s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail
+[1.560s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/request_param__type_support.cpp
+[1.560s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/subscribing__type_support.cpp
+[1.561s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/request_param__rosidl_typesupport_introspection_cpp.hpp
+[1.561s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/srv/detail/subscribing__rosidl_typesupport_introspection_cpp.hpp
+[1.561s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg
+[1.561s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail
+[1.561s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/semaphore__type_support.cpp
+[1.562s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/localisation__type_support.cpp
+[1.562s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/conditions__rosidl_typesupport_introspection_cpp.hpp
+[1.562s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/imu__type_support.cpp
+[1.562s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/vehicles__rosidl_typesupport_introspection_cpp.hpp
+[1.562s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/conditions__type_support.cpp
+[1.562s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/vehicles__type_support.cpp
+[1.563s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/topic_info__type_support.cpp
+[1.563s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/environmental__type_support.cpp
+[1.563s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/environmental__rosidl_typesupport_introspection_cpp.hpp
+[1.563s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/log__rosidl_typesupport_introspection_cpp.hpp
+[1.563s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/imu__rosidl_typesupport_introspection_cpp.hpp
+[1.564s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/localisation__rosidl_typesupport_introspection_cpp.hpp
+[1.564s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/topic_info__rosidl_typesupport_introspection_cpp.hpp
+[1.564s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/semaphore__rosidl_typesupport_introspection_cpp.hpp
+[1.564s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/log__type_support.cpp
+[1.564s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/trafficsignprediction__type_support.cpp
+[1.564s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/include/utils/utils/msg/detail/trafficsignprediction__rosidl_typesupport_introspection_cpp.hpp
+[1.565s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/libutils__rosidl_typesupport_introspection_cpp.so
+[1.565s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/libutils__rosidl_typesupport_cpp.so
+[1.565s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/environment/pythonpath.sh
+[1.565s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/environment/pythonpath.dsv
+[1.565s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils-0.0.0-py3.12.egg-info
+[1.566s] -- Installing: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils-0.0.0-py3.12.egg-info/top_level.txt
+[1.566s] -- Installing: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils-0.0.0-py3.12.egg-info/PKG-INFO
+[1.566s] -- Installing: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils-0.0.0-py3.12.egg-info/dependency_links.txt
+[1.566s] -- Installing: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils-0.0.0-py3.12.egg-info/SOURCES.txt
+[1.566s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils
+[1.566s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/utils_s__rosidl_typesupport_fastrtps_c.so
+[1.567s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/__init__.py
+[1.567s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/srv
+[1.567s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/srv/_subscribing_s.c
+[1.567s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/srv/__init__.py
+[1.567s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/srv/_request_param.py
+[1.568s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/srv/_subscribing.py
+[1.568s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/srv/_request_param_s.c
+[1.568s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/msg
+[1.568s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/msg/__init__.py
+[1.568s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/msg/_log.py
+[1.569s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/msg/_environmental_s.c
+[1.569s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/msg/_vehicles_s.c
+[1.569s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/msg/_imu_s.c
+[1.569s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/msg/_trafficsignprediction_s.c
+[1.569s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/msg/_environmental.py
+[1.569s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/msg/_imu.py
+[1.570s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/msg/_semaphore.py
+[1.570s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/msg/_trafficsignprediction.py
+[1.570s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/msg/_conditions_s.c
+[1.570s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/msg/_log_s.c
+[1.570s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/msg/_topic_info_s.c
+[1.571s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/msg/_conditions.py
+[1.571s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/msg/_localisation.py
+[1.571s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/msg/_topic_info.py
+[1.571s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/msg/_semaphore_s.c
+[1.571s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/msg/_vehicles.py
+[1.571s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/msg/_localisation_s.c
+[1.572s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/_utils_s.ep.rosidl_typesupport_c.c
+[1.572s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/utils_s__rosidl_typesupport_c.so
+[1.572s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/utils_s__rosidl_typesupport_introspection_c.so
+[1.572s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/_utils_s.ep.rosidl_typesupport_introspection_c.c
+[1.572s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/_utils_s.ep.rosidl_typesupport_fastrtps_c.c
+[1.636s] Listing '/uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils'...
+[1.636s] Listing '/uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/msg'...
+[1.636s] Listing '/uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/srv'...
+[1.651s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/utils_s__rosidl_typesupport_fastrtps_c.so
+[1.652s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/utils_s__rosidl_typesupport_introspection_c.so
+[1.652s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/python3.12/site-packages/utils/utils_s__rosidl_typesupport_c.so
+[1.653s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/lib/libutils__rosidl_generator_py.so
+[1.654s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/IMU.idl
+[1.654s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/Localisation.idl
+[1.654s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/Vehicles.idl
+[1.654s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/Environmental.idl
+[1.655s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/Log.idl
+[1.655s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/TopicInfo.idl
+[1.655s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/Semaphore.idl
+[1.656s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/Conditions.idl
+[1.656s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/Trafficsignprediction.idl
+[1.656s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/srv/Subscribing.idl
+[1.656s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/srv/RequestParam.idl
+[1.657s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/IMU.msg
+[1.657s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/Localisation.msg
+[1.657s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/Vehicles.msg
+[1.657s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/Environmental.msg
+[1.658s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/Log.msg
+[1.658s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/TopicInfo.msg
+[1.658s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/Semaphore.msg
+[1.658s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/Conditions.msg
+[1.659s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/msg/Trafficsignprediction.msg
+[1.659s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/srv/Subscribing.srv
+[1.659s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/srv/RequestParam.srv
+[1.659s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/launch
+[1.660s] -- Installing: /uros_ws/Brain_DEI/brain/install/utils/share/utils/launch/run_automobile.launch.py
+[1.660s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/ament_index/resource_index/package_run_dependencies/utils
+[1.660s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/ament_index/resource_index/parent_prefix_path/utils
+[1.660s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/environment/ament_prefix_path.sh
+[1.660s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/environment/ament_prefix_path.dsv
+[1.661s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/environment/path.sh
+[1.661s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/environment/path.dsv
+[1.661s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/local_setup.bash
+[1.662s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/local_setup.sh
+[1.662s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/local_setup.zsh
+[1.662s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/local_setup.dsv
+[1.662s] -- Installing: /uros_ws/Brain_DEI/brain/install/utils/share/utils/package.dsv
+[1.662s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/ament_index/resource_index/packages/utils
+[1.663s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/export_utils__rosidl_generator_cExport.cmake
+[1.663s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/export_utils__rosidl_generator_cExport-noconfig.cmake
+[1.663s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/export_utils__rosidl_typesupport_fastrtps_cExport.cmake
+[1.663s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/export_utils__rosidl_typesupport_fastrtps_cExport-noconfig.cmake
+[1.663s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/utils__rosidl_typesupport_introspection_cExport.cmake
+[1.664s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/utils__rosidl_typesupport_introspection_cExport-noconfig.cmake
+[1.664s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/utils__rosidl_typesupport_cExport.cmake
+[1.664s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/utils__rosidl_typesupport_cExport-noconfig.cmake
+[1.664s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/export_utils__rosidl_generator_cppExport.cmake
+[1.665s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/export_utils__rosidl_typesupport_fastrtps_cppExport.cmake
+[1.665s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/export_utils__rosidl_typesupport_fastrtps_cppExport-noconfig.cmake
+[1.666s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/utils__rosidl_typesupport_introspection_cppExport.cmake
+[1.666s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/utils__rosidl_typesupport_introspection_cppExport-noconfig.cmake
+[1.666s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/utils__rosidl_typesupport_cppExport.cmake
+[1.666s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/utils__rosidl_typesupport_cppExport-noconfig.cmake
+[1.667s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/export_utils__rosidl_generator_pyExport.cmake
+[1.667s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/export_utils__rosidl_generator_pyExport-noconfig.cmake
+[1.668s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/rosidl_cmake-extras.cmake
+[1.668s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/ament_cmake_export_dependencies-extras.cmake
+[1.668s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/ament_cmake_export_include_directories-extras.cmake
+[1.668s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/ament_cmake_export_libraries-extras.cmake
+[1.668s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/ament_cmake_export_targets-extras.cmake
+[1.669s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake
+[1.669s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake
+[1.669s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/utilsConfig.cmake
+[1.669s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/cmake/utilsConfig-version.cmake
+[1.669s] -- Up-to-date: /uros_ws/Brain_DEI/brain/install/utils/share/utils/package.xml
+[1.674s] Invoked command in '/uros_ws/Brain_DEI/brain/build/utils' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/uros_ws/Brain_DEI/brain/install/unix_out:/uros_ws/Brain_DEI/brain/install/input:/uros_ws/Brain_DEI/brain/install/smart:/opt/ros/jazzy /usr/bin/cmake --install /uros_ws/Brain_DEI/brain/build/utils
