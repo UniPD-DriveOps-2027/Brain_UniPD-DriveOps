@@ -1,0 +1,27 @@
+[2.057s] Invoking command in '/uros_ws/Brain_DEI/brain/src/smart': PYTHONPATH=/uros_ws/Brain_DEI/brain/build/smart/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/uros_ws/Brain_DEI/brain/install/smart/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/smart build --build-base /uros_ws/Brain_DEI/brain/build/smart/build install --record /uros_ws/Brain_DEI/brain/build/smart/install.log --single-version-externally-managed install_data
+[2.700s] running egg_info
+[2.742s] writing ../../build/smart/smart.egg-info/PKG-INFO
+[2.749s] writing dependency_links to ../../build/smart/smart.egg-info/dependency_links.txt
+[2.749s] writing entry points to ../../build/smart/smart.egg-info/entry_points.txt
+[2.749s] writing requirements to ../../build/smart/smart.egg-info/requires.txt
+[2.749s] writing top-level names to ../../build/smart/smart.egg-info/top_level.txt
+[2.833s] reading manifest file '../../build/smart/smart.egg-info/SOURCES.txt'
+[2.836s] writing manifest file '../../build/smart/smart.egg-info/SOURCES.txt'
+[2.836s] running build
+[2.837s] running build_py
+[2.837s] copying oak_camera_node.py -> /uros_ws/Brain_DEI/brain/build/smart/build/lib
+[2.837s] running install
+[2.853s] running install_lib
+[2.900s] copying /uros_ws/Brain_DEI/brain/build/smart/build/lib/oak_camera_node.py -> /uros_ws/Brain_DEI/brain/install/smart/lib/python3.12/site-packages
+[2.901s] byte-compiling /uros_ws/Brain_DEI/brain/install/smart/lib/python3.12/site-packages/oak_camera_node.py to oak_camera_node.cpython-312.pyc
+[2.912s] running install_data
+[2.912s] copying resource/smart -> /uros_ws/Brain_DEI/brain/install/smart/share/ament_index/resource_index/packages
+[2.913s] copying package.xml -> /uros_ws/Brain_DEI/brain/install/smart/share/smart
+[2.914s] copying models/sign_yolo.onnx -> /uros_ws/Brain_DEI/brain/install/smart/share/smart/models
+[2.951s] running install_egg_info
+[2.996s] removing '/uros_ws/Brain_DEI/brain/install/smart/lib/python3.12/site-packages/smart-0.0.0-py3.12.egg-info' (and everything under it)
+[2.998s] Copying ../../build/smart/smart.egg-info to /uros_ws/Brain_DEI/brain/install/smart/lib/python3.12/site-packages/smart-0.0.0-py3.12.egg-info
+[3.001s] running install_scripts
+[3.303s] Installing oak_camera_node script to /uros_ws/Brain_DEI/brain/install/smart/lib/smart
+[3.304s] writing list of installed files to '/uros_ws/Brain_DEI/brain/build/smart/install.log'
+[3.415s] Invoked command in '/uros_ws/Brain_DEI/brain/src/smart' returned '0': PYTHONPATH=/uros_ws/Brain_DEI/brain/build/smart/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/uros_ws/Brain_DEI/brain/install/smart/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/smart build --build-base /uros_ws/Brain_DEI/brain/build/smart/build install --record /uros_ws/Brain_DEI/brain/build/smart/install.log --single-version-externally-managed install_data

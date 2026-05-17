@@ -100,7 +100,7 @@ class Controller():
         k3FF = self.ff
         # ff_term = k3FF * np.arctan(L/r) #from ackerman geometry
         ff_term = -k3FF * curv
-        # print(f'Feedforward term: {np.rad2deg(ff_term):2f}')
+        print(f'Feedforward term: {np.rad2deg(ff_term):2f}')
 
         output_angle = ff_term - proportional_term - k2 * e2 - derivative_term
         output_speed = desired_speed - self.k1 * self.e1
