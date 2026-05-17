@@ -75,6 +75,8 @@ class Detection:
     # init
     def __init__(self) -> None:
 
+        self._sensor_distance = None  # set externally via ROS subscription
+
         # lane following
         self.lane_keeper = cv.dnn.readNetFromONNX(LANE_KEEPER_PATH)
         self.lane_cnt = 0
@@ -544,29 +546,6 @@ class Detection:
         Fuses the NN x/y prediction with the depth sensor on /traffic/distance.
         A background ROS2 listener thread is created lazily on the first call.
         """
-        # --- Lazy background listener (only runs once) ---
-        if not hasattr(self, '_sensor_distance'):
-            import threading
-            import rclpy
-            from std_msgs.msg import Float32
-
-            self._sensor_distance = None
-
-            def _spin_listener():
-                if not rclpy.ok():
-                    rclpy.init()
-                node = rclpy.create_node('stopline_distance_listener')
-                node.create_subscription(
-                    Float32,
-                    '/traffic/distance',
-                    lambda msg: setattr(self, '_sensor_distance', msg.data),
-                    10
-                )
-                rclpy.spin(node)
-
-            thread = threading.Thread(target=_spin_listener, daemon=True)
-            thread.start()
-
         start_time = time()
         IMG_SIZE = (32, 32)
         try:

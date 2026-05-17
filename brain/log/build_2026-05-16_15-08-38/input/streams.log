@@ -1,0 +1,38 @@
+[1.293s] Invoking command in '/home/hisham/BFMC/Brain_DEI/brain/src/input': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com LD_LIBRARY_PATH=/home/hisham/BFMC/Brain_DEI/brain/install/utils/lib:/opt/ros/jazzy/opt/zenoh_cpp_vendor/lib:/opt/ros/jazzy/opt/gz_sim_vendor/lib:/opt/ros/jazzy/opt/gz_sensors_vendor/lib:/opt/ros/jazzy/opt/gz_physics_vendor/lib:/opt/ros/jazzy/opt/sdformat_vendor/lib:/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/x86_64-linux-gnu:/opt/ros/jazzy/opt/gz_gui_vendor/lib:/opt/ros/jazzy/opt/gz_transport_vendor/lib:/opt/ros/jazzy/opt/gz_rendering_vendor/lib:/opt/ros/jazzy/opt/gz_plugin_vendor/lib:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/lib:/opt/ros/jazzy/opt/gz_msgs_vendor/lib:/opt/ros/jazzy/opt/gz_common_vendor/lib:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_tools_vendor/lib:/opt/ros/jazzy/opt/gz_ogre_next_vendor/lib:/opt/ros/jazzy/opt/gz_dartsim_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib:/home/hisham/acados_ws/acados/lib PYTHONPATH=/home/hisham/BFMC/Brain_DEI/brain/build/input/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages:/home/hisham/BFMC/Brain_DEI/brain/install/utils/lib/python3.12/site-packages:/home/hisham/BFMC/Brain_DEI/brain/install/unix_out/lib/python3.12/site-packages:/home/hisham/BFMC/Brain_DEI/brain/install/output/lib/python3.12/site-packages:/home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/input build --build-base /home/hisham/BFMC/Brain_DEI/brain/build/input/build install --record /home/hisham/BFMC/Brain_DEI/brain/build/input/install.log --single-version-externally-managed install_data
+[1.607s] running egg_info
+[1.632s] writing ../../build/input/input.egg-info/PKG-INFO
+[1.632s] writing dependency_links to ../../build/input/input.egg-info/dependency_links.txt
+[1.632s] writing entry points to ../../build/input/input.egg-info/entry_points.txt
+[1.632s] writing requirements to ../../build/input/input.egg-info/requires.txt
+[1.632s] writing top-level names to ../../build/input/input.egg-info/top_level.txt
+[1.687s] reading manifest file '../../build/input/input.egg-info/SOURCES.txt'
+[1.688s] writing manifest file '../../build/input/input.egg-info/SOURCES.txt'
+[1.688s] running build
+[1.688s] running build_py
+[1.688s] copying src/data/trafficBridge.py -> /home/hisham/BFMC/Brain_DEI/brain/build/input/build/lib/data
+[1.688s] copying src/data/semaphoreBridge.py -> /home/hisham/BFMC/Brain_DEI/brain/build/input/build/lib/data
+[1.690s] copying src/data/trafficBridge.py -> /home/hisham/BFMC/Brain_DEI/brain/build/input/build/lib/src/data
+[1.690s] copying src/data/semaphoreBridge.py -> /home/hisham/BFMC/Brain_DEI/brain/build/input/build/lib/src/data
+[1.692s] running install
+[1.698s] running install_lib
+[1.725s] copying /home/hisham/BFMC/Brain_DEI/brain/build/input/build/lib/src/data/trafficBridge.py -> /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data
+[1.725s] copying /home/hisham/BFMC/Brain_DEI/brain/build/input/build/lib/src/data/semaphoreBridge.py -> /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data
+[1.726s] copying /home/hisham/BFMC/Brain_DEI/brain/build/input/build/lib/data/trafficBridge.py -> /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data
+[1.726s] copying /home/hisham/BFMC/Brain_DEI/brain/build/input/build/lib/data/semaphoreBridge.py -> /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data
+[1.727s] byte-compiling /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data/trafficBridge.py to trafficBridge.cpython-312.pyc
+[1.728s] byte-compiling /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data/semaphoreBridge.py to semaphoreBridge.cpython-312.pyc
+[1.730s] byte-compiling /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data/trafficBridge.py to trafficBridge.cpython-312.pyc
+[1.731s] byte-compiling /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data/semaphoreBridge.py to semaphoreBridge.cpython-312.pyc
+[1.732s] running install_data
+[1.732s] running install_egg_info
+[1.760s] removing '/home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages/input-0.0.0-py3.12.egg-info' (and everything under it)
+[1.761s] Copying ../../build/input/input.egg-info to /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages/input-0.0.0-py3.12.egg-info
+[1.762s] running install_scripts
+[1.920s] Installing gpstrackerNODE script to /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/input
+[1.920s] Installing imuNODE script to /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/input
+[1.920s] Installing semaphoreBridgeNODE script to /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/input
+[1.920s] Installing semaphoreNODE script to /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/input
+[1.920s] Installing sonarNODE script to /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/input
+[1.921s] Installing trafficBridgeNODE script to /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/input
+[1.922s] writing list of installed files to '/home/hisham/BFMC/Brain_DEI/brain/build/input/install.log'
+[1.946s] Invoked command in '/home/hisham/BFMC/Brain_DEI/brain/src/input' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com LD_LIBRARY_PATH=/home/hisham/BFMC/Brain_DEI/brain/install/utils/lib:/opt/ros/jazzy/opt/zenoh_cpp_vendor/lib:/opt/ros/jazzy/opt/gz_sim_vendor/lib:/opt/ros/jazzy/opt/gz_sensors_vendor/lib:/opt/ros/jazzy/opt/gz_physics_vendor/lib:/opt/ros/jazzy/opt/sdformat_vendor/lib:/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/x86_64-linux-gnu:/opt/ros/jazzy/opt/gz_gui_vendor/lib:/opt/ros/jazzy/opt/gz_transport_vendor/lib:/opt/ros/jazzy/opt/gz_rendering_vendor/lib:/opt/ros/jazzy/opt/gz_plugin_vendor/lib:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/lib:/opt/ros/jazzy/opt/gz_msgs_vendor/lib:/opt/ros/jazzy/opt/gz_common_vendor/lib:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_tools_vendor/lib:/opt/ros/jazzy/opt/gz_ogre_next_vendor/lib:/opt/ros/jazzy/opt/gz_dartsim_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib:/home/hisham/acados_ws/acados/lib PYTHONPATH=/home/hisham/BFMC/Brain_DEI/brain/build/input/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages:/home/hisham/BFMC/Brain_DEI/brain/install/utils/lib/python3.12/site-packages:/home/hisham/BFMC/Brain_DEI/brain/install/unix_out/lib/python3.12/site-packages:/home/hisham/BFMC/Brain_DEI/brain/install/output/lib/python3.12/site-packages:/home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/input build --build-base /home/hisham/BFMC/Brain_DEI/brain/build/input/build install --record /home/hisham/BFMC/Brain_DEI/brain/build/input/install.log --single-version-externally-managed install_data

@@ -1,0 +1,48 @@
+running egg_info
+writing ../../build/input/input.egg-info/PKG-INFO
+writing dependency_links to ../../build/input/input.egg-info/dependency_links.txt
+writing entry points to ../../build/input/input.egg-info/entry_points.txt
+writing requirements to ../../build/input/input.egg-info/requires.txt
+writing top-level names to ../../build/input/input.egg-info/top_level.txt
+reading manifest file '../../build/input/input.egg-info/SOURCES.txt'
+writing manifest file '../../build/input/input.egg-info/SOURCES.txt'
+running build
+running build_py
+copying src/data/trafficBridge.py -> /home/hisham/BFMC/Brain_DEI/brain/build/input/build/lib/data
+copying src/data/semaphoreBridge.py -> /home/hisham/BFMC/Brain_DEI/brain/build/input/build/lib/data
+copying src/data/TrafficCommunication/processTrafficCommunication.py -> /home/hisham/BFMC/Brain_DEI/brain/build/input/build/lib/data/TrafficCommunication
+copying src/data/TrafficCommunication/threads/udpListener.py -> /home/hisham/BFMC/Brain_DEI/brain/build/input/build/lib/data/TrafficCommunication/threads
+copying src/data/trafficBridge.py -> /home/hisham/BFMC/Brain_DEI/brain/build/input/build/lib/src/data
+copying src/data/semaphoreBridge.py -> /home/hisham/BFMC/Brain_DEI/brain/build/input/build/lib/src/data
+copying src/data/TrafficCommunication/processTrafficCommunication.py -> /home/hisham/BFMC/Brain_DEI/brain/build/input/build/lib/src/data/TrafficCommunication
+copying src/data/TrafficCommunication/threads/udpListener.py -> /home/hisham/BFMC/Brain_DEI/brain/build/input/build/lib/src/data/TrafficCommunication/threads
+running install
+running install_lib
+copying /home/hisham/BFMC/Brain_DEI/brain/build/input/build/lib/src/data/trafficBridge.py -> /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data
+copying /home/hisham/BFMC/Brain_DEI/brain/build/input/build/lib/src/data/TrafficCommunication/threads/udpListener.py -> /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data/TrafficCommunication/threads
+copying /home/hisham/BFMC/Brain_DEI/brain/build/input/build/lib/src/data/TrafficCommunication/processTrafficCommunication.py -> /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data/TrafficCommunication
+copying /home/hisham/BFMC/Brain_DEI/brain/build/input/build/lib/src/data/semaphoreBridge.py -> /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data
+copying /home/hisham/BFMC/Brain_DEI/brain/build/input/build/lib/data/trafficBridge.py -> /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data
+copying /home/hisham/BFMC/Brain_DEI/brain/build/input/build/lib/data/TrafficCommunication/threads/udpListener.py -> /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data/TrafficCommunication/threads
+copying /home/hisham/BFMC/Brain_DEI/brain/build/input/build/lib/data/TrafficCommunication/processTrafficCommunication.py -> /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data/TrafficCommunication
+copying /home/hisham/BFMC/Brain_DEI/brain/build/input/build/lib/data/semaphoreBridge.py -> /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data
+byte-compiling /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data/trafficBridge.py to trafficBridge.cpython-312.pyc
+byte-compiling /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data/TrafficCommunication/threads/udpListener.py to udpListener.cpython-312.pyc
+byte-compiling /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data/TrafficCommunication/processTrafficCommunication.py to processTrafficCommunication.cpython-312.pyc
+byte-compiling /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages/src/data/semaphoreBridge.py to semaphoreBridge.cpython-312.pyc
+byte-compiling /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data/trafficBridge.py to trafficBridge.cpython-312.pyc
+byte-compiling /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data/TrafficCommunication/threads/udpListener.py to udpListener.cpython-312.pyc
+byte-compiling /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data/TrafficCommunication/processTrafficCommunication.py to processTrafficCommunication.cpython-312.pyc
+byte-compiling /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages/data/semaphoreBridge.py to semaphoreBridge.cpython-312.pyc
+running install_data
+running install_egg_info
+removing '/home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages/input-0.0.0-py3.12.egg-info' (and everything under it)
+Copying ../../build/input/input.egg-info to /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/python3.12/site-packages/input-0.0.0-py3.12.egg-info
+running install_scripts
+Installing gpstrackerNODE script to /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/input
+Installing imuNODE script to /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/input
+Installing semaphoreBridgeNODE script to /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/input
+Installing semaphoreNODE script to /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/input
+Installing sonarNODE script to /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/input
+Installing trafficBridgeNODE script to /home/hisham/BFMC/Brain_DEI/brain/install/input/lib/input
+writing list of installed files to '/home/hisham/BFMC/Brain_DEI/brain/build/input/install.log'

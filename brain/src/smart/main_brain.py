@@ -5,6 +5,7 @@ import signal
 import cv2 as cv
 # import rospy                # type: ignore #suppress warning
 import rclpy, threading
+from std_msgs.msg import Float32
 import numpy as np
 from time import sleep, time
 # from unix_socket_camera import UnixSocketCamera
@@ -155,6 +156,12 @@ if __name__ == '__main__':
 
     # initiliaze all the neural networks for detection and lane following
     detect = Detection()
+    car.create_subscription(
+        Float32,
+        '/traffic/distance',
+        lambda msg: setattr(detect, '_sensor_distance', msg.data),
+        10,
+    )
 
     if nac.RC_MODE:
         brain = RC_Brain(car=car, controller=controller, detection=detect, max_speed=DESIRED_SPEED)
