@@ -223,6 +223,91 @@ class Detection:
             cv.imshow('lane_detection', frame)
             # cv.waitKey(1)
         return e2, e3, est_point_ahead
+    
+    def detect_lane_sliding_window(self, frame, show_ROI=False):
+        """
+        Classical sliding window lane detection as a NN assist.
+        Returns e2 (lateral error normalised to [-1,1]),
+                e3 (yaw angle in radians),
+                est_point_ahead  — same interface as detect_lane.
+        Returns (None, None, None) when detection fails (too few lane pixels).
+        NOTE: verify e2/e3 sign conventions match your controller before blending
+              with NN output.
+        """
+        WORK_SIZE  = (64, 64)
+        N_WINDOWS  = 8
+        MARGIN     = 12   # half-width of each window [px]
+        MIN_PIX    = 4    # min pixels to accept a window centroid
+
+        gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
+        gray = gray[int(gray.shape[0] / 3):, :]
+        gray = cv.resize(gray, WORK_SIZE)
+        canny = cv.Canny(gray, 100, 200)
+
+        h, w = canny.shape
+        window_h = h // N_WINDOWS
+
+        # Starting positions from bottom-half column histogram
+        hist = np.sum(canny[h // 2:, :], axis=0)
+        mid  = w // 2
+        lx   = int(np.argmax(hist[:mid]))
+        rx   = int(np.argmax(hist[mid:]) + mid)
+
+        left_pts, right_pts = [], []
+
+        for i in range(N_WINDOWS):
+            y_lo = h - (i + 1) * window_h
+            y_hi = h - i * window_h
+            cy   = (y_lo + y_hi) // 2
+
+            # left window
+            lx_lo  = max(0, lx - MARGIN)
+            lx_hi  = min(w, lx + MARGIN)
+            l_cols = np.nonzero(canny[y_lo:y_hi, lx_lo:lx_hi])[1]
+            if len(l_cols) >= MIN_PIX:
+                lx = int(np.mean(l_cols)) + lx_lo
+                left_pts.append((lx, cy))
+
+            # right window
+            rx_lo  = max(0, rx - MARGIN)
+            rx_hi  = min(w, rx + MARGIN)
+            r_cols = np.nonzero(canny[y_lo:y_hi, rx_lo:rx_hi])[1]
+            if len(r_cols) >= MIN_PIX:
+                rx = int(np.mean(r_cols)) + rx_lo
+                right_pts.append((rx, cy))
+
+        if len(left_pts) < 2 or len(right_pts) < 2:
+            return None, None, None
+
+        lp = np.array(left_pts)
+        rp = np.array(right_pts)
+
+        # fit x = a*y + b for each side
+        lfit = np.polyfit(lp[:, 1], lp[:, 0], 1)
+        rfit = np.polyfit(rp[:, 1], rp[:, 0], 1)
+
+        # lane centre at bottom (close) and top (far)
+        cx_bot = (np.polyval(lfit, h - 1) + np.polyval(rfit, h - 1)) / 2.0
+        cx_top = (np.polyval(lfit, 0)     + np.polyval(rfit, 0))     / 2.0
+
+        # e2: lateral offset, +right / -left, normalised to [-1, 1]
+        e2 = (cx_bot - w / 2.0) / (w / 2.0)
+        # e3: yaw — positive when lane curves right ahead
+        e3 = np.arctan2(cx_top - cx_bot, float(h))
+
+        d = DISTANCE_POINT_AHEAD
+        est_point_ahead = np.array([np.cos(e3) * d + 0.2, np.sin(e3) * d])
+
+        if show_ROI:
+            vis = cv.cvtColor(canny, cv.COLOR_GRAY2BGR)
+            for pt in lp:
+                cv.circle(vis, tuple(pt), 2, (255, 80,   0), -1)
+            for pt in rp:
+                cv.circle(vis, tuple(pt), 2, (0,   80, 255), -1)
+            cv.line(vis, (int(cx_bot), h - 1), (int(cx_top), 0), (0, 255, 0), 1)
+            cv.imshow('sliding_window', vis)
+
+        return e2, e3, est_point_ahead
 
     def detect_lane_ahead(self, frame, show_ROI=True, faster=False):
         """
