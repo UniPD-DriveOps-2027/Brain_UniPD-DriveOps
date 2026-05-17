@@ -540,7 +540,7 @@ class Detection:
             # cv.waitKey(1)
         return e3, est_point_ahead
 
-    def detect_stopline(self, frame, show_ROI=True, sensor_weight=0.6):
+    def detect_stopline(self, frame, show_ROI=True, sensor_weight=1.0):
         """
         Estimates the distance to the next stop line.
         Fuses the NN x/y prediction with the depth sensor on /traffic/distance.
@@ -567,7 +567,7 @@ class Detection:
             stopline_angle = output[0][2]
 
             # --- Sensor fusion for x (distance) ---
-            if self._sensor_distance is not None:
+            if self._sensor_distance is not None and  self._sensor_distance != -1:
                 print("INSIIIIDE")
                 stopline_x = (
                     sensor_weight       * self._sensor_distance +
