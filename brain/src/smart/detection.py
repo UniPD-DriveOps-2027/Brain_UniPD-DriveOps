@@ -183,6 +183,7 @@ class Detection:
         # keep the bottom 2/3 of the image
         frame = cv.resize(frame, (2*IMG_SIZE[0], 2*IMG_SIZE[1]))
         #frame = cv.blur(frame, (7,7), 0)
+        frame = cv.convertScaleAbs(frame, alpha=2.0, beta=0)
         frame = cv.Canny(frame, 100, 200)
         frame = cv.blur(frame, (3, 3), 0)  # worse than blur after 11,11
         frame = cv.resize(frame, IMG_SIZE)

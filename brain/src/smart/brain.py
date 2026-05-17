@@ -87,7 +87,7 @@ else:
     CHECKPOINTS = [451, 393, 400] # TEST WHOLE PATH
     CHECKPOINTS = [125, 163, 336, 150] # TEST Thomas semaphores
     CHECKPOINTS = [472, 412, 393, 306, 150, 140, 121, 92, 109, 130, 147, 175, 133, 123, 118, 91, 163, 373, 406, 444] # TEST WHOLE PATH no 468 but 451
-    CHECKPOINTS = [451,421,390] #crosswalk, parking and intersection
+    # CHECKPOINTS = [451,421,390] #crosswalk, parking and intersection
     # CHECKPOINTS = [355,212,150] #roundabout and highway
     #CHECKPOINTS = [393,306] #right roundabout 
     # CHECKPOINTS = [329, 150, 140, 121, 92, 109, 130, 147]

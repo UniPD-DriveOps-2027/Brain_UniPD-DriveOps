@@ -689,7 +689,7 @@ def navigate_roundabout(brain, idx_point_ahead, max_idx, show):
     # brain.car.drive(speed=output_speed, angle=output_angle)
     SPEED       = 0.2    # 20 cm/s
     ENTRY_IDX   = 20    # cm straight before turning (35+2 from image)
-    STEER_RIGHT = 15.0   # degrees — tune on track
+    STEER_RIGHT = 13.0   # degrees — tune on track
     OUT_IDX     = 60     # cm before path end → lane detection for exit
 
     if idx_point_ahead < ENTRY_IDX:

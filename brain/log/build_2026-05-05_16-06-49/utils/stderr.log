@@ -1,5 +1,0 @@
-failed to create symbolic link '/home/hisham/BFMC/Brain_DEI/brain/build/utils/ament_cmake_python/utils/utils' because existing path cannot be removed: Is a directory
-gmake[2]: *** [CMakeFiles/ament_cmake_python_symlink_utils.dir/build.make:70: CMakeFiles/ament_cmake_python_symlink_utils] Error 1
-gmake[1]: *** [CMakeFiles/Makefile2:452: CMakeFiles/ament_cmake_python_symlink_utils.dir/all] Error 2
-gmake[1]: *** Waiting for unfinished jobs....
-gmake: *** [Makefile:146: all] Error 2
