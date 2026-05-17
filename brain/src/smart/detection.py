@@ -538,22 +538,34 @@ class Detection:
             # cv.waitKey(1)
         return e3, est_point_ahead
 
-    def detect_stopline(self, frame, show_ROI=True):
+    def detect_stopline(self, frame, show_ROI=True, sensor_weight=0.6):
         """
         Estimates the distance to the next stop line.
         Fuses the NN x/y prediction with the depth sensor on /traffic/distance.
-        Subscriber is created lazily on the first call.
+        A background ROS2 listener thread is created lazily on the first call.
         """
-        # --- Lazy subscriber init (only runs once) ---
-        sensor_weight=1
-        if not hasattr(self, '_distance_sub'):
+        # --- Lazy background listener (only runs once) ---
+        if not hasattr(self, '_sensor_distance'):
+            import threading
+            import rclpy
+            from std_msgs.msg import Float32
+
             self._sensor_distance = None
-            self._distance_sub = self.create_subscription(
-                Float32,
-                '/traffic/distance',
-                lambda msg: setattr(self, '_sensor_distance', msg.data),
-                10
-            )
+
+            def _spin_listener():
+                if not rclpy.ok():
+                    rclpy.init()
+                node = rclpy.create_node('stopline_distance_listener')
+                node.create_subscription(
+                    Float32,
+                    '/traffic/distance',
+                    lambda msg: setattr(self, '_sensor_distance', msg.data),
+                    10
+                )
+                rclpy.spin(node)
+
+            thread = threading.Thread(target=_spin_listener, daemon=True)
+            thread.start()
 
         start_time = time()
         IMG_SIZE = (32, 32)
@@ -576,7 +588,7 @@ class Detection:
             stopline_angle = output[0][2]
 
             # --- Sensor fusion for x (distance) ---
-            if self._sensor_distance is not None and self._sensor_distance != -1:
+            if self._sensor_distance is not None:
                 stopline_x = (
                     sensor_weight       * self._sensor_distance +
                     (1 - sensor_weight) * nn_x
