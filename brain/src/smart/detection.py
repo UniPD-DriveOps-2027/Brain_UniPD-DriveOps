@@ -8,6 +8,7 @@ from time import time
 import names_and_constants as nac
 from ultralytics import YOLO
 from stopline import detect_angle
+from std_msgs.msg import Float32
 
 LANE_KEEPER_PATH = "models/lane_keeper_small.onnx" #main model for lane keeping
 # LANE_KEEPER_PATH = "models/round_about8001.onnx"
@@ -539,40 +540,67 @@ class Detection:
 
     def detect_stopline(self, frame, show_ROI=True):
         """
-        Estimates the distance to the next stop line
+        Estimates the distance to the next stop line.
+        Fuses the NN x/y prediction with the depth sensor on /traffic/distance.
+        Subscriber is created lazily on the first call.
         """
+        # --- Lazy subscriber init (only runs once) ---
+        sensor_weight=0.6
+        if not hasattr(self, '_distance_sub'):
+            self._sensor_distance = None
+            self._distance_sub = self.create_subscription(
+                Float32,
+                '/traffic/distance',
+                lambda msg: setattr(self, '_sensor_distance', msg.data),
+                10
+            )
+
         start_time = time()
-        IMG_SIZE = (32, 32)  # match with trainer
+        IMG_SIZE = (32, 32)
         try:
-            # convert to gray
+            # --- Vision-based prediction (unchanged) ---
             frame = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
-            frame = frame[int(frame.shape[0]*(2/5)):, :]
-            # keep the bottom 2/3 of the image
+            frame = frame[int(frame.shape[0] * (2 / 5)):, :]
             frame = cv.blur(frame, (9, 9), 0)
-            frame = cv.resize(frame, (2*IMG_SIZE[0], 2*IMG_SIZE[1]))
+            frame = cv.resize(frame, (2 * IMG_SIZE[0], 2 * IMG_SIZE[1]))
             frame = cv.Canny(frame, 100, 200)
-            frame = cv.blur(frame, (3, 3), 0)  # worse than blur after 11,11
+            frame = cv.blur(frame, (3, 3), 0)
             frame = cv.resize(frame, IMG_SIZE)
 
-            blob = cv.dnn.blobFromImage(frame, 1.0, IMG_SIZE, 0, swapRB=True,
-                                        crop=False)
+            blob = cv.dnn.blobFromImage(frame, 1.0, IMG_SIZE, 0, swapRB=True, crop=False)
             self.stopline_estimator_adv.setInput(blob)
             output = self.stopline_estimator_adv.forward()
-            stopline_x = dist = output[0][0] + PREDICTION_OFFSET
-            stopline_y = output[0][1]
-            stopline_angle = output[0][2]
-            self.est_dist_to_stopline = dist
 
-            stopline_detection_time = 1000*(time()-start_time)
-            self.avg_stopline_detection_time = \
-                (self.avg_stopline_detection_time*self.lane_cnt +
-                 stopline_detection_time) / (self.lane_cnt+1)
+            nn_x           = output[0][0] + PREDICTION_OFFSET
+            nn_y           = output[0][1]
+            stopline_angle = output[0][2]
+
+            # --- Sensor fusion for x (distance) ---
+            if self._sensor_distance is not None and self._sensor_distance != -1:
+                stopline_x = (
+                    sensor_weight       * self._sensor_distance +
+                    (1 - sensor_weight) * nn_x
+                )
+                stopline_y = nn_y * (stopline_x / nn_x) if nn_x > 1e-6 else nn_y
+            else:
+                # No sensor reading yet — fall back to pure NN
+                stopline_x = nn_x
+                stopline_y = nn_y
+
+            self.est_dist_to_stopline = stopline_x
+
+            # --- Timing bookkeeping (unchanged) ---
+            stopline_detection_time = 1000 * (time() - start_time)
+            self.avg_stopline_detection_time = (
+                self.avg_stopline_detection_time * self.lane_cnt +
+                stopline_detection_time
+            ) / (self.lane_cnt + 1)
             self.lane_cnt += 1
+
             if show_ROI:
                 cv.imshow('stopline_detection', frame)
-                cv.imwrite(f'sd/sd_{int(time()*1000)}.png', frame)
-                # cv.waitKey(1)
-            #print(f"stopline_detection dist: {dist:.2f}, in {stopline_detection_time:.2f} ms")
+                cv.imwrite(f'sd/sd_{int(time() * 1000)}.png', frame)
+
             return stopline_x, stopline_y, stopline_angle
         except Exception:
             return 69, 420, 666
