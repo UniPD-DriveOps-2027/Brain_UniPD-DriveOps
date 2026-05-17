@@ -589,6 +589,7 @@ class Detection:
 
             # --- Sensor fusion for x (distance) ---
             if self._sensor_distance is not None:
+                print("INSIIIIDE")
                 stopline_x = (
                     sensor_weight       * self._sensor_distance +
                     (1 - sensor_weight) * nn_x
@@ -600,6 +601,7 @@ class Detection:
                 stopline_y = nn_y
 
             self.est_dist_to_stopline = stopline_x
+            print("LOOOL", self.est_dist_to_stopline)
 
             # --- Timing bookkeeping (unchanged) ---
             stopline_detection_time = 1000 * (time() - start_time)
