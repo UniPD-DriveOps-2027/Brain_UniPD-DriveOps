@@ -588,15 +588,16 @@ class PathPlanning():
             print(F"UNWRAPPED {edge_yaw_deg}")
             edge_yaw_deg = (edge_yaw_deg + 360) % 360
             
-            error_yaw = edge_yaw_deg - car_yaw
+            error_yaw = ((edge_yaw_deg - car_yaw + 180) % 360) - 180  # wrap to [-180, 180]
 
             print(f"car yaw: {car_yaw}, edge_yaw = {edge_yaw_deg}, error_yaw = {error_yaw}")
             print("////")
 
             if abs(error_yaw) < YAW_DIFF_THRESHOLD:
                 print("Closest node is ", self.all_start_nodes[x[0]])
-                return self.all_start_nodes[x[0]], dist[x[0]]     
-        print("Error: impossible to find closest node") 
+                return self.all_start_nodes[x[0]], dist[x[0]]
+        print("Error: impossible to find closest node, returning None (caller will fall back to distance-only)")
+        return None
 
     def is_dotted(self, n):
         """
