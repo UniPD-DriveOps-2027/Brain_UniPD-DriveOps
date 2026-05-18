@@ -44,7 +44,7 @@ if RANDOM_START:
         #END_NODE = EVENT_CONFIGS[SELECTED_EVENT]["checkpoints"][-1]
         END_NODE = CHECKPOINTS[-1]
         print(f"Starting coords: {STARTING_COORDS}, Checkpoints: {CHECKPOINTS}, End node: {END_NODE}")
-        GPS_FOR_START_ONLY = False
+        GPS_FOR_START_ONLY = True
         USE_FRUITS_GENERATED_PATH = False #we are not using fruits path for when we are testing specific events
     # GET THE BEST "FRUITS" PATH FROM RANDOM POSITION     
     else: 
@@ -509,6 +509,7 @@ class Brain:
                 if semaphore_start_state == nac.GREEN:
                     break
             """
+        
         sleep(0.1)
 
         # <++>
@@ -519,6 +520,7 @@ class Brain:
         while True:
             # get closest node
             if not ALWAYS_DISTRUST_GPS or GPS_FOR_START_ONLY:
+                print("HERE BEFORE WHILE TRUE")
                 sleep(3.0)  # wait for GPS to arrive before reading position
                 curr_pos = np.array([self.car.x_est, self.car.y_est])
                 # use median yaw to filter out IMU spikes at startup
@@ -544,10 +546,13 @@ class Brain:
                     self.checkpoints[self.checkpoint_idx] = int(closest_node)
                     if distance > 5.0:
                         self.error('ERROR: REROUTING: GPS converged, but distance is too large , we are too far from the lane')
+                    sleep(10.0)
                     break
                 if elapsed > GPS_TIMEOUT:
                     print('WARNING: ROUTE_GENERATION: No gps signal, Starting from the first checkpoint')
+                    sleep(10.0)
                     break
+               
             else:
                 if STARTING_COORDS != [-42, -42]:        
                     curr_pos = np.array(STARTING_COORDS)
@@ -580,8 +585,8 @@ class Brain:
         # elif self.checkpoints[0] in RB_NODES_LEFT_INT:
         #     self.checkpoints.insert(1, 145)                     #BFMC_2023
 
-        #self.switch_to_state(nac.START_STATE)
         self.switch_to_state(nac.START_STATE)
+        #self.switch_to_state(nac.START_STATE)
 
     # =============== STATES =============== #
     def start_state(self):
