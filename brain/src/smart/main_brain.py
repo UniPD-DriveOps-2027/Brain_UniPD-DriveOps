@@ -62,7 +62,7 @@ track = cv.imread('data/2024_VerySmall.png')
 TARGET_FPS = 30.0 # target fps of the main loop
 
 
-DESIRED_SPEED = 0.35  # [m/s]
+DESIRED_SPEED = 0.25  # [m/s]
 SP_SPEED = 0.35  # [m/s]
 CURVE_SPEED = 0.25  # [m/s]
 BL_SP_SPEED = 0.8

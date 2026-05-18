@@ -35,7 +35,11 @@ from data.TrafficCommunication.threads.threadTrafficCommunication import threadT
 from data.TrafficCommunication.useful.sharedMem import sharedMem
 
 # ── Config ───────────────────────────────────────────────────────────── #
+<<<<<<< Updated upstream
 DEVICE_ID = 3          # Change to your car's ID (shown on the localization device)
+=======
+DEVICE_ID = 6        # Change to your car's ID (shown on the localization device)
+>>>>>>> Stashed changes
 FREQUENCY = 1.0        # Position update frequency in seconds (0.1–5.0)
 KEY_PATH  = 'src/input/src/data/TrafficCommunication/useful/publickey_server.pem'
 # At competition use: 'src/input/src/data/TrafficCommunication/useful/publickey_server.pem'
