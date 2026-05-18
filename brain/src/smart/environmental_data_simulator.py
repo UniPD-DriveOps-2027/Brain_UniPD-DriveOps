@@ -75,6 +75,9 @@ class EnvironmentalData:
             nac.ANTIMASTER: 0,
             nac.START:      0,
             nac.ANTISLAVE:  0,
+            nac.USELESS:    2,
+            nac.USELESS2:   2,
+            nac.TEST2:      2,
         }
         self.semaphore_positions = {
             nac.MASTER:     np.array([0.0, 0.0]),
@@ -82,6 +85,9 @@ class EnvironmentalData:
             nac.ANTIMASTER: np.array([0.0, 0.0]),
             nac.START:      np.array([0.0, 0.0]),
             nac.ANTISLAVE:  np.array([0.0, 0.0]),
+            nac.USELESS:    np.array([0.0, 0.0]),
+            nac.USELESS2:   np.array([0.0, 0.0]),
+            nac.TEST2:      np.array([0.0, 0.0]),
         }
 
         # ── Subscribers (created on the car node) ──────────────────── #
@@ -113,6 +119,15 @@ class EnvironmentalData:
             self._node.create_subscription(
                 Semaphore, '/automobile/semaphore/antislave',
                 self.semaphore_antislave_callback, 1)
+            self._node.create_subscription(
+                Semaphore, '/automobile/semaphore/useless',
+                self.semaphore_useless_callback, 1)
+            self._node.create_subscription(
+                Semaphore, '/automobile/semaphore/useless2',
+                self.semaphore_useless2_callback, 1)
+            self._node.create_subscription(
+                Semaphore, '/automobile/semaphore/test2',
+                self.semaphore_test2_callback, 1)
 
     # ── V2V ───────────────────────────────────────────────────────── #
     def v2v_callback(self, data) -> None:
@@ -173,6 +188,18 @@ class EnvironmentalData:
     def semaphore_antislave_callback(self, data):
         self.semaphore_states[nac.ANTISLAVE]    = data.state
         self.semaphore_positions[nac.ANTISLAVE] = np.array([data.pos_x, data.pos_y])
+
+    def semaphore_useless_callback(self, data):
+        self.semaphore_states[nac.USELESS]    = data.state
+        self.semaphore_positions[nac.USELESS] = np.array([data.pos_x, data.pos_y])
+
+    def semaphore_useless2_callback(self, data):
+        self.semaphore_states[nac.USELESS2]    = data.state
+        self.semaphore_positions[nac.USELESS2] = np.array([data.pos_x, data.pos_y])
+
+    def semaphore_test2_callback(self, data):
+        self.semaphore_states[nac.TEST2]    = data.state
+        self.semaphore_positions[nac.TEST2] = np.array([data.pos_x, data.pos_y])
 
     def get_semaphore_state(self, semaphore_key):
         assert semaphore_key in self.semaphore_states, f"Semaphore key not recognized: {semaphore_key}"

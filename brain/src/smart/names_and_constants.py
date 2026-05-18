@@ -245,6 +245,9 @@ SLAVE = 'slave'
 ANTIMASTER = 'antimaster'
 START = 'start'
 ANTISLAVE = 'antislave'
+USELESS = 'useless'
+USELESS2 = 'useless2'
+TEST2 = 'test2'
 
 # semaphore states
 GREEN = 2
