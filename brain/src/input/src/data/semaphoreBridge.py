@@ -33,14 +33,14 @@ from data.Semaphores.threads.threadSemaphores import threadSemaphores
 # ── Semaphore ID → ROS2 topic suffix ─────────────────────────────────── #
 # Keys are the integer IDs the server broadcasts. Adjust if needed.
 SEMAPHORE_ID_MAP = {
-    0: 'start',
+    0: 'useless',
     1: 'master',
     2: 'slave',
     3: 'antimaster',
-    4: 'antislave',
-    5: 'test1',
+    4: 'useless2',
+    5: 'antislave',
     6: 'test2',
-    7: 'test3',
+    7: 'start',
 }
 
 STATE_MAP = {

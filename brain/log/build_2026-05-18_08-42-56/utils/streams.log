@@ -1,0 +1,583 @@
+[0.015s] Invoking command in '/home/davide-pillon/Desktop/Brain_DEII/brain/build/utils': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake /home/davide-pillon/Desktop/Brain_DEII/brain/src/utils -DCMAKE_INSTALL_PREFIX=/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils
+[0.226s] -- The C compiler identification is GNU 13.3.0
+[0.358s] -- The CXX compiler identification is GNU 13.3.0
+[0.374s] -- Detecting C compiler ABI info
+[0.461s] -- Detecting C compiler ABI info - done
+[0.468s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.468s] -- Detecting C compile features
+[0.469s] -- Detecting C compile features - done
+[0.477s] -- Detecting CXX compiler ABI info
+[0.560s] -- Detecting CXX compiler ABI info - done
+[0.568s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.568s] -- Detecting CXX compile features
+[0.568s] -- Detecting CXX compile features - done
+[0.583s] -- Found ament_cmake: 2.5.5 (/opt/ros/jazzy/share/ament_cmake/cmake)
+[0.711s] -- Found Python3: /usr/bin/python3 (found version "3.12.3") found components: Interpreter 
+[0.824s] -- Found rosidl_default_generators: 1.6.0 (/opt/ros/jazzy/share/rosidl_default_generators/cmake)
+[0.832s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.901s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.955s] -- Found rosidl_adapter: 4.6.7 (/opt/ros/jazzy/share/rosidl_adapter/cmake)
+[0.960s] -- Found std_msgs: 5.3.6 (/opt/ros/jazzy/share/std_msgs/cmake)
+[1.608s] -- Found ament_cmake_ros: 0.12.0 (/opt/ros/jazzy/share/ament_cmake_ros/cmake)
+[1.988s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[2.486s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[2.489s] -- Found python_cmake_module: 0.11.1 (/opt/ros/jazzy/share/python_cmake_module/cmake)
+[2.597s] -- Found PythonExtra: /usr/bin/python3  
+[3.031s] -- Found Python3: /usr/bin/python3 (found version "3.12.3") found components: Interpreter Development NumPy Development.Module Development.Embed 
+[3.080s] -- Configuring done (3.0s)
+[3.128s] -- Generating done (0.0s)
+[3.138s] -- Build files have been written to: /home/davide-pillon/Desktop/Brain_DEII/brain/build/utils
+[3.146s] Invoked command in '/home/davide-pillon/Desktop/Brain_DEII/brain/build/utils' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake /home/davide-pillon/Desktop/Brain_DEII/brain/src/utils -DCMAKE_INSTALL_PREFIX=/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils
+[3.147s] Invoking command in '/home/davide-pillon/Desktop/Brain_DEII/brain/build/utils': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/davide-pillon/Desktop/Brain_DEII/brain/build/utils -- -j8 -l8
+[3.189s] [  1%] [34m[1mGenerating type hashes for ROS interfaces[0m
+[3.196s] [  1%] Built target ament_cmake_python_copy_utils
+[3.395s] running egg_info
+[3.396s] creating utils.egg-info
+[3.414s] writing utils.egg-info/PKG-INFO
+[3.414s] writing dependency_links to utils.egg-info/dependency_links.txt
+[3.415s] writing top-level names to utils.egg-info/top_level.txt
+[3.415s] writing manifest file 'utils.egg-info/SOURCES.txt'
+[3.466s] reading manifest file 'utils.egg-info/SOURCES.txt'
+[3.466s] writing manifest file 'utils.egg-info/SOURCES.txt'
+[3.490s] [  1%] Built target ament_cmake_python_build_utils_egg
+[3.522s] [  1%] Built target utils__rosidl_generator_type_description
+[3.531s] [  2%] [34m[1mGenerating C code for ROS interfaces[0m
+[3.539s] [  2%] [34m[1mGenerating C++ code for ROS interfaces[0m
+[4.184s] [  2%] Built target utils__cpp
+[4.364s] [  6%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_c.dir/rosidl_generator_c/utils/msg/detail/localisation__description.c.o[0m
+[4.364s] [  6%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_c.dir/rosidl_generator_c/utils/msg/detail/localisation__functions.c.o[0m
+[4.365s] [  6%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_c.dir/rosidl_generator_c/utils/msg/detail/imu__description.c.o[0m
+[4.365s] [  6%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_c.dir/rosidl_generator_c/utils/msg/detail/vehicles__description.c.o[0m
+[4.365s] [  6%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_c.dir/rosidl_generator_c/utils/msg/detail/imu__functions.c.o[0m
+[4.365s] [  7%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_c.dir/rosidl_generator_c/utils/msg/detail/imu__type_support.c.o[0m
+[4.366s] [  8%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_c.dir/rosidl_generator_c/utils/msg/detail/vehicles__functions.c.o[0m
+[4.366s] [  8%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_c.dir/rosidl_generator_c/utils/msg/detail/localisation__type_support.c.o[0m
+[4.412s] [  8%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_c.dir/rosidl_generator_c/utils/msg/detail/vehicles__type_support.c.o[0m
+[4.412s] [  9%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_c.dir/rosidl_generator_c/utils/msg/detail/environmental__description.c.o[0m
+[4.423s] [ 10%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_c.dir/rosidl_generator_c/utils/msg/detail/environmental__type_support.c.o[0m
+[4.424s] [ 10%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_c.dir/rosidl_generator_c/utils/msg/detail/log__description.c.o[0m
+[4.425s] [ 11%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_c.dir/rosidl_generator_c/utils/msg/detail/environmental__functions.c.o[0m
+[4.448s] [ 14%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_c.dir/rosidl_generator_c/utils/msg/detail/topic_info__description.c.o[0m
+[4.448s] [ 14%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_c.dir/rosidl_generator_c/utils/msg/detail/log__type_support.c.o[0m
+[4.448s] [ 14%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_c.dir/rosidl_generator_c/utils/msg/detail/log__functions.c.o[0m
+[4.448s] [ 14%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_c.dir/rosidl_generator_c/utils/msg/detail/topic_info__functions.c.o[0m
+[4.460s] [ 15%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_c.dir/rosidl_generator_c/utils/msg/detail/topic_info__type_support.c.o[0m
+[4.462s] [ 16%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_c.dir/rosidl_generator_c/utils/msg/detail/semaphore__description.c.o[0m
+[4.473s] [ 17%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_c.dir/rosidl_generator_c/utils/msg/detail/semaphore__functions.c.o[0m
+[4.486s] [ 18%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_c.dir/rosidl_generator_c/utils/msg/detail/conditions__description.c.o[0m
+[4.486s] [ 18%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_c.dir/rosidl_generator_c/utils/msg/detail/semaphore__type_support.c.o[0m
+[4.495s] [ 19%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_c.dir/rosidl_generator_c/utils/msg/detail/conditions__functions.c.o[0m
+[4.502s] [ 20%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_c.dir/rosidl_generator_c/utils/msg/detail/conditions__type_support.c.o[0m
+[4.505s] [ 20%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_c.dir/rosidl_generator_c/utils/msg/detail/trafficsignprediction__description.c.o[0m
+[4.509s] [ 22%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_c.dir/rosidl_generator_c/utils/msg/detail/trafficsignprediction__functions.c.o[0m
+[4.509s] [ 22%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_c.dir/rosidl_generator_c/utils/msg/detail/trafficsignprediction__type_support.c.o[0m
+[4.524s] [ 23%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_c.dir/rosidl_generator_c/utils/srv/detail/subscribing__description.c.o[0m
+[4.534s] [ 23%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_c.dir/rosidl_generator_c/utils/srv/detail/subscribing__functions.c.o[0m
+[4.540s] [ 24%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_c.dir/rosidl_generator_c/utils/srv/detail/subscribing__type_support.c.o[0m
+[4.540s] [ 25%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_c.dir/rosidl_generator_c/utils/srv/detail/request_param__description.c.o[0m
+[4.549s] [ 26%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_c.dir/rosidl_generator_c/utils/srv/detail/request_param__functions.c.o[0m
+[4.552s] [ 26%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_c.dir/rosidl_generator_c/utils/srv/detail/request_param__type_support.c.o[0m
+[4.619s] [ 27%] [32m[1mLinking C shared library libutils__rosidl_generator_c.so[0m
+[4.671s] [ 27%] Built target utils__rosidl_generator_c
+[4.697s] [ 28%] [34m[1mGenerating C type support dispatch for ROS interfaces[0m
+[4.699s] [ 29%] [34m[1mGenerating C type support for eProsima Fast-RTPS[0m
+[4.699s] [ 29%] [34m[1mGenerating C introspection for ROS interfaces[0m
+[4.699s] [ 31%] [34m[1mGenerating C++ type support for eProsima Fast-RTPS[0m
+[4.700s] [ 31%] [34m[1mGenerating C++ introspection for ROS interfaces[0m
+[4.701s] [ 31%] [34m[1mGenerating C++ type support dispatch for ROS interfaces[0m
+[5.333s] [ 34%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/utils/msg/vehicles__type_support.cpp.o[0m
+[5.333s] [ 34%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/utils/msg/imu__type_support.cpp.o[0m
+[5.333s] [ 34%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/utils/msg/localisation__type_support.cpp.o[0m
+[5.553s] [ 34%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_c.dir/rosidl_typesupport_c/utils/msg/imu__type_support.cpp.o[0m
+[5.611s] [ 35%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_c.dir/rosidl_typesupport_c/utils/msg/localisation__type_support.cpp.o[0m
+[5.667s] [ 36%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_c.dir/rosidl_typesupport_c/utils/msg/vehicles__type_support.cpp.o[0m
+[5.727s] [ 37%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_c.dir/rosidl_typesupport_c/utils/msg/environmental__type_support.cpp.o[0m
+[5.776s] [ 37%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_c.dir/rosidl_typesupport_c/utils/msg/log__type_support.cpp.o[0m
+[5.780s] [ 38%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_c.dir/rosidl_typesupport_c/utils/msg/topic_info__type_support.cpp.o[0m
+[5.792s] [ 39%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_c.dir/rosidl_typesupport_c/utils/msg/semaphore__type_support.cpp.o[0m
+[5.792s] [ 39%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/utils/msg/environmental__type_support.cpp.o[0m
+[5.804s] [ 40%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/utils/msg/detail/imu__type_support.cpp.o[0m
+[5.829s] [ 41%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/utils/msg/detail/localisation__type_support.cpp.o[0m
+[5.834s] [ 42%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/utils/msg/log__type_support.cpp.o[0m
+[5.845s] [ 43%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_c.dir/rosidl_typesupport_c/utils/msg/conditions__type_support.cpp.o[0m
+[5.896s] [ 43%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_c.dir/rosidl_typesupport_c/utils/msg/trafficsignprediction__type_support.cpp.o[0m
+[5.902s] [ 44%] [32mBuilding C object CMakeFiles/utils__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/utils/msg/detail/imu__type_support.c.o[0m
+[5.954s] [ 45%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_c.dir/rosidl_typesupport_c/utils/srv/subscribing__type_support.cpp.o[0m
+[5.970s] [ 45%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/utils/msg/detail/dds_fastrtps/imu__type_support.cpp.o[0m
+[5.971s] [ 46%] [32mBuilding C object CMakeFiles/utils__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/utils/msg/detail/localisation__type_support.c.o[0m
+[6.033s] [ 47%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_c.dir/rosidl_typesupport_c/utils/srv/request_param__type_support.cpp.o[0m
+[6.060s] [ 48%] [32mBuilding C object CMakeFiles/utils__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/utils/msg/detail/vehicles__type_support.c.o[0m
+[6.095s] [ 49%] [32m[1mLinking CXX shared library libutils__rosidl_typesupport_c.so[0m
+[6.133s] [ 49%] [32mBuilding C object CMakeFiles/utils__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/utils/msg/detail/environmental__type_support.c.o[0m
+[6.168s] [ 49%] Built target utils__rosidl_typesupport_c
+[6.180s] [ 50%] [32mBuilding C object CMakeFiles/utils__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/utils/msg/detail/log__type_support.c.o[0m
+[6.181s] [ 51%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/utils/msg/detail/dds_fastrtps/localisation__type_support.cpp.o[0m
+[6.190s] [ 52%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/utils/msg/detail/dds_fastrtps/vehicles__type_support.cpp.o[0m
+[6.205s] [ 52%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/utils/msg/detail/vehicles__type_support.cpp.o[0m
+[6.230s] [ 53%] [32mBuilding C object CMakeFiles/utils__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/utils/msg/detail/topic_info__type_support.c.o[0m
+[6.270s] [ 54%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/utils/msg/topic_info__type_support.cpp.o[0m
+[6.273s] [ 55%] [32mBuilding C object CMakeFiles/utils__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/utils/msg/detail/semaphore__type_support.c.o[0m
+[6.282s] [ 56%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/utils/msg/detail/environmental__type_support.cpp.o[0m
+[6.284s] [ 57%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/utils/msg/detail/imu__type_support_c.cpp.o[0m
+[6.318s] [ 57%] [32mBuilding C object CMakeFiles/utils__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/utils/msg/detail/conditions__type_support.c.o[0m
+[6.370s] [ 58%] [32mBuilding C object CMakeFiles/utils__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/utils/msg/detail/trafficsignprediction__type_support.c.o[0m
+[6.421s] [ 59%] [32mBuilding C object CMakeFiles/utils__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/utils/srv/detail/subscribing__type_support.c.o[0m
+[6.485s] [ 60%] [32mBuilding C object CMakeFiles/utils__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/utils/srv/detail/request_param__type_support.c.o[0m
+[6.562s] [ 60%] [32m[1mLinking C shared library libutils__rosidl_typesupport_introspection_c.so[0m
+[6.608s] [ 61%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/utils/msg/detail/dds_fastrtps/environmental__type_support.cpp.o[0m
+[6.609s] [ 61%] Built target utils__rosidl_typesupport_introspection_c
+[6.622s] [ 61%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/utils/msg/detail/localisation__type_support_c.cpp.o[0m
+[6.668s] [ 61%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/utils/msg/detail/dds_fastrtps/log__type_support.cpp.o[0m
+[6.687s] [ 61%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/utils/msg/semaphore__type_support.cpp.o[0m
+[6.717s] [ 62%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/utils/msg/detail/log__type_support.cpp.o[0m
+[6.812s] [ 63%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/utils/msg/conditions__type_support.cpp.o[0m
+[6.826s] [ 64%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/utils/msg/detail/vehicles__type_support_c.cpp.o[0m
+[6.873s] [ 65%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/utils/msg/detail/topic_info__type_support.cpp.o[0m
+[7.119s] [ 66%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/utils/msg/trafficsignprediction__type_support.cpp.o[0m
+[7.151s] [ 66%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/utils/msg/detail/semaphore__type_support.cpp.o[0m
+[7.230s] [ 67%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/utils/srv/subscribing__type_support.cpp.o[0m
+[7.250s] [ 68%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/utils/msg/detail/dds_fastrtps/topic_info__type_support.cpp.o[0m
+[7.280s] [ 69%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/utils/msg/detail/environmental__type_support_c.cpp.o[0m
+[7.284s] [ 70%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/utils/msg/detail/log__type_support_c.cpp.o[0m
+[7.342s] [ 70%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/utils/srv/request_param__type_support.cpp.o[0m
+[7.482s] [ 70%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/utils/msg/detail/topic_info__type_support_c.cpp.o[0m
+[7.526s] [ 71%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/utils/msg/detail/dds_fastrtps/semaphore__type_support.cpp.o[0m
+[7.579s] [ 72%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/utils/msg/detail/conditions__type_support.cpp.o[0m
+[7.828s] [ 73%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/utils/msg/detail/semaphore__type_support_c.cpp.o[0m
+[7.877s] [ 74%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/utils/msg/detail/trafficsignprediction__type_support.cpp.o[0m
+[7.922s] [ 75%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/utils/msg/detail/dds_fastrtps/conditions__type_support.cpp.o[0m
+[7.970s] [ 76%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/utils/msg/detail/conditions__type_support_c.cpp.o[0m
+[8.000s] [ 77%] [32m[1mLinking CXX shared library libutils__rosidl_typesupport_cpp.so[0m
+[8.009s] [ 78%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/utils/srv/detail/subscribing__type_support.cpp.o[0m
+[8.133s] [ 78%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/utils/msg/detail/dds_fastrtps/trafficsignprediction__type_support.cpp.o[0m
+[8.149s] [ 78%] Built target utils__rosidl_typesupport_cpp
+[8.155s] [ 78%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/utils/srv/detail/request_param__type_support.cpp.o[0m
+[8.162s] [ 79%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/utils/msg/detail/trafficsignprediction__type_support_c.cpp.o[0m
+[8.292s] [ 80%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/utils/srv/detail/dds_fastrtps/subscribing__type_support.cpp.o[0m
+[8.456s] [ 81%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/utils/srv/detail/dds_fastrtps/request_param__type_support.cpp.o[0m
+[8.534s] [ 81%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/utils/srv/detail/subscribing__type_support_c.cpp.o[0m
+[8.582s] [ 82%] [32mBuilding CXX object CMakeFiles/utils__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/utils/srv/detail/request_param__type_support_c.cpp.o[0m
+[8.905s] [ 83%] [32m[1mLinking CXX shared library libutils__rosidl_typesupport_introspection_cpp.so[0m
+[8.989s] [ 83%] Built target utils__rosidl_typesupport_introspection_cpp
+[9.137s] [ 84%] [32m[1mLinking CXX shared library libutils__rosidl_typesupport_fastrtps_c.so[0m
+[9.177s] [ 85%] [32m[1mLinking CXX shared library libutils__rosidl_typesupport_fastrtps_cpp.so[0m
+[9.207s] [ 85%] Built target utils__rosidl_typesupport_fastrtps_c
+[9.247s] [ 85%] Built target utils__rosidl_typesupport_fastrtps_cpp
+[9.263s] [ 85%] Built target utils
+[9.285s] [ 86%] [34m[1mGenerating Python code for ROS interfaces[0m
+[10.240s] [ 86%] Built target utils__py
+[10.261s] [ 91%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/msg/_environmental_s.c.o[0m
+[10.261s] [ 91%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/msg/_vehicles_s.c.o[0m
+[10.261s] [ 91%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/msg/_semaphore_s.c.o[0m
+[10.261s] [ 91%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/msg/_topic_info_s.c.o[0m
+[10.261s] [ 91%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/msg/_localisation_s.c.o[0m
+[10.261s] [ 91%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/msg/_imu_s.c.o[0m
+[10.261s] [ 91%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/msg/_log_s.c.o[0m
+[10.261s] [ 92%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/msg/_conditions_s.c.o[0m
+[10.458s] [ 93%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/srv/_subscribing_s.c.o[0m
+[10.460s] [ 94%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/srv/_request_param_s.c.o[0m
+[10.460s] [ 94%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/msg/_trafficsignprediction_s.c.o[0m
+[10.600s] [ 95%] [32m[1mLinking C shared library libutils__rosidl_generator_py.so[0m
+[10.644s] [ 95%] Built target utils__rosidl_generator_py
+[10.661s] [ 97%] [32mBuilding C object CMakeFiles/utils_s__rosidl_typesupport_fastrtps_c.dir/rosidl_generator_py/utils/_utils_s.ep.rosidl_typesupport_fastrtps_c.c.o[0m
+[10.661s] [ 97%] [32mBuilding C object CMakeFiles/utils_s__rosidl_typesupport_c.dir/rosidl_generator_py/utils/_utils_s.ep.rosidl_typesupport_c.c.o[0m
+[10.661s] [ 97%] [32mBuilding C object CMakeFiles/utils_s__rosidl_typesupport_introspection_c.dir/rosidl_generator_py/utils/_utils_s.ep.rosidl_typesupport_introspection_c.c.o[0m
+[10.774s] [ 98%] [32m[1mLinking C shared module rosidl_generator_py/utils/utils_s__rosidl_typesupport_introspection_c.so[0m
+[10.774s] [ 99%] [32m[1mLinking C shared module rosidl_generator_py/utils/utils_s__rosidl_typesupport_c.so[0m
+[10.775s] [100%] [32m[1mLinking C shared module rosidl_generator_py/utils/utils_s__rosidl_typesupport_fastrtps_c.so[0m
+[10.800s] [100%] Built target utils_s__rosidl_typesupport_fastrtps_c
+[10.800s] [100%] Built target utils_s__rosidl_typesupport_c
+[10.800s] [100%] Built target utils_s__rosidl_typesupport_introspection_c
+[10.811s] Invoked command in '/home/davide-pillon/Desktop/Brain_DEII/brain/build/utils' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/davide-pillon/Desktop/Brain_DEII/brain/build/utils -- -j8 -l8
+[10.819s] Invoking command in '/home/davide-pillon/Desktop/Brain_DEII/brain/build/utils': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/davide-pillon/Desktop/Brain_DEII/brain/build/utils
+[10.826s] -- Install configuration: ""
+[10.826s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/ament_index/resource_index/rosidl_interfaces/utils
+[10.826s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/msg/IMU.json
+[10.826s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/msg/Localisation.json
+[10.826s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/msg/Vehicles.json
+[10.826s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/msg/Environmental.json
+[10.826s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/msg/Log.json
+[10.827s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/msg/TopicInfo.json
+[10.827s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/msg/Semaphore.json
+[10.827s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/msg/Conditions.json
+[10.827s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/msg/Trafficsignprediction.json
+[10.827s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/srv/Subscribing.json
+[10.827s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/srv/RequestParam.json
+[10.827s] -- Up-to-date: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils
+[10.827s] -- Up-to-date: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/srv
+[10.827s] -- Up-to-date: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/srv/detail
+[10.827s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/srv/detail/subscribing__type_support.h
+[10.827s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/srv/detail/request_param__functions.c
+[10.827s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/srv/detail/subscribing__type_support.c
+[10.828s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/srv/detail/request_param__type_support.c
+[10.828s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/srv/detail/subscribing__description.c
+[10.828s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/srv/detail/request_param__type_support.h
+[10.828s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/srv/detail/request_param__struct.h
+[10.828s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/srv/detail/request_param__description.c
+[10.828s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/srv/detail/request_param__functions.h
+[10.828s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/srv/detail/subscribing__functions.h
+[10.828s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/srv/detail/subscribing__functions.c
+[10.828s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/srv/detail/subscribing__struct.h
+[10.828s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/srv/subscribing.h
+[10.828s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/srv/request_param.h
+[10.828s] -- Up-to-date: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg
+[10.828s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/trafficsignprediction.h
+[10.829s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/localisation.h
+[10.829s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/conditions.h
+[10.829s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/imu.h
+[10.829s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/topic_info.h
+[10.829s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/log.h
+[10.829s] -- Up-to-date: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail
+[10.829s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/imu__functions.c
+[10.829s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/imu__description.c
+[10.829s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/trafficsignprediction__type_support.c
+[10.829s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/log__struct.h
+[10.829s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/semaphore__functions.h
+[10.829s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/conditions__functions.c
+[10.829s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/vehicles__type_support.h
+[10.830s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/environmental__struct.h
+[10.830s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/topic_info__description.c
+[10.830s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/topic_info__functions.h
+[10.830s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/vehicles__functions.h
+[10.830s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/trafficsignprediction__struct.h
+[10.830s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/localisation__type_support.h
+[10.830s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/imu__functions.h
+[10.830s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/trafficsignprediction__type_support.h
+[10.830s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/localisation__type_support.c
+[10.830s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/environmental__functions.h
+[10.830s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/environmental__type_support.c
+[10.830s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/semaphore__type_support.c
+[10.830s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/vehicles__functions.c
+[10.831s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/conditions__functions.h
+[10.831s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/conditions__struct.h
+[10.831s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/log__functions.c
+[10.831s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/imu__type_support.c
+[10.831s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/semaphore__type_support.h
+[10.831s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/topic_info__functions.c
+[10.831s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/topic_info__struct.h
+[10.831s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/conditions__type_support.c
+[10.831s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/environmental__description.c
+[10.831s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/topic_info__type_support.c
+[10.831s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/vehicles__type_support.c
+[10.831s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/environmental__type_support.h
+[10.831s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/log__type_support.h
+[10.832s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/topic_info__type_support.h
+[10.832s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/semaphore__struct.h
+[10.832s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/localisation__struct.h
+[10.832s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/localisation__functions.h
+[10.832s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/conditions__description.c
+[10.832s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/semaphore__description.c
+[10.832s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/localisation__description.c
+[10.832s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/localisation__functions.c
+[10.832s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/conditions__type_support.h
+[10.832s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/imu__struct.h
+[10.832s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/log__description.c
+[10.832s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/trafficsignprediction__functions.h
+[10.832s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/environmental__functions.c
+[10.832s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/log__functions.h
+[10.833s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/semaphore__functions.c
+[10.833s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/vehicles__description.c
+[10.833s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/imu__type_support.h
+[10.833s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/trafficsignprediction__description.c
+[10.833s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/vehicles__struct.h
+[10.833s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/trafficsignprediction__functions.c
+[10.833s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/log__type_support.c
+[10.833s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/environmental.h
+[10.833s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/rosidl_generator_c__visibility_control.h
+[10.833s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/semaphore.h
+[10.833s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/vehicles.h
+[10.833s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/environment/library_path.dsv
+[10.833s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/libutils__rosidl_generator_c.so
+[10.833s] -- Set non-toolchain portion of runtime path of "/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/libutils__rosidl_generator_c.so" to ""
+[10.834s] -- Up-to-date: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils
+[10.834s] -- Up-to-date: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/srv
+[10.834s] -- Up-to-date: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/srv/detail
+[10.834s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/srv/detail/subscribing__rosidl_typesupport_fastrtps_c.h
+[10.834s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/srv/detail/request_param__rosidl_typesupport_fastrtps_c.h
+[10.834s] -- Up-to-date: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg
+[10.834s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/rosidl_typesupport_fastrtps_c__visibility_control.h
+[10.834s] -- Up-to-date: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail
+[10.834s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/semaphore__rosidl_typesupport_fastrtps_c.h
+[10.834s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/localisation__rosidl_typesupport_fastrtps_c.h
+[10.834s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/log__rosidl_typesupport_fastrtps_c.h
+[10.834s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/trafficsignprediction__rosidl_typesupport_fastrtps_c.h
+[10.834s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/topic_info__rosidl_typesupport_fastrtps_c.h
+[10.834s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/vehicles__rosidl_typesupport_fastrtps_c.h
+[10.835s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/conditions__rosidl_typesupport_fastrtps_c.h
+[10.835s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/imu__rosidl_typesupport_fastrtps_c.h
+[10.835s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/environmental__rosidl_typesupport_fastrtps_c.h
+[10.835s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/libutils__rosidl_typesupport_fastrtps_c.so
+[10.835s] -- Set non-toolchain portion of runtime path of "/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/libutils__rosidl_typesupport_fastrtps_c.so" to ""
+[10.835s] -- Up-to-date: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils
+[10.835s] -- Up-to-date: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/srv
+[10.835s] -- Up-to-date: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/srv/detail
+[10.835s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/srv/detail/subscribing__type_support.c
+[10.835s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/srv/detail/request_param__type_support.c
+[10.835s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/srv/detail/subscribing__rosidl_typesupport_introspection_c.h
+[10.835s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/srv/detail/request_param__rosidl_typesupport_introspection_c.h
+[10.835s] -- Up-to-date: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg
+[10.836s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/rosidl_typesupport_introspection_c__visibility_control.h
+[10.836s] -- Up-to-date: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail
+[10.836s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/environmental__rosidl_typesupport_introspection_c.h
+[10.836s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/trafficsignprediction__type_support.c
+[10.836s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/conditions__rosidl_typesupport_introspection_c.h
+[10.836s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/localisation__type_support.c
+[10.836s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/environmental__type_support.c
+[10.836s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/semaphore__type_support.c
+[10.836s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/log__rosidl_typesupport_introspection_c.h
+[10.836s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/imu__type_support.c
+[10.836s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/conditions__type_support.c
+[10.836s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/topic_info__type_support.c
+[10.836s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/vehicles__type_support.c
+[10.837s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/semaphore__rosidl_typesupport_introspection_c.h
+[10.837s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/trafficsignprediction__rosidl_typesupport_introspection_c.h
+[10.837s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/vehicles__rosidl_typesupport_introspection_c.h
+[10.837s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/localisation__rosidl_typesupport_introspection_c.h
+[10.837s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/topic_info__rosidl_typesupport_introspection_c.h
+[10.837s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/log__type_support.c
+[10.837s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/imu__rosidl_typesupport_introspection_c.h
+[10.837s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/libutils__rosidl_typesupport_introspection_c.so
+[10.837s] -- Set non-toolchain portion of runtime path of "/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/libutils__rosidl_typesupport_introspection_c.so" to ""
+[10.837s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/libutils__rosidl_typesupport_c.so
+[10.837s] -- Set non-toolchain portion of runtime path of "/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/libutils__rosidl_typesupport_c.so" to ""
+[10.837s] -- Up-to-date: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils
+[10.838s] -- Up-to-date: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/srv
+[10.838s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/srv/request_param.hpp
+[10.838s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/srv/subscribing.hpp
+[10.838s] -- Up-to-date: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/srv/detail
+[10.838s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/srv/detail/request_param__struct.hpp
+[10.838s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/srv/detail/subscribing__struct.hpp
+[10.838s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/srv/detail/request_param__type_support.hpp
+[10.838s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/srv/detail/request_param__builder.hpp
+[10.838s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/srv/detail/subscribing__builder.hpp
+[10.838s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/srv/detail/subscribing__traits.hpp
+[10.838s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/srv/detail/subscribing__type_support.hpp
+[10.838s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/srv/detail/request_param__traits.hpp
+[10.838s] -- Up-to-date: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg
+[10.839s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/environmental.hpp
+[10.839s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/conditions.hpp
+[10.839s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/localisation.hpp
+[10.839s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/semaphore.hpp
+[10.839s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/vehicles.hpp
+[10.839s] -- Up-to-date: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail
+[10.839s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/environmental__traits.hpp
+[10.839s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/environmental__struct.hpp
+[10.839s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/imu__type_support.hpp
+[10.839s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/semaphore__struct.hpp
+[10.839s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/semaphore__traits.hpp
+[10.839s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/localisation__struct.hpp
+[10.839s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/log__type_support.hpp
+[10.839s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/imu__builder.hpp
+[10.840s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/conditions__traits.hpp
+[10.840s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/vehicles__traits.hpp
+[10.840s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/semaphore__type_support.hpp
+[10.840s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/localisation__type_support.hpp
+[10.840s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/environmental__builder.hpp
+[10.840s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/topic_info__traits.hpp
+[10.840s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/vehicles__builder.hpp
+[10.840s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/semaphore__builder.hpp
+[10.840s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/localisation__builder.hpp
+[10.840s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/conditions__type_support.hpp
+[10.840s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/localisation__traits.hpp
+[10.840s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/topic_info__builder.hpp
+[10.840s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/trafficsignprediction__traits.hpp
+[10.841s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/environmental__type_support.hpp
+[10.841s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/topic_info__struct.hpp
+[10.841s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/topic_info__type_support.hpp
+[10.841s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/imu__struct.hpp
+[10.841s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/trafficsignprediction__builder.hpp
+[10.841s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/vehicles__struct.hpp
+[10.841s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/conditions__struct.hpp
+[10.841s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/vehicles__type_support.hpp
+[10.841s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/trafficsignprediction__struct.hpp
+[10.841s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/log__builder.hpp
+[10.841s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/imu__traits.hpp
+[10.841s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/conditions__builder.hpp
+[10.842s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/log__traits.hpp
+[10.842s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/trafficsignprediction__type_support.hpp
+[10.842s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/log__struct.hpp
+[10.842s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/topic_info.hpp
+[10.842s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/rosidl_generator_cpp__visibility_control.hpp
+[10.842s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/imu.hpp
+[10.842s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/trafficsignprediction.hpp
+[10.842s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/log.hpp
+[10.842s] -- Up-to-date: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils
+[10.842s] -- Up-to-date: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/srv
+[10.842s] -- Up-to-date: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/srv/detail
+[10.842s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/srv/detail/dds_fastrtps
+[10.842s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/srv/detail/subscribing__rosidl_typesupport_fastrtps_cpp.hpp
+[10.842s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/srv/detail/request_param__rosidl_typesupport_fastrtps_cpp.hpp
+[10.843s] -- Up-to-date: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg
+[10.843s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h
+[10.843s] -- Up-to-date: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail
+[10.843s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/imu__rosidl_typesupport_fastrtps_cpp.hpp
+[10.843s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/conditions__rosidl_typesupport_fastrtps_cpp.hpp
+[10.843s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/vehicles__rosidl_typesupport_fastrtps_cpp.hpp
+[10.843s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/topic_info__rosidl_typesupport_fastrtps_cpp.hpp
+[10.843s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/localisation__rosidl_typesupport_fastrtps_cpp.hpp
+[10.843s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/log__rosidl_typesupport_fastrtps_cpp.hpp
+[10.843s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/trafficsignprediction__rosidl_typesupport_fastrtps_cpp.hpp
+[10.843s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/environmental__rosidl_typesupport_fastrtps_cpp.hpp
+[10.843s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/dds_fastrtps
+[10.843s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/semaphore__rosidl_typesupport_fastrtps_cpp.hpp
+[10.843s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/libutils__rosidl_typesupport_fastrtps_cpp.so
+[10.844s] -- Set non-toolchain portion of runtime path of "/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/libutils__rosidl_typesupport_fastrtps_cpp.so" to ""
+[10.844s] -- Up-to-date: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils
+[10.844s] -- Up-to-date: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/srv
+[10.844s] -- Up-to-date: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/srv/detail
+[10.844s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/srv/detail/request_param__rosidl_typesupport_introspection_cpp.hpp
+[10.844s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/srv/detail/subscribing__rosidl_typesupport_introspection_cpp.hpp
+[10.844s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/srv/detail/subscribing__type_support.cpp
+[10.844s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/srv/detail/request_param__type_support.cpp
+[10.844s] -- Up-to-date: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg
+[10.844s] -- Up-to-date: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail
+[10.844s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/environmental__type_support.cpp
+[10.844s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/imu__rosidl_typesupport_introspection_cpp.hpp
+[10.845s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/vehicles__type_support.cpp
+[10.845s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/imu__type_support.cpp
+[10.845s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/environmental__rosidl_typesupport_introspection_cpp.hpp
+[10.845s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/vehicles__rosidl_typesupport_introspection_cpp.hpp
+[10.845s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/conditions__rosidl_typesupport_introspection_cpp.hpp
+[10.845s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/topic_info__type_support.cpp
+[10.845s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/localisation__type_support.cpp
+[10.845s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/semaphore__rosidl_typesupport_introspection_cpp.hpp
+[10.845s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/conditions__type_support.cpp
+[10.845s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/log__type_support.cpp
+[10.845s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/localisation__rosidl_typesupport_introspection_cpp.hpp
+[10.845s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/semaphore__type_support.cpp
+[10.845s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/trafficsignprediction__type_support.cpp
+[10.845s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/topic_info__rosidl_typesupport_introspection_cpp.hpp
+[10.846s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/log__rosidl_typesupport_introspection_cpp.hpp
+[10.846s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/include/utils/utils/msg/detail/trafficsignprediction__rosidl_typesupport_introspection_cpp.hpp
+[10.846s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/libutils__rosidl_typesupport_introspection_cpp.so
+[10.846s] -- Set non-toolchain portion of runtime path of "/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/libutils__rosidl_typesupport_introspection_cpp.so" to ""
+[10.846s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/libutils__rosidl_typesupport_cpp.so
+[10.847s] -- Set non-toolchain portion of runtime path of "/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/libutils__rosidl_typesupport_cpp.so" to ""
+[10.847s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/environment/pythonpath.sh
+[10.847s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/environment/pythonpath.dsv
+[10.847s] -- Up-to-date: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils-0.0.0-py3.12.egg-info
+[10.847s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils-0.0.0-py3.12.egg-info/dependency_links.txt
+[10.847s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils-0.0.0-py3.12.egg-info/SOURCES.txt
+[10.847s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils-0.0.0-py3.12.egg-info/PKG-INFO
+[10.847s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils-0.0.0-py3.12.egg-info/top_level.txt
+[10.847s] -- Up-to-date: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils
+[10.847s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/utils_s__rosidl_typesupport_c.so
+[10.847s] -- Up-to-date: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/srv
+[10.847s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/srv/__init__.py
+[10.847s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/srv/_request_param_s.c
+[10.847s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/srv/_subscribing.py
+[10.848s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/srv/_request_param.py
+[10.848s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/srv/_subscribing_s.c
+[10.848s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/_utils_s.ep.rosidl_typesupport_fastrtps_c.c
+[10.848s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/__init__.py
+[10.848s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/_utils_s.ep.rosidl_typesupport_introspection_c.c
+[10.848s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/utils_s__rosidl_typesupport_introspection_c.so
+[10.848s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/utils_s__rosidl_typesupport_fastrtps_c.so
+[10.849s] -- Up-to-date: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/msg
+[10.849s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/msg/_localisation_s.c
+[10.849s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/msg/_environmental_s.c
+[10.849s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/msg/_imu_s.c
+[10.849s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/msg/_semaphore.py
+[10.849s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/msg/_imu.py
+[10.849s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/msg/__init__.py
+[10.849s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/msg/_localisation.py
+[10.849s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/msg/_environmental.py
+[10.849s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/msg/_trafficsignprediction_s.c
+[10.849s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/msg/_vehicles.py
+[10.850s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/msg/_topic_info.py
+[10.850s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/msg/_log.py
+[10.850s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/msg/_trafficsignprediction.py
+[10.850s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/msg/_semaphore_s.c
+[10.850s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/msg/_log_s.c
+[10.850s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/msg/_conditions_s.c
+[10.850s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/msg/_topic_info_s.c
+[10.850s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/msg/_conditions.py
+[10.850s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/msg/_vehicles_s.c
+[10.850s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/_utils_s.ep.rosidl_typesupport_c.c
+[10.894s] Listing '/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils'...
+[10.894s] Compiling '/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/__init__.py'...
+[10.894s] Listing '/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/msg'...
+[10.894s] Compiling '/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/msg/__init__.py'...
+[10.894s] Compiling '/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/msg/_conditions.py'...
+[10.894s] Compiling '/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/msg/_environmental.py'...
+[10.894s] Compiling '/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/msg/_imu.py'...
+[10.895s] Compiling '/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/msg/_localisation.py'...
+[10.895s] Compiling '/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/msg/_log.py'...
+[10.895s] Compiling '/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/msg/_semaphore.py'...
+[10.895s] Compiling '/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/msg/_topic_info.py'...
+[10.895s] Compiling '/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/msg/_trafficsignprediction.py'...
+[10.895s] Compiling '/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/msg/_vehicles.py'...
+[10.895s] Listing '/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/srv'...
+[10.895s] Compiling '/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/srv/__init__.py'...
+[10.895s] Compiling '/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/srv/_request_param.py'...
+[10.895s] Compiling '/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/srv/_subscribing.py'...
+[10.899s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/utils_s__rosidl_typesupport_fastrtps_c.so
+[10.899s] -- Set non-toolchain portion of runtime path of "/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/utils_s__rosidl_typesupport_fastrtps_c.so" to ""
+[10.899s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/utils_s__rosidl_typesupport_introspection_c.so
+[10.899s] -- Set non-toolchain portion of runtime path of "/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/utils_s__rosidl_typesupport_introspection_c.so" to ""
+[10.899s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/utils_s__rosidl_typesupport_c.so
+[10.900s] -- Set non-toolchain portion of runtime path of "/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages/utils/utils_s__rosidl_typesupport_c.so" to ""
+[10.900s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/libutils__rosidl_generator_py.so
+[10.900s] -- Set non-toolchain portion of runtime path of "/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/libutils__rosidl_generator_py.so" to ""
+[10.900s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/msg/IMU.idl
+[10.900s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/msg/Localisation.idl
+[10.900s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/msg/Vehicles.idl
+[10.900s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/msg/Environmental.idl
+[10.901s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/msg/Log.idl
+[10.901s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/msg/TopicInfo.idl
+[10.901s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/msg/Semaphore.idl
+[10.901s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/msg/Conditions.idl
+[10.901s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/msg/Trafficsignprediction.idl
+[10.901s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/srv/Subscribing.idl
+[10.901s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/srv/RequestParam.idl
+[10.901s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/msg/IMU.msg
+[10.901s] -- Up-to-date: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/msg/Localisation.msg
+[10.901s] -- Up-to-date: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/msg/Vehicles.msg
+[10.901s] -- Up-to-date: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/msg/Environmental.msg
+[10.901s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/msg/Log.msg
+[10.901s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/msg/TopicInfo.msg
+[10.902s] -- Up-to-date: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/msg/Semaphore.msg
+[10.902s] -- Up-to-date: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/msg/Conditions.msg
+[10.902s] -- Up-to-date: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/msg/Trafficsignprediction.msg
+[10.902s] -- Up-to-date: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/srv/Subscribing.srv
+[10.902s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/srv/RequestParam.srv
+[10.902s] -- Up-to-date: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/launch
+[10.902s] -- Up-to-date: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/launch/run_automobile.launch.py
+[10.902s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/ament_index/resource_index/package_run_dependencies/utils
+[10.902s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/ament_index/resource_index/parent_prefix_path/utils
+[10.902s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/environment/ament_prefix_path.dsv
+[10.902s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/environment/path.dsv
+[10.902s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/local_setup.bash
+[10.902s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/local_setup.sh
+[10.902s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/local_setup.zsh
+[10.902s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/local_setup.dsv
+[10.903s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/package.dsv
+[10.903s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/ament_index/resource_index/packages/utils
+[10.903s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/cmake/export_utils__rosidl_generator_cExport.cmake
+[10.903s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/cmake/export_utils__rosidl_generator_cExport-noconfig.cmake
+[10.903s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/cmake/export_utils__rosidl_typesupport_fastrtps_cExport.cmake
+[10.903s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/cmake/export_utils__rosidl_typesupport_fastrtps_cExport-noconfig.cmake
+[10.903s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/cmake/utils__rosidl_typesupport_introspection_cExport.cmake
+[10.903s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/cmake/utils__rosidl_typesupport_introspection_cExport-noconfig.cmake
+[10.903s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/cmake/utils__rosidl_typesupport_cExport.cmake
+[10.904s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/cmake/utils__rosidl_typesupport_cExport-noconfig.cmake
+[10.904s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/cmake/export_utils__rosidl_generator_cppExport.cmake
+[10.904s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/cmake/export_utils__rosidl_typesupport_fastrtps_cppExport.cmake
+[10.904s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/cmake/export_utils__rosidl_typesupport_fastrtps_cppExport-noconfig.cmake
+[10.904s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/cmake/utils__rosidl_typesupport_introspection_cppExport.cmake
+[10.904s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/cmake/utils__rosidl_typesupport_introspection_cppExport-noconfig.cmake
+[10.904s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/cmake/utils__rosidl_typesupport_cppExport.cmake
+[10.904s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/cmake/utils__rosidl_typesupport_cppExport-noconfig.cmake
+[10.904s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/cmake/export_utils__rosidl_generator_pyExport.cmake
+[10.905s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/cmake/export_utils__rosidl_generator_pyExport-noconfig.cmake
+[10.905s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/cmake/rosidl_cmake-extras.cmake
+[10.905s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/cmake/ament_cmake_export_dependencies-extras.cmake
+[10.905s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/cmake/ament_cmake_export_include_directories-extras.cmake
+[10.905s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/cmake/ament_cmake_export_libraries-extras.cmake
+[10.905s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/cmake/ament_cmake_export_targets-extras.cmake
+[10.905s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake
+[10.905s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake
+[10.905s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/cmake/utilsConfig.cmake
+[10.905s] -- Installing: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/cmake/utilsConfig-version.cmake
+[10.906s] -- Up-to-date: /home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/share/utils/package.xml
+[10.908s] Invoked command in '/home/davide-pillon/Desktop/Brain_DEII/brain/build/utils' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/davide-pillon/Desktop/Brain_DEII/brain/build/utils

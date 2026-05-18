@@ -1,0 +1,107 @@
+[0.000000] (-) TimerEvent: {}
+[0.000431] (smart) JobQueued: {'identifier': 'smart', 'dependencies': OrderedDict()}
+[0.000826] (utils) JobQueued: {'identifier': 'utils', 'dependencies': OrderedDict()}
+[0.000874] (input) JobQueued: {'identifier': 'input', 'dependencies': OrderedDict({'utils': '/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils'})}
+[0.000934] (unix_out) JobQueued: {'identifier': 'unix_out', 'dependencies': OrderedDict({'utils': '/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils'})}
+[0.001474] (utils) JobStarted: {'identifier': 'utils'}
+[0.020926] (smart) JobStarted: {'identifier': 'smart'}
+[0.043317] (utils) JobProgress: {'identifier': 'utils', 'progress': 'cmake'}
+[0.046334] (utils) JobProgress: {'identifier': 'utils', 'progress': 'build'}
+[0.048091] (utils) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/davide-pillon/Desktop/Brain_DEII/brain/build/utils', '--', '-j8', '-l8'], 'cwd': '/home/davide-pillon/Desktop/Brain_DEII/brain/build/utils', 'env': OrderedDict({'LESSOPEN': '| /usr/bin/lesspipe %s', 'GZ_SIM_RESOURCE_PATH': '/opt/ros/jazzy/share', 'USER': 'davide-pillon', 'GZ_CONFIG_PATH': '/opt/ros/jazzy/opt/gz_sim_vendor/share/gz:/opt/ros/jazzy/opt/sdformat_vendor/share/gz:/opt/ros/jazzy/opt/gz_gui_vendor/share/gz:/opt/ros/jazzy/opt/gz_transport_vendor/share/gz:/opt/ros/jazzy/opt/gz_rendering_vendor/share/gz:/opt/ros/jazzy/opt/gz_plugin_vendor/share/gz:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/share/gz:/opt/ros/jazzy/opt/gz_msgs_vendor/share/gz:/opt/ros/jazzy/opt/gz_common_vendor/share/gz', 'XDG_SESSION_TYPE': 'wayland', 'CLUTTER_DISABLE_MIPMAPPED_TEXT': '1', 'SHLVL': '2', 'LD_LIBRARY_PATH': '/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib:/opt/ros/jazzy/opt/gz_sim_vendor/lib:/opt/ros/jazzy/opt/gz_sensors_vendor/lib:/opt/ros/jazzy/opt/gz_physics_vendor/lib:/opt/ros/jazzy/opt/sdformat_vendor/lib:/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/x86_64-linux-gnu:/opt/ros/jazzy/opt/gz_gui_vendor/lib:/opt/ros/jazzy/opt/gz_transport_vendor/lib:/opt/ros/jazzy/opt/gz_rendering_vendor/lib:/opt/ros/jazzy/opt/gz_plugin_vendor/lib:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/lib:/opt/ros/jazzy/opt/gz_msgs_vendor/lib:/opt/ros/jazzy/opt/gz_common_vendor/lib:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_tools_vendor/lib:/opt/ros/jazzy/opt/gz_ogre_next_vendor/lib:/opt/ros/jazzy/opt/gz_dartsim_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib', 'HOME': '/home/davide-pillon', 'OLDPWD': '/home/davide-pillon/Desktop/Brain_DEII/brain/src/smart', 'DESKTOP_SESSION': 'ubuntu', 'ROS_PYTHON_VERSION': '3', 'GNOME_SHELL_SESSION_MODE': 'ubuntu', 'GTK_MODULES': 'gail:atk-bridge', 'SYSTEMD_EXEC_PID': '2240', 'GSM_SKIP_SSH_AGENT_WORKAROUND': 'true', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'COLORTERM': 'truecolor', 'TERMINATOR_DBUS_NAME': 'net.tenshu.Terminator25ef4b219e3b005583550f2b0f9f990c3', 'DEBUGINFOD_URLS': 'https://debuginfod.ubuntu.com', 'IM_CONFIG_PHASE': '1', 'WAYLAND_DISPLAY': 'wayland-0', 'COLCON_PREFIX_PATH': '/home/davide-pillon/Desktop/Brain_DEII/brain/install', 'ROS_DISTRO': 'jazzy', 'LOGNAME': 'davide-pillon', 'IGN_GAZEBO_MODEL_PATH': '/opt/ros/jazzy/share', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'MEMORY_PRESSURE_WATCH': '/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/session.slice/org.gnome.Shell@wayland.service/memory.pressure', 'XDG_SESSION_CLASS': 'user', 'USERNAME': 'davide-pillon', 'TERM': 'xterm-256color', 'GAZEBO_MODEL_PATH': '/opt/ros/jazzy/share', 'GNOME_DESKTOP_SESSION_ID': 'this-is-deprecated', 'PATH': '/opt/ros/jazzy/opt/gz_msgs_vendor/bin:/opt/ros/jazzy/opt/gz_tools_vendor/bin:/opt/ros/jazzy/opt/gz_ogre_next_vendor/bin:/opt/ros/jazzy/bin:/home/davide-pillon/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/home/davide-pillon/.local/bin:/home/davide-pillon/.local/bin', 'SESSION_MANAGER': 'local/davide-pillon-BOD-WXX9:@/tmp/.ICE-unix/2196,unix/davide-pillon-BOD-WXX9:/tmp/.ICE-unix/2196', 'XDG_MENU_PREFIX': 'gnome-', 'GNOME_TERMINAL_SCREEN': '/org/gnome/Terminal/screen/55818035_caed_4244_802b_202a1ddc2610', 'GNOME_SETUP_DISPLAY': ':1', 'XDG_RUNTIME_DIR': '/run/user/1000', 'DISPLAY': ':0', 'TERMINATOR_DBUS_PATH': '/net/tenshu/Terminator2', 'LANG': 'en_US.UTF-8', 'XDG_CURRENT_DESKTOP': 'ubuntu:GNOME', 'RMW_IMPLEMENTATION': 'rmw_fastrtps_cpp', 'XMODIFIERS': '@im=ibus', 'XDG_SESSION_DESKTOP': 'ubuntu', 'XAUTHORITY': '/run/user/1000/.mutter-Xwaylandauth.GVI6O3', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:', 'GNOME_TERMINAL_SERVICE': ':1.101', 'SSH_AUTH_SOCK': '/run/user/1000/keyring/ssh', 'ROS_DOMAIN_ID': '10', 'AMENT_PREFIX_PATH': '/home/davide-pillon/Desktop/Brain_DEII/brain/install/unix_out:/home/davide-pillon/Desktop/Brain_DEII/brain/install/output:/home/davide-pillon/Desktop/Brain_DEII/brain/install/input:/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils:/home/davide-pillon/Desktop/Brain_DEII/brain/install/smart:/opt/ros/jazzy', 'SHELL': '/bin/bash', 'TERMINATOR_UUID': 'urn:uuid:fd970215-e639-4100-9ed6-ccba65341b4d', 'QT_ACCESSIBILITY': '1', 'GDMSESSION': 'ubuntu', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'IGN_GAZEBO_RESOURCE_PATH': '/opt/ros/jazzy/share', 'GAZEBO_RESOURCE_PATH': '/opt/ros/jazzy/share', 'ROS_AUTOMATIC_DISCOVERY_RANGE': 'SUBNET', 'QT_IM_MODULE': 'ibus', 'PWD': '/home/davide-pillon/Desktop/Brain_DEII/brain/build/utils', 'LC_ALL': 'en_US.UTF-8', 'XDG_CONFIG_DIRS': '/etc/xdg/xdg-ubuntu:/etc/xdg', 'XDG_DATA_DIRS': '/usr/share/ubuntu:/usr/share/gnome:/home/davide-pillon/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop', 'PYTHONPATH': '/home/davide-pillon/Desktop/Brain_DEII/brain/install/unix_out/lib/python3.12/site-packages:/home/davide-pillon/Desktop/Brain_DEII/brain/install/output/lib/python3.12/site-packages:/home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages:/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages:/home/davide-pillon/Desktop/Brain_DEII/brain/install/smart/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages', 'COLCON': '1', 'MEMORY_PRESSURE_WRITE': 'c29tZSAyMDAwMDAgMjAwMDAwMAA=', 'VTE_VERSION': '7600', 'CMAKE_PREFIX_PATH': '/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils:/opt/ros/jazzy/opt/gz_sim_vendor:/opt/ros/jazzy/opt/gz_sensors_vendor:/opt/ros/jazzy/opt/gz_physics_vendor:/opt/ros/jazzy/opt/sdformat_vendor:/opt/ros/jazzy/opt/gz_gui_vendor:/opt/ros/jazzy/opt/gz_transport_vendor:/opt/ros/jazzy/opt/gz_rendering_vendor:/opt/ros/jazzy/opt/gz_plugin_vendor:/opt/ros/jazzy/opt/gz_fuel_tools_vendor:/opt/ros/jazzy/opt/gz_msgs_vendor:/opt/ros/jazzy/opt/gz_common_vendor:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_tools_vendor:/opt/ros/jazzy/opt/gz_ogre_next_vendor:/opt/ros/jazzy/opt/gz_dartsim_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor:/home/davide-pillon/Desktop/Brain_DEII/brain/install/unix_out:/home/davide-pillon/Desktop/Brain_DEII/brain/install/output:/home/davide-pillon/Desktop/Brain_DEII/brain/install/input:/home/davide-pillon/Desktop/Brain_DEII/brain/install/smart:/opt/ros/jazzy'}), 'shell': False}
+[0.099261] (-) TimerEvent: {}
+[0.199776] (-) TimerEvent: {}
+[0.265455] (utils) StdoutLine: {'line': b'[  1%] Built target utils__rosidl_generator_type_description\n'}
+[0.300728] (-) TimerEvent: {}
+[0.328122] (utils) StdoutLine: {'line': b'[  1%] Built target ament_cmake_python_copy_utils\n'}
+[0.332463] (utils) StdoutLine: {'line': b'[  1%] Built target utils__cpp\n'}
+[0.366437] (utils) StdoutLine: {'line': b'[ 27%] Built target utils__rosidl_generator_c\n'}
+[0.400999] (-) TimerEvent: {}
+[0.465201] (utils) StdoutLine: {'line': b'[ 36%] Built target utils__rosidl_typesupport_introspection_c\n'}
+[0.468078] (utils) StdoutLine: {'line': b'[ 46%] Built target utils__rosidl_typesupport_c\n'}
+[0.490532] (utils) StdoutLine: {'line': b'[ 58%] Built target utils__rosidl_typesupport_cpp\n'}
+[0.492680] (utils) StdoutLine: {'line': b'[ 65%] Built target utils__rosidl_typesupport_introspection_cpp\n'}
+[0.493736] (utils) StdoutLine: {'line': b'[ 75%] Built target utils__rosidl_typesupport_fastrtps_cpp\n'}
+[0.501115] (-) TimerEvent: {}
+[0.501981] (utils) StdoutLine: {'line': b'[ 85%] Built target utils__rosidl_typesupport_fastrtps_c\n'}
+[0.551283] (utils) StdoutLine: {'line': b'[ 85%] Built target utils\n'}
+[0.600403] (utils) StdoutLine: {'line': b'[ 86%] Built target utils__py\n'}
+[0.601193] (-) TimerEvent: {}
+[0.680042] (utils) StdoutLine: {'line': b'[ 86%] \x1b[32mBuilding C object CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/msg/_vehicles_s.c.o\x1b[0m\n'}
+[0.680574] (utils) StdoutLine: {'line': b'[ 87%] \x1b[32mBuilding C object CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/msg/_environmental_s.c.o\x1b[0m\n'}
+[0.683357] (utils) StdoutLine: {'line': b'[ 88%] \x1b[32mBuilding C object CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/msg/_log_s.c.o\x1b[0m\n'}
+[0.684397] (utils) StdoutLine: {'line': b'[ 89%] \x1b[32mBuilding C object CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/msg/_localisation_s.c.o\x1b[0m\n'}
+[0.684854] (utils) StdoutLine: {'line': b'[ 89%] \x1b[32mBuilding C object CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/msg/_semaphore_s.c.o\x1b[0m\n'}
+[0.685806] (utils) StdoutLine: {'line': b'[ 90%] \x1b[32mBuilding C object CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/msg/_imu_s.c.o\x1b[0m\n'}
+[0.696862] (utils) StdoutLine: {'line': b'[ 91%] \x1b[32mBuilding C object CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/msg/_topic_info_s.c.o\x1b[0m\n'}
+[0.701418] (-) TimerEvent: {}
+[0.803075] (-) TimerEvent: {}
+[0.904020] (-) TimerEvent: {}
+[1.009004] (-) TimerEvent: {}
+[1.109492] (-) TimerEvent: {}
+[1.125536] (utils) StderrLine: {'line': b'\x1b[01m\x1b[K/home/davide-pillon/Desktop/Brain_DEII/brain/build/utils/rosidl_generator_py/utils/msg/_imu_s.c:11:10:\x1b[m\x1b[K \x1b[01;31m\x1b[Kfatal error: \x1b[m\x1b[Knumpy/ndarrayobject.h: No such file or directory\n'}
+[1.129229] (utils) StderrLine: {'line': b'   11 | #include \x1b[01;31m\x1b[K"numpy/ndarrayobject.h"\x1b[m\x1b[K\n'}
+[1.129589] (utils) StderrLine: {'line': b'      |          \x1b[01;31m\x1b[K^~~~~~~~~~~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[1.129811] (utils) StderrLine: {'line': b'\x1b[01m\x1b[K/home/davide-pillon/Desktop/Brain_DEII/brain/build/utils/rosidl_generator_py/utils/msg/_vehicles_s.c:11:10:\x1b[m\x1b[K \x1b[01;31m\x1b[Kfatal error: \x1b[m\x1b[Knumpy/ndarrayobject.h: No such file or directory\n'}
+[1.130068] (utils) StderrLine: {'line': b'   11 | #include \x1b[01;31m\x1b[K"numpy/ndarrayobject.h"\x1b[m\x1b[K\n'}
+[1.130292] (utils) StderrLine: {'line': b'      |          \x1b[01;31m\x1b[K^~~~~~~~~~~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[1.130520] (utils) StderrLine: {'line': b'compilation terminated.\n'}
+[1.130748] (utils) StderrLine: {'line': b'\x1b[01m\x1b[K/home/davide-pillon/Desktop/Brain_DEII/brain/build/utils/rosidl_generator_py/utils/msg/_semaphore_s.c:11:10:\x1b[m\x1b[K \x1b[01;31m\x1b[Kfatal error: \x1b[m\x1b[Knumpy/ndarrayobject.h: No such file or directory\n'}
+[1.131000] (utils) StderrLine: {'line': b'   11 | #include \x1b[01;31m\x1b[K"numpy/ndarrayobject.h"\x1b[m\x1b[K\n'}
+[1.131235] (utils) StderrLine: {'line': b'      |          \x1b[01;31m\x1b[K^~~~~~~~~~~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[1.131497] (utils) StderrLine: {'line': b'compilation terminated.\n'}
+[1.131739] (utils) StderrLine: {'line': b'compilation terminated.\n'}
+[1.132513] (utils) StderrLine: {'line': b'\x1b[01m\x1b[K/home/davide-pillon/Desktop/Brain_DEII/brain/build/utils/rosidl_generator_py/utils/msg/_topic_info_s.c:11:10:\x1b[m\x1b[K \x1b[01;31m\x1b[Kfatal error: \x1b[m\x1b[Knumpy/ndarrayobject.h: No such file or directory\n'}
+[1.132817] (utils) StderrLine: {'line': b'   11 | #include \x1b[01;31m\x1b[K"numpy/ndarrayobject.h"\x1b[m\x1b[K\n'}
+[1.133185] (utils) StderrLine: {'line': b'      |          \x1b[01;31m\x1b[K^~~~~~~~~~~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[1.133445] (utils) StderrLine: {'line': b'compilation terminated.\n'}
+[1.133667] (utils) StderrLine: {'line': b'\x1b[01m\x1b[K/home/davide-pillon/Desktop/Brain_DEII/brain/build/utils/rosidl_generator_py/utils/msg/_environmental_s.c:11:10:\x1b[m\x1b[K \x1b[01;31m\x1b[Kfatal error: \x1b[m\x1b[Knumpy/ndarrayobject.h: No such file or directory\n'}
+[1.133883] (utils) StderrLine: {'line': b'   11 | #include \x1b[01;31m\x1b[K"numpy/ndarrayobject.h"\x1b[m\x1b[K\n'}
+[1.134166] (utils) StderrLine: {'line': b'      |          \x1b[01;31m\x1b[K^~~~~~~~~~~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[1.134474] (utils) StderrLine: {'line': b'compilation terminated.\n'}
+[1.134726] (utils) StderrLine: {'line': b'\x1b[01m\x1b[K/home/davide-pillon/Desktop/Brain_DEII/brain/build/utils/rosidl_generator_py/utils/msg/_log_s.c:11:10:\x1b[m\x1b[K \x1b[01;31m\x1b[Kfatal error: \x1b[m\x1b[Knumpy/ndarrayobject.h: No such file or directory\n'}
+[1.135026] (utils) StderrLine: {'line': b'   11 | #include \x1b[01;31m\x1b[K"numpy/ndarrayobject.h"\x1b[m\x1b[K\n'}
+[1.135199] (utils) StderrLine: {'line': b'      |          \x1b[01;31m\x1b[K^~~~~~~~~~~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[1.135356] (utils) StderrLine: {'line': b'compilation terminated.\n'}
+[1.135505] (utils) StderrLine: {'line': b'gmake[2]: *** [CMakeFiles/utils__rosidl_generator_py.dir/build.make:146: CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/msg/_topic_info_s.c.o] Error 1\n'}
+[1.135647] (utils) StderrLine: {'line': b'gmake[2]: *** Waiting for unfinished jobs....\n'}
+[1.135805] (utils) StderrLine: {'line': b'gmake[2]: *** [CMakeFiles/utils__rosidl_generator_py.dir/build.make:118: CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/msg/_environmental_s.c.o] Error 1\n'}
+[1.136025] (utils) StderrLine: {'line': b'\x1b[01m\x1b[K/home/davide-pillon/Desktop/Brain_DEII/brain/build/utils/rosidl_generator_py/utils/msg/_localisation_s.c:11:10:\x1b[m\x1b[K \x1b[01;31m\x1b[Kfatal error: \x1b[m\x1b[Knumpy/ndarrayobject.h: No such file or directory\n'}
+[1.136191] (utils) StderrLine: {'line': b'   11 | #include \x1b[01;31m\x1b[K"numpy/ndarrayobject.h"\x1b[m\x1b[K\n'}
+[1.136417] (utils) StderrLine: {'line': b'      |          \x1b[01;31m\x1b[K^~~~~~~~~~~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[1.136557] (utils) StderrLine: {'line': b'compilation terminated.\n'}
+[1.136706] (utils) StderrLine: {'line': b'gmake[2]: *** [CMakeFiles/utils__rosidl_generator_py.dir/build.make:104: CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/msg/_vehicles_s.c.o] Error 1\n'}
+[1.136865] (utils) StderrLine: {'line': b'gmake[2]: *** [CMakeFiles/utils__rosidl_generator_py.dir/build.make:132: CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/msg/_log_s.c.o] Error 1\n'}
+[1.137072] (utils) StderrLine: {'line': b'gmake[2]: *** [CMakeFiles/utils__rosidl_generator_py.dir/build.make:76: CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/msg/_imu_s.c.o] Error 1\n'}
+[1.137365] (utils) StderrLine: {'line': b'gmake[2]: *** [CMakeFiles/utils__rosidl_generator_py.dir/build.make:160: CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/msg/_semaphore_s.c.o] Error 1\n'}
+[1.137589] (utils) StderrLine: {'line': b'gmake[2]: *** [CMakeFiles/utils__rosidl_generator_py.dir/build.make:90: CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/msg/_localisation_s.c.o] Error 1\n'}
+[1.137809] (utils) StderrLine: {'line': b'gmake[1]: *** [CMakeFiles/Makefile2:506: CMakeFiles/utils__rosidl_generator_py.dir/all] Error 2\n'}
+[1.138033] (utils) StderrLine: {'line': b'gmake[1]: *** Waiting for unfinished jobs....\n'}
+[1.168031] (utils) StdoutLine: {'line': b'running egg_info\n'}
+[1.209630] (-) TimerEvent: {}
+[1.227243] (utils) StdoutLine: {'line': b'writing utils.egg-info/PKG-INFO\n'}
+[1.227773] (utils) StdoutLine: {'line': b'writing dependency_links to utils.egg-info/dependency_links.txt\n'}
+[1.228223] (utils) StdoutLine: {'line': b'writing top-level names to utils.egg-info/top_level.txt\n'}
+[1.309764] (-) TimerEvent: {}
+[1.386813] (utils) StdoutLine: {'line': b"reading manifest file 'utils.egg-info/SOURCES.txt'\n"}
+[1.388530] (utils) StdoutLine: {'line': b"writing manifest file 'utils.egg-info/SOURCES.txt'\n"}
+[1.409896] (-) TimerEvent: {}
+[1.446440] (utils) StdoutLine: {'line': b'[ 91%] Built target ament_cmake_python_build_utils_egg\n'}
+[1.449216] (utils) StderrLine: {'line': b'gmake: *** [Makefile:146: all] Error 2\n'}
+[1.453478] (utils) CommandEnded: {'returncode': 2}
+[1.487465] (utils) JobEnded: {'identifier': 'utils', 'rc': 2}
+[1.510007] (-) TimerEvent: {}
+[1.610382] (-) TimerEvent: {}
+[1.710797] (-) TimerEvent: {}
+[1.811298] (-) TimerEvent: {}
+[1.911658] (-) TimerEvent: {}
+[2.012105] (-) TimerEvent: {}
+[2.112621] (-) TimerEvent: {}
+[2.213090] (-) TimerEvent: {}
+[2.313554] (-) TimerEvent: {}
+[2.414056] (-) TimerEvent: {}
+[2.514501] (-) TimerEvent: {}
+[2.615014] (-) TimerEvent: {}
+[2.657893] (smart) JobEnded: {'identifier': 'smart', 'rc': 'SIGINT'}
+[2.669118] (input) JobSkipped: {'identifier': 'input'}
+[2.669225] (unix_out) JobSkipped: {'identifier': 'unix_out'}
+[2.669263] (-) EventReactorShutdown: {}

@@ -1,0 +1,67 @@
+[0.051s] Invoking command in '/home/davide-pillon/Desktop/Brain_DEII/brain/build/utils': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/davide-pillon/Desktop/Brain_DEII/brain/install/unix_out:/home/davide-pillon/Desktop/Brain_DEII/brain/install/output:/home/davide-pillon/Desktop/Brain_DEII/brain/install/input:/home/davide-pillon/Desktop/Brain_DEII/brain/install/smart:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/davide-pillon/Desktop/Brain_DEII/brain/build/utils -- -j8 -l8
+[0.264s] [  1%] Built target utils__rosidl_generator_type_description
+[0.327s] [  1%] Built target ament_cmake_python_copy_utils
+[0.331s] [  1%] Built target utils__cpp
+[0.365s] [ 27%] Built target utils__rosidl_generator_c
+[0.464s] [ 36%] Built target utils__rosidl_typesupport_introspection_c
+[0.467s] [ 46%] Built target utils__rosidl_typesupport_c
+[0.489s] [ 58%] Built target utils__rosidl_typesupport_cpp
+[0.492s] [ 65%] Built target utils__rosidl_typesupport_introspection_cpp
+[0.493s] [ 75%] Built target utils__rosidl_typesupport_fastrtps_cpp
+[0.501s] [ 85%] Built target utils__rosidl_typesupport_fastrtps_c
+[0.550s] [ 85%] Built target utils
+[0.599s] [ 86%] Built target utils__py
+[0.679s] [ 86%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/msg/_vehicles_s.c.o[0m
+[0.679s] [ 87%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/msg/_environmental_s.c.o[0m
+[0.682s] [ 88%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/msg/_log_s.c.o[0m
+[0.683s] [ 89%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/msg/_localisation_s.c.o[0m
+[0.684s] [ 89%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/msg/_semaphore_s.c.o[0m
+[0.685s] [ 90%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/msg/_imu_s.c.o[0m
+[0.696s] [ 91%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/msg/_topic_info_s.c.o[0m
+[1.125s] [01m[K/home/davide-pillon/Desktop/Brain_DEII/brain/build/utils/rosidl_generator_py/utils/msg/_imu_s.c:11:10:[m[K [01;31m[Kfatal error: [m[Knumpy/ndarrayobject.h: No such file or directory
+[1.128s]    11 | #include [01;31m[K"numpy/ndarrayobject.h"[m[K
+[1.128s]       |          [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~[m[K
+[1.129s] [01m[K/home/davide-pillon/Desktop/Brain_DEII/brain/build/utils/rosidl_generator_py/utils/msg/_vehicles_s.c:11:10:[m[K [01;31m[Kfatal error: [m[Knumpy/ndarrayobject.h: No such file or directory
+[1.129s]    11 | #include [01;31m[K"numpy/ndarrayobject.h"[m[K
+[1.129s]       |          [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~[m[K
+[1.129s] compilation terminated.
+[1.129s] [01m[K/home/davide-pillon/Desktop/Brain_DEII/brain/build/utils/rosidl_generator_py/utils/msg/_semaphore_s.c:11:10:[m[K [01;31m[Kfatal error: [m[Knumpy/ndarrayobject.h: No such file or directory
+[1.130s]    11 | #include [01;31m[K"numpy/ndarrayobject.h"[m[K
+[1.130s]       |          [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~[m[K
+[1.130s] compilation terminated.
+[1.131s] compilation terminated.
+[1.131s] [01m[K/home/davide-pillon/Desktop/Brain_DEII/brain/build/utils/rosidl_generator_py/utils/msg/_topic_info_s.c:11:10:[m[K [01;31m[Kfatal error: [m[Knumpy/ndarrayobject.h: No such file or directory
+[1.132s]    11 | #include [01;31m[K"numpy/ndarrayobject.h"[m[K
+[1.132s]       |          [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~[m[K
+[1.132s] compilation terminated.
+[1.132s] [01m[K/home/davide-pillon/Desktop/Brain_DEII/brain/build/utils/rosidl_generator_py/utils/msg/_environmental_s.c:11:10:[m[K [01;31m[Kfatal error: [m[Knumpy/ndarrayobject.h: No such file or directory
+[1.133s]    11 | #include [01;31m[K"numpy/ndarrayobject.h"[m[K
+[1.133s]       |          [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~[m[K
+[1.133s] compilation terminated.
+[1.133s] [01m[K/home/davide-pillon/Desktop/Brain_DEII/brain/build/utils/rosidl_generator_py/utils/msg/_log_s.c:11:10:[m[K [01;31m[Kfatal error: [m[Knumpy/ndarrayobject.h: No such file or directory
+[1.134s]    11 | #include [01;31m[K"numpy/ndarrayobject.h"[m[K
+[1.134s]       |          [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~[m[K
+[1.134s] compilation terminated.
+[1.134s] gmake[2]: *** [CMakeFiles/utils__rosidl_generator_py.dir/build.make:146: CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/msg/_topic_info_s.c.o] Error 1
+[1.134s] gmake[2]: *** Waiting for unfinished jobs....
+[1.134s] gmake[2]: *** [CMakeFiles/utils__rosidl_generator_py.dir/build.make:118: CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/msg/_environmental_s.c.o] Error 1
+[1.135s] [01m[K/home/davide-pillon/Desktop/Brain_DEII/brain/build/utils/rosidl_generator_py/utils/msg/_localisation_s.c:11:10:[m[K [01;31m[Kfatal error: [m[Knumpy/ndarrayobject.h: No such file or directory
+[1.135s]    11 | #include [01;31m[K"numpy/ndarrayobject.h"[m[K
+[1.135s]       |          [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~[m[K
+[1.135s] compilation terminated.
+[1.135s] gmake[2]: *** [CMakeFiles/utils__rosidl_generator_py.dir/build.make:104: CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/msg/_vehicles_s.c.o] Error 1
+[1.136s] gmake[2]: *** [CMakeFiles/utils__rosidl_generator_py.dir/build.make:132: CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/msg/_log_s.c.o] Error 1
+[1.136s] gmake[2]: *** [CMakeFiles/utils__rosidl_generator_py.dir/build.make:76: CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/msg/_imu_s.c.o] Error 1
+[1.136s] gmake[2]: *** [CMakeFiles/utils__rosidl_generator_py.dir/build.make:160: CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/msg/_semaphore_s.c.o] Error 1
+[1.136s] gmake[2]: *** [CMakeFiles/utils__rosidl_generator_py.dir/build.make:90: CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/msg/_localisation_s.c.o] Error 1
+[1.137s] gmake[1]: *** [CMakeFiles/Makefile2:506: CMakeFiles/utils__rosidl_generator_py.dir/all] Error 2
+[1.137s] gmake[1]: *** Waiting for unfinished jobs....
+[1.167s] running egg_info
+[1.226s] writing utils.egg-info/PKG-INFO
+[1.226s] writing dependency_links to utils.egg-info/dependency_links.txt
+[1.227s] writing top-level names to utils.egg-info/top_level.txt
+[1.386s] reading manifest file 'utils.egg-info/SOURCES.txt'
+[1.387s] writing manifest file 'utils.egg-info/SOURCES.txt'
+[1.445s] [ 91%] Built target ament_cmake_python_build_utils_egg
+[1.448s] gmake: *** [Makefile:146: all] Error 2
+[1.452s] Invoked command in '/home/davide-pillon/Desktop/Brain_DEII/brain/build/utils' returned '2': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/davide-pillon/Desktop/Brain_DEII/brain/install/unix_out:/home/davide-pillon/Desktop/Brain_DEII/brain/install/output:/home/davide-pillon/Desktop/Brain_DEII/brain/install/input:/home/davide-pillon/Desktop/Brain_DEII/brain/install/smart:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/davide-pillon/Desktop/Brain_DEII/brain/build/utils -- -j8 -l8

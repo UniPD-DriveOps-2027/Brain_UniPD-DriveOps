@@ -1,0 +1,23 @@
+[0.927s] Invoking command in '/home/davide-pillon/Desktop/Brain_DEII/brain/src/unix_out': AMENT_PREFIX_PATH=/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils:${CMAKE_PREFIX_PATH} DEBUGINFOD_URLS=https://debuginfod.ubuntu.com LD_LIBRARY_PATH=/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/davide-pillon/Desktop/Brain_DEII/brain/build/unix_out/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/davide-pillon/Desktop/Brain_DEII/brain/install/unix_out/lib/python3.12/site-packages:/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/unix_out build --build-base /home/davide-pillon/Desktop/Brain_DEII/brain/build/unix_out/build install --record /home/davide-pillon/Desktop/Brain_DEII/brain/build/unix_out/install.log --single-version-externally-managed install_data
+[1.160s] running egg_info
+[1.177s] writing ../../build/unix_out/unix_out.egg-info/PKG-INFO
+[1.177s] writing dependency_links to ../../build/unix_out/unix_out.egg-info/dependency_links.txt
+[1.177s] writing entry points to ../../build/unix_out/unix_out.egg-info/entry_points.txt
+[1.177s] writing requirements to ../../build/unix_out/unix_out.egg-info/requires.txt
+[1.177s] writing top-level names to ../../build/unix_out/unix_out.egg-info/top_level.txt
+[1.214s] reading manifest file '../../build/unix_out/unix_out.egg-info/SOURCES.txt'
+[1.215s] writing manifest file '../../build/unix_out/unix_out.egg-info/SOURCES.txt'
+[1.215s] running build
+[1.215s] running build_py
+[1.215s] running install
+[1.220s] running install_lib
+[1.238s] running install_data
+[1.238s] running install_egg_info
+[1.257s] removing '/home/davide-pillon/Desktop/Brain_DEII/brain/install/unix_out/lib/python3.12/site-packages/unix_out-0.0.0-py3.12.egg-info' (and everything under it)
+[1.257s] Copying ../../build/unix_out/unix_out.egg-info to /home/davide-pillon/Desktop/Brain_DEII/brain/install/unix_out/lib/python3.12/site-packages/unix_out-0.0.0-py3.12.egg-info
+[1.257s] running install_scripts
+[1.366s] Installing camera_to_socket script to /home/davide-pillon/Desktop/Brain_DEII/brain/install/unix_out/lib/unix_out
+[1.367s] Installing lidar_to_socket script to /home/davide-pillon/Desktop/Brain_DEII/brain/install/unix_out/lib/unix_out
+[1.367s] Installing metrics_to_socket script to /home/davide-pillon/Desktop/Brain_DEII/brain/install/unix_out/lib/unix_out
+[1.367s] writing list of installed files to '/home/davide-pillon/Desktop/Brain_DEII/brain/build/unix_out/install.log'
+[1.412s] Invoked command in '/home/davide-pillon/Desktop/Brain_DEII/brain/src/unix_out' returned '0': AMENT_PREFIX_PATH=/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils:${CMAKE_PREFIX_PATH} DEBUGINFOD_URLS=https://debuginfod.ubuntu.com LD_LIBRARY_PATH=/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/davide-pillon/Desktop/Brain_DEII/brain/build/unix_out/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/davide-pillon/Desktop/Brain_DEII/brain/install/unix_out/lib/python3.12/site-packages:/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/unix_out build --build-base /home/davide-pillon/Desktop/Brain_DEII/brain/build/unix_out/build install --record /home/davide-pillon/Desktop/Brain_DEII/brain/build/unix_out/install.log --single-version-externally-managed install_data

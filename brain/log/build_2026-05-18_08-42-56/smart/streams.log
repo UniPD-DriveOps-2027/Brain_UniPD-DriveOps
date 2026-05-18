@@ -1,0 +1,31 @@
+[0.873s] Invoking command in '/home/davide-pillon/Desktop/Brain_DEII/brain/src/smart': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/davide-pillon/Desktop/Brain_DEII/brain/build/smart/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/davide-pillon/Desktop/Brain_DEII/brain/install/smart/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/smart build --build-base /home/davide-pillon/Desktop/Brain_DEII/brain/build/smart/build install --record /home/davide-pillon/Desktop/Brain_DEII/brain/build/smart/install.log --single-version-externally-managed install_data
+[1.103s] running egg_info
+[1.103s] creating ../../build/smart/smart.egg-info
+[1.120s] writing ../../build/smart/smart.egg-info/PKG-INFO
+[1.121s] writing dependency_links to ../../build/smart/smart.egg-info/dependency_links.txt
+[1.121s] writing entry points to ../../build/smart/smart.egg-info/entry_points.txt
+[1.121s] writing requirements to ../../build/smart/smart.egg-info/requires.txt
+[1.121s] writing top-level names to ../../build/smart/smart.egg-info/top_level.txt
+[1.121s] writing manifest file '../../build/smart/smart.egg-info/SOURCES.txt'
+[1.181s] reading manifest file '../../build/smart/smart.egg-info/SOURCES.txt'
+[1.182s] writing manifest file '../../build/smart/smart.egg-info/SOURCES.txt'
+[1.182s] running build
+[1.182s] running build_py
+[1.182s] creating /home/davide-pillon/Desktop/Brain_DEII/brain/build/smart/build
+[1.182s] creating /home/davide-pillon/Desktop/Brain_DEII/brain/build/smart/build/lib
+[1.182s] copying oak_camera_node.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/smart/build/lib
+[1.182s] running install
+[1.196s] running install_lib
+[1.222s] copying /home/davide-pillon/Desktop/Brain_DEII/brain/build/smart/build/lib/oak_camera_node.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/smart/lib/python3.12/site-packages
+[1.224s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/smart/lib/python3.12/site-packages/oak_camera_node.py to oak_camera_node.cpython-312.pyc
+[1.228s] running install_data
+[1.228s] copying resource/smart -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/smart/share/ament_index/resource_index/packages
+[1.228s] copying package.xml -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/smart/share/smart
+[1.229s] copying models/sign_yolo.onnx -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/smart/share/smart/models
+[1.245s] running install_egg_info
+[1.263s] removing '/home/davide-pillon/Desktop/Brain_DEII/brain/install/smart/lib/python3.12/site-packages/smart-0.0.0-py3.12.egg-info' (and everything under it)
+[1.264s] Copying ../../build/smart/smart.egg-info to /home/davide-pillon/Desktop/Brain_DEII/brain/install/smart/lib/python3.12/site-packages/smart-0.0.0-py3.12.egg-info
+[1.265s] running install_scripts
+[1.379s] Installing oak_camera_node script to /home/davide-pillon/Desktop/Brain_DEII/brain/install/smart/lib/smart
+[1.379s] writing list of installed files to '/home/davide-pillon/Desktop/Brain_DEII/brain/build/smart/install.log'
+[1.411s] Invoked command in '/home/davide-pillon/Desktop/Brain_DEII/brain/src/smart' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/davide-pillon/Desktop/Brain_DEII/brain/build/smart/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/davide-pillon/Desktop/Brain_DEII/brain/install/smart/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/smart build --build-base /home/davide-pillon/Desktop/Brain_DEII/brain/build/smart/build install --record /home/davide-pillon/Desktop/Brain_DEII/brain/build/smart/install.log --single-version-externally-managed install_data

@@ -1,0 +1,36 @@
+running egg_info
+creating ../../build/unix_out/unix_out.egg-info
+writing ../../build/unix_out/unix_out.egg-info/PKG-INFO
+writing dependency_links to ../../build/unix_out/unix_out.egg-info/dependency_links.txt
+writing entry points to ../../build/unix_out/unix_out.egg-info/entry_points.txt
+writing requirements to ../../build/unix_out/unix_out.egg-info/requires.txt
+writing top-level names to ../../build/unix_out/unix_out.egg-info/top_level.txt
+writing manifest file '../../build/unix_out/unix_out.egg-info/SOURCES.txt'
+reading manifest file '../../build/unix_out/unix_out.egg-info/SOURCES.txt'
+writing manifest file '../../build/unix_out/unix_out.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/davide-pillon/Desktop/Brain_DEII/brain/build/unix_out/build
+creating /home/davide-pillon/Desktop/Brain_DEII/brain/build/unix_out/build/lib
+copying src/lidar_to_socket.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/unix_out/build/lib
+copying src/metrics_to_socket.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/unix_out/build/lib
+copying src/camera_to_socket.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/unix_out/build/lib
+running install
+running install_lib
+copying /home/davide-pillon/Desktop/Brain_DEII/brain/build/unix_out/build/lib/camera_to_socket.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/unix_out/lib/python3.12/site-packages
+copying /home/davide-pillon/Desktop/Brain_DEII/brain/build/unix_out/build/lib/lidar_to_socket.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/unix_out/lib/python3.12/site-packages
+copying /home/davide-pillon/Desktop/Brain_DEII/brain/build/unix_out/build/lib/metrics_to_socket.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/unix_out/lib/python3.12/site-packages
+byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/unix_out/lib/python3.12/site-packages/camera_to_socket.py to camera_to_socket.cpython-312.pyc
+byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/unix_out/lib/python3.12/site-packages/lidar_to_socket.py to lidar_to_socket.cpython-312.pyc
+byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/unix_out/lib/python3.12/site-packages/metrics_to_socket.py to metrics_to_socket.cpython-312.pyc
+running install_data
+copying resource/unix_out -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/unix_out/share/ament_index/resource_index/packages
+copying package.xml -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/unix_out/share/unix_out
+running install_egg_info
+removing '/home/davide-pillon/Desktop/Brain_DEII/brain/install/unix_out/lib/python3.12/site-packages/unix_out-0.0.0-py3.12.egg-info' (and everything under it)
+Copying ../../build/unix_out/unix_out.egg-info to /home/davide-pillon/Desktop/Brain_DEII/brain/install/unix_out/lib/python3.12/site-packages/unix_out-0.0.0-py3.12.egg-info
+running install_scripts
+Installing camera_to_socket script to /home/davide-pillon/Desktop/Brain_DEII/brain/install/unix_out/lib/unix_out
+Installing lidar_to_socket script to /home/davide-pillon/Desktop/Brain_DEII/brain/install/unix_out/lib/unix_out
+Installing metrics_to_socket script to /home/davide-pillon/Desktop/Brain_DEII/brain/install/unix_out/lib/unix_out
+writing list of installed files to '/home/davide-pillon/Desktop/Brain_DEII/brain/build/unix_out/install.log'

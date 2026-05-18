@@ -1,0 +1,65 @@
+[  1%] Built target utils__rosidl_generator_type_description
+[  1%] Built target ament_cmake_python_copy_utils
+[  1%] Built target utils__cpp
+[ 27%] Built target utils__rosidl_generator_c
+[ 36%] Built target utils__rosidl_typesupport_introspection_c
+[ 46%] Built target utils__rosidl_typesupport_c
+[ 58%] Built target utils__rosidl_typesupport_cpp
+[ 65%] Built target utils__rosidl_typesupport_introspection_cpp
+[ 75%] Built target utils__rosidl_typesupport_fastrtps_cpp
+[ 85%] Built target utils__rosidl_typesupport_fastrtps_c
+[ 85%] Built target utils
+[ 86%] Built target utils__py
+[ 86%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/msg/_vehicles_s.c.o[0m
+[ 87%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/msg/_environmental_s.c.o[0m
+[ 88%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/msg/_log_s.c.o[0m
+[ 89%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/msg/_localisation_s.c.o[0m
+[ 89%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/msg/_semaphore_s.c.o[0m
+[ 90%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/msg/_imu_s.c.o[0m
+[ 91%] [32mBuilding C object CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/msg/_topic_info_s.c.o[0m
+[01m[K/home/davide-pillon/Desktop/Brain_DEII/brain/build/utils/rosidl_generator_py/utils/msg/_imu_s.c:11:10:[m[K [01;31m[Kfatal error: [m[Knumpy/ndarrayobject.h: No such file or directory
+   11 | #include [01;31m[K"numpy/ndarrayobject.h"[m[K
+      |          [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/davide-pillon/Desktop/Brain_DEII/brain/build/utils/rosidl_generator_py/utils/msg/_vehicles_s.c:11:10:[m[K [01;31m[Kfatal error: [m[Knumpy/ndarrayobject.h: No such file or directory
+   11 | #include [01;31m[K"numpy/ndarrayobject.h"[m[K
+      |          [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~[m[K
+compilation terminated.
+[01m[K/home/davide-pillon/Desktop/Brain_DEII/brain/build/utils/rosidl_generator_py/utils/msg/_semaphore_s.c:11:10:[m[K [01;31m[Kfatal error: [m[Knumpy/ndarrayobject.h: No such file or directory
+   11 | #include [01;31m[K"numpy/ndarrayobject.h"[m[K
+      |          [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~[m[K
+compilation terminated.
+compilation terminated.
+[01m[K/home/davide-pillon/Desktop/Brain_DEII/brain/build/utils/rosidl_generator_py/utils/msg/_topic_info_s.c:11:10:[m[K [01;31m[Kfatal error: [m[Knumpy/ndarrayobject.h: No such file or directory
+   11 | #include [01;31m[K"numpy/ndarrayobject.h"[m[K
+      |          [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~[m[K
+compilation terminated.
+[01m[K/home/davide-pillon/Desktop/Brain_DEII/brain/build/utils/rosidl_generator_py/utils/msg/_environmental_s.c:11:10:[m[K [01;31m[Kfatal error: [m[Knumpy/ndarrayobject.h: No such file or directory
+   11 | #include [01;31m[K"numpy/ndarrayobject.h"[m[K
+      |          [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~[m[K
+compilation terminated.
+[01m[K/home/davide-pillon/Desktop/Brain_DEII/brain/build/utils/rosidl_generator_py/utils/msg/_log_s.c:11:10:[m[K [01;31m[Kfatal error: [m[Knumpy/ndarrayobject.h: No such file or directory
+   11 | #include [01;31m[K"numpy/ndarrayobject.h"[m[K
+      |          [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~[m[K
+compilation terminated.
+gmake[2]: *** [CMakeFiles/utils__rosidl_generator_py.dir/build.make:146: CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/msg/_topic_info_s.c.o] Error 1
+gmake[2]: *** Waiting for unfinished jobs....
+gmake[2]: *** [CMakeFiles/utils__rosidl_generator_py.dir/build.make:118: CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/msg/_environmental_s.c.o] Error 1
+[01m[K/home/davide-pillon/Desktop/Brain_DEII/brain/build/utils/rosidl_generator_py/utils/msg/_localisation_s.c:11:10:[m[K [01;31m[Kfatal error: [m[Knumpy/ndarrayobject.h: No such file or directory
+   11 | #include [01;31m[K"numpy/ndarrayobject.h"[m[K
+      |          [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~[m[K
+compilation terminated.
+gmake[2]: *** [CMakeFiles/utils__rosidl_generator_py.dir/build.make:104: CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/msg/_vehicles_s.c.o] Error 1
+gmake[2]: *** [CMakeFiles/utils__rosidl_generator_py.dir/build.make:132: CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/msg/_log_s.c.o] Error 1
+gmake[2]: *** [CMakeFiles/utils__rosidl_generator_py.dir/build.make:76: CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/msg/_imu_s.c.o] Error 1
+gmake[2]: *** [CMakeFiles/utils__rosidl_generator_py.dir/build.make:160: CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/msg/_semaphore_s.c.o] Error 1
+gmake[2]: *** [CMakeFiles/utils__rosidl_generator_py.dir/build.make:90: CMakeFiles/utils__rosidl_generator_py.dir/rosidl_generator_py/utils/msg/_localisation_s.c.o] Error 1
+gmake[1]: *** [CMakeFiles/Makefile2:506: CMakeFiles/utils__rosidl_generator_py.dir/all] Error 2
+gmake[1]: *** Waiting for unfinished jobs....
+running egg_info
+writing utils.egg-info/PKG-INFO
+writing dependency_links to utils.egg-info/dependency_links.txt
+writing top-level names to utils.egg-info/top_level.txt
+reading manifest file 'utils.egg-info/SOURCES.txt'
+writing manifest file 'utils.egg-info/SOURCES.txt'
+[ 91%] Built target ament_cmake_python_build_utils_egg
+gmake: *** [Makefile:146: all] Error 2

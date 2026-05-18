@@ -1,0 +1,232 @@
+[0.955s] Invoking command in '/home/davide-pillon/Desktop/Brain_DEII/brain/src/input': AMENT_PREFIX_PATH=/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils:${CMAKE_PREFIX_PATH} DEBUGINFOD_URLS=https://debuginfod.ubuntu.com LD_LIBRARY_PATH=/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/davide-pillon/Desktop/Brain_DEII/brain/build/input/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages:/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/input build --build-base /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build install --record /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/install.log --single-version-externally-managed install_data
+[1.221s] running egg_info
+[1.221s] creating ../../build/input/input.egg-info
+[1.241s] writing ../../build/input/input.egg-info/PKG-INFO
+[1.242s] writing dependency_links to ../../build/input/input.egg-info/dependency_links.txt
+[1.242s] writing entry points to ../../build/input/input.egg-info/entry_points.txt
+[1.242s] writing requirements to ../../build/input/input.egg-info/requires.txt
+[1.242s] writing top-level names to ../../build/input/input.egg-info/top_level.txt
+[1.242s] writing manifest file '../../build/input/input.egg-info/SOURCES.txt'
+[1.285s] reading manifest file '../../build/input/input.egg-info/SOURCES.txt'
+[1.286s] writing manifest file '../../build/input/input.egg-info/SOURCES.txt'
+[1.286s] running build
+[1.286s] running build_py
+[1.286s] creating /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build
+[1.286s] creating /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib
+[1.286s] creating /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/templates
+[1.286s] copying src/templates/threadwithstop.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/templates
+[1.287s] copying src/templates/__init__.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/templates
+[1.287s] copying src/templates/workerprocess.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/templates
+[1.287s] creating /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/data
+[1.287s] copying src/data/__init__.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/data
+[1.287s] copying src/data/trafficBridge.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/data
+[1.287s] copying src/data/semaphoreBridge.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/data
+[1.287s] creating /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/gpstracker
+[1.287s] copying src/gpstracker/server_listener.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/gpstracker
+[1.287s] copying src/gpstracker/__init__.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/gpstracker
+[1.287s] copying src/gpstracker/server_data.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/gpstracker
+[1.287s] copying src/gpstracker/util.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/gpstracker
+[1.288s] copying src/gpstracker/server_subscriber.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/gpstracker
+[1.288s] copying src/gpstracker/complexDealer.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/gpstracker
+[1.288s] copying src/gpstracker/gpstrackerNODE.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/gpstracker
+[1.288s] copying src/gpstracker/locsys.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/gpstracker
+[1.288s] copying src/gpstracker/position_listener.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/gpstracker
+[1.288s] creating /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/data/TrafficCommunication
+[1.288s] copying src/data/TrafficCommunication/__init__.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/data/TrafficCommunication
+[1.288s] copying src/data/TrafficCommunication/processTrafficCommunication.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/data/TrafficCommunication
+[1.288s] creating /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/data/Semaphores
+[1.288s] copying src/data/Semaphores/__init__.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/data/Semaphores
+[1.288s] copying src/data/Semaphores/processSemaphores.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/data/Semaphores
+[1.288s] creating /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/data/TrafficCommunication/threads
+[1.288s] copying src/data/TrafficCommunication/threads/tcpClient.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/data/TrafficCommunication/threads
+[1.289s] copying src/data/TrafficCommunication/threads/threadTrafficCommunication.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/data/TrafficCommunication/threads
+[1.289s] copying src/data/TrafficCommunication/threads/__init__.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/data/TrafficCommunication/threads
+[1.289s] copying src/data/TrafficCommunication/threads/udpListener.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/data/TrafficCommunication/threads
+[1.289s] creating /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/data/TrafficCommunication/useful
+[1.289s] copying src/data/TrafficCommunication/useful/__init__.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/data/TrafficCommunication/useful
+[1.289s] copying src/data/TrafficCommunication/useful/keyDealer.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/data/TrafficCommunication/useful
+[1.289s] copying src/data/TrafficCommunication/useful/periodicTask.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/data/TrafficCommunication/useful
+[1.289s] copying src/data/TrafficCommunication/useful/sharedMem.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/data/TrafficCommunication/useful
+[1.289s] creating /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/data/Semaphores/threads
+[1.289s] copying src/data/Semaphores/threads/__init__.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/data/Semaphores/threads
+[1.289s] copying src/data/Semaphores/threads/threadSemaphores.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/data/Semaphores/threads
+[1.289s] copying src/data/Semaphores/threads/udpListener.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/data/Semaphores/threads
+[1.290s] creating /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src
+[1.290s] copying src/__init__.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src
+[1.290s] creating /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/templates
+[1.290s] copying src/templates/threadwithstop.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/templates
+[1.290s] copying src/templates/__init__.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/templates
+[1.290s] copying src/templates/workerprocess.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/templates
+[1.290s] creating /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/data
+[1.290s] copying src/data/__init__.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/data
+[1.290s] copying src/data/trafficBridge.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/data
+[1.290s] copying src/data/semaphoreBridge.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/data
+[1.290s] creating /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/gpstracker
+[1.291s] copying src/gpstracker/server_listener.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/gpstracker
+[1.291s] copying src/gpstracker/__init__.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/gpstracker
+[1.291s] copying src/gpstracker/server_data.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/gpstracker
+[1.291s] copying src/gpstracker/util.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/gpstracker
+[1.291s] copying src/gpstracker/server_subscriber.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/gpstracker
+[1.291s] copying src/gpstracker/complexDealer.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/gpstracker
+[1.291s] copying src/gpstracker/gpstrackerNODE.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/gpstracker
+[1.291s] copying src/gpstracker/locsys.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/gpstracker
+[1.291s] copying src/gpstracker/position_listener.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/gpstracker
+[1.291s] creating /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/utils
+[1.291s] copying src/utils/__init__.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/utils
+[1.291s] creating /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/data/TrafficCommunication
+[1.292s] copying src/data/TrafficCommunication/__init__.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/data/TrafficCommunication
+[1.292s] copying src/data/TrafficCommunication/processTrafficCommunication.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/data/TrafficCommunication
+[1.292s] creating /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/data/Semaphores
+[1.292s] copying src/data/Semaphores/__init__.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/data/Semaphores
+[1.292s] copying src/data/Semaphores/processSemaphores.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/data/Semaphores
+[1.292s] creating /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/data/TrafficCommunication/threads
+[1.292s] copying src/data/TrafficCommunication/threads/tcpClient.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/data/TrafficCommunication/threads
+[1.292s] copying src/data/TrafficCommunication/threads/threadTrafficCommunication.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/data/TrafficCommunication/threads
+[1.292s] copying src/data/TrafficCommunication/threads/__init__.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/data/TrafficCommunication/threads
+[1.292s] copying src/data/TrafficCommunication/threads/udpListener.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/data/TrafficCommunication/threads
+[1.292s] creating /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/data/TrafficCommunication/useful
+[1.292s] copying src/data/TrafficCommunication/useful/__init__.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/data/TrafficCommunication/useful
+[1.293s] copying src/data/TrafficCommunication/useful/keyDealer.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/data/TrafficCommunication/useful
+[1.293s] copying src/data/TrafficCommunication/useful/periodicTask.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/data/TrafficCommunication/useful
+[1.293s] copying src/data/TrafficCommunication/useful/sharedMem.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/data/TrafficCommunication/useful
+[1.293s] creating /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/data/Semaphores/threads
+[1.293s] copying src/data/Semaphores/threads/__init__.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/data/Semaphores/threads
+[1.293s] copying src/data/Semaphores/threads/threadSemaphores.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/data/Semaphores/threads
+[1.293s] copying src/data/Semaphores/threads/udpListener.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/data/Semaphores/threads
+[1.293s] creating /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/utils/ipManager
+[1.294s] copying src/utils/ipManager/IpReplacement.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/utils/ipManager
+[1.294s] copying src/utils/ipManager/__init__.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/utils/ipManager
+[1.294s] creating /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/utils/messages
+[1.294s] copying src/utils/messages/__init__.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/utils/messages
+[1.294s] copying src/utils/messages/messageHandlerSender.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/utils/messages
+[1.294s] copying src/utils/messages/messageHandlerSubscriber.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/utils/messages
+[1.294s] copying src/utils/messages/allMessages.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/utils/messages
+[1.295s] running install
+[1.301s] running install_lib
+[1.320s] copying /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/templates/__init__.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/templates
+[1.320s] copying /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/data/__init__.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/data
+[1.320s] copying /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/data/trafficBridge.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/data
+[1.321s] copying /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/data/semaphoreBridge.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/data
+[1.321s] copying /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/data/TrafficCommunication/__init__.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/data/TrafficCommunication
+[1.321s] copying /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/data/TrafficCommunication/processTrafficCommunication.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/data/TrafficCommunication
+[1.321s] copying /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/data/TrafficCommunication/threads/tcpClient.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/data/TrafficCommunication/threads
+[1.321s] copying /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/data/TrafficCommunication/threads/threadTrafficCommunication.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/data/TrafficCommunication/threads
+[1.321s] copying /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/data/TrafficCommunication/threads/__init__.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/data/TrafficCommunication/threads
+[1.321s] copying /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/data/TrafficCommunication/threads/udpListener.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/data/TrafficCommunication/threads
+[1.321s] copying /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/data/TrafficCommunication/useful/__init__.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/data/TrafficCommunication/useful
+[1.321s] copying /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/data/TrafficCommunication/useful/keyDealer.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/data/TrafficCommunication/useful
+[1.321s] copying /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/data/TrafficCommunication/useful/periodicTask.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/data/TrafficCommunication/useful
+[1.322s] copying /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/data/TrafficCommunication/useful/sharedMem.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/data/TrafficCommunication/useful
+[1.322s] copying /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/data/Semaphores/__init__.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/data/Semaphores
+[1.322s] copying /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/data/Semaphores/threads/__init__.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/data/Semaphores/threads
+[1.322s] copying /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/data/Semaphores/threads/threadSemaphores.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/data/Semaphores/threads
+[1.322s] copying /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/data/Semaphores/threads/udpListener.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/data/Semaphores/threads
+[1.322s] copying /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/data/Semaphores/processSemaphores.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/data/Semaphores
+[1.322s] copying /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/gpstracker/gpstrackerNODE.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/gpstracker
+[1.323s] copying /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/templates/__init__.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/templates
+[1.323s] copying /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/data/__init__.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/data
+[1.323s] copying /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/data/trafficBridge.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/data
+[1.323s] copying /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/data/semaphoreBridge.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/data
+[1.323s] copying /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/data/TrafficCommunication/__init__.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/data/TrafficCommunication
+[1.323s] copying /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/data/TrafficCommunication/processTrafficCommunication.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/data/TrafficCommunication
+[1.323s] copying /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/data/TrafficCommunication/threads/tcpClient.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/data/TrafficCommunication/threads
+[1.323s] copying /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/data/TrafficCommunication/threads/threadTrafficCommunication.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/data/TrafficCommunication/threads
+[1.323s] copying /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/data/TrafficCommunication/threads/__init__.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/data/TrafficCommunication/threads
+[1.324s] copying /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/data/TrafficCommunication/threads/udpListener.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/data/TrafficCommunication/threads
+[1.324s] copying /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/data/TrafficCommunication/useful/__init__.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/data/TrafficCommunication/useful
+[1.324s] copying /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/data/TrafficCommunication/useful/keyDealer.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/data/TrafficCommunication/useful
+[1.324s] copying /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/data/TrafficCommunication/useful/periodicTask.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/data/TrafficCommunication/useful
+[1.324s] copying /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/data/TrafficCommunication/useful/sharedMem.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/data/TrafficCommunication/useful
+[1.324s] copying /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/data/Semaphores/__init__.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/data/Semaphores
+[1.324s] copying /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/data/Semaphores/threads/__init__.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/data/Semaphores/threads
+[1.325s] copying /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/data/Semaphores/threads/threadSemaphores.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/data/Semaphores/threads
+[1.325s] copying /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/data/Semaphores/threads/udpListener.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/data/Semaphores/threads
+[1.325s] copying /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/data/Semaphores/processSemaphores.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/data/Semaphores
+[1.325s] copying /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/__init__.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src
+[1.325s] copying /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/gpstracker/gpstrackerNODE.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/gpstracker
+[1.325s] copying /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/utils/ipManager/__init__.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/utils/ipManager
+[1.325s] copying /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/utils/__init__.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/utils
+[1.325s] copying /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build/lib/src/utils/messages/__init__.py -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/utils/messages
+[1.326s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/templates/threadwithstop.py to threadwithstop.cpython-312.pyc
+[1.327s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/templates/__init__.py to __init__.cpython-312.pyc
+[1.327s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/templates/workerprocess.py to workerprocess.cpython-312.pyc
+[1.327s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/data/__init__.py to __init__.cpython-312.pyc
+[1.328s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/data/trafficBridge.py to trafficBridge.cpython-312.pyc
+[1.329s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/data/semaphoreBridge.py to semaphoreBridge.cpython-312.pyc
+[1.330s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/data/TrafficCommunication/__init__.py to __init__.cpython-312.pyc
+[1.330s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/data/TrafficCommunication/processTrafficCommunication.py to processTrafficCommunication.cpython-312.pyc
+[1.331s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/data/TrafficCommunication/threads/tcpClient.py to tcpClient.cpython-312.pyc
+[1.331s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/data/TrafficCommunication/threads/threadTrafficCommunication.py to threadTrafficCommunication.cpython-312.pyc
+[1.332s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/data/TrafficCommunication/threads/__init__.py to __init__.cpython-312.pyc
+[1.332s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/data/TrafficCommunication/threads/udpListener.py to udpListener.cpython-312.pyc
+[1.332s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/data/TrafficCommunication/useful/__init__.py to __init__.cpython-312.pyc
+[1.333s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/data/TrafficCommunication/useful/keyDealer.py to keyDealer.cpython-312.pyc
+[1.333s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/data/TrafficCommunication/useful/periodicTask.py to periodicTask.cpython-312.pyc
+[1.334s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/data/TrafficCommunication/useful/sharedMem.py to sharedMem.cpython-312.pyc
+[1.334s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/data/Semaphores/__init__.py to __init__.cpython-312.pyc
+[1.334s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/data/Semaphores/threads/__init__.py to __init__.cpython-312.pyc
+[1.335s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/data/Semaphores/threads/threadSemaphores.py to threadSemaphores.cpython-312.pyc
+[1.335s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/data/Semaphores/threads/udpListener.py to udpListener.cpython-312.pyc
+[1.335s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/data/Semaphores/processSemaphores.py to processSemaphores.cpython-312.pyc
+[1.336s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/gpstracker/server_listener.py to server_listener.cpython-312.pyc
+[1.337s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/gpstracker/__init__.py to __init__.cpython-312.pyc
+[1.337s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/gpstracker/server_data.py to server_data.cpython-312.pyc
+[1.337s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/gpstracker/util.py to util.cpython-312.pyc
+[1.338s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/gpstracker/server_subscriber.py to server_subscriber.cpython-312.pyc
+[1.338s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/gpstracker/complexDealer.py to complexDealer.cpython-312.pyc
+[1.339s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/gpstracker/gpstrackerNODE.py to gpstrackerNODE.cpython-312.pyc
+[1.339s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/gpstracker/locsys.py to locsys.cpython-312.pyc
+[1.340s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/gpstracker/position_listener.py to position_listener.cpython-312.pyc
+[1.340s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/templates/threadwithstop.py to threadwithstop.cpython-312.pyc
+[1.341s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/templates/__init__.py to __init__.cpython-312.pyc
+[1.341s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/templates/workerprocess.py to workerprocess.cpython-312.pyc
+[1.341s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/data/__init__.py to __init__.cpython-312.pyc
+[1.341s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/data/trafficBridge.py to trafficBridge.cpython-312.pyc
+[1.342s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/data/semaphoreBridge.py to semaphoreBridge.cpython-312.pyc
+[1.343s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/data/TrafficCommunication/__init__.py to __init__.cpython-312.pyc
+[1.344s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/data/TrafficCommunication/processTrafficCommunication.py to processTrafficCommunication.cpython-312.pyc
+[1.344s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/data/TrafficCommunication/threads/tcpClient.py to tcpClient.cpython-312.pyc
+[1.345s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/data/TrafficCommunication/threads/threadTrafficCommunication.py to threadTrafficCommunication.cpython-312.pyc
+[1.346s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/data/TrafficCommunication/threads/__init__.py to __init__.cpython-312.pyc
+[1.346s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/data/TrafficCommunication/threads/udpListener.py to udpListener.cpython-312.pyc
+[1.346s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/data/TrafficCommunication/useful/__init__.py to __init__.cpython-312.pyc
+[1.346s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/data/TrafficCommunication/useful/keyDealer.py to keyDealer.cpython-312.pyc
+[1.347s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/data/TrafficCommunication/useful/periodicTask.py to periodicTask.cpython-312.pyc
+[1.347s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/data/TrafficCommunication/useful/sharedMem.py to sharedMem.cpython-312.pyc
+[1.348s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/data/Semaphores/__init__.py to __init__.cpython-312.pyc
+[1.348s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/data/Semaphores/threads/__init__.py to __init__.cpython-312.pyc
+[1.348s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/data/Semaphores/threads/threadSemaphores.py to threadSemaphores.cpython-312.pyc
+[1.349s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/data/Semaphores/threads/udpListener.py to udpListener.cpython-312.pyc
+[1.349s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/data/Semaphores/processSemaphores.py to processSemaphores.cpython-312.pyc
+[1.349s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/__init__.py to __init__.cpython-312.pyc
+[1.350s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/gpstracker/server_listener.py to server_listener.cpython-312.pyc
+[1.350s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/gpstracker/__init__.py to __init__.cpython-312.pyc
+[1.350s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/gpstracker/server_data.py to server_data.cpython-312.pyc
+[1.351s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/gpstracker/util.py to util.cpython-312.pyc
+[1.351s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/gpstracker/server_subscriber.py to server_subscriber.cpython-312.pyc
+[1.352s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/gpstracker/complexDealer.py to complexDealer.cpython-312.pyc
+[1.352s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/gpstracker/gpstrackerNODE.py to gpstrackerNODE.cpython-312.pyc
+[1.353s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/gpstracker/locsys.py to locsys.cpython-312.pyc
+[1.353s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/gpstracker/position_listener.py to position_listener.cpython-312.pyc
+[1.354s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/utils/ipManager/IpReplacement.py to IpReplacement.cpython-312.pyc
+[1.354s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/utils/ipManager/__init__.py to __init__.cpython-312.pyc
+[1.354s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/utils/__init__.py to __init__.cpython-312.pyc
+[1.355s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/utils/messages/__init__.py to __init__.cpython-312.pyc
+[1.355s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/utils/messages/messageHandlerSender.py to messageHandlerSender.cpython-312.pyc
+[1.355s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/utils/messages/messageHandlerSubscriber.py to messageHandlerSubscriber.cpython-312.pyc
+[1.356s] byte-compiling /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/src/utils/messages/allMessages.py to allMessages.cpython-312.pyc
+[1.357s] running install_data
+[1.357s] copying resource/input -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/share/ament_index/resource_index/packages
+[1.357s] copying package.xml -> /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/share/input
+[1.357s] running install_egg_info
+[1.376s] removing '/home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/input-0.0.0-py3.12.egg-info' (and everything under it)
+[1.377s] Copying ../../build/input/input.egg-info to /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages/input-0.0.0-py3.12.egg-info
+[1.377s] running install_scripts
+[1.500s] Installing gpstrackerNODE script to /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/input
+[1.500s] Installing imuNODE script to /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/input
+[1.500s] Installing semaphoreBridgeNODE script to /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/input
+[1.500s] Installing semaphoreNODE script to /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/input
+[1.500s] Installing sonarNODE script to /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/input
+[1.500s] Installing trafficBridgeNODE script to /home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/input
+[1.501s] writing list of installed files to '/home/davide-pillon/Desktop/Brain_DEII/brain/build/input/install.log'
+[1.525s] Invoked command in '/home/davide-pillon/Desktop/Brain_DEII/brain/src/input' returned '0': AMENT_PREFIX_PATH=/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils:${CMAKE_PREFIX_PATH} DEBUGINFOD_URLS=https://debuginfod.ubuntu.com LD_LIBRARY_PATH=/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/davide-pillon/Desktop/Brain_DEII/brain/build/input/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/davide-pillon/Desktop/Brain_DEII/brain/install/input/lib/python3.12/site-packages:/home/davide-pillon/Desktop/Brain_DEII/brain/install/utils/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/input build --build-base /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/build install --record /home/davide-pillon/Desktop/Brain_DEII/brain/build/input/install.log --single-version-externally-managed install_data
