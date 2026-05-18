@@ -128,6 +128,10 @@ class OakCameraNode(Node):
         self.declare_parameter('camera_hz',       30.0)
         self.declare_parameter('detection_hz',    20.0)
         self.declare_parameter('debug_view',      False)
+        self.declare_parameter('manual_focus',    -1)      # 0-255; -1 = auto-focus
+        self.declare_parameter('manual_wb_temp',  5000)   # Kelvin; -1 = auto-WB
+        self.declare_parameter('manual_exposure_us',  8000)   # µs; -1 = auto
+        self.declare_parameter('manual_iso',         400)   # 00-1600; used only if manual_exposure_us >= 0
 
         use_sim             = self.get_parameter('use_sim').value
         sim_topic           = self.get_parameter('sim_image_topic').value
@@ -139,7 +143,11 @@ class OakCameraNode(Node):
         self.depth_max_mm   = self.get_parameter('depth_max_mm').value
         camera_hz           = self.get_parameter('camera_hz').value
         detection_hz        = self.get_parameter('detection_hz').value
-        self.debug_view     = self.get_parameter('debug_view').value
+        self.debug_view          = self.get_parameter('debug_view').value
+        self._manual_focus       = self.get_parameter('manual_focus').value
+        self._manual_wb          = self.get_parameter('manual_wb_temp').value
+        self._manual_exposure_us = self.get_parameter('manual_exposure_us').value
+        self._manual_iso         = self.get_parameter('manual_iso').value
 
         # ── ONNX ──────────────────────────────────────────────────────────
         if not os.path.isfile(model_path):
@@ -207,6 +215,13 @@ class OakCameraNode(Node):
         # RGB 1280×720
         cam     = self._pipeline.create(dai.node.Camera).build(dai.CameraBoardSocket.CAM_A)
         cam_out = cam.requestOutput((1280, 720), dai.ImgFrame.Type.BGR888p)
+
+        if self._manual_focus >= 0:
+            cam.initialControl.setManualFocus(self._manual_focus)
+        if self._manual_wb >= 0:
+            cam.initialControl.setManualWhiteBalance(self._manual_wb)
+        if self._manual_exposure_us >= 0:
+            cam.initialControl.setManualExposure(self._manual_exposure_us, self._manual_iso)
 
         # Mono cams 640×400
         mono_l = self._pipeline.create(dai.node.Camera).build(dai.CameraBoardSocket.CAM_B)
