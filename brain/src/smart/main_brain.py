@@ -155,6 +155,9 @@ if __name__ == '__main__':
 
     # initiliaze all the neural networks for detection and lane following
     detect = Detection()
+    spin_thread = threading.Thread(target=rclpy.spin, args=(car,), daemon=True)
+    spin_thread.start()
+
 
     if nac.RC_MODE:
         brain = RC_Brain(car=car, controller=controller, detection=detect, max_speed=DESIRED_SPEED)
@@ -166,8 +169,8 @@ if __name__ == '__main__':
     
     
     hf.show_track(track, car, nac.SHOW_IMGS)
-    spin_thread = threading.Thread(target=rclpy.spin, args=(car,), daemon=True)
-    spin_thread.start()
+    # spin_thread = threading.Thread(target=rclpy.spin, args=(car,), daemon=True)
+    # spin_thread.start()
 
 
     try:

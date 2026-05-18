@@ -185,6 +185,7 @@ class AutomobileDataPi(Automobile_Data, Node):
         self.yaw_true  = float(data.yaw)
         self.yaw       = float(data.yaw) + self.yaw_offset
         self.yaw_deg   = np.rad2deg(self.yaw)
+        self.yaw_buffer.append(self.yaw)
 
     def encoder_distance_callback(self, data: Float32) -> None:
         self.encoder_distance = data.data

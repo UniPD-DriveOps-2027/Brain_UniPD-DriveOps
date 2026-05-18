@@ -44,7 +44,7 @@ if RANDOM_START:
         #END_NODE = EVENT_CONFIGS[SELECTED_EVENT]["checkpoints"][-1]
         END_NODE = CHECKPOINTS[-1]
         print(f"Starting coords: {STARTING_COORDS}, Checkpoints: {CHECKPOINTS}, End node: {END_NODE}")
-        GPS_FOR_START_ONLY = False
+        GPS_FOR_START_ONLY = True
         USE_FRUITS_GENERATED_PATH = False #we are not using fruits path for when we are testing specific events
     # GET THE BEST "FRUITS" PATH FROM RANDOM POSITION     
     else: 
@@ -288,7 +288,7 @@ HIGHWAY_LENGTH = 5.0 # [m] length of the highway MAYBE CHANGE THIS TO THE REAL H
 GPS_DISTANCE_THRESHOLD_FOR_CONVERGENCE = 0.2
 GPS_SAMPLE_TIME = 0.25  # [s] time between 2 consecutive gps measurements
 GPS_CONVERGENCE_PATIANCE = 0  # 2 #iterations to consider the gps converged
-GPS_TIMEOUT = 5.0  # [s] time to wait to have gps signal
+GPS_TIMEOUT = 15.0  # [s] time to wait to have gps signal
 
 
 # end state
@@ -519,24 +519,46 @@ class Brain:
         while True:
             # get closest node
             if not ALWAYS_DISTRUST_GPS or GPS_FOR_START_ONLY:
-                curr_time = time()
+                # curr_time = time()
+                sleep(3.0)
                 curr_pos = np.array([self.car.x_est, self.car.y_est])
-                print(f"Current position: {curr_pos}")
-                #curr_pos = np.array(STARTING_COORDS) 
-                closest_node, distance = self.path_planner.get_closest_node_start(curr_pos, self.car.yaw+YAW_OFFSET)
+                # print(f"Current position: {curr_pos}")
+                # #curr_pos = np.array(STARTING_COORDS) 
+                # closest_node, distance = self.path_planner.get_closest_node_start(curr_pos, self.car.yaw+YAW_OFFSET)
+                # use median yaw to filter out IMU spikes at startup
+                if len(self.car.yaw_buffer) > 0:
+                    stable_yaw = float(np.median(self.car.yaw_buffer))
+                else:
+                    stable_yaw = self.car.yaw
+                print(f"Current position: {curr_pos}, yaw: {stable_yaw:.1f} deg")
+                result = self.path_planner.get_closest_node_start(curr_pos, stable_yaw + YAW_OFFSET)
+                if result is None:
+                    # yaw filter matched nothing — fall back to pure distance
+                    print('WARNING: yaw filter found no match, falling back to closest by distance')
+                    closest_node, distance = self.path_planner.get_closest_node(curr_pos)
+                else:
+                    closest_node, distance = result
+
                 self.car.publish_closest_node(float(closest_node))
                 #print(f"Closest NODE is: {float(closest_node)} YAW: {self.car.yaw}" )
-                sleep(3.0)
-                if len(self.car.x_buffer) >= 5:    #5 put in real life                       ################ - PUT BACK THE 5 - ####################
-                    print(f'Waiting for gps: {(curr_time- start_time):.1f}/{GPS_TIMEOUT}')
+                # sleep(3.0)
+                # if len(self.car.x_buffer) >= 5:    #5 put in real life                       ################ - PUT BACK THE 5 - ####################
+                #     print(f'Waiting for gps: {(curr_time- start_time):.1f}/{GPS_TIMEOUT}')
+                elapsed = time() - start_time
+                gps_ready = len(self.car.x_buffer) >= 5
+                gps_stable = (np.std(list(self.car.x_buffer)) + np.std(list(self.car.y_buffer))) < 0.3
+                print(f'GPS: ready={gps_ready}, stable={gps_stable}, elapsed={elapsed:.1f}s/{GPS_TIMEOUT}s')
+                if gps_ready and gps_stable:
+                    print(f'GPS converged after {elapsed:.1f}s, closest node: {closest_node}, distance: {distance:.2f}m')    
                     self.checkpoints[self.checkpoint_idx] = int(closest_node)
                     if distance > 5.0:
                         self.error('ERROR: REROUTING: GPS converged, but distance is too large , we are too far from the lane')
                     break
             
-                if curr_time - start_time > GPS_TIMEOUT:
+                # if curr_time - start_time > GPS_TIMEOUT:
+                if elapsed > GPS_TIMEOUT:
                     print('WARNING: ROUTE_GENERATION: No gps signal, Starting from the first checkpoint')
-                    sleep(3.0)
+                    # sleep(3.0)
                     break
             else:
                 if STARTING_COORDS != [-42, -42]:        
