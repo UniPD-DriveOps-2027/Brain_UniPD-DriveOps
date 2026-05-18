@@ -70,11 +70,11 @@ BL_CURVE_SPEED = 0.35
 
 # CONTROLLER
 k1 = 0.0  # 0.0 gain error parallel to direction (speed)
-k2 = 10.0  # 0.0 perpenddicular error gain
+k2 = 5.0  # 0.0 perpenddicular error gain
 # pure paralllel k2 = 10 is very good at staying in the center of the lane
 # k3 = 0.7  # 1.0 yaw error gain .8 with ff #BFMC_2023
 k3_NL = 1.3 # for no_lane part #BFMC_2024
-k3 = 2.0 # rest of the map #BFMC_2024
+k3 = 1.5 # rest of the map #BFMC_2024
 k3D = 0.08  # 0.08 derivative gain of yaw error
 dist_point_ahead = 0.35  # distance of the point ahead in m
 

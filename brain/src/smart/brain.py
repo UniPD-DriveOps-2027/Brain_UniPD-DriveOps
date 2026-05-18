@@ -86,8 +86,8 @@ else:
     CHECKPOINTS = [125, 163, 336, 150] # TEST WHOLE PATH
     CHECKPOINTS = [451, 393, 400] # TEST WHOLE PATH
     CHECKPOINTS = [125, 163, 336, 150] # TEST Thomas semaphores
-    CHECKPOINTS = [472, 412, 393, 306, 150, 140, 121, 92, 109, 130, 147, 175, 133, 123, 118, 91, 163, 373, 406, 444] # TEST WHOLE PATH no 468 but 451
-    CHECKPOINTS = [451,421,390] #crosswalk, parking and intersection
+    CHECKPOINTS = [ 412, 393, 306, 150, 140, 121, 92, 109, 130, 147, 175, 133, 123, 118, 91, 163, 373, 406, 444] # TEST WHOLE PATH no 468 but 451
+    # CHECKPOINTS = [451,421,390] #crosswalk, parking and intersection
     # CHECKPOINTS = [355,212,150] #roundabout and highway
     #CHECKPOINTS = [393,306] #right roundabout 
     # CHECKPOINTS = [329, 150, 140, 121, 92, 109, 130, 147]
@@ -787,6 +787,7 @@ class Brain:
             self.activate_routines([])
             #if self.car.filtered_left_tof_distance <= 0.5: #checking distance from the highway separator
             if self.curr_state.just_switched:
+                self.car.drive_distance(0.6)
                 self.car.drive_angle(OVERTAKE_STEER_ANGLE)
                 self.curr_state.var4 = self.car.encoder_distance           
                 self.car.drive_speed(OVERTAKE_MOVING_CAR_SPEED)
@@ -1563,7 +1564,7 @@ class Brain:
                 print('CHECKING_CARS: No free spot for parking')
                 self.curr_state.var1 = (nac.PARK_END, park_type, True)  
 
-        if dist_first_spot+(dist_spots*5)+further_dist + MAX_ERROR_ON_LOCAL_DIST < curr_dist:
+        if dist_first_spot+(dist_spots*5)+further_dist + MAX_ERROR_ON_LOCAL_DIST +1000 < curr_dist:
             overshoot_distance = dist_first_spot + (dist_spots*5) + further_dist + MAX_ERROR_ON_LOCAL_DIST-curr_dist
             self.error(f'ERROR: PARKING: CHECKING_CARS: Overshoot distance, error: {overshoot_distance:.2f}')
          
