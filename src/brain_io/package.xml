@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!-- Purpose: ROS 2 manifest for adapters, sensor inputs, V2X, and outputs. Inputs: dependency/package metadata. Outputs: ament discovery and runtime dependency resolution. -->
+<package format="3">
+  <name>brain_io</name>
+  <version>0.1.0</version>
+  <description>ROS 2 I/O adapters for the UniPD DriveOps brain.</description>
+  <maintainer email="driveops@unipd.it">UniPD DriveOps</maintainer>
+  <license>Apache-2.0</license>
+
+  <buildtool_depend>ament_python</buildtool_depend>
+  <depend>rclpy</depend>
+  <depend>std_msgs</depend>
+  <depend>sensor_msgs</depend>
+  <depend>nav_msgs</depend>
+  <depend>brain_core</depend>
+  <depend>brain_interfaces</depend>
+  <exec_depend>cv_bridge</exec_depend>
+  <exec_depend>python3-numpy</exec_depend>
+  <exec_depend>python3-opencv</exec_depend>
+  <exec_depend>python3-twisted</exec_depend>
+  <exec_depend>python3-cryptography</exec_depend>
+
+  <test_depend>python3-pytest</test_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>

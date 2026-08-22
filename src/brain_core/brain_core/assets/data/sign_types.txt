@@ -1,0 +1,12 @@
+# Purpose: Assign a mapped sign class to every coordinate in sign_points.txt.
+# Input: One integer sign-class index per row; rows align with sign_points.txt.
+# Output: Brain.sign_types for map-assisted traffic-sign handling.
+5
+5
+0
+7
+2
+2
+3
+2
+4

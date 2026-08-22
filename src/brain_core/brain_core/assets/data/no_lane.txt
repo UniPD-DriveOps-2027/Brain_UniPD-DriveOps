@@ -1,0 +1,36 @@
+# Purpose: Identify graph nodes in road sections without ordinary lane markings.
+# Input: One final_graph.graphml node ID per row.
+# Output: PathPlanning.no_lane_nodes for selecting no-lane behaviour.
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+339
+340
+341
+342
+343
+344
+345
+346
+367
+348
+349
+350
+351
+352
+353

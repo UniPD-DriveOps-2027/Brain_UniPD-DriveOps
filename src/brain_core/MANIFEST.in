@@ -1,0 +1,4 @@
+# Purpose: Include non-Python Brain assets in source distributions.
+# Inputs: Files recursively found under brain_core/assets.
+# Outputs: Packaged map, graph, data, model, and model-metadata files.
+recursive-include brain_core/assets *

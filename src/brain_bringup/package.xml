@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!-- Purpose: ROS 2 manifest for launch/configuration ownership. Inputs: package dependencies and metadata. Outputs: ament package discovery and dependency resolution. -->
+<package format="3">
+  <name>brain_bringup</name>
+  <version>0.1.0</version>
+  <description>Launch and configuration for the UniPD DriveOps brain.</description>
+  <maintainer email="driveops@unipd.it">UniPD DriveOps</maintainer>
+  <license>Apache-2.0</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <exec_depend>brain_core</exec_depend>
+  <exec_depend>brain_io</exec_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

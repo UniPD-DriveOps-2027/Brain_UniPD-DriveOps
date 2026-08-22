@@ -1,0 +1,12 @@
+# Purpose: Store mapped traffic-sign coordinates used by sign-control logic.
+# Input: One graph-frame "x y" coordinate pair in metres per row.
+# Output: Brain.sign_points; row i is paired with row i of sign_types.txt.
+16.576561 9.229258
+15.424343 11.952330
+8.822141 0.418639
+9.690144 4.328495
+14.494888 11.007512
+5.956961 11.326292
+5.891669 12.463146
+14.398870 9.870658
+6.982434 3.076419

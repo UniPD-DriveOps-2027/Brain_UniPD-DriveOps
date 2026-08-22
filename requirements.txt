@@ -1,0 +1,22 @@
+# Purpose: List non-ROS Python dependencies needed by Brain runtime features.
+# Inputs: Package names consumed by pip or another Python package installer.
+# Outputs: Installed algorithm, perception, hardware, V2X, and optional RC libraries.
+# Algorithms
+networkx
+scipy
+matplotlib
+pyclothoids
+scikit-learn
+
+# Perception
+onnxruntime
+
+# Hardware OAK-D mode
+depthai
+
+# V2X bridges
+Twisted
+cryptography
+
+# Optional remote-control mode
+pygame

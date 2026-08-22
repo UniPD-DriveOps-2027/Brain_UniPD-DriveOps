@@ -1,0 +1,17 @@
+# Purpose: Keep generated ROS, Python, editor, and runtime files out of version control.
+# Inputs: Repository-relative path patterns evaluated by Git.
+# Outputs: Files excluded from Git status and commits.
+build/
+install/
+log/
+**/__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.cache/
+.venv/
+logs/
+*.zip
+testing/sparcs_vicon/measurements/
+testing/sparcs_vicon/*.csv
+testing/sparcs_vicon/*.npz

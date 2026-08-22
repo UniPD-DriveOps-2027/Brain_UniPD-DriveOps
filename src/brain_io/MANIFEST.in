@@ -1,0 +1,4 @@
+# Purpose: Include V2X public-key assets in brain_io source distributions.
+# Inputs: PEM files below brain_io/inputs/v2x.
+# Outputs: Packaged public keys available to installed V2X bridges.
+recursive-include brain_io/inputs/v2x *.pem

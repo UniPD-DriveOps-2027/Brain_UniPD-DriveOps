@@ -1,0 +1,8 @@
+# Purpose: Configure the traffic/V2X ROS 2 bridge.
+# Inputs: Device ID, publish frequency, and incoming-localisation unit scale.
+# Outputs: ROS parameters loaded into traffic_bridge.
+traffic_bridge:
+  ros__parameters:
+    device_id: 3
+    frequency: 1.0
+    localisation_scale: 0.001

@@ -1,0 +1,7 @@
+# Purpose: Identify directed graph nodes at roundabout exits.
+# Input: One final_graph.graphml node ID per row.
+# Output: PathPlanning.ra_exit for roundabout-exit detection.
+259
+302
+332
+372

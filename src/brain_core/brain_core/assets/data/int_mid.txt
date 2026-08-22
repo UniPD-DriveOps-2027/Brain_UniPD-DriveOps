@@ -1,0 +1,38 @@
+# Purpose: Identify directed graph nodes inside intersections.
+# Input: One final_graph.graphml node ID per row.
+# Output: PathPlanning.intersection_cen for intersection route classification.
+409
+9
+10
+11
+12
+21
+22
+23
+24
+33
+34
+35
+36
+43
+44
+45
+52
+53
+54
+62
+63
+70
+71
+72
+79
+80
+81
+88
+89
+90
+400
+424
+448
+488
+504

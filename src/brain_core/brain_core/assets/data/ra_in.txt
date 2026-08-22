@@ -1,0 +1,7 @@
+# Purpose: Identify directed graph nodes at roundabout entrances.
+# Input: One final_graph.graphml node ID per row.
+# Output: PathPlanning.ra_enter for roundabout-entry detection.
+238
+331
+357
+370
