@@ -102,6 +102,10 @@ class MetricsToSocket(Node):
         self.create_subscription(String,     '/automobile/next_event',     self._make_cb('UPCOMING_EVENT', lambda m: m.data),                   1)
         self.create_subscription(String,     '/automobile/prev_event',     self._make_cb('PREV_EVENT',     lambda m: m.data),                   1)
         self.create_subscription(Float32,    '/automobile/closest_node',   self._make_cb('CLOSEST_NODE',   lambda m: m.data),                   1)
+        # Optional route telemetry.  The dashboard accepts any of these names
+        # so older and newer path-following nodes can coexist.
+        self.create_subscription(Float32,    '/automobile/path/progress',  self._make_cb('PATH_PROGRESS',  lambda m: m.data),                   1)
+        self.create_subscription(Float32,    '/automobile/path_completion', self._make_cb('PATH_COMPLETION', lambda m: m.data),                  1)
         self.create_subscription(Float32,    '/automobile/encoder/speed',  self._make_cb('SPEED',          lambda m: round(m.data, 2)),          1)
         self.create_subscription(Float32,    '/automobile/command/speed',  self._make_cb('SPEED_CMD',      lambda m: round(m.data, 2)),          1)
         self.create_subscription(Float32,    '/automobile/encoder/distance',self._make_cb('DISTANCE',      lambda m: round(m.data, 2)),          1)

@@ -517,15 +517,25 @@ class Brain:
         # <++>
         # <++>
         start_time = time()
+        global_start_positions = deque(maxlen=10)
         while True:
-            # get closest node
-            if not ALWAYS_DISTRUST_GPS or GPS_FOR_START_ONLY:
+            # Random-start is initialized from the fused global localization
+            # pose, never from the raw GPS stream. Wait until the localization
+            # stack reports a sufficiently precise map-frame estimate.
+            if RANDOM_START:
+                if not getattr(self.car, 'global_pose_ready', False):
+                    elapsed = time() - start_time
+                    if elapsed > GPS_TIMEOUT:
+                        print(
+                            'Waiting for fused global localization: '
+                            f'{elapsed:.1f}s (raw GPS is intentionally ignored)')
+                    sleep(0.2)
+                    continue
+
                 # curr_time = time()
-                sleep(3.0)
+                sleep(0.2)
                 curr_pos = np.array([self.car.x_est, self.car.y_est])
-                # print(f"Current position: {curr_pos}")
-                # #curr_pos = np.array(STARTING_COORDS) 
-                # closest_node, distance = self.path_planner.get_closest_node_start(curr_pos, self.car.yaw+YAW_OFFSET)
+                global_start_positions.append(curr_pos.copy())
                 # use median yaw to filter out IMU spikes at startup
                 if len(self.car.yaw_buffer) > 0:
                     stable_yaw = float(np.median(self.car.yaw_buffer))
@@ -560,21 +570,42 @@ class Brain:
                 # if len(self.car.x_buffer) >= 5:    #5 put in real life                       ################ - PUT BACK THE 5 - ####################
                 #     print(f'Waiting for gps: {(curr_time- start_time):.1f}/{GPS_TIMEOUT}')
                 elapsed = time() - start_time
-                gps_ready = len(self.car.x_buffer) >= 5
-                gps_stable = (np.std(list(self.car.x_buffer)) + np.std(list(self.car.y_buffer))) < 0.3
-                print(f'GPS: ready={gps_ready}, stable={gps_stable}, elapsed={elapsed:.1f}s/{GPS_TIMEOUT}s')
-                if gps_ready and gps_stable:
-                    print(f'GPS converged after {elapsed:.1f}s, closest node: {closest_node}, distance: {distance:.2f}m')    
+                global_stable = (
+                    len(global_start_positions) >= 10 and
+                    np.std([p[0] for p in global_start_positions]) +
+                    np.std([p[1] for p in global_start_positions]) < 0.30)
+                print(
+                    f'Global EKF: std={getattr(self.car, "global_position_std", float("inf")):.3f}m, '
+                    f'stable={global_stable}, elapsed={elapsed:.1f}s')
+                if global_stable:
+                    print(
+                        f'Fused global pose accepted, closest node: {closest_node}, '
+                        f'distance: {distance:.2f}m')
                     self.checkpoints[self.checkpoint_idx] = int(closest_node)
+                    self.start_node_validated = True
                     if distance > 5.0:
-                        self.error('ERROR: REROUTING: GPS converged, but distance is too large , we are too far from the lane')
+                        self.error('ERROR: REROUTING: fused pose is too far from the lane')
                     break
-            
-                # if curr_time - start_time > GPS_TIMEOUT:
-                if elapsed > GPS_TIMEOUT:
-                    print('WARNING: ROUTE_GENERATION: No gps signal, Starting from the first checkpoint')
-                    # sleep(3.0)
-                    break
+            elif not ALWAYS_DISTRUST_GPS or GPS_FOR_START_ONLY:
+                # Legacy fixed-start path for non-random modes.
+                sleep(3.0)
+                curr_pos = np.array([self.car.x_est, self.car.y_est])
+                if len(self.car.yaw_buffer) > 0:
+                    stable_yaw = float(np.median(self.car.yaw_buffer))
+                else:
+                    stable_yaw = self.car.yaw
+                stable_yaw_deg = float(np.rad2deg(stable_yaw))
+                startup_yaw_deg = (-stable_yaw_deg if SIMULATOR_FLAG
+                                   else stable_yaw_deg + YAW_OFFSET)
+                result = self.path_planner.get_closest_node_start(
+                    curr_pos, startup_yaw_deg)
+                closest_node, distance = (
+                    result if result is not None else
+                    self.path_planner.get_closest_node(curr_pos))
+                self.car.publish_closest_node(float(closest_node))
+                self.checkpoints[self.checkpoint_idx] = int(closest_node)
+                self.start_node_validated = True
+                break
             else:
                 if STARTING_COORDS != [-42, -42]:        
                     curr_pos = np.array(STARTING_COORDS)
@@ -1867,6 +1898,15 @@ class Brain:
             speed_mps=float(self.car.filtered_encoder_velocity),
         )
         self.path_following_command = command
+        route_segments = max(1, len(self.checkpoints) - 1)
+        segment_length = float(self.path_follower.route_length_m)
+        segment_progress = (float(command.progress_m) / segment_length
+                            if segment_length > 1e-6 else 0.0)
+        overall_progress = 100.0 * (
+            self.checkpoint_idx + min(1.0, max(0.0, segment_progress))
+        ) / route_segments
+        if hasattr(self.car, 'publish_path_progress'):
+            self.car.publish_path_progress(overall_progress)
         if not command.has_path:
             self.car.stop()
             return
@@ -2384,4 +2424,4 @@ class Brain:
         self.car.stop()
         sleep(3)
         exit()
-
+

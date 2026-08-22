@@ -16,6 +16,7 @@ import numpy as np
 
 from std_msgs.msg    import Float32, Bool, String, UInt8
 from sensor_msgs.msg import Imu, LaserScan, Image
+from nav_msgs.msg    import Odometry
 from cv_bridge       import CvBridge
 from brain_interfaces.msg import Localisation, Vehicles, Conditions
 
@@ -69,6 +70,9 @@ class AutomobileDataPi(Automobile_Data, Node):
         self.lidar_ranges                   = 0
         self.yaw_true                       = 0.0
         self.flag_localisation              = False
+        self._has_global_odometry           = False
+        self.global_pose_ready              = False
+        self.global_position_std            = float('inf')
         self.frame                          = None
 
         # ── Publishers & subscribers ──────────────────────────────────── #
@@ -78,6 +82,7 @@ class AutomobileDataPi(Automobile_Data, Node):
             self.pub_stop          = self.create_publisher(Float32,     '/automobile/command/stop',     1)
             self.pub_position      = self.create_publisher(Float32,     '/automobile/command/position', 1)
             self.pub_closest_node  = self.create_publisher(Float32,     '/automobile/closest_node',     1)
+            self.pub_path_progress = self.create_publisher(Float32,     '/automobile/path/progress',   1)
             self.pub_next_event    = self.create_publisher(String,      '/automobile/next_event',       1)
             self.pub_prev_event    = self.create_publisher(String,      '/automobile/prev_event',       1)
             self.pub_current_state = self.create_publisher(String,      '/automobile/current_state',    1)
@@ -115,9 +120,10 @@ class AutomobileDataPi(Automobile_Data, Node):
                 Image, '/oak/rgb/image_raw', self._image_callback, 1)
 
         if trig_gps:
-            # GPS comes from the competition bridge on this topic (mm → m already converted)
+            # Brain consumes the fused global estimate. The localization
+            # stack owns raw GPS/UWB conversion and EKF fusion.
             self.sub_gps = self.create_subscription(
-                Localisation, '/automobile/localisation/gps', self.position_callback, 1)
+                Odometry, '/odometry/global', self.global_odometry_callback, 10)
 
         if trig_lidar:
             self.sub_lidar = self.create_subscription(
@@ -182,6 +188,30 @@ class AutomobileDataPi(Automobile_Data, Node):
         self.y_GPS = self.y
         self.flag_localisation = True
 
+    def global_odometry_callback(self, msg: Odometry) -> None:
+        """Consume the fused map-frame pose from the localization stack."""
+        q = msg.pose.pose.orientation
+        yaw = math.atan2(
+            2.0 * (q.w * q.z + q.x * q.y),
+            1.0 - 2.0 * (q.y * q.y + q.z * q.z),
+        )
+        self.x = float(msg.pose.pose.position.x)
+        self.y = float(msg.pose.pose.position.y)
+        self.x_est = self.x
+        self.y_est = self.y
+        self.x_GPS = self.x
+        self.y_GPS = self.y
+        self.yaw_true = yaw
+        self.yaw = yaw + self.yaw_offset
+        self.yaw_est = self.yaw
+        self.yaw_deg = np.rad2deg(self.yaw)
+        self.yaw_buffer.append(self.yaw)
+        self.global_position_std = math.sqrt(max(
+            float(msg.pose.covariance[0]), float(msg.pose.covariance[7])))
+        self.global_pose_ready = self.global_position_std <= 0.50
+        self._has_global_odometry = True
+        self.flag_localisation = True
+
     def imu_callback(self, data: Imu) -> None:
         q = data.orientation
         sinr_cosp = 2.0 * (q.w * q.x + q.y * q.z)
@@ -191,8 +221,10 @@ class AutomobileDataPi(Automobile_Data, Node):
         self.pitch = math.copysign(math.pi / 2, sinp) if abs(sinp) >= 1 else math.asin(sinp)
         siny_cosp = 2.0 * (q.w * q.z + q.x * q.y)
         cosy_cosp = 1.0 - 2.0 * (q.y * q.y + q.z * q.z)
-        self.yaw_true = math.atan2(siny_cosp, cosy_cosp)
-        self.yaw = self.yaw_true + self.yaw_offset
+        imu_yaw = math.atan2(siny_cosp, cosy_cosp)
+        if not self._has_global_odometry:
+            self.yaw_true = imu_yaw
+            self.yaw = self.yaw_true + self.yaw_offset
         self.roll_deg  = np.rad2deg(self.roll)
         self.pitch_deg = np.rad2deg(self.pitch)
         self.yaw_deg   = np.rad2deg(self.yaw)
@@ -202,7 +234,8 @@ class AutomobileDataPi(Automobile_Data, Node):
         self.gyrox = data.angular_velocity.x
         self.gyroy = data.angular_velocity.y
         self.gyroz = data.angular_velocity.z
-        self.yaw_buffer.append(self.yaw)
+        if not self._has_global_odometry:
+            self.yaw_buffer.append(self.yaw)
 
     def encoder_distance_callback(self, data: Float32) -> None:
         self.encoder_distance = data.data
@@ -260,6 +293,9 @@ class AutomobileDataPi(Automobile_Data, Node):
 
     def publish_closest_node(self, data: float = 0.0) -> None:
         self.pub_closest_node.publish(Float32(data=float(data)))
+
+    def publish_path_progress(self, data: float = 0.0) -> None:
+        self.pub_path_progress.publish(Float32(data=float(data)))
 
     def publish_next_event(self, data: str) -> None:
         self.pub_next_event.publish(String(data=str(data)))

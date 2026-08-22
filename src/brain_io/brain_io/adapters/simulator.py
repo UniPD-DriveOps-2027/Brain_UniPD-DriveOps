@@ -137,6 +137,9 @@ class AutomobileDataSimulator(Automobile_Data, Node):
         self.yaw_buffer = deque(maxlen=10)
         self._target_distance = None
         self._has_current_odometry = False
+        self._has_global_odometry = False
+        self.global_pose_ready = False
+        self.global_position_std = float('inf')
         self._use_odometry_for_encoder = bool(trig_enc)
         self._odom_last_position = None
 
@@ -145,6 +148,8 @@ class AutomobileDataSimulator(Automobile_Data, Node):
                 String, '/automobile/command', 10)
             self.pub_closest_node = self.create_publisher(
                 Float32, '/automobile/closest_node', 1)
+            self.pub_path_progress = self.create_publisher(
+                Float32, '/automobile/path/progress', 1)
             self.pub_next_event = self.create_publisher(
                 String, '/automobile/next_event', 1)
             self.pub_prev_event = self.create_publisher(
@@ -179,6 +184,8 @@ class AutomobileDataSimulator(Automobile_Data, Node):
         if trig_gps:
             self.create_subscription(
                 String, '/automobile/localisation', self._position_callback, 10)
+            self.create_subscription(
+                Odometry, '/odometry/global', self._global_odometry_callback, 10)
         if trig_lidar:
             self.create_subscription(LaserScan, '/scan', self._lidar_callback, 10)
 
@@ -192,17 +199,19 @@ class AutomobileDataSimulator(Automobile_Data, Node):
     def _imu_callback(self, msg: Imu):
         self.roll = 0.0
         self.pitch = 0.0
-        simulator_yaw = _yaw_from_quaternion(msg.orientation)
-        self.yaw_true = _simulator_yaw_to_brain(simulator_yaw)
-        self.yaw = _normalize_angle(self.yaw_true + self.yaw_offset)
-        self.yaw_deg = math.degrees(self.yaw)
+        if not self._has_global_odometry:
+            simulator_yaw = _yaw_from_quaternion(msg.orientation)
+            self.yaw_true = _simulator_yaw_to_brain(simulator_yaw)
+            self.yaw = _normalize_angle(self.yaw_true + self.yaw_offset)
+            self.yaw_deg = math.degrees(self.yaw)
         self.accel_x = msg.linear_acceleration.x
         self.accel_y = msg.linear_acceleration.y
         self.accel_z = msg.linear_acceleration.z
         self.gyrox = msg.angular_velocity.x
         self.gyroy = msg.angular_velocity.y
         self.gyroz = msg.angular_velocity.z
-        self.yaw_buffer.append(self.yaw)
+        if not self._has_global_odometry:
+            self.yaw_buffer.append(self.yaw)
 
     # UNUSED: AutomobileDataSimulator._speed_callback has no production caller.
     # def _speed_callback(self, msg: Float32):
@@ -218,18 +227,18 @@ class AutomobileDataSimulator(Automobile_Data, Node):
     def _odometry_callback(self, msg: Odometry):
         """Use current simulator odometry for control-state estimation.
 
-        The public GPS fields remain sourced from the delayed/noisy localisation
-        topic. Current odometry drives ``x_est``/``y_est`` and the simulated
-        encoder state, avoiding both delayed control pose and competing derived
-        odometer publishers.
+        This topic is retained for encoder-distance and speed processing. The
+        fused ``/odometry/global`` callback owns ``x_est``/``y_est`` whenever
+        localization is active, avoiding direct-GPS control pose updates.
         """
         world_position = (
             float(msg.pose.pose.position.x),
             float(msg.pose.pose.position.y),
         )
         point = _simulator_world_position_to_brain(*world_position)
-        self.x_est, self.y_est = point
-        self.x_true, self.y_true = point
+        if not self._has_global_odometry:
+            self.x_est, self.y_est = point
+            self.x_true, self.y_true = point
         self._has_current_odometry = True
 
         if self._use_odometry_for_encoder:
@@ -250,6 +259,26 @@ class AutomobileDataSimulator(Automobile_Data, Node):
             self.filtered_encoder_velocity = float(
                 np.median(self._speed_buffer))
             self.update_rel_position()
+
+    def _global_odometry_callback(self, msg: Odometry):
+        """Use the fused map-frame pose for Brain and random-start."""
+        q = msg.pose.pose.orientation
+        yaw = _yaw_from_quaternion(q)
+        self.x = float(msg.pose.pose.position.x)
+        self.y = float(msg.pose.pose.position.y)
+        self.x_est = self.x
+        self.y_est = self.y
+        self.x_true = self.x
+        self.y_true = self.y
+        self.yaw_true = yaw
+        self.yaw = _normalize_angle(yaw + self.yaw_offset)
+        self.yaw_est = self.yaw
+        self.yaw_deg = math.degrees(self.yaw)
+        self.yaw_buffer.append(self.yaw)
+        self.global_position_std = math.sqrt(max(
+            float(msg.pose.covariance[0]), float(msg.pose.covariance[7])))
+        self.global_pose_ready = self.global_position_std <= 0.50
+        self._has_global_odometry = True
 
     def _position_callback(self, msg: String):
         try:
@@ -304,6 +333,9 @@ class AutomobileDataSimulator(Automobile_Data, Node):
 
     def publish_closest_node(self, value=0.0):
         self.pub_closest_node.publish(Float32(data=float(value)))
+
+    def publish_path_progress(self, value=0.0):
+        self.pub_path_progress.publish(Float32(data=float(value)))
 
     def publish_next_event(self, value):
         self.pub_next_event.publish(String(data=str(value)))

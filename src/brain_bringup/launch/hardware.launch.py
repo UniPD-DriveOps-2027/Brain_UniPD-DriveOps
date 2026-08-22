@@ -5,7 +5,7 @@
 
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
-from launch.conditions import IfCondition
+from launch.conditions import IfCondition, UnlessCondition
 from launch.substitutions import LaunchConfiguration
 from launch_ros.substitutions import FindPackageShare
 from launch.substitutions import PathJoinSubstitution
@@ -16,6 +16,11 @@ def generate_launch_description():
     return LaunchDescription([
         DeclareLaunchArgument('sonar', default_value='true'),
         DeclareLaunchArgument('v2x', default_value='true'),
+        DeclareLaunchArgument(
+            'random_start',
+            default_value='false',
+            description='Start Brain in its random-start route mode.',
+        ),
         DeclareLaunchArgument(
             'v2x_config',
             default_value=PathJoinSubstitution([
@@ -55,6 +60,15 @@ def generate_launch_description():
             executable='brain',
             name='brain',
             output='screen',
+            condition=UnlessCondition(LaunchConfiguration('random_start')),
             arguments=['--mode', 'hardware'],
+        ),
+        Node(
+            package='brain_io',
+            executable='brain',
+            name='brain_random_start',
+            output='screen',
+            condition=IfCondition(LaunchConfiguration('random_start')),
+            arguments=['--mode', 'hardware', '--random'],
         ),
     ])
