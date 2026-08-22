@@ -27,25 +27,25 @@ The current simulator is maintained separately in
 
 ```text
 src/
-├── brain_interfaces/          Custom ROS 2 data formats shared between nodes
+├── brain_interfaces/          Shared ROS 2 messages
 ├── brain_core/
 │   └── brain_core/
-│       ├── vehicle_interface/ Car data plus commands such as drive, steer and stop
-│       ├── perception/        Turns camera images into lanes, stop lines and signs
-│       ├── planning/          Uses the track map to create a checkpoint route
-│       ├── state_machine/     Decides what the car should do next
-│       ├── controllers/       Calculates steering, speed and parking commands
-│       ├── common/            Shared settings, maths and file-location helpers
-│       └── assets/            Track maps, road data and trained AI model files
+│       ├── vehicle_interface/ Common AutomobileData state and API
+│       ├── perception/        Lane, stop-line and OAK-D perception
+│       ├── planning/          Track graph and path planning
+│       ├── state_machine/     Autonomous, RC and environment behaviour
+│       ├── controllers/       Steering, speed and parking controllers
+│       ├── common/            Constants, geometry and resource paths
+│       └── assets/            Runtime maps and inference models
 ├── brain_io/
 │   └── brain_io/
-│       ├── adapters/          Converts hardware or simulator data to one car API
-│       ├── inputs/            Reads IMU, sonar and vehicle/traffic-system messages
-│       ├── outputs/           Sends camera, LiDAR and car status to the dashboard
-│       └── runner.py          Selects a mode, connects the parts and starts Brain
+│       ├── adapters/          Hardware and ROS 2 simulator adapters
+│       ├── inputs/            IMU, sonar and V2X bridges
+│       ├── outputs/           Camera, LiDAR and metrics socket bridges
+│       └── runner.py          Application composition root
 └── brain_bringup/
-    ├── launch/                Commands that start the required ROS 2 nodes together
-    └── config/                Settings loaded by ROS 2 nodes when they start
+    ├── launch/                Hardware, simulation and dashboard launchers
+    └── config/                Runtime ROS parameters
 ```
 
 See [ARCHITECTURE.md](ARCHITECTURE.md) for ownership rules and topic contracts.

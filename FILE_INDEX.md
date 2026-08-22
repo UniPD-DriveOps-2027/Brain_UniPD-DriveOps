@@ -7,11 +7,14 @@ Python, launch, configuration, interface, build, and plain-text data files carry
 accept such headers: adding text would corrupt a binary or violate its strict
 format. Their documentation therefore lives here.
 
-## Brain map data
+## Brain map and archived data
 
 | File | Purpose | Inputs | Outputs / consumer |
 |---|---|---|---|
 | `src/brain_core/brain_core/assets/data/2024_VerySmall.png` | 5338×3541 RGB track-map image and graph coordinate reference. | Track artwork; no runtime arguments. | OpenCV map background used by `brain_io.runner` and route visualisation. |
+| `src/brain_core/brain_core/assets/data/bak.events_config.json` | Backup of legacy named-start/checkpoint configurations. | Strict JSON event configuration. | None in the current runtime; retained only as backup. |
+| `src/brain_core/brain_core/assets/data/bak.gps_angles.pkl` | Backup mapping from graph node ID to legacy GPS heading/next-node data. | Python pickle dictionary. | None in the current runtime; formerly used by lane-switch correction. |
+| `src/brain_core/brain_core/assets/data/bak.highway_dict.pkl` | Backup mapping used by legacy highway lane-switch correction. | Python pickle dictionary. | None in the current runtime. |
 
 ## ONNX perception models
 
@@ -49,6 +52,8 @@ different scikit-learn version can produce compatibility warnings.
 | File | Purpose | Inputs | Outputs / consumer |
 |---|---|---|---|
 | `src/brain_io/brain_io/inputs/v2x/TrafficCommunication/useful/publickey_server.pem` | Public key for validating production traffic-server communication. | PEM-encoded RSA public key bytes. | Cryptographic public-key object used by the active V2X bridge. |
+| `src/brain_io/brain_io/inputs/v2x/TrafficCommunication/useful/bak.publickey_server_test.pem` | Backup test-server public key. | PEM-encoded RSA public key bytes. | None in the current runtime; retained for legacy tests. |
+| `src/brain_io/brain_io/inputs/v2x/utils/bak.table_state.json` | Backup dashboard/control-table configuration. | Strict JSON control definitions. | None in the current runtime. |
 
 ## ROS package resource markers
 
