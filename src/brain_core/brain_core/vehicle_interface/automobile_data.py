@@ -40,9 +40,9 @@ FRAME_HEIGHT = 240  # 480    # [pix]     frame height
 # position and orientation wrt the car frame
 CAM_X = 0.0                 # [m]
 CAM_Y = 0.0                 # [m]
-CAM_Z = 0.2                 # [m]
+CAM_Z = 0.17551             # [m] matches the simulator OAK-D camera height
 CAM_ROLL = 0.0              # [rad]
-CAM_PITCH = np.deg2rad(20)  # [rad]
+CAM_PITCH = np.deg2rad(16)  # [rad] matches simulator camera_tilt_deg
 CAM_YAW = 0.0               # [rad]
 CAM_FOV = 1.085594795       # [rad]
 CAM_F = 1.0                 # []        focal length

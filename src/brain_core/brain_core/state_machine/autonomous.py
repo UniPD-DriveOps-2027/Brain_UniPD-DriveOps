@@ -28,6 +28,11 @@ from brain_core.controllers.steering import Controller
 from brain_core.controllers.speed import ControllerSpeed
 from brain_core.controllers.path_following import CheckpointFollower
 from brain_core.perception.detection import Detection
+from brain_core.perception.opencv_lane_center import (
+    OpenCVLaneCenter,
+    OpenCVLaneImagePublisher,
+    fuse_route_and_lane_steering,
+)
 from brain_core.common import geometry as hf
 from brain_core.common.resources import data_path, state_path
 
@@ -375,6 +380,8 @@ class Brain:
                  detection: Detection | None,
                  path_planner: PathPlanning,
                  path_follower: CheckpointFollower,
+                 lane_center: OpenCVLaneCenter | None = None,
+                 lane_image_publisher: OpenCVLaneImagePublisher | None = None,
                  path_only: bool = False,
                  checkpoints = None,
                  desired_speed = nac.DESIRED_SPEED,
@@ -387,6 +394,9 @@ class Brain:
         self.path_planner = path_planner
         self.path_follower = path_follower
         self.path_following_command = None
+        self.lane_center = lane_center
+        self.lane_image_publisher = lane_image_publisher
+        self.lane_center_observation = None
         self.path_only = bool(path_only)
         self.env = env
 
@@ -1890,7 +1900,7 @@ class Brain:
     # =============== ROUTINES =============== #
 
     def follow_lane(self):
-        """Follow the graph route using localisation, without lane inference."""
+        """Follow the graph route with optional OpenCV centre correction."""
         command = self.path_follower.update(
             x=float(self.car.x_est),
             y=float(self.car.y_est),
@@ -1898,19 +1908,68 @@ class Brain:
             speed_mps=float(self.car.filtered_encoder_velocity),
         )
         self.path_following_command = command
-        route_segments = max(1, len(self.checkpoints) - 1)
-        segment_length = float(self.path_follower.route_length_m)
+        route_segments = max(1, len(getattr(self, 'checkpoints', (0, 1))) - 1)
+        segment_length = float(getattr(self.path_follower, 'route_length_m', 0.0))
         segment_progress = (float(command.progress_m) / segment_length
                             if segment_length > 1e-6 else 0.0)
         overall_progress = 100.0 * (
-            self.checkpoint_idx + min(1.0, max(0.0, segment_progress))
+            getattr(self, 'checkpoint_idx', 0)
+            + min(1.0, max(0.0, segment_progress))
         ) / route_segments
         if hasattr(self.car, 'publish_path_progress'):
             self.car.publish_path_progress(overall_progress)
         if not command.has_path:
             self.car.stop()
             return
-        self.car.drive_angle(command.steering_deg)
+
+        steering_deg = command.steering_deg
+        lane_center = getattr(self, 'lane_center', None)
+        lane_image_publisher = getattr(self, 'lane_image_publisher', None)
+        if lane_center is not None:
+            frame = getattr(self.car, 'frame', None)
+            if frame is not None and getattr(frame, 'size', 0) > 0:
+                route_points_px = None
+                route_path = getattr(self.path_follower, 'path', None)
+                if route_path is not None and len(route_path) >= 3:
+                    # Project the generated clothoid path into the camera. The
+                    # OpenCV detector then measures lane error relative to
+                    # this curved route rather than inventing a straight
+                    # centreline from two local Hough segments.
+                    _, route_points_px = hf.project_onto_frame(
+                        frame.copy(),
+                        self.car,
+                        np.asarray(route_path, dtype=np.float32),
+                        align_to_car=True,
+                        color=(0, 0, 0),
+                        thickness=1,
+                    )
+                observation = lane_center.detect(
+                    frame,
+                    visualize=(SHOW_IMGS or lane_image_publisher is not None),
+                    route_points_px=route_points_px,
+                )
+                self.lane_center_observation = observation
+                if observation.valid:
+                    if observation.route_centerline_px is not None:
+                        # The path command already contains the bend. The
+                        # camera value is only a bounded lateral correction.
+                        steering_deg = float(np.clip(
+                            command.steering_deg + observation.steering_deg,
+                            -MAX_STEER,
+                            MAX_STEER,
+                        ))
+                    else:
+                        steering_deg = fuse_route_and_lane_steering(
+                            command.steering_deg,
+                            observation.steering_deg,
+                            observation.confidence,
+                        )
+                if lane_image_publisher is not None:
+                    lane_image_publisher.publish(observation, frame)
+                if SHOW_IMGS and observation.debug_frame is not None:
+                    cv.imshow('opencv_lane_center', observation.debug_frame)
+
+        self.car.drive_angle(steering_deg)
         
 
     # UNUSED: Brain.follow_roundabout has no production caller.

@@ -27,6 +27,10 @@ from brain_core.controllers.speed import ControllerSpeed
 from brain_core.controllers.steering import Controller
 from brain_core.controllers.path_following import CheckpointFollower
 from brain_core.perception.detection import Detection
+from brain_core.perception.opencv_lane_center import (
+    OpenCVLaneCenter,
+    OpenCVLaneImagePublisher,
+)
 from brain_core.planning.path_planner import PathPlanning
 
 
@@ -48,8 +52,14 @@ def _parse_args(argv=None):
         action='store_true',
         help=(
             'simulation test mode: follow graph checkpoints while ignoring '
-            'events, stop lines, obstacles and specialised manoeuvres'
+            'events, stop lines, obstacles and specialised manoeuvres; '
+            'OpenCV lane-centre correction remains enabled'
         ),
+    )
+    parser.add_argument(
+        '--no-opencv-lane-center',
+        action='store_true',
+        help='disable the classical OpenCV lane-centre steering correction',
     )
     args, ros_args = parser.parse_known_args(argv)
     if args.sim:
@@ -68,11 +78,11 @@ def _configure_runtime(args):
     nac.RESUME = args.resume
 
 
-def _make_car(mode, *, path_only=False):
+def _make_car(mode, *, path_only=False, use_opencv_lane_center=True):
     options = dict(
-        # Checkpoint-only validation has no camera/NN dependency.  Gazebo can
-        # still display the OAK stream, but Brain does not subscribe to it.
-        trig_cam=not path_only,
+        # The checkpoint route does not need the ONNX models, but the merged
+        # controller still needs the camera for OpenCV lane-centre correction.
+        trig_cam=(not path_only) or use_opencv_lane_center,
         trig_gps=True,
         trig_bno=True,
         trig_enc=True,
@@ -112,7 +122,12 @@ def main(argv=None):
     from brain_core.state_machine.environment import EnvironmentalData
 
     rclpy.init(args=ros_args)
-    car = _make_car(args.mode, path_only=args.path_only)
+    use_opencv_lane_center = not args.no_opencv_lane_center
+    car = _make_car(
+        args.mode,
+        path_only=args.path_only,
+        use_opencv_lane_center=use_opencv_lane_center,
+    )
     spin_thread = threading.Thread(target=_spin_car, args=(car,), daemon=True)
     spin_thread.start()
 
@@ -128,9 +143,27 @@ def main(argv=None):
         k1=0.0, k2=5.0, k3=1.5, k3_NL=1.3, k3D=0.08,
         dist_point_ahead=0.35, ff=1.0)
     speed = ControllerSpeed(desired_speed=0.35, curve_speed=0.25)
-    path_follower = CheckpointFollower(completion_radius_m=0.30)
-    # In checkpoint-only mode no perception routine is reachable, so avoid
-    # loading the lane/intersection ONNX models altogether.
+    # Use a shorter lookahead so the dense clothoid route is followed through
+    # bends instead of being cut by a long straight pure-pursuit chord.
+    path_follower = CheckpointFollower(
+        min_lookahead_m=0.28,
+        lookahead_speed_gain_s=0.35,
+        max_lookahead_m=0.60,
+        completion_radius_m=0.30,
+    )
+    lane_center = (
+        OpenCVLaneCenter()
+        if use_opencv_lane_center
+        else None
+    )
+    lane_image_publisher = (
+        OpenCVLaneImagePublisher(car)
+        if use_opencv_lane_center
+        else None
+    )
+    # In checkpoint-only mode no event perception routine is reachable, so
+    # avoid loading the lane/intersection ONNX models.  The classical OpenCV
+    # detector above remains active for local lane-centre correction.
     detection = None if args.path_only else Detection()
 
     if nac.RC_MODE:
@@ -147,6 +180,8 @@ def main(argv=None):
             env=environment,
             path_planner=path_planner,
             path_follower=path_follower,
+            lane_center=lane_center,
+            lane_image_publisher=lane_image_publisher,
             path_only=args.path_only,
             desired_speed=DESIRED_SPEED,
         )
