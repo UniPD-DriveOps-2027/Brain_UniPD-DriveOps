@@ -1,0 +1,14 @@
+oak_image_stabilizer:
+  ros__parameters:
+    image_topic: /oak/rgb/image_raw
+    camera_info_topic: /oak/rgb/camera_info
+    imu_topic: /automobile/imu/data
+    output_image_topic: /oak/rgb/image_stabilized
+    output_camera_info_topic: /oak/rgb/camera_info_stabilized
+    correction_topic: /oak/rgb/stabilization_correction
+    correction_gain: 0.60
+    attitude_baseline_time_constant_s: 1.0
+    max_correction_deg: 3.0
+    crop_x_fraction: 0.05
+    crop_y_fraction: 0.08
+    imu_timeout_s: 0.20

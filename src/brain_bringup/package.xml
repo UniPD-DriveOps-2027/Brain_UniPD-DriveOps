@@ -10,6 +10,8 @@
   <buildtool_depend>ament_cmake</buildtool_depend>
   <exec_depend>brain_core</exec_depend>
   <exec_depend>brain_io</exec_depend>
+  <exec_depend>brain_vibration</exec_depend>
+  <exec_depend>brain_camera</exec_depend>
 
   <export>
     <build_type>ament_cmake</build_type>

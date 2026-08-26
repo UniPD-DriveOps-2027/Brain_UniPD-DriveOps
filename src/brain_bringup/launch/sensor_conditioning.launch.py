@@ -1,7 +1,4 @@
-# Purpose: Launch Brain against the Gazebo simulator interface.
-# Inputs: Simulator ROS topics and optional launch arguments.
-# Outputs: Simulator-adapted autonomous Brain process.
-
+"""Run camera stabilization and vibration metrics without starting autonomous Brain."""
 
 from launch import LaunchDescription
 from launch_ros.actions import Node
@@ -20,12 +17,5 @@ def generate_launch_description():
             executable='image_stabilizer',
             name='oak_image_stabilizer',
             output='screen',
-        ),
-        Node(
-            package='brain_io',
-            executable='brain',
-            name='brain',
-            output='screen',
-            arguments=['--mode', 'simulation'],
         ),
     ])

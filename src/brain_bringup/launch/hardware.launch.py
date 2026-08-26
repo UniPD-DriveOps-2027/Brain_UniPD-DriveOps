@@ -28,6 +28,18 @@ def generate_launch_description():
             ]),
         ),
         Node(
+            package='brain_vibration',
+            executable='vibration_monitor',
+            name='vibration_monitor',
+            output='screen',
+        ),
+        Node(
+            package='brain_camera',
+            executable='image_stabilizer',
+            name='oak_image_stabilizer',
+            output='screen',
+        ),
+        Node(
             package='brain_core',
             executable='oak_camera',
             name='oak_camera',

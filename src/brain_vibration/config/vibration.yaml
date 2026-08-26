@@ -1,0 +1,8 @@
+vibration_monitor:
+  ros__parameters:
+    imu_topic: /automobile/imu/data
+    linear_rms_topic: /automobile/vibration/linear_acceleration_rms
+    angular_rms_topic: /automobile/vibration/angular_velocity_rms
+    filter_time_constant_s: 0.5
+    publish_rate_hz: 20.0
+    minimum_samples: 10

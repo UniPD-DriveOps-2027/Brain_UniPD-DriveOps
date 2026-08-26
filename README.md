@@ -72,6 +72,77 @@ colcon build --symlink-install
 source install/setup.bash
 ```
 
+## Complete hardware-free simulator test
+
+Run the three components in separate terminals. No physical encoder, GPS,
+IMU, camera, or localization hardware is required.
+
+### Terminal 1: simulator and hardware-topic mapping
+
+```bash
+cd ~/BFMC_2027/Simulator_UniPD-DriveOps
+source /opt/ros/jazzy/setup.bash
+colcon build --packages-select sim2real_mapping sim_pkg --symlink-install
+source install/setup.bash
+ros2 launch sim_pkg map_with_car.launch camera_view:=false
+```
+
+This starts Gazebo, the bridges, simulated sensors, and `sim2real_mapping`.
+The adapter publishes the hardware-compatible encoder, GPS JSON, IMU, and
+camera topics. GPS/tag data uses a 2-second artificial delay by default.
+
+### Terminal 2: localization stack
+
+Build the localization image once:
+
+```bash
+cd ~/BFMC_2027/Localization_UniPD-DriveOps
+./docker/build.sh
+```
+
+Then start it while the simulator remains running:
+
+```bash
+./docker/run.sh --normal-start
+```
+
+If it reports `Localization image is missing`, run `./docker/build.sh` first.
+
+### Terminal 3: Brain
+
+Build and source Brain:
+
+```bash
+cd ~/BFMC_2027/Brain_UniPD-DriveOps
+source /opt/ros/jazzy/setup.bash
+colcon build --symlink-install
+source ~/BFMC_2027/Simulator_UniPD-DriveOps/install/setup.bash
+source install/setup.bash
+```
+
+Launch the Brain simulator mode:
+
+```bash
+ros2 launch brain_bringup simulation.launch.py
+```
+
+For isolated checkpoint/path following:
+
+```bash
+ros2 launch brain_bringup checkpoint_test.launch.py
+```
+
+There is no `lane_following.launch.py` in `brain_bringup`. Normal simulator
+steering is launched by `simulation.launch.py`; the checkpoint-only mode is
+`checkpoint_test.launch.py`.
+
+Verify the shared graph with:
+
+```bash
+ros2 topic list | grep -E \
+'automobile/(command|encoder|imu|localisation)|odometry/(local|global)|oak/rgb'
+```
+
 ## Run with the updated simulator
 
 Start `Simulator_UniPD-DriveOps` first. In a second terminal:
