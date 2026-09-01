@@ -82,6 +82,10 @@ def generate_metrics() -> dict:
         "SPEED":           round(random.uniform(0, 5), 2),
         "STEER":           round(random.uniform(-2, 2), 2),
         "YAW":             round(random.uniform(-180, 180), 2),
+        "TOF_FRONT":       random.randint(40, 220),
+        "TOF_RIGHT":       random.randint(40, 220),
+        "TOF_REAR":        random.randint(40, 220),
+        "TOF_LEFT":        random.randint(40, 220),
     }
 
 
@@ -111,6 +115,9 @@ class MetricsToSocket(Node):
         self.create_subscription(Float32,    '/automobile/encoder/distance',self._make_cb('DISTANCE',      lambda m: round(m.data, 2)),          1)
         self.create_subscription(Float32,    '/automobile/command/steer',  self._make_cb('STEER',          lambda m: round(m.data, 2)),          1)
         self.create_subscription(UInt8,      '/automobile/tof/front',      self._make_cb('TOF_FRONT',      lambda m: m.data),                   1)
+        self.create_subscription(UInt8,      '/automobile/tof/right',      self._make_cb('TOF_RIGHT',      lambda m: m.data),                   1)
+        self.create_subscription(UInt8,      '/automobile/tof/rear',       self._make_cb('TOF_REAR',       lambda m: m.data),                   1)
+        self.create_subscription(UInt8,      '/automobile/tof/back',       self._make_cb('TOF_BACK',       lambda m: m.data),                   1)
         self.create_subscription(UInt8,      '/automobile/tof/left',       self._make_cb('TOF_LEFT',       lambda m: m.data),                   1)
         self.create_subscription(Bool,       '/automobile/led',            self._make_cb('HEADLIGHTS',     lambda m: m.data),                   1)
         self.create_subscription(Conditions, '/automobile/conditions',     self._conditions_cb,                                                  1)
