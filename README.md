@@ -168,7 +168,7 @@ source install/setup.bash
 ros2 launch brain_bringup simulation.launch.py
 ```
 
-The simulator adapter consumes `/oak/rgb/image_rect`, `/oak/imu/data`, encoder
+The simulator adapter consumes `/oak/rgb/image_rect`, `/automobile/imu/data`, encoder
 and localisation topics, then sends JSON commands on `/automobile/command`.
 
 ### Checkpoint/path following

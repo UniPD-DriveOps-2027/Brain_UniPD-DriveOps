@@ -173,7 +173,10 @@ class AutomobileDataSimulator(Automobile_Data, Node):
             self.create_subscription(
                 Image, '/oak/rgb/image_rect', self._image_callback, 1)
         if trig_bno:
-            self.create_subscription(Imu, '/oak/imu/data', self._imu_callback, 10)
+            # Use the simulator chassis IMU for simulation tracking.  The OAK
+            # IMU belongs to the camera sensor and is intentionally not used
+            # as the simulator vehicle heading source.
+            self.create_subscription(Imu, '/automobile/imu/data', self._imu_callback, 10)
         if trig_enc:
             # Encoder state is derived below from the canonical /encoder_odom
             # stream.  Do not subscribe to /automobile/encoder/distance here:

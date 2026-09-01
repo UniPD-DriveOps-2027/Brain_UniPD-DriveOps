@@ -78,7 +78,7 @@ They are outputs only and do not feed decisions back into the state machine.
 | Topic | Type | Direction |
 |---|---|---|
 | `/oak/rgb/image_rect` | `sensor_msgs/Image` | simulator -> brain |
-| `/oak/imu/data` | `sensor_msgs/Imu` | simulator -> brain |
+| `/automobile/imu/data` | `sensor_msgs/Imu` | simulator chassis IMU -> brain |
 | `/automobile/encoder/speed` | `std_msgs/Float32` | simulator -> brain |
 | `/automobile/encoder/distance` | `std_msgs/Float32` | simulator -> brain |
 | `/automobile/localisation` | `std_msgs/String` JSON | simulator -> brain |
