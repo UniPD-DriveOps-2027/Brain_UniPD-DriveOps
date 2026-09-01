@@ -16,6 +16,68 @@ brain_interfaces <- brain_core <- brain_io <- brain_bringup
   vehicle API and translates commands back out.
 - `brain_bringup` chooses and configures the executable composition.
 
+## Package map
+
+The ROS 2 packages under `src/` have these responsibilities:
+
+| Package | Responsibility | Important entry points |
+|---|---|---|
+| `brain_interfaces` | Shared ROS message definitions. It contains transport/data schemas such as `Localisation`, `Conditions`, `Environmental`, `Vehicles`, and `Semaphore`; it contains no driving algorithm. | `src/brain_interfaces/msg/` |
+| `brain_core` | The vehicle-independent autonomous algorithms: perception, map/path planning, controllers, vehicle-state contract, and competition state machine. It decides what the vehicle should do, but does not choose hardware or publish hardware-specific commands. | `brain_core.state_machine.autonomous:Brain`; `brain_core.planning.path_planner:PathPlanning`; `brain_core.controllers/` |
+| `brain_io` | The ROS integration boundary. It reads sensors/localisation, adapts hardware or simulator data to the `Automobile_Data` API, and converts `drive()` decisions into vehicle commands. It also contains V2X inputs and dashboard socket outputs. | `brain_io.runner:main`; `adapters/hardware.py`; `adapters/simulator.py` |
+| `brain_camera` | Camera conditioning. It uses IMU roll/pitch to stabilize and crop the RGB image and republishes corrected camera info and stabilization metadata. | `brain_camera.image_stabilizer:main`; `launch/image_stabilizer.launch.py` |
+| `brain_vibration` | IMU diagnostics. It applies an exponential RMS estimator to linear acceleration and angular velocity and publishes vibration metrics. It does not control the vehicle. | `brain_vibration.vibration_monitor:main`; `launch/vibration_monitor.launch.py` |
+| `brain_bringup` | Runtime composition. Its launch files start the required nodes for hardware, simulation, sensor conditioning, checkpoint tests, and dashboard output. | `launch/hardware.launch.py`; `launch/simulation.launch.py` |
+
+## Main autonomous stack
+
+The normal autonomous execution path is:
+
+```text
+brain_bringup/{hardware,simulation}.launch.py
+        |
+        v
+brain_io.runner:main  (`brain` node)
+        |
+        +--> AutomobileDataPi       [hardware]
+        |    or AutomobileDataSimulator [simulation]
+        |          |
+        |          +--> sensors/localisation -> Automobile_Data state
+        |          +--> Automobile_Data commands -> hardware/simulator
+        |
+        +--> PathPlanning                 map graph and route
+        +--> CheckpointFollower            route progress/lookahead
+        +--> Detection                     signs, obstacles, stop lines, events
+        +--> OpenCVLaneCenter              local lane-centre correction
+        +--> Controller / ControllerSpeed  steering and speed decisions
+        +--> Brain                         event/competition state machine
+```
+
+The composition root is `src/brain_io/brain_io/runner.py`. It constructs the
+adapter, loads the map and models, creates the planner/controllers/perception,
+then instantiates `src/brain_core/brain_core/state_machine/autonomous.py`.
+`Brain.run()` is the main autonomous control loop. The core path is therefore
+not a single executable inside `brain_core`; it is assembled by the `brain`
+entry point in `brain_io` using classes from `brain_core`.
+
+Supporting nodes launched alongside the autonomous process are:
+
+- `brain_camera/image_stabilizer`: camera conditioning only; it does not make
+  steering decisions.
+- `brain_core/oak_camera`: physical OAK-D RGB acquisition and traffic-sign
+  publishing on hardware runs.
+- `brain_vibration/vibration_monitor`: publishes
+  `/automobile/vibration/linear_acceleration_rms` and
+  `/automobile/vibration/angular_velocity_rms` from `/automobile/imu/data`.
+- `brain_io/sonar`, `traffic_bridge`, and `semaphore_bridge`: optional sensor
+  and V2X inputs used by the environment/state machine.
+
+`hardware.launch.py` starts the complete hardware composition. On simulation,
+`simulation.launch.py` starts the simulator adapter, camera stabilizer, and
+vibration monitor; the simulator itself supplies the camera and vehicle sensor
+topics. `sensor_conditioning.launch.py` starts only the camera and vibration
+support nodes, without autonomous driving.
+
 ## 1. AutomobileData interface
 
 `brain_core.vehicle_interface.Automobile_Data` owns the shared vehicle state

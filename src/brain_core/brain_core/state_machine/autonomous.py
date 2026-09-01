@@ -5,24 +5,20 @@
 
 
 #!/usr/bin/python3
-from brain_core.common.constants import SIMULATOR_FLAG, SHOW_IMGS, RANDOM_START, EVENT_SETTINGS, EVENT_CONFIGS, ARENA, RESUME# deleted completely the speed challenge
-import sys
-import os
+from brain_core.common.constants import SIMULATOR_FLAG, SHOW_IMGS, RANDOM_START, EVENT_SETTINGS, ARENA, RESUME# deleted completely the speed challenge
 import numpy as np
 import cv2 as cv
 from time import time, sleep
 from numpy.linalg import norm
 from collections import deque
 from brain_core.common import constants as nac
+from brain_core.common.checkpoints import checkpoint_routes, event_configs
 import math
 
 from scipy.spatial import cKDTree 
 
-if not SIMULATOR_FLAG:
-    from brain_core.vehicle_interface.automobile_data import Automobile_Data
-else:
-    from brain_core.vehicle_interface.automobile_data import Automobile_Data
-    
+from brain_core.vehicle_interface.automobile_data import Automobile_Data
+
 from brain_core.planning.path_planner import PathPlanning
 from brain_core.controllers.steering import Controller
 from brain_core.controllers.speed import ControllerSpeed
@@ -37,60 +33,61 @@ from brain_core.common import geometry as hf
 from brain_core.common.resources import data_path, state_path
 
 from brain_core.controllers.parking import Maneuvers
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 SELECTED_EVENT = None # "tunnel", "round","no_lane_left/right", "highway", "crosswalk", "parking" , "test", "tunnel_second_way"
-# Based on the path given for the arena challenge
-END_NODE_ARENA = 149
-USE_FRUITS_GENERATED_PATH = True
+CHECKPOINT_ROUTES = checkpoint_routes()
+EVENT_CONFIGS_JSON = event_configs()
+USE_FRUITS_GENERATED_PATH = CHECKPOINT_ROUTES["default"]["use_fruits_generated_path"]
 # RANDOM START
 if RANDOM_START:
     # USED FOR SPECIFIC PATHS DURING TESTING
-    if SELECTED_EVENT in EVENT_CONFIGS:
-        config = EVENT_CONFIGS[SELECTED_EVENT]
+    if SELECTED_EVENT in EVENT_CONFIGS_JSON:
+        config = EVENT_CONFIGS_JSON[SELECTED_EVENT]
         STARTING_COORDS = config["starting_coords"]  
         CHECKPOINTS = config["checkpoints"]
         #END_NODE = EVENT_CONFIGS[SELECTED_EVENT]["checkpoints"][-1]
-        END_NODE = CHECKPOINTS[-1]
+        END_NODE = config["end_node"]
         print(f"Starting coords: {STARTING_COORDS}, Checkpoints: {CHECKPOINTS}, End node: {END_NODE}")
         GPS_FOR_START_ONLY = True
         USE_FRUITS_GENERATED_PATH = False #we are not using fruits path for when we are testing specific events
     # GET THE BEST "FRUITS" PATH FROM RANDOM POSITION     
     else: 
-        STARTING_COORDS = [5, 5] # GET FROM GPS 
-        CHECKPOINTS = [472, 451, 412, 393, 306, 150, 140, 121, 92, 109, 130, 147, 175, 133, 123, 118, 91, 163, 373, 406, 444]   # GET FROM FRUITS
-        END_NODE = CHECKPOINTS[-1]  #get the last node from the path
-        GPS_FOR_START_ONLY = True
+        config = CHECKPOINT_ROUTES["random_start"]
+        CHECKPOINTS = config["checkpoints"]
+        END_NODE = config["end_node"]
+        GPS_FOR_START_ONLY = config["gps_for_start_only"]
+        USE_FRUITS_GENERATED_PATH = config["use_fruits_generated_path"]
 # DEFAULT START
 elif ARENA:
-    STARTING_COORDS = [0.00, 0.00]  # IS GIVEN
-    CHECKPOINTS = [455, 465]        # IS GIVEN
-    GPS_FOR_START_ONLY = False
-    END_NODE = CHECKPOINTS[-1]
-    GPS_FOR_START_ONLY = False
+    config = CHECKPOINT_ROUTES["arena"]
+    STARTING_COORDS = config["starting_coords"]
+    CHECKPOINTS = config["checkpoints"]
+    GPS_FOR_START_ONLY = config["gps_for_start_only"]
+    END_NODE = config["end_node"]
+    USE_FRUITS_GENERATED_PATH = config["use_fruits_generated_path"]
 
 elif RESUME:
-
-    STARTING_COORDS = [-42, -42]  # DEFAULT START POSITION
+    config = CHECKPOINT_ROUTES["default"]
+    STARTING_COORDS = config["starting_coords"]
 
     # Load checkpoints from file
     with open(state_path('remaining_checkpoints.txt'), "r") as f:
         CHECKPOINTS = [int(line.strip()) for line in f if line.strip().isdigit()]
 
-    END_NODE = CHECKPOINTS[-1] if CHECKPOINTS else None  # Handle empty list case
-    GPS_FOR_START_ONLY = False
+    END_NODE = config["end_node"] if CHECKPOINTS else None
+    GPS_FOR_START_ONLY = config["gps_for_start_only"]
+    USE_FRUITS_GENERATED_PATH = config["use_fruits_generated_path"]
 
 # DEFAULT START
 else:
-    STARTING_COORDS = [-42, -42]
-    CHECKPOINTS = [
-        412, 393, 306, 150, 140, 121, 92, 109, 130, 147,
-        175, 133, 123, 118, 91, 163, 373, 406, 444,
-    ]
-    END_NODE = CHECKPOINTS[-1]
+    config = CHECKPOINT_ROUTES["default"]
+    STARTING_COORDS = config["starting_coords"]
+    CHECKPOINTS = config["checkpoints"]
+    END_NODE = config["end_node"]
+    USE_FRUITS_GENERATED_PATH = config["use_fruits_generated_path"]
     # The simulator provides graph-frame localisation, so select its start
     # node from the live position and heading. Keep the established hardware
     # startup behaviour unless random-start mode is explicitly requested.
-    GPS_FOR_START_ONLY = bool(SIMULATOR_FLAG)
+    GPS_FOR_START_ONLY = config["gps_for_start_only"] or bool(SIMULATOR_FLAG)
 
 
 ALWAYS_USE_VISION_FOR_STOPLINES = True
@@ -127,7 +124,10 @@ class State():
         self.method()
 
 
-ALWAYS_ON_ROUTINES = [nac.UPDATE_STATE, nac.CONTROL_FOR_SIGNS]
+# Sign detections are supplied by Awareness on /traffic/detection and fused by
+# the Localization stack. Keep the old routine name for compatibility, but do
+# not execute the obsolete Brain-side camera classifier.
+ALWAYS_ON_ROUTINES = [nac.UPDATE_STATE]
 
 
 class Routine():
@@ -437,6 +437,7 @@ class Brain:
 
         # debug
         self.debug = debug
+        self._last_status_lines = None
         if self.debug and SHOW_IMGS:
             cv.namedWindow('brain_debug', cv.WINDOW_NORMAL)
             self.debug_frame = None
@@ -588,6 +589,17 @@ class Brain:
                     f'Global EKF: std={getattr(self.car, "global_position_std", float("inf")):.3f}m, '
                     f'stable={global_stable}, elapsed={elapsed:.1f}s')
                 if global_stable:
+                    # Use the median of the accepted fused global poses as
+                    # the actual start coordinate.
+                    STARTING_COORDS = np.median(
+                        np.asarray(global_start_positions), axis=0).tolist()
+                    curr_pos = np.asarray(STARTING_COORDS, dtype=float)
+                    result = self.path_planner.get_closest_node_start(
+                        curr_pos, startup_yaw_deg)
+                    if result is None:
+                        closest_node, distance = self.path_planner.get_closest_node(curr_pos)
+                    else:
+                        closest_node, distance = result
                     print(
                         f'Fused global pose accepted, closest node: {closest_node}, '
                         f'distance: {distance:.2f}m')
@@ -978,13 +990,11 @@ class Brain:
                                     nac.SLOW_DOWN,
                                     nac.DETECT_STOPLINE])
 
-        result = self.sign_detection_position()    # detect sign and position Thomas
-        if result is not None:
-            sign_detect, sign_position = result
-            print(f"Sign detected: {sign_detect}, position: {sign_position}")
-            self.env.publish_obstacle(sign_detect, sign_position[0], sign_position[1])
-        else:
-            print("No sign detected.")
+        # Sign detection and map association are handled by Awareness and
+        # Localization. The Localization node uses the shared
+        # sign_with_position.txt map together with /traffic/detection.
+        # The old stop-line-triggered sign_detection_position() path is kept
+        # below for reference but is intentionally not called.
         # Convert current checkpoint to int for comparison
         current_cp = int(self.checkpoints[self.checkpoint_idx])
 
@@ -1101,9 +1111,7 @@ class Brain:
             tuple: (sign_name, (x, y)) if a match is found, else None.
         """
         tolerance = 0.001
-        print(f'stopline_counter: {self.stopline_counter}')
         curr_stopline = self.next_event.point
-        print(f'cur_stopppline',curr_stopline)
         sign_file_path = data_path('sign_with_position.txt')
         def is_close(coord1, coord2):
             return math.isclose(coord1[0], coord2[0], abs_tol=tolerance) and \
@@ -2037,7 +2045,10 @@ class Brain:
             self.car.drive_speed(ACCELERATION_CONST*self.desired_speed)
 
     def control_for_signs(self):
-        prev_sign = self.curr_sign
+        # Disabled: Awareness owns camera sign detection and publishes JSON
+        # with sign, distance_m, and confidence on /traffic/detection.
+        # Localization associates it with sign_with_position.txt and publishes
+        # the resulting pose correction to the global EKF.
         return
         if not self.conditions[nac.REROUTING]:
             # Use signs    
@@ -2231,17 +2242,22 @@ class Brain:
 
     # ===================== STATE MACHINE MANAGEMENT ===================== #
     def run(self):
-        print('==========================================================================')
-        print(f'CHECKPOINT:     {self.checkpoints[self.checkpoint_idx]} -> {self.checkpoints[min(len(self.checkpoints), self.checkpoint_idx+1)]}')
-        print(f'STATE:          {self.curr_state}')
-        # print(f'2nd_PREV_EVENT: {self.second_prev_event}')
-        print(f'NEXT_EVENT:     {self.next_event}')
-        print(f'PREV_EVENT:     {self.prev_event}')
-        # print(f'2nd_NEXT_EVENT: {self.second_next_event}')
-        print(f'ROUTINES:       {self.active_routines_names+ALWAYS_ON_ROUTINES}')
-        print(f'CONDITIONS:     {self.conditions}')
-        print('==========================================================================')
-        print(f'stopline_counter: {self.stopline_counter}')
+        border = '=' * 120
+        status_lines = (
+            border,
+            f'CHECKPOINT:       {self.checkpoints[self.checkpoint_idx]} -> {self.checkpoints[min(len(self.checkpoints), self.checkpoint_idx+1)]}',
+            f'STATE:            {self.curr_state}',
+            f'NEXT_EVENT:       {self.next_event}',
+            f'PREV_EVENT:       {self.prev_event}',
+            f'ROUTINES:         {self.active_routines_names+ALWAYS_ON_ROUTINES}',
+            f'CONDITIONS:       {self.conditions}',
+            f'STOPLINES PASSED: {self.stopline_counter}',
+            border,
+        )
+        if status_lines != self._last_status_lines:
+            print('\033[2J\033[H', end='')
+            print('\n'.join(status_lines), flush=True)
+            self._last_status_lines = status_lines
         self.run_current_state()
         #print(f'car.yaw: {self.car.yaw}')
         #print(f'car.yaw_loc: {self.car.yaw_loc}')
@@ -2483,4 +2499,3 @@ class Brain:
         self.car.stop()
         sleep(3)
         exit()
-

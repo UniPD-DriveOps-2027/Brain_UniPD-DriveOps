@@ -131,21 +131,9 @@ class Detection:
         self.avg_stopline_detection_adv_time = 0
         self.stopline_adv_cnt = 0
 
-        # sign classifier
-        self.sign_no_clusters = NUM_CLUSTERS_SIGNS
-        self.sign_kernel_type = KERNEL_TYPE_SIGNS
-        self.sign_svm_model = pickle.load(open(
-            model_path('traffic_signs_models', 'svm_' +
-                       self.sign_kernel_type + '_' + str(self.sign_no_clusters) +
-                       '.pkl'), 'rb'))
-        self.sign_kmean_model = pickle.load(open(
-            model_path('traffic_signs_models', 'kmeans_' + self.sign_kernel_type +
-                       '_' + str(self.sign_no_clusters) + '.pkl'), 'rb'))
-        self.sign_scale_model = pickle.load(open(
-            model_path('traffic_signs_models', 'scale_' + self.sign_kernel_type +
-                       '_' + str(self.sign_no_clusters) + '.pkl'), 'rb'))
-        self.sign_sift = cv.SIFT_create()
-        self.sign_probs_buffer = collections.deque(maxlen=10)
+        # Legacy Brain-side sign classifier intentionally disabled. Sign
+        # detection is owned by Awareness; its distance and confidence are
+        # consumed by the Localization stack through /traffic/detection.
         self.sign_prediction = NO_SIGN
         self.sign_conf = 1
 

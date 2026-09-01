@@ -47,11 +47,13 @@ MAX_ODOMETRY_STEP_M = 1.0
 
 
 def _simulator_position_to_brain(x: float, y: float) -> tuple[float, float]:
-    """Map simulator GPS metres onto the metric frame used by the brain graph."""
-    return (
-        float(x) * GAZEBO_TO_BRAIN_X_SCALE,
-        BRAIN_MAP_HEIGHT_M - float(y) * GAZEBO_TO_BRAIN_Y_SCALE,
-    )
+    """Return the native simulator pose used by the current graph.
+
+    ``final_graph.graphml`` is authored directly in the simulator map frame;
+    for example node 472 is the car's default spawn pose.  Do not rescale this
+    ground-truth localisation stream before using it for tracking.
+    """
+    return float(x), float(y)
 
 
 def _simulator_world_position_to_brain(
@@ -207,7 +209,10 @@ class AutomobileDataSimulator(Automobile_Data, Node):
         self.pitch = 0.0
         if self.localization_source == 'simulator' or not self._has_global_odometry:
             simulator_yaw = _yaw_from_quaternion(msg.orientation)
-            self.yaw_true = _simulator_yaw_to_brain(simulator_yaw)
+            self.yaw_true = (
+                simulator_yaw if self.localization_source == 'simulator'
+                else _simulator_yaw_to_brain(simulator_yaw)
+            )
             self.yaw = _normalize_angle(self.yaw_true + self.yaw_offset)
             self.yaw_deg = math.degrees(self.yaw)
         self.accel_x = msg.linear_acceleration.x
@@ -242,7 +247,8 @@ class AutomobileDataSimulator(Automobile_Data, Node):
             float(msg.pose.pose.position.y),
         )
         point = _simulator_world_position_to_brain(*world_position)
-        if self.localization_source == 'simulator' or not self._has_global_odometry:
+        if (self.localization_source != 'simulator' and
+                not self._has_global_odometry):
             self.x_est, self.y_est = point
             self.x_true, self.y_true = point
         self._has_current_odometry = True
@@ -297,8 +303,13 @@ class AutomobileDataSimulator(Automobile_Data, Node):
             return
         self.x_buffer.append(point[0])
         self.y_buffer.append(point[1])
-        self.x = float(np.mean(self.x_buffer))
-        self.y = float(np.mean(self.y_buffer))
+        if self.localization_source == 'simulator':
+            # The simulator topic is the selected ground truth, so preserve
+            # its timestamped pose rather than adding a moving-average delay.
+            self.x, self.y = point
+        else:
+            self.x = float(np.mean(self.x_buffer))
+            self.y = float(np.mean(self.y_buffer))
         if self.localization_source == 'simulator' or not self._has_current_odometry:
             self.x_est, self.y_est = self.x, self.y
             self.x_true, self.y_true = self.x, self.y

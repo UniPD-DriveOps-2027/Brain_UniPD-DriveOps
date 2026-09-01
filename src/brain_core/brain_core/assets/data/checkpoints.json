@@ -1,0 +1,30 @@
+{
+  "routes": {
+    "random_start": {"starting_coords": null, "checkpoints": [472, 451, 412, 393, 306, 150, 140, 121, 92, 109, 130, 147, 175, 133, 123, 118, 91, 163, 373, 406, 444], "end_node": 444, "gps_for_start_only": true, "use_fruits_generated_path": true},
+    "arena": {"starting_coords": [0.0, 0.0], "checkpoints": [455, 465], "end_node": 465, "gps_for_start_only": false, "use_fruits_generated_path": true},
+    "default": {"starting_coords": [-42, -42], "checkpoints": [412, 393, 306, 150, 140, 121, 92, 109, 130, 147, 175, 133, 123, 118, 91, 163, 373, 406, 444, 30, 103, 55, 457, 469], "end_node": 469, "gps_for_start_only": false, "use_fruits_generated_path": true}
+  },
+  "events": {
+    "hw_tunnel": {"starting_coords": [0.39, 12.2], "checkpoints": [999, 143], "end_node": 143},
+    "tunnel_one_way": {"starting_coords": [5.67, 5.867], "checkpoints": [999, 162, 190], "end_node": 190},
+    "tunnel_second_way": {"starting_coords": [3.196, 5.459], "checkpoints": [999, 147, 175, 133, 123], "end_node": 123},
+    "round1": {"starting_coords": [17.3, 6.0], "checkpoints": [999, 306, 200], "end_node": 200},
+    "round2": {"starting_coords": [17.96, 8.81], "checkpoints": [999, 333, 200], "end_node": 200},
+    "round3": {"starting_coords": [17.96, 8.81], "checkpoints": [999, 200], "end_node": 200},
+    "round4": {"starting_coords": [17.96, 8.81], "checkpoints": [999, 377, 490], "end_node": 490},
+    "no_lane_right": {"starting_coords": [17.96, 8.81], "checkpoints": [999, 328, 150], "end_node": 150},
+    "no_lane_left": {"starting_coords": [19.28, 11.83], "checkpoints": [999, 333, 150, 397], "end_node": 397},
+    "no_lane_highway": {"starting_coords": [16.02, 11.42], "checkpoints": [999, 335, 210], "end_node": 210},
+    "no_lane_cuza": {"starting_coords": [17.32, 7.04], "checkpoints": [999, 333, 210], "end_node": 210},
+    "highway": {"starting_coords": [17.0, 11.73], "checkpoints": [999, 170], "end_node": 170},
+    "crosswalk": {"starting_coords": [13.02, 4.41], "checkpoints": [999, 145], "end_node": 145},
+    "parking": {"starting_coords": [7.73, 0.75], "checkpoints": [450, 411], "end_node": 411},
+    "bus": {"starting_coords": [16.42, 4.48], "checkpoints": [999, 125], "end_node": 125},
+    "test": {"starting_coords": [7.67, 0.75], "checkpoints": [999, 410], "end_node": 410},
+    "test2": {"starting_coords": [12.02, 0.75], "checkpoints": [460, 466, 420, 396, 306, 319, 260, 197, 207, 150, 123, 118, 91, 451, 455, 444, 30, 130, 147, 175, 121, 92, 95, 107, 109, 97, 163, 190, 236, 373, 382, 407, 334, 352, 502], "end_node": 502},
+    "test3": {"starting_coords": [0.41, 6.12], "checkpoints": [999, 114, 435], "end_node": 435},
+    "intersection_straight": {"starting_coords": [0.92, 13.17], "checkpoints": [999, 119], "end_node": 119},
+    "intersection_left": {"starting_coords": [0.37, 9.84], "checkpoints": [999, 145, 153], "end_node": 153},
+    "intersection_right": {"starting_coords": [0.84, 5.26], "checkpoints": [999, 145, 153], "end_node": 153}
+  }
+}

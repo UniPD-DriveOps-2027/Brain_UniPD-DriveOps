@@ -16,6 +16,7 @@ setup(
     package_data={
         'brain_core': [
             'assets/data/*',
+            'assets/legacy/**/*',
             'assets/models/*',
             'assets/models/obstacle_models/*',
             'assets/models/traffic_signs_models/*',
