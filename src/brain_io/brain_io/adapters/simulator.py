@@ -121,9 +121,12 @@ class AutomobileDataSimulator(Automobile_Data, Node):
 
     def __init__(self, trig_control=True, trig_bno=False, trig_enc=False,
                  trig_sonar=False, trig_cam=False, trig_gps=False,
-                 trig_lidar=False, trig_tof=False):
+                 trig_lidar=False, trig_tof=False, localization_source='fused'):
         Automobile_Data.__init__(self)
         Node.__init__(self, 'automobile_data_simulator')
+        if localization_source not in ('fused', 'simulator'):
+            raise ValueError("localization_source must be 'fused' or 'simulator'")
+        self.localization_source = localization_source
 
         self.frame = None
         self.flag_localisation = False
@@ -199,7 +202,7 @@ class AutomobileDataSimulator(Automobile_Data, Node):
     def _imu_callback(self, msg: Imu):
         self.roll = 0.0
         self.pitch = 0.0
-        if not self._has_global_odometry:
+        if self.localization_source == 'simulator' or not self._has_global_odometry:
             simulator_yaw = _yaw_from_quaternion(msg.orientation)
             self.yaw_true = _simulator_yaw_to_brain(simulator_yaw)
             self.yaw = _normalize_angle(self.yaw_true + self.yaw_offset)
@@ -210,7 +213,7 @@ class AutomobileDataSimulator(Automobile_Data, Node):
         self.gyrox = msg.angular_velocity.x
         self.gyroy = msg.angular_velocity.y
         self.gyroz = msg.angular_velocity.z
-        if not self._has_global_odometry:
+        if self.localization_source == 'simulator' or not self._has_global_odometry:
             self.yaw_buffer.append(self.yaw)
 
     # UNUSED: AutomobileDataSimulator._speed_callback has no production caller.
@@ -236,7 +239,7 @@ class AutomobileDataSimulator(Automobile_Data, Node):
             float(msg.pose.pose.position.y),
         )
         point = _simulator_world_position_to_brain(*world_position)
-        if not self._has_global_odometry:
+        if self.localization_source == 'simulator' or not self._has_global_odometry:
             self.x_est, self.y_est = point
             self.x_true, self.y_true = point
         self._has_current_odometry = True
@@ -262,6 +265,8 @@ class AutomobileDataSimulator(Automobile_Data, Node):
 
     def _global_odometry_callback(self, msg: Odometry):
         """Use the fused map-frame pose for Brain and random-start."""
+        if self.localization_source != 'fused':
+            return
         q = msg.pose.pose.orientation
         yaw = _yaw_from_quaternion(q)
         self.x = float(msg.pose.pose.position.x)
@@ -291,9 +296,11 @@ class AutomobileDataSimulator(Automobile_Data, Node):
         self.y_buffer.append(point[1])
         self.x = float(np.mean(self.x_buffer))
         self.y = float(np.mean(self.y_buffer))
-        if not self._has_current_odometry:
+        if self.localization_source == 'simulator' or not self._has_current_odometry:
             self.x_est, self.y_est = self.x, self.y
             self.x_true, self.y_true = self.x, self.y
+        if self.localization_source == 'simulator':
+            self.global_pose_ready = True
         self.flag_localisation = True
 
     def _lidar_callback(self, msg: LaserScan):

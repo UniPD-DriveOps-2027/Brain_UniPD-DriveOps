@@ -41,6 +41,10 @@ DESIRED_SPEED = 0.25
 def _parse_args(argv=None):
     parser = argparse.ArgumentParser(description='Run the UniPD DriveOps brain')
     parser.add_argument('--mode', choices=('hardware', 'simulation'), default='hardware')
+    parser.add_argument(
+        '--localization-source', choices=('fused', 'simulator'), default='fused',
+        help='simulation tracking source: fused (/odometry/global) or simulator (/automobile/localisation)',
+    )
     parser.add_argument('--sim', action='store_true', help='Alias for --mode simulation')
     parser.add_argument('--random', action='store_true')
     parser.add_argument('--rc', action='store_true')
@@ -78,7 +82,8 @@ def _configure_runtime(args):
     nac.RESUME = args.resume
 
 
-def _make_car(mode, *, path_only=False, use_opencv_lane_center=True):
+def _make_car(mode, *, path_only=False, use_opencv_lane_center=True,
+              localization_source='fused'):
     options = dict(
         # The checkpoint route does not need the ONNX models, but the merged
         # controller still needs the camera for OpenCV lane-centre correction.
@@ -93,7 +98,7 @@ def _make_car(mode, *, path_only=False, use_opencv_lane_center=True):
     )
     if mode == 'simulation':
         from brain_io.adapters.simulator import AutomobileDataSimulator
-        return AutomobileDataSimulator(**options)
+        return AutomobileDataSimulator(**options, localization_source=localization_source)
     from brain_io.adapters.hardware import AutomobileDataPi
     return AutomobileDataPi(**options)
 
@@ -127,6 +132,7 @@ def main(argv=None):
         args.mode,
         path_only=args.path_only,
         use_opencv_lane_center=use_opencv_lane_center,
+        localization_source=args.localization_source,
     )
     spin_thread = threading.Thread(target=_spin_car, args=(car,), daemon=True)
     spin_thread.start()

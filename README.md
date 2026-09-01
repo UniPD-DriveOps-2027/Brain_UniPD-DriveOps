@@ -126,6 +126,20 @@ Launch the Brain simulator mode:
 ros2 launch brain_bringup simulation.launch.py
 ```
 
+Select which localization source Brain uses for simulation tracking:
+
+```bash
+# UniPD fused localization (default): /odometry/global
+ros2 launch brain_bringup simulation.launch.py localization_source:=fused
+
+# Simulator reference localization: /automobile/localisation
+ros2 launch brain_bringup simulation.launch.py localization_source:=simulator
+```
+
+With `fused`, Brain uses the pose and heading from `/odometry/global`. With
+`simulator`, Brain uses the simulator's `/automobile/localisation` position
+and simulator IMU heading. The unselected source is ignored for tracking.
+
 For isolated checkpoint/path following:
 
 ```bash
